@@ -1,2 +1,0 @@
-contract modularShort is LBevents {}
-
