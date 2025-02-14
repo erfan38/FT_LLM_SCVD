@@ -1,1 +1,0 @@
-contract eastadscredits is StandardToken { // CHANGE THIS. Update the 
