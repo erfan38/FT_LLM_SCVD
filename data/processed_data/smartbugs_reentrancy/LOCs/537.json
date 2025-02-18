@@ -1,0 +1,46 @@
+[
+    {
+        "start_line": 146,
+        "end_line": 146,
+        "code": [
+            "pay();"
+        ]
+    },
+    {
+        "start_line": 177,
+        "end_line": 178,
+        "code": [
+            "dep.depositor.send(dep.expect);",
+            "money -= dep.expect;"
+        ]
+    },
+    {
+        "start_line": 184,
+        "end_line": 185,
+        "code": [
+            "dep.depositor.send(money);",
+            "dep.expect -= money;"
+        ]
+    },
+    {
+        "start_line": 263,
+        "end_line": 263,
+        "code": [
+            "FATHER.call.value(donation).gas(gasleft())();"
+        ]
+    },
+    {
+        "start_line": 266,
+        "end_line": 266,
+        "code": [
+            "queue[lastDepositInfo.index].depositor.send(prize);"
+        ]
+    },
+    {
+        "start_line": 207,
+        "end_line": 207,
+        "code": [
+            "lastDepositInfo = LastDepositInfo(uint128(queue.length), uint128(now));"
+        ]
+    }
+]

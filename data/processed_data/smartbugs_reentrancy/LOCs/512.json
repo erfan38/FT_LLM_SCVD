@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 414,
+        "end_line": 414,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1483,
+        "end_line": 1484,
+        "code": [
+            "admin.transfer(_com);"
+        ]
+    },
+    {
+        "start_line": 1283,
+        "end_line": 1283,
+        "code": [
+            "admin.transfer(_p3d.sub(_potAmount));"
+        ]
+    }
+]

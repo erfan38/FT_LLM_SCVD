@@ -1,0 +1,27 @@
+[
+    {
+        "start_line": 66,
+        "end_line": 68,
+        "code": [
+            "balances[user] = 0;",
+            "user.transfer(eth_to_withdraw);"
+        ]
+    },
+    {
+        "start_line": 75,
+        "end_line": 85,
+        "code": [
+            "balances[user] = 0;",
+            "if(!token.transfer(developer, fee)) throw;",
+            "if(!token.transfer(user, tokens_to_withdraw - fee)) throw;"
+        ]
+    },
+    {
+        "start_line": 120,
+        "end_line": 126,
+        "code": [
+            "bought_tokens = true;",
+            "if(!sale.call.value(this.balance - bounty)()) throw;"
+        ]
+    }
+]

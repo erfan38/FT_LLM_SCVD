@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 234,
+        "end_line": 241,
+        "code": [
+            "playerPendingWithdrawals[msg.sender] = 0;",
+            "if (msg.sender.call.value(withdrawAmount)()) {",
+            "    return true;",
+            "} else {",
+            "    playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+        ]
+    },
+    {
+        "start_line": 156,
+        "end_line": 161,
+        "code": [
+            "if(!pendingBets[i].bettorAddress.send(reward)){",
+            "    LogResult(pendingBets[i].betID, pendingBets[i].bettorAddress, underNumber, randResult, reward, 2, pendingBets[i].betSize,underNumber);",
+            "    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], reward);"
+        ]
+    },
+    {
+        "start_line": 189,
+        "end_line": 192,
+        "code": [
+            "if(!pendingBets[i].bettorAddress.send(1)){",
+            "    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);"
+        ]
+    }
+]

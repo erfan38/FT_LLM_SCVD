@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 325,
+        "end_line": 325,
+        "code": [
+            "_customerAddress.transfer(_dividends);"
+        ]
+    },
+    {
+        "start_line": 261,
+        "end_line": 261,
+        "code": [
+            "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {"
+        ]
+    },
+    {
+        "start_line": 424,
+        "end_line": 424,
+        "code": [
+            "require(receiver.tokenFallback(msg.sender, _value, _data));"
+        ]
+    }
+]

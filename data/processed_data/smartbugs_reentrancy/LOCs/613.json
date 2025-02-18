@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 425,
+        "end_line": 427,
+        "code": [
+            "playerFundsToWithdraw[msg.sender] = 0;",
+            "if (msg.sender.call.value(amount)()) {"
+        ]
+    }
+]

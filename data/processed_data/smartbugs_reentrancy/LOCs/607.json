@@ -1,0 +1,18 @@
+[
+    {
+        "start_line": 196,
+        "end_line": 197,
+        "code": [
+            "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));",
+            "totalDonated += amount;"
+        ]
+    },
+    {
+        "start_line": 207,
+        "end_line": 208,
+        "code": [
+            "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));",
+            "totalDonated += amount;"
+        ]
+    }
+]

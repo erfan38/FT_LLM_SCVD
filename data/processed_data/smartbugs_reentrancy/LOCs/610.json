@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 183,
+        "end_line": 201,
+        "code": [
+            "uint256 tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender);",
+            "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+        ]
+    },
+    {
+        "start_line": 252,
+        "end_line": 252,
+        "code": [
+            "weak_hands.withdraw.gas(1000000)();"
+        ]
+    }
+]

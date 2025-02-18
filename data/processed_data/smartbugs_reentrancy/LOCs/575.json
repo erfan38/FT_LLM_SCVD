@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 271,
+        "end_line": 272,
+        "code": [
+            "if (!p.recipient.call.value(p.amount)(_transactionData))",
+            "                throw;"
+        ]
+    },
+    {
+        "start_line": 347,
+        "end_line": 348,
+        "code": [
+            "if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)",
+            "             throw;"
+        ]
+    },
+    {
+        "start_line": 381,
+        "end_line": 382,
+        "code": [
+            "if (!_newContract.call.value(address(this).balance)()) {",
+            "             throw;"
+        ]
+    }
+]

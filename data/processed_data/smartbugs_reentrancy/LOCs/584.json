@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 28,
+        "end_line": 28,
+        "code": [
+            "if(!_to.call(bytes4(keccak256(\"tokenFallback(address,uint256)\")), _from, _amount))"
+        ]
+    },
+    {
+        "start_line": 108,
+        "end_line": 108,
+        "code": [
+            "receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), _from, _amount, _data);"
+        ]
+    }
+]

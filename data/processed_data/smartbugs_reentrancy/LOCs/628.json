@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 413,
+        "end_line": 413,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {"
+        ]
+    },
+    {
+        "start_line": 248,
+        "end_line": 248,
+        "code": [
+            "if(!playerRolls[key].playerAddr.send(playerRolls[key].stake)){"
+        ]
+    },
+    {
+        "start_line": 288,
+        "end_line": 288,
+        "code": [
+            "if(!playerRolls[key].playerAddr.send(_totalWin)){"
+        ]
+    }
+]

@@ -1,0 +1,35 @@
+[
+    {
+        "start_line": 200,
+        "end_line": 200,
+        "code": [
+            "stubF.call.value(calcStubFundPercent).gas(estGas)();"
+        ]
+    },
+    {
+        "start_line": 183,
+        "end_line": 206,
+        "code": [
+            "function makeDeposit() private {",
+            "    uint value = msg.value;",
+            "    uint calcProjectPercent = value.mul(percentProjectFund).div(100);",
+            "    uint calcStubFundPercent = value.mul(percentStubFund).div(100);",
+            "    if (msg.value > 0) {",
+            "        require(msg.value >= minPayment, 'Minimum deposit 1 finney');",
+            "        if (userDeposit[msg.sender] == 0) {",
+            "            emit NewInvestor(msg.sender, msg.value);",
+            "        }",
+            "        userDeposit[msg.sender] = userDeposit[msg.sender].add(msg.value);",
+            "        userTime[msg.sender] = now;",
+            "        insertBeneficiaries(msg.sender, 0, 0, msg.value);",
+            "        projectFund.transfer(calcProjectPercent);",
+            "        stubF.call.value(calcStubFundPercent).gas(estGas)();",
+            "        counterDeposits += msg.value;",
+            "        emit NewDeposit(msg.sender, msg.value);",
+            "    } else {",
+            "        receivePercent();",
+            "    }",
+            "}"
+        ]
+    }
+]
