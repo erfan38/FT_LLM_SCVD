@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 434,
+        "end_line": 434,
+        "code": [
+            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 534,
+        "end_line": 534,
+        "code": [
+            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 604,
+        "end_line": 604,
+        "code": [
+            "_addr.transfer(_bonus);"
+        ]
+    },
+    {
+        "start_line": 419,
+        "end_line": 419,
+        "code": [
+            "(bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXaddrFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);"
+        ]
+    }
+]

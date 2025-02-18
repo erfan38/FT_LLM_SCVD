@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 104,
+        "end_line": 104,
+        "code": [
+            "if (!founder.call.value(msg.value)()) throw;"
+        ]
+    },
+    {
+        "start_line": 124,
+        "end_line": 124,
+        "code": [
+            "function allocateFounderTokens() {"
+        ]
+    },
+    {
+        "start_line": 151,
+        "end_line": 151,
+        "code": [
+            "function allocateBountyAndEcosystemTokens() {"
+        ]
+    }
+]

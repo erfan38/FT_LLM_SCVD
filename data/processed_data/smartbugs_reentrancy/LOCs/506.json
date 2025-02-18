@@ -1,0 +1,14 @@
+[
+    {
+        "start_line": 237,
+        "end_line": 247,
+        "code": [
+            "balances[_from] = safeSub(balances[_from] , _value);",
+            "balances[_to] = safeAdd(balances[_to] , _value);",
+            "bytes memory empty;",
+            "if ( isContract(_to) ) {",
+            "ContractReceiver receiver = ContractReceiver(_to);",
+            "receiver.tokenFallback(_from, _value, empty);"
+        ]
+    }
+]

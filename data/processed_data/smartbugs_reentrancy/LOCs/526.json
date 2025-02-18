@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 383,
+        "end_line": 383,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 412,
+        "end_line": 412,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1047,
+        "end_line": 1047,
+        "code": [
+            "address(ObokContract).call.value(_OBOK.sub((_OBOK / 3).mul(2)))(bytes4(keccak256(\"donateDivs()\")));"
+        ]
+    },
+    {
+        "start_line": 1153,
+        "end_line": 1153,
+        "code": [
+            "address(ObokContract).call.value(_OBOK.sub(_potAmount))(bytes4(keccak256(\"donateDivs()\")));"
+        ]
+    }
+]

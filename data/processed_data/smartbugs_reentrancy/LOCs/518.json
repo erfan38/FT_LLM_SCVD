@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 60,
+        "end_line": 60,
+        "code": [
+            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+        ]
+    },
+    {
+        "start_line": 140,
+        "end_line": 141,
+        "code": [
+            "balances[_to] = balanceOf(_to).add(_value);",
+            "balances[_from] = balanceOf(_from).sub(_value);"
+        ]
+    }
+]

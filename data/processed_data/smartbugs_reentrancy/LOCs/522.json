@@ -1,0 +1,21 @@
+[
+    {
+        "start_line": 45,
+        "end_line": 49,
+        "code": [
+            "if (!feeAccount.call.value(safeMul(tokens,fee)/(1 ether))()) throw;",
+            "if (!resolved) {",
+            "yesToken.destroy(msg.sender, tokens);",
+            "noToken.destroy(msg.sender, tokens);",
+            "if (!msg.sender.call.value(safeMul(tokens,(1 ether)-fee)/(1 ether))()) throw;"
+        ]
+    },
+    {
+        "start_line": 54,
+        "end_line": 58,
+        "code": [
+            "if (!msg.sender.call.value(safeMul(tokens,(1 ether)-fee)/(1 ether))()) throw;",
+            "Redeem(msg.sender, tokens, 0, tokens);"
+        ]
+    }
+]

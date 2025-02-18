@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 182,
+        "end_line": 184,
+        "code": [
+            "function collect() onlyOwner {",
+            "require(addrcnt.call.value(this.balance)(0));",
+            "Collect(addrcnt,this.balance);"
+        ]
+    }
+]

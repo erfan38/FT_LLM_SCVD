@@ -1,0 +1,25 @@
+[
+    {
+        "start_line": 290,
+        "end_line": 290,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    },
+    {
+        "start_line": 318,
+        "end_line": 320,
+        "code": [
+            "var d = distributionMap[tokenAddr];",
+            "d.balanceRemaining = d.balanceRemaining.sub(tokenAmount);"
+        ]
+    },
+    {
+        "start_line": 326,
+        "end_line": 328,
+        "code": [
+            "c.balance = 0;",
+            "msg.sender.transfer(amountToTransfer);"
+        ]
+    }
+]

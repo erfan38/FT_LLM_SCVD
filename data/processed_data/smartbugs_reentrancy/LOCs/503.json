@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 414,
+        "end_line": 414,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 443,
+        "end_line": 443,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1255,
+        "end_line": 1255,
+        "code": [
+            "if (!address(admin).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 1287,
+        "end_line": 1287,
+        "code": [
+            "admin.transfer(_p3d.sub(_potAmount));"
+        ]
+    },
+    {
+        "start_line": 1150,
+        "end_line": 1150,
+        "code": [
+            "admin.transfer(_p3d.sub(_p3d / 2));"
+        ]
+    },
+    {
+        "start_line": 1439,
+        "end_line": 1439,
+        "code": [
+            "require(msg.sender == admin, \"only admin can activate\");"
+        ]
+    }
+]

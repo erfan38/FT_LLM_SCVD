@@ -1,0 +1,36 @@
+[
+    {
+        "start_line": 188,
+        "end_line": 193,
+        "code": [
+            "if(!pendingBets[i].bettorAddress.send(1)){",
+            "playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);"
+        ]
+    },
+    {
+        "start_line": 236,
+        "end_line": 241,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {",
+            "playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+        ]
+    },
+    {
+        "start_line": 117,
+        "end_line": 124,
+        "code": [
+            "if(randResult < underNumber){",
+            "contractBalance = safeSub(contractBalance, playerProfit);",
+            "uint reward = safeAdd(playerProfit, pendingBets[i].betSize);"
+        ]
+    },
+    {
+        "start_line": 133,
+        "end_line": 139,
+        "code": [
+            "if(randResult >= underNumber){",
+            "contractBalance = safeAdd(contractBalance, pendingBets[i].betSize-1);",
+            "if(!pendingBets[i].bettorAddress.send(1)){"
+        ]
+    }
+]
