@@ -1,0 +1,41 @@
+[
+    {
+        "start_line": 263,
+        "end_line": 266,
+        "code": [
+            "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
+            "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof, playerRandomResult[myid]);",
+            "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);"
+        ]
+    },
+    {
+        "start_line": 299,
+        "end_line": 302,
+        "code": [
+            "if(!playerTempAddress[myid].send(playerTempReward[myid])){",
+            "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 2, proof, playerRandomResult[myid]);",
+            "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);"
+        ]
+    },
+    {
+        "start_line": 353,
+        "end_line": 353,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {"
+        ]
+    },
+    {
+        "start_line": 467,
+        "end_line": 467,
+        "code": [
+            "if(!sendTo.send(originalPlayerBetValue)) throw;"
+        ]
+    },
+    {
+        "start_line": 449,
+        "end_line": 449,
+        "code": [
+            "if(!sendTo.send(amount)) throw;"
+        ]
+    }
+]

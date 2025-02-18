@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 375,
+        "end_line": 375,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 619,
+        "end_line": 619,
+        "code": [
+            "if (!address(admin).call.value(_com)())"
+        ]
+    }
+]

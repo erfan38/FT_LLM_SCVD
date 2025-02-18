@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 190,
+        "end_line": 191,
+        "code": [
+            "if (!_to.call.value(_value)(_data))",
+            "throw;"
+        ]
+    },
+    {
+        "start_line": 224,
+        "end_line": 225,
+        "code": [
+            "if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))",
+            "throw;"
+        ]
+    },
+    {
+        "start_line": 211,
+        "end_line": 212,
+        "code": [
+            "o_addr := create(_value, add(_code, 0x20), mload(_code))",
+            "jumpi(invalidJumpLabel, iszero(extcodesize(o_addr)))"
+        ]
+    }
+]

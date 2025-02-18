@@ -1,0 +1,54 @@
+[
+    {
+        "start_line": 168,
+        "end_line": 181,
+        "code": [
+            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
+            "{",
+            "    F3Ddatasets.EventReturns memory _eventData_;",
+            "    round_[_rID].ended = true;",
+            "    _eventData_ = endRound(_eventData_);",
+            "    _eth = withdrawEarnings(_pID);",
+            "    if (_eth > 0)",
+            "        plyr_[_pID].addr.transfer(_eth);",
+            "    _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);",
+            "    _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;",
+            "    emit F3Devents.onWithdrawAndDistribute"
+        ]
+    },
+    {
+        "start_line": 117,
+        "end_line": 123,
+        "code": [
+            "core(_rID, _pID, msg.value, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 143,
+        "end_line": 150,
+        "code": [
+            "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 254,
+        "end_line": 254,
+        "code": [
+            "buyCore(_pID, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 780,
+        "end_line": 780,
+        "code": [
+            "coin_base.transfer(_com);"
+        ]
+    },
+    {
+        "start_line": 1286,
+        "end_line": 1286,
+        "code": [
+            "coin_base.transfer(_p3d.sub(_potAmount));"
+        ]
+    }
+]

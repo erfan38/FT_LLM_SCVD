@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 69,
+        "end_line": 70,
+        "code": [
+            "owner.call.value(fees)();"
+        ]
+    },
+    {
+        "start_line": 94,
+        "end_line": 94,
+        "code": [
+            "players[winidx].call.value(output)();"
+        ]
+    },
+    {
+        "start_line": 164,
+        "end_line": 164,
+        "code": [
+            "msg.sender.call.value(overflow)();"
+        ]
+    }
+]

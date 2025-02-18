@@ -1,0 +1,56 @@
+[
+    {
+        "start_line": 205,
+        "end_line": 221,
+        "code": [
+            "function withdrawEther() public {",
+            "        if (roundFailedToStart == true) {",
+            "            require(msg.sender.send(deals[msg.sender].sumEther));",
+            "        }",
+            "        if (msg.sender == operator) {",
+            "            require(projectWallet.send(ethForMilestone+postDisputeEth));",
+            "            ethForMilestone = 0;",
+            "            postDisputeEth = 0;",
+            "        }",
+            "        if (msg.sender == juryOnlineWallet) {",
+            "            require(juryOnlineWallet.send(etherAllowance));",
+            "            require(jotter.call.value(jotAllowance)(abi.encodeWithSignature(\"swapMe()\")));",
+            "            etherAllowance = 0;",
+            "            jotAllowance = 0;",
+            "        }",
+            "        if (deals[msg.sender].verdictForInvestor == true) {",
+            "            require(msg.sender.send(deals[msg.sender].sumEther - deals[msg.sender].etherUsed));",
+            "        }"
+        ]
+    },
+    {
+        "start_line": 326,
+        "end_line": 357,
+        "code": [
+            "function acceptOffer(address _investor, uint _offerNumber) public sealed onlyOperator {",
+            "        require(offers[_investor][_offerNumber].etherAmount > 0);",
+            "        require(offers[_investor][_offerNumber].accepted != true);",
+            "        offers[_investor][_offerNumber].accepted = true;",
+            "        uint  _etherAmount = offers[_investor][_offerNumber].etherAmount;",
+            "        uint _tokenAmount = offers[_investor][_offerNumber].tokenAmount;",
+            "        require(token.balanceOf(address(this)) >= promisedTokens + _tokenAmount);",
+            "        if (commissionOnInvestmentEth > 0 || commissionOnInvestmentJot > 0) {",
+            "            uint etherCommission = _etherAmount.mul(commissionOnInvestmentEth).div(100);",
+            "            uint jotCommission = _etherAmount.mul(commissionOnInvestmentJot).div(100);",
+            "            _etherAmount = _etherAmount.sub(etherCommission).sub(jotCommission);",
+            "            offers[_investor][_offerNumber].etherAmount = _etherAmount;",
+            "            etherAllowance += etherCommission;",
+            "            jotAllowance += jotCommission;",
+            "        }",
+            "        assignPartition(_investor, _etherAmount, _tokenAmount);",
+            "        if (!(deals[_investor].sumEther > 0)) dealsList.push(_investor);",
+            "        if (tokenReleaseAtStart == true) {",
+            "            deals[_investor].tokenAllowance = _tokenAmount;",
+            "        }",
+            "        deals[_investor].sumEther += _etherAmount;",
+            "        deals[_investor].sumToken += _tokenAmount;",
+            "        promisedTokens += _tokenAmount;",
+            "        raisedEther += _etherAmount;"
+        ]
+    }
+]

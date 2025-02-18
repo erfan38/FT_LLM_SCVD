@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 199,
+        "end_line": 201,
+        "code": [
+            "if(!winner.send(games[gameId].CurrentTotal)){",
+            "games[currentGameId].CurrentTotal = games[currentGameId].CurrentTotal.add(gameAmt);"
+        ]
+    },
+    {
+        "start_line": 230,
+        "end_line": 232,
+        "code": [
+            "if(!_playerAddr.send(_gamePlayerBalance)){",
+            "playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance);"
+        ]
+    },
+    {
+        "start_line": 310,
+        "end_line": 312,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {",
+            "return true;"
+        ]
+    }
+]

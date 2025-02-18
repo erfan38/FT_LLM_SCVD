@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 367,
+        "end_line": 367,
+        "code": [
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 181,
+        "end_line": 181,
+        "code": [
+            "        buyCore(_pID, _affID, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 257,
+        "end_line": 257,
+        "code": [
+            "        reLoadCore(_pID, _affID, _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 365,
+        "end_line": 365,
+        "code": [
+            "            core(_pID, _eth, _affID, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 1038,
+        "end_line": 1038,
+        "code": [
+            "         if (!address(RatKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 1138,
+        "end_line": 1138,
+        "code": [
+            "         if (!address(RatKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 195,
+        "end_line": 195,
+        "code": [
+            "require(msg.sender.send(deals[msg.sender].sumEther));"
+        ]
+    },
+    {
+        "start_line": 198,
+        "end_line": 198,
+        "code": [
+            "require(projectWallet.send(ethForMilestone+postDisputeEth));"
+        ]
+    },
+    {
+        "start_line": 203,
+        "end_line": 203,
+        "code": [
+            "require(juryOnlineWallet.send(etherAllowance));"
+        ]
+    },
+    {
+        "start_line": 204,
+        "end_line": 204,
+        "code": [
+            "require(swapper.call.value(jotAllowance)(abi.encodeWithSignature(\"swapMe()\")));"
+        ]
+    },
+    {
+        "start_line": 209,
+        "end_line": 209,
+        "code": [
+            "require(msg.sender.send(deals[msg.sender].sumEther - deals[msg.sender].etherUsed));"
+        ]
+    }
+]

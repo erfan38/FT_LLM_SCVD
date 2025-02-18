@@ -1,0 +1,19 @@
+[
+    {
+        "start_line": 112,
+        "end_line": 116,
+        "code": [
+            "function executeSigned(address to, uint value, bytes calldata data, uint gasPrice, uint gasLimit, bytes calldata signature) external",
+            "    onlyAuthorisedKeysOrSelf(_recoverSigner(address(this), to, value, data, nextNonce, gasPrice, gasLimit, signature))",
+            "    returns (bytes memory) {",
+            "        (bool success, bytes memory result) = to.call.value(value)(data);"
+        ]
+    },
+    {
+        "start_line": 153,
+        "end_line": 153,
+        "code": [
+            "        msg.sender.transfer((gasUsed + 40000 + (msg.data.length * 68)) * gasPrice);"
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 76,
+        "end_line": 76,
+        "code": [
+            "require(!msg.sender.call.value(amount)());"
+        ]
+    },
+    {
+        "start_line": 92,
+        "end_line": 92,
+        "code": [
+            "require(!Token(token).transfer(msg.sender, amount));"
+        ]
+    }
+]

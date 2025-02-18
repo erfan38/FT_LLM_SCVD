@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 354,
+        "end_line": 354,
+        "code": [
+            "if (!address(coin_base).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 415,
+        "end_line": 415,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 149,
+        "end_line": 149,
+        "code": [
+            "plyr_[_affID].addr.transfer(_aff);"
+        ]
+    }
+]

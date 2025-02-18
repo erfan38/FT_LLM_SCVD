@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 60,
+        "end_line": 61,
+        "code": [
+            "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+            "if (!msg.sender.call.value(amount)()) throw;"
+        ]
+    },
+    {
+        "start_line": 95,
+        "end_line": 95,
+        "code": [
+            "tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);"
+        ]
+    }
+]

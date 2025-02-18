@@ -1,0 +1,32 @@
+[
+    {
+        "start_line": 208,
+        "end_line": 212,
+        "code": [
+            "balanceOf[_addressToRefund] = 0;",
+            "if (_addressToRefund.call.value(amount)()) {"
+        ]
+    },
+    {
+        "start_line": 219,
+        "end_line": 219,
+        "code": [
+            "LogFundTransfer(_addressToRefund, amount, false);"
+        ]
+    },
+    {
+        "start_line": 240,
+        "end_line": 246,
+        "code": [
+            "crowdsaleClosed = _newEmergencyStatus;",
+            "emergency = _newEmergencyStatus;"
+        ]
+    },
+    {
+        "start_line": 219,
+        "end_line": 219,
+        "code": [
+            "LogFundTransfer(_addressToRefund, amount, false);"
+        ]
+    }
+]

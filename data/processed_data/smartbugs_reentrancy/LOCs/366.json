@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 261,
+        "end_line": 261,
+        "code": [
+            "require(msg.sender.call.value(_user.r_payout)());"
+        ]
+    },
+    {
+        "start_line": 273,
+        "end_line": 273,
+        "code": [
+            "require(msg.sender.call.value(msg.value)());"
+        ]
+    }
+]

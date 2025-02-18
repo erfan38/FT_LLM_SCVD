@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 71,
+        "end_line": 71,
+        "code": [
+            "require(_contract.call.value(_amount)());"
+        ]
+    },
+    {
+        "start_line": 227,
+        "end_line": 227,
+        "code": [
+            "if (!foundersAddresses[i].send(amount_to_withdraw)) {"
+        ]
+    }
+]

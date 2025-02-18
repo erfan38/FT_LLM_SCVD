@@ -1,0 +1,18 @@
+[
+    {
+        "start_line": 273,
+        "end_line": 275,
+        "code": [
+            "if(!giveEthBankRollAddress.call.value(ethToPay).gas(400000)()) {",
+            "totalEthBankrollReceived = SafeMath.sub(totalEthBankrollReceived, ethToPay);"
+        ]
+    },
+    {
+        "start_line": 451,
+        "end_line": 452,
+        "code": [
+            "ERC223ReceivingContract _contract = ERC223ReceivingContract(_toAddress);",
+            "_contract.tokenFallback(msg.sender, _amountOfTokens, _data);"
+        ]
+    }
+]

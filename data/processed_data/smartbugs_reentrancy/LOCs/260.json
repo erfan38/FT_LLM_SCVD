@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 145,
+        "end_line": 145,
+        "code": [
+            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+        ]
+    },
+    {
+        "start_line": 406,
+        "end_line": 406,
+        "code": [
+            "if(msg.value > 0) owner.transfer(msg.value);"
+        ]
+    }
+]

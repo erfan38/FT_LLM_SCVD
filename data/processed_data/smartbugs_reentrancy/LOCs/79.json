@@ -1,0 +1,32 @@
+[
+    {
+        "start_line": 440,
+        "end_line": 442,
+        "code": [
+            "            if (_eth > 0)",
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1040,
+        "end_line": 1043,
+        "code": [
+            "        admin.transfer(_com);",
+            "        admin.transfer(_p3d.sub(_p3d / 2));"
+        ]
+    },
+    {
+        "start_line": 1140,
+        "end_line": 1140,
+        "code": [
+            "        if (!address(admin).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 1046,
+        "end_line": 1046,
+        "code": [
+            "        _eventData_.compressedData = _eventData_.compressedData + (round_[_rID].end * 1000000);"
+        ]
+    }
+]

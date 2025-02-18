@@ -1,0 +1,22 @@
+[
+    {
+        "start_line": 42,
+        "end_line": 46,
+        "code": [
+            "balances[msg.sender] = balances[msg.sender].sub(_value);",
+            "balances[_to] = balances[_to].add(_value);",
+            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));",
+            "Transfer(msg.sender, _to, _value);"
+        ]
+    },
+    {
+        "start_line": 72,
+        "end_line": 76,
+        "code": [
+            "balances[msg.sender] = balances[msg.sender].sub(_value);",
+            "balances[_to] = balances[_to].add(_value);",
+            "ERC223Receiver reciever = ERC223Receiver(_to);",
+            "reciever.tokenFallback(msg.sender, _value, _data);"
+        ]
+    }
+]

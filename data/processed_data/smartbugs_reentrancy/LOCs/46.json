@@ -1,0 +1,33 @@
+[
+    {
+        "start_line": 225,
+        "end_line": 231,
+        "code": [
+            "function payFund() payable public {",
+            "    uint256 ethToPay = SafeMath.sub(totalEthFundCollected, totalEthFundRecieved);",
+            "    require(ethToPay > 0);",
+            "    totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);",
+            "    if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
+            "       totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);",
+            "    }"
+        ]
+    },
+    {
+        "start_line": 278,
+        "end_line": 299,
+        "code": [
+            "function withdraw(bool _isTransfer)",
+            "    onlyStronghands()",
+            "    public",
+            "{",
+            "    address _customerAddress = msg.sender;",
+            "    uint256 _dividends = myDividends(false);",
+            "    uint256 _estimateTokens = calculateTokensReceived(_dividends);",
+            "    payoutsTo_[_customerAddress] += (int256) (_dividends * magnitude);",
+            "    _dividends += referralBalance_[_customerAddress];",
+            "    referralBalance_[_customerAddress] = 0;",
+            "    _customerAddress.transfer(_dividends);",
+            "    emit onWithdraw(_customerAddress, _dividends, _estimateTokens, _isTransfer);"
+        ]
+    }
+]

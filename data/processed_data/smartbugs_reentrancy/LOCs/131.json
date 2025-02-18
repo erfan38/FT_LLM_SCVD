@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 146,
+        "end_line": 151,
+        "code": [
+            "if(!msg.sender.send(reward)){",
+            "LogResult(totalBets, msg.sender, underNumber, randReuslt, reward, 2, msg.value,underNumber);",
+            "playerPendingWithdrawals[msg.sender] = safeAdd(playerPendingWithdrawals[msg.sender], reward);"
+        ]
+    },
+    {
+        "start_line": 178,
+        "end_line": 180,
+        "code": [
+            "if(!msg.sender.send(1)){",
+            "playerPendingWithdrawals[msg.sender] = safeAdd(playerPendingWithdrawals[msg.sender], 1);"
+        ]
+    },
+    {
+        "start_line": 200,
+        "end_line": 200,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {"
+        ]
+    }
+]

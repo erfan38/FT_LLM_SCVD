@@ -1,0 +1,19 @@
+[
+    {
+        "start_line": 104,
+        "end_line": 118,
+        "code": [
+            "totalEthCharityRecieved = SafeMath.add(totalEthCharityRecieved, ethToPay);",
+            "if(!giveEthCharityAddress.call.value(ethToPay).gas(400000)()) {",
+            "totalEthCharityRecieved = SafeMath.sub(totalEthCharityRecieved, ethToPay);"
+        ]
+    },
+    {
+        "start_line": 166,
+        "end_line": 169,
+        "code": [
+            "_customerAddress.transfer(_dividends);",
+            "onWithdraw(_customerAddress, _dividends);"
+        ]
+    }
+]

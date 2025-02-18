@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 107,
+        "end_line": 107,
+        "code": [
+            "_bankroller.call.value(_amount)(_sig);"
+        ]
+    },
+    {
+        "start_line": 123,
+        "end_line": 123,
+        "code": [
+            "_tr.call.value(_profits)();"
+        ]
+    }
+]

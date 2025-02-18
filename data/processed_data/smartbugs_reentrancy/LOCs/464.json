@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 1062,
+        "end_line": 1062,
+        "code": [
+            "admin.transfer(_com);"
+        ]
+    },
+    {
+        "start_line": 1085,
+        "end_line": 1085,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    }
+]

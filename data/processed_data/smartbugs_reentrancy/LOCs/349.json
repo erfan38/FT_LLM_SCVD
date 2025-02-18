@@ -1,0 +1,58 @@
+[
+    {
+        "start_line": 270,
+        "end_line": 270,
+        "code": [
+            "buyCore(_pID, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 188,
+        "end_line": 188,
+        "code": [
+            "buyCore(_pID, _affCode, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 228,
+        "end_line": 228,
+        "code": [
+            "buyCore(_pID, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 311,
+        "end_line": 311,
+        "code": [
+            "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 813,
+        "end_line": 813,
+        "code": [
+            "core(_rID, _pID, _eth, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 1270,
+        "end_line": 1270,
+        "code": [
+            "if (!address(admin).call.value(_com)()) {"
+        ]
+    },
+    {
+        "start_line": 1305,
+        "end_line": 1305,
+        "code": [
+            "admin.transfer(_p3d.sub(_potAmount));"
+        ]
+    },
+    {
+        "start_line": 460,
+        "end_line": 460,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    }
+]
