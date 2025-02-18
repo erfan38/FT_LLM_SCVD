@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 142,
+        "end_line": 142,
+        "code": [
+            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+        ]
+    },
+    {
+        "start_line": 210,
+        "end_line": 210,
+        "code": [
+            "receiver.tokenFallback(msg.sender, _value, _data);"
+        ]
+    },
+    {
+        "start_line": 331,
+        "end_line": 331,
+        "code": [
+            "Transfer(msg.sender, addresses[j], amount);"
+        ]
+    },
+    {
+        "start_line": 358,
+        "end_line": 358,
+        "code": [
+            "Transfer(msg.sender, addresses[j], amounts[j]);"
+        ]
+    }
+]

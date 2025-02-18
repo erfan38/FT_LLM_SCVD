@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 189,
+        "end_line": 190,
+        "code": [
+            "if (latestSeriesForUser[msg.sender].call.value(msg.value)())",
+            "DepositMade(latestSeriesForUser[msg.sender], msg.value);"
+        ]
+    }
+]

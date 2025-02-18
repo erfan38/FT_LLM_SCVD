@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 168,
+        "end_line": 168,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    },
+    {
+        "start_line": 192,
+        "end_line": 192,
+        "code": [
+            "msg.sender.transfer(amountToTransfer);"
+        ]
+    },
+    {
+        "start_line": 191,
+        "end_line": 191,
+        "code": [
+            "c.balance = 0;"
+        ]
+    },
+    {
+        "start_line": 225,
+        "end_line": 225,
+        "code": [
+            "receiver.transfer(ethAmount);"
+        ]
+    },
+    {
+        "start_line": 235,
+        "end_line": 235,
+        "code": [
+            "require(d.token.transfer(receiver,tokenAmount));"
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "start_line": 46,
+        "end_line": 58,
+        "code": [
+            "flmContract.call.value(investment).gas(1000000)();",
+            "participants[payoutOrder].payout -= payoutToSend;",
+            "balance -= payoutToSend;",
+            "if(!participants[payoutOrder].etherAddress.send(payoutToSend)){",
+            "participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)();",
+            "payoutOrder += 1;"
+        ]
+    }
+]

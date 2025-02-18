@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 192,
+        "end_line": 192,
+        "code": [
+            "if (!tx.destination.call.value(tx.value)(tx.data))"
+        ]
+    },
+    {
+        "start_line": 191,
+        "end_line": 191,
+        "code": [
+            "tx.executed = true;"
+        ]
+    }
+]

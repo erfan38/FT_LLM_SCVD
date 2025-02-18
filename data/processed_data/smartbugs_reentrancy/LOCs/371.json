@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 383,
+        "end_line": 383,
+        "code": [
+            "require(_user.call.value(_amt)());"
+        ]
+    },
+    {
+        "start_line": 246,
+        "end_line": 246,
+        "code": [
+            "if (_doRefund) require(msg.sender.call.value(_bet)());"
+        ]
+    }
+]

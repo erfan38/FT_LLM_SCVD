@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 53,
+        "end_line": 53,
+        "code": [
+            "extraBalance.call.value(msg.value - token)();"
+        ]
+    },
+    {
+        "start_line": 74,
+        "end_line": 74,
+        "code": [
+            "if (msg.sender.call.value(weiGiven[msg.sender])()) {"
+        ]
+    }
+]

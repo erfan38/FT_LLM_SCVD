@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 54,
+        "end_line": 54,
+        "code": [
+            "receiver.call.value(0)(bytes4(sha3(_custom_fallback)), msg.sender, _value, _data);"
+        ]
+    },
+    {
+        "start_line": 115,
+        "end_line": 115,
+        "code": [
+            "receiver.tokenFallback(msg.sender, _value, _data);"
+        ]
+    }
+]

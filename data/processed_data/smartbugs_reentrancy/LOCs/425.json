@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 74,
+        "end_line": 74,
+        "code": [
+            "if (!msg.sender.call.value(amount)()) revert();"
+        ]
+    },
+    {
+        "start_line": 90,
+        "end_line": 90,
+        "code": [
+            "if (!Token(token).transfer(msg.sender, amount)) revert();"
+        ]
+    }
+]

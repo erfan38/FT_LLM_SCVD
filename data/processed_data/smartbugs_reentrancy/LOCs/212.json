@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 194,
+        "end_line": 194,
+        "code": [
+            "balances[investor] = balances[investor].add(toGive);"
+        ]
+    },
+    {
+        "start_line": 272,
+        "end_line": 272,
+        "code": [
+            "balances[_to] = balances[_to].add(_amount);"
+        ]
+    },
+    {
+        "start_line": 329,
+        "end_line": 329,
+        "code": [
+            "owner.transfer(etherBalance);"
+        ]
+    },
+    {
+        "start_line": 336,
+        "end_line": 336,
+        "code": [
+            "require(_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))), msg.sender, _value, this, _extraData));"
+        ]
+    }
+]

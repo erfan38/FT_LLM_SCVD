@@ -1,0 +1,41 @@
+[
+    {
+        "start_line": 195,
+        "end_line": 200,
+        "code": [
+            "uint256 _totalPot = (gameStatus_[_gameID].winningVaultInst).add(gameStatus_[_gameID].winningVaultFinal);",
+            "gameStatus_[_gameID].totalWithdrawn = _totalPot;",
+            "if (_totalPot > 0) {",
+            "    FSKingCorp.deposit.value(_totalPot)();",
+            "}"
+        ]
+    },
+    {
+        "start_line": 259,
+        "end_line": 259,
+        "code": [
+            "FSBook.getPlayerAddr(_pID).transfer(_totalInvestment);"
+        ]
+    },
+    {
+        "start_line": 267,
+        "end_line": 267,
+        "code": [
+            "FSBook.getPlayerAddr(_pID).transfer(_totalWinnings);"
+        ]
+    },
+    {
+        "start_line": 295,
+        "end_line": 295,
+        "code": [
+            "FSKingCorp.deposit.value(_amount)();"
+        ]
+    },
+    {
+        "start_line": 611,
+        "end_line": 611,
+        "code": [
+            "FSBook.depositAffiliate.value(_aff)(_affID);"
+        ]
+    }
+]

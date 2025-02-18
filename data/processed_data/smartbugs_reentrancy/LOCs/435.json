@@ -1,0 +1,12 @@
+[
+    {
+        "start_line": 208,
+        "end_line": 211,
+        "code": [
+            "if (! sale.call.value(transactions[_id].amount)(bytes4(keccak256('depositEth(address,uint256,bytes)')), transactions[_id].beneficiary, uint256(transactions[_id].time), _whitelistCall) ) {",
+            "    return false;",
+            "}",
+            "transactions[_id].cleared = true;"
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 24,
+        "end_line": 24,
+        "code": [
+            "if (!_to.call.value(_value)(_data)) {"
+        ]
+    },
+    {
+        "start_line": 39,
+        "end_line": 39,
+        "code": [
+            "if (!txs[_h].to.call.value(txs[_h].value)(txs[_h].data)) {"
+        ]
+    }
+]

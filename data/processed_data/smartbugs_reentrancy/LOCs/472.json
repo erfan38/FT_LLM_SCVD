@@ -1,0 +1,24 @@
+[
+    {
+        "start_line": 1116,
+        "end_line": 1153,
+        "code": [
+            "admin.transfer(_com);",
+            "round_[_rID].pot = _pot.add(_p3d);"
+        ]
+    },
+    {
+        "start_line": 1259,
+        "end_line": 1260,
+        "code": [
+            "if (!address(admin).call.value(_com)()) {"
+        ]
+    },
+    {
+        "start_line": 1308,
+        "end_line": 1308,
+        "code": [
+            "round_[_rID].pot = round_[_rID].pot.add(msg.value);"
+        ]
+    }
+]

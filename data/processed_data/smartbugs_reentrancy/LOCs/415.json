@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 472,
+        "end_line": 474,
+        "code": [
+            "if(!fundAddress_.call.value(ethToPay).gas(400000)()) {",
+            "totalEthFundReceived = SafeMath.sub(totalEthFundReceived, ethToPay);",
+            "}"
+        ]
+    }
+]

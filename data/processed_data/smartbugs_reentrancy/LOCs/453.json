@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 24,
+        "end_line": 24,
+        "code": [
+            "assert(_destination.call.value(_value)(_data));"
+        ]
+    }
+]

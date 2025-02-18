@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 109,
+        "end_line": 109,
+        "code": [
+            "require(FATHER.call.value(donation).gas(gasleft())());"
+        ]
+    },
+    {
+        "start_line": 139,
+        "end_line": 139,
+        "code": [
+            "dep.depositor.send(dep.expect);"
+        ]
+    },
+    {
+        "start_line": 147,
+        "end_line": 147,
+        "code": [
+            "dep.depositor.send(money);"
+        ]
+    }
+]

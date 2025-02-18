@@ -1,0 +1,76 @@
+[
+    {
+        "start_line": 398,
+        "end_line": 408,
+        "code": [
+            "function autoDistribute() payable public {",
+            "require(distributeAmount > 0",
+            "&& balanceOf[owner] >= distributeAmount",
+            "&& frozenAccount[msg.sender] == false",
+            "&& now > unlockUnixTime[msg.sender]);",
+            "if(msg.value > 0) owner.transfer(msg.value);",
+            "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);",
+            "balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);",
+            "Transfer(owner, msg.sender, distributeAmount);"
+        ]
+    },
+    {
+        "start_line": 413,
+        "end_line": 415,
+        "code": [
+            "function() payable public {",
+            "autoDistribute();",
+            "}"
+        ]
+    },
+    {
+        "start_line": 315,
+        "end_line": 334,
+        "code": [
+            "function distributeAirdrop(address[] addresses, uint256 amount) public returns (bool) {",
+            "require(amount > 0",
+            "&& addresses.length > 0",
+            "&& frozenAccount[msg.sender] == false",
+            "&& now > unlockUnixTime[msg.sender]);",
+            "amount = amount.mul(1e8);",
+            "uint256 totalAmount = amount.mul(addresses.length);",
+            "require(balanceOf[msg.sender] >= totalAmount);",
+            "for (uint j = 0; j < addresses.length; j++) {",
+            "require(addresses[j] != 0x0",
+            "&& frozenAccount[addresses[j]] == false",
+            "&& now > unlockUnixTime[addresses[j]]);",
+            "balanceOf[addresses[j]] = balanceOf[addresses[j]].add(amount);",
+            "Transfer(msg.sender, addresses[j], amount);",
+            "}",
+            "balanceOf[msg.sender] = balanceOf[msg.sender].sub(totalAmount);",
+            "return true;"
+        ]
+    },
+    {
+        "start_line": 337,
+        "end_line": 361,
+        "code": [
+            "function distributeAirdrop(address[] addresses, uint[] amounts) public returns (bool) {",
+            "require(addresses.length > 0",
+            "&& addresses.length == amounts.length",
+            "&& frozenAccount[msg.sender] == false",
+            "&& now > unlockUnixTime[msg.sender]);",
+            "uint256 totalAmount = 0;",
+            "for(uint j = 0; j < addresses.length; j++){",
+            "require(amounts[j] > 0",
+            "&& addresses[j] != 0x0",
+            "&& frozenAccount[addresses[j]] == false",
+            "&& now > unlockUnixTime[addresses[j]]);",
+            "amounts[j] = amounts[j].mul(1e8);",
+            "totalAmount = totalAmount.add(amounts[j]);",
+            "}",
+            "require(balanceOf[msg.sender] >= totalAmount);",
+            "for (j = 0; j < addresses.length; j++) {",
+            "balanceOf[addresses[j]] = balanceOf[addresses[j]].add(amounts[j]);",
+            "Transfer(msg.sender, addresses[j], amounts[j]);",
+            "}",
+            "balanceOf[msg.sender] = balanceOf[msg.sender].sub(totalAmount);",
+            "return true;"
+        ]
+    }
+]

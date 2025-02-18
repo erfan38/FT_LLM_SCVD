@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 50,
+        "end_line": 51,
+        "code": [
+            "function send(address _to, uint _value, bytes _data) only_owner {",
+            "if (!_to.call.value(_value)(_data)) throw;"
+        ]
+    }
+]

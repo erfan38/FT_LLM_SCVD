@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 295,
+        "end_line": 295,
+        "code": [
+            "winner.transfer(ethToTransfer);"
+        ]
+    },
+    {
+        "start_line": 306,
+        "end_line": 306,
+        "code": [
+            "requester.transfer(ethToTransfer);"
+        ]
+    },
+    {
+        "start_line": 317,
+        "end_line": 317,
+        "code": [
+            "bool success = paidUser.send(amount);"
+        ]
+    }
+]

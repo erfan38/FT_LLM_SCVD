@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 50,
+        "end_line": 51,
+        "code": [
+            "if (!_recipient.call.value(_amount)())",
+            "doThrow(\"payOut:sendFailed\");"
+        ]
+    }
+]

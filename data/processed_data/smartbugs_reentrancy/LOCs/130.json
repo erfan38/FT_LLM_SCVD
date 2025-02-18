@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 240,
+        "end_line": 253,
+        "code": [
+            "if (_eth > 0)",
+            "    plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 339,
+        "end_line": 343,
+        "code": [
+            "flushDivs.transfer(_POOH.sub(_POOH / 3).mul(2));"
+        ]
+    }
+]

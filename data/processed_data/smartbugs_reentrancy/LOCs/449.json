@@ -1,0 +1,19 @@
+[
+    {
+        "start_line": 127,
+        "end_line": 138,
+        "code": [
+            "require(SafeMath.safeDiv(ethersTotal, tokensTotal) <= SafeMath.safeDiv(ethersObtained, tokensSold));",
+            "tokensRefunded = SafeMath.safeSub(tokensTotal, tokensSold);",
+            "if(tokensRefunded > 0) require(Token(token).transfer(msg.sender, tokensRefunded));",
+            "transfer(msg.sender, ethersObtained);"
+        ]
+    },
+    {
+        "start_line": 327,
+        "end_line": 327,
+        "code": [
+            "require(msg.sender.call.value(ethersRefunded)());"
+        ]
+    }
+]

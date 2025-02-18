@@ -1,0 +1,36 @@
+[
+    {
+        "start_line": 110,
+        "end_line": 113,
+        "code": [
+            "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+            "balances[_to] = safeAdd(balanceOf(_to), _value);",
+            "ContractReceiver receiver = ContractReceiver(_to);",
+            "receiver.call.value(0)(bytes4(sha3(_custom_fallback)), msg.sender, _value, _data);"
+        ]
+    },
+    {
+        "start_line": 211,
+        "end_line": 212,
+        "code": [
+            "balances[_to] = safeAdd(balanceOf(_to), _value);",
+            "balances[_from] = safeSub(balanceOf(_from), _value);"
+        ]
+    },
+    {
+        "start_line": 170,
+        "end_line": 171,
+        "code": [
+            "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+            "balances[_to] = safeAdd(balanceOf(_to), _value);"
+        ]
+    },
+    {
+        "start_line": 181,
+        "end_line": 182,
+        "code": [
+            "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+            "balances[_to] = safeAdd(balanceOf(_to), _value);"
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 143,
+        "end_line": 144,
+        "code": [
+            "            withdraw();",
+            "        }"
+        ]
+    },
+    {
+        "start_line": 183,
+        "end_line": 183,
+        "code": [
+            "                if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+        ]
+    }
+]

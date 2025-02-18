@@ -1,0 +1,49 @@
+[
+    {
+        "start_line": 177,
+        "end_line": 180,
+        "code": [
+            "if(!FundEIF.call.value(fundEIF)()) {",
+            "    revert();",
+            "}",
+            "totalEIF = totalEIF.add(fundEIF); fundEIF = 0;"
+        ]
+    },
+    {
+        "start_line": 1361,
+        "end_line": 1362,
+        "code": [
+            "address(PoEIFContract).call.value(_PoEIF.sub((_PoEIF / 2)))(bytes4(keccak256(\"donateDivs()\")));",
+            "fundEIF = fundEIF.add(_PoEIF / 2);"
+        ]
+    },
+    {
+        "start_line": 1467,
+        "end_line": 1469,
+        "code": [
+            "address(PoEIFContract).call.value(_PoEIF.sub(_EIFamount))(bytes4(keccak256(\"donateDivs()\")));",
+            "fundEIF = fundEIF.add(_EIFamount);"
+        ]
+    },
+    {
+        "start_line": 1040,
+        "end_line": 1041,
+        "code": [
+            "plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);"
+        ]
+    },
+    {
+        "start_line": 571,
+        "end_line": 571,
+        "code": [
+            "reLoadCore(_pID, _affCode,  _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 1153,
+        "end_line": 1153,
+        "code": [
+            "_eventData_ = distributeExternal(_rID, _pID, _eth, _affID, 0, _eventData_);"
+        ]
+    }
+]

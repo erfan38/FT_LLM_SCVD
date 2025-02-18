@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 169,
+        "end_line": 171,
+        "code": [
+            "Transaction storage txn = transactions[transactionId];",
+            "txn.executed = true;",
+            "lastTransactionTime = block.timestamp;"
+        ]
+    }
+]

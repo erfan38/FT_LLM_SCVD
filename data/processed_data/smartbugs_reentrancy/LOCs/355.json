@@ -1,0 +1,31 @@
+[
+    {
+        "start_line": 103,
+        "end_line": 103,
+        "code": [
+            "if (!founder.call.value(msg.value)()) throw;"
+        ]
+    },
+    {
+        "start_line": 161,
+        "end_line": 165,
+        "code": [
+            "function redeemToken(uint256 tokenNum) {",
+            "if (block.number <= (endBlock + transferLockup) && msg.sender!=founder) throw;",
+            "if( balances[msg.sender] < tokenNum ) throw;",
+            "balances[msg.sender] = (balances[msg.sender] - tokenNum );",
+            "redeem[msg.sender] += tokenNum;"
+        ]
+    },
+    {
+        "start_line": 170,
+        "end_line": 175,
+        "code": [
+            "function redeemRestore(address _to, uint256 tokenNum){",
+            "if( msg.sender != founder) throw;",
+            "if( redeem[_to] < tokenNum ) throw;",
+            "redeem[_to] -= tokenNum;",
+            "balances[_to] += tokenNum;"
+        ]
+    }
+]

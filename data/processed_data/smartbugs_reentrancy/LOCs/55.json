@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 453,
+        "end_line": 453,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    },
+    {
+        "start_line": 191,
+        "end_line": 192,
+        "code": [
+            "c.balance = 0;",
+            "msg.sender.transfer(amountToTransfer);"
+        ]
+    },
+    {
+        "start_line": 222,
+        "end_line": 224,
+        "code": [
+            "c.ethRefund = ethRefundAmount.length;",
+            "receiver.transfer(ethAmount);",
+            "EthRefunded(receiver,ethAmount);"
+        ]
+    }
+]

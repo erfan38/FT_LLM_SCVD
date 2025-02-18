@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 106,
+        "end_line": 106,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 233,
+        "end_line": 233,
+        "code": [
+            "_affID = plyr_[_pID].laff;"
+        ]
+    },
+    {
+        "start_line": 351,
+        "end_line": 351,
+        "code": [
+            "_eth = withdrawEarnings(_pID).sub(_eth);"
+        ]
+    },
+    {
+        "start_line": 1250,
+        "end_line": 1250,
+        "code": [
+            "if (!address(admin).call.value(_com)())"
+        ]
+    }
+]

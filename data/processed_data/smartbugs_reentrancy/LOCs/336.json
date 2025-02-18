@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 1206,
+        "end_line": 1206,
+        "code": [
+            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 1223,
+        "end_line": 1223,
+        "code": [
+            "if (_p3d > 0) Divies.deposit.value(_p3d)();"
+        ]
+    },
+    {
+        "start_line": 1320,
+        "end_line": 1320,
+        "code": [
+            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 1353,
+        "end_line": 1353,
+        "code": [
+            "Divies.deposit.value(_p3d)();"
+        ]
+    },
+    {
+        "start_line": 469,
+        "end_line": 469,
+        "code": [
+            "_eth = withdrawEarnings(_pID);"
+        ]
+    },
+    {
+        "start_line": 502,
+        "end_line": 502,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    }
+]

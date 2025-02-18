@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 80,
+        "end_line": 83,
+        "code": [
+            "if (tokens[0][msg.sender] < amount) throw;",
+            "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+            "if (!msg.sender.call.value(amount)()) throw;"
+        ]
+    }
+]

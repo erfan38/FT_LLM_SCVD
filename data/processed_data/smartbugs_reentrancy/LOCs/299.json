@@ -1,0 +1,20 @@
+[
+    {
+        "start_line": 240,
+        "end_line": 240,
+        "code": [
+            "if (tx.destination.call.value(tx.value)(tx.data))"
+        ]
+    },
+    {
+        "start_line": 267,
+        "end_line": 272,
+        "code": [
+            "if (isConfirmed(transactionId)) {",
+            "Transaction tx = transactions[transactionId];",
+            "tx.executed = true;",
+            "if (tx.destination.call.value(tx.value)(tx.data))",
+            "Execution(transactionId);"
+        ]
+    }
+]

@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 1245,
+        "end_line": 1245,
+        "code": [
+            "admin.transfer(_com.add(_p3d.sub(_p3d / 2)));"
+        ]
+    },
+    {
+        "start_line": 1380,
+        "end_line": 1380,
+        "code": [
+            "if (!address(admin).call.value(_com)()) {"
+        ]
+    },
+    {
+        "start_line": 1408,
+        "end_line": 1408,
+        "code": [
+            "admin.transfer(_p3d.sub(_p3d / 2));"
+        ]
+    }
+]

@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 578,
+        "end_line": 581,
+        "code": [
+            "if (destination.call.value(value)(data))",
+            "emit Execution(destination,value,data);",
+            "emit ExecutionFailure(destination,value,data);"
+        ]
+    }
+]

@@ -1,0 +1,52 @@
+[
+    {
+        "start_line": 357,
+        "end_line": 357,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    },
+    {
+        "start_line": 363,
+        "end_line": 369,
+        "code": [
+            "if (level == 0 || level >= contributionCaps.length) return;",
+            "c.cap = level;",
+            "c.authorized = true;"
+        ]
+    },
+    {
+        "start_line": 372,
+        "end_line": 378,
+        "code": [
+            "remaining = contributionCaps[0].sub(this.balance);",
+            "return (contributionCaps[0],this.balance,remaining);"
+        ]
+    },
+    {
+        "start_line": 191,
+        "end_line": 192,
+        "code": [
+            "c.balance = 0;",
+            "msg.sender.transfer(amountToTransfer);"
+        ]
+    },
+    {
+        "start_line": 222,
+        "end_line": 225,
+        "code": [
+            "c.ethRefund = ethRefundAmount.length;",
+            "receiver.transfer(ethAmount);",
+            "EthRefunded(receiver,ethAmount);"
+        ]
+    },
+    {
+        "start_line": 233,
+        "end_line": 235,
+        "code": [
+            "c.tokensClaimed[tokenAddr] = d.pct.length;",
+            "require(d.token.transfer(receiver,tokenAmount));",
+            "TokensWithdrawn(receiver,tokenAmount);"
+        ]
+    }
+]

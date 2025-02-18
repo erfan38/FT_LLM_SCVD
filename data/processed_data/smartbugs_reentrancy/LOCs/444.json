@@ -1,0 +1,24 @@
+[
+    {
+        "start_line": 192,
+        "end_line": 192,
+        "code": [
+            "msg.sender.transfer(amountToTransfer);"
+        ]
+    },
+    {
+        "start_line": 459,
+        "end_line": 459,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    },
+    {
+        "start_line": 489,
+        "end_line": 491,
+        "code": [
+            "function tokenFallback (address from, uint value, bytes data) public {",
+            "    ERC223Received (from, value);"
+        ]
+    }
+]

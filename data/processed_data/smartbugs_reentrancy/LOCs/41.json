@@ -1,0 +1,21 @@
+[
+    {
+        "start_line": 425,
+        "end_line": 433,
+        "code": [
+            "        uint houseEdge = amount * HOUSE_EDGE_PERCENT / 1000;",
+            "        require (houseEdge + jackpotFee <= amount, \"Bet doesn't even cover house edge.\");",
+            "        winAmount = (amount - houseEdge - jackpotFee) * modulo / rollUnder;"
+        ]
+    },
+    {
+        "start_line": 437,
+        "end_line": 441,
+        "code": [
+            "    function sendFunds(address beneficiary, uint amount, uint successLogAmount) private {",
+            "        if (beneficiary.call.value(amount)()) {",
+            "            emit Payment(beneficiary, successLogAmount);",
+            "        } else {"
+        ]
+    }
+]
