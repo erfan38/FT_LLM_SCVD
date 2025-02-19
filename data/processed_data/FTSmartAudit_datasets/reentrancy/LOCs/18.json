@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 24,
+        "end_line": 24,
+        "code": [
+            "        (bool success, ) = msg.sender.call.value(amountToWithdraw)(\"\"); // At this point, the caller's code is executed, and can call transfer()"
+        ]
+    }
+]

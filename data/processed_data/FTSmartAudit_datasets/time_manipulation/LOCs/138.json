@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 43,
+        "end_line": 43,
+        "code": [
+            "        var random = uint(sha3(block.timestamp)) % 2;"
+        ]
+    }
+]

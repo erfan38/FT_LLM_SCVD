@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 23,
+        "end_line": 33,
+        "code": [
+            "        require(msg.value == numTokens * PRICE_PER_TOKEN);",
+            "        balanceOf[msg.sender] += numTokens;",
+            "        msg.sender.transfer(numTokens * PRICE_PER_TOKEN);"
+        ]
+    }
+]

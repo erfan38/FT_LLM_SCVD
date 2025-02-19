@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 20,
+        "end_line": 22,
+        "code": [
+            "     require(balances[msg.sender] - _value >= 0);",
+            "     balances[msg.sender] -= _value;"
+        ]
+    }
+]

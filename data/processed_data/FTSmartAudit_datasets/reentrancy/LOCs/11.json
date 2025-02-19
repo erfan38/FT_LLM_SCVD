@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 41,
+        "end_line": 41,
+        "code": [
+            "            if(msg.sender.call.value(_am)())"
+        ]
+    }
+]

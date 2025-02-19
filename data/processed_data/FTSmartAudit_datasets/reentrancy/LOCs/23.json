@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 426,
+        "end_line": 430,
+        "code": [
+            "             Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);",
+            "             require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], Channels[_lcID].erc20Balances[0]),\"CreateChannel: token transfer failure\");"
+        ]
+    }
+]

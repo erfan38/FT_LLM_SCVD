@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 264,
+        "end_line": 264,
+        "code": [
+            "    uint256 amount = uint256(cnt) * _value;"
+        ]
+    }
+]

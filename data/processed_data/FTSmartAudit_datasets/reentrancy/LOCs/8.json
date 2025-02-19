@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 28,
+        "end_line": 28,
+        "code": [
+            "        withdrawReward(recipient); // At this point, the caller will be able to execute getFirstWithdrawalBonus again."
+        ]
+    }
+]
