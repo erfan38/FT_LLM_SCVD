@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 18,
+        "end_line": 20,
+        "code": [
+            "        require(now != pastBlockTime); // only 1 transaction per block",
+            "        pastBlockTime = now;"
+        ]
+    }
+]

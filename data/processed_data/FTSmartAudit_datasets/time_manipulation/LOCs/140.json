@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 13,
+        "end_line": 27,
+        "code": [
+            "    if ( rand> 0 && now - rand > 24 hours ) {",
+            "      return block.timestamp;   "
+        ]
+    }
+]

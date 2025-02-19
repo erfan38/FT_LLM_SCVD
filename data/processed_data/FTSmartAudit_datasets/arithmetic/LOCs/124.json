@@ -1,0 +1,14 @@
+[
+    {
+        "start_line": 18,
+        "end_line": 48,
+        "code": [
+            "        count += input;",
+            "        count *= input;",
+            "        count -= input;",
+            "        uint res = count + input;",
+            "        uint res = count * input;",
+            "       \tuint res = count - input;"
+        ]
+    }
+]
