@@ -1,5 +1,2 @@
 *.ipynb_checkpoints
 *keys.py
-*train_LRWDS.json
-*test_LRWDS.json
-*validation_LRWDS.json
