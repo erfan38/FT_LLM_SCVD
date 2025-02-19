@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 163,
+        "end_line": 163,
+        "code": [
+            "require(block.timestamp >= START_TIME && block.timestamp < END_TIME);"
+        ]
+    },
+    {
+        "start_line": 169,
+        "end_line": 169,
+        "code": [
+            "require(didOwnerEndCrowdsale || block.timestamp > end || capReached);"
+        ]
+    },
+    {
+        "start_line": 188,
+        "end_line": 188,
+        "code": [
+            "if (block.timestamp >= start) {"
+        ]
+    },
+    {
+        "start_line": 197,
+        "end_line": 197,
+        "code": [
+            "if (block.timestamp >= end) {"
+        ]
+    },
+    {
+        "start_line": 267,
+        "end_line": 267,
+        "code": [
+            "require(block.timestamp >= start && block.timestamp <= end);"
+        ]
+    }
+]

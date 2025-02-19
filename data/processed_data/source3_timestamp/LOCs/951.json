@@ -1,0 +1,14 @@
+[
+    {
+        "start_line": 24,
+        "end_line": 29,
+        "code": [
+            "if (block.timestamp < startTime) {",
+            "return 0;",
+            "} else if (block.timestamp >= startTime + duration) {",
+            "return totalAmount;",
+            "} else {",
+            "return totalAmount * (block.timestamp - startTime) / duration;"
+        ]
+    }
+]

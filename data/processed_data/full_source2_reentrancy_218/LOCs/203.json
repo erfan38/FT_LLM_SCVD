@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "bool claimed = msg.sender.call.value(balance)();"
+        ]
+    }
+]

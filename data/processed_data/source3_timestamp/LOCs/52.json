@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 45,
+        "end_line": 45,
+        "code": [
+            "require(block.timestamp >= openingTime && block.timestamp <= closingTime);"
+        ]
+    },
+    {
+        "start_line": 90,
+        "end_line": 90,
+        "code": [
+            "closingTime = block.timestamp + 1;"
+        ]
+    },
+    {
+        "start_line": 137,
+        "end_line": 137,
+        "code": [
+            "return block.timestamp > closingTime;"
+        ]
+    },
+    {
+        "start_line": 143,
+        "end_line": 143,
+        "code": [
+            "return (openingTime < block.timestamp && block.timestamp < closingTime);"
+        ]
+    }
+]

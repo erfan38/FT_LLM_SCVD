@@ -1,0 +1,39 @@
+[
+    {
+        "start_line": 1182,
+        "end_line": 1182,
+        "code": [
+            "chronus.starting_time = uint32(block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 1188,
+        "end_line": 1188,
+        "code": [
+            "chronus.betting_duration = uint32(delay);"
+        ]
+    },
+    {
+        "start_line": 1210,
+        "end_line": 1210,
+        "code": [
+            "chronus.race_duration = uint32(delay);"
+        ]
+    },
+    {
+        "start_line": 1345,
+        "end_line": 1350,
+        "code": [
+            "require(now > chronus.starting_time + chronus.race_duration);",
+            "chronus.voided_timestamp=uint32(now);"
+        ]
+    },
+    {
+        "start_line": 1356,
+        "end_line": 1358,
+        "code": [
+            "require((chronus.race_end && now > chronus.starting_time + chronus.race_duration + (30 days))",
+            "|| (chronus.voided_bet && now > chronus.voided_timestamp + (30 days)));"
+        ]
+    }
+]

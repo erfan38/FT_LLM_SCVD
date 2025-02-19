@@ -1,0 +1,38 @@
+[
+    {
+        "start_line": 62,
+        "end_line": 64,
+        "code": [
+            "if (lSave > 0 && lSave < block.timestamp) {",
+            "return SafeMath.mul(getJadeProduction(player),SafeMath.div(SafeMath.sub(block.timestamp,lSave),100));"
+        ]
+    },
+    {
+        "start_line": 106,
+        "end_line": 106,
+        "code": [
+            "lastJadeSaveTime[player] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 114,
+        "end_line": 114,
+        "code": [
+            "lastJadeSaveTime[player] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 166,
+        "end_line": 166,
+        "code": [
+            "lastJadeSaveTime[player] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 288,
+        "end_line": 288,
+        "code": [
+            "nextSnapshotTime = block.timestamp + 24 hours;"
+        ]
+    }
+]

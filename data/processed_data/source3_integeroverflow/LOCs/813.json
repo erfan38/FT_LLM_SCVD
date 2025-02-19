@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "uint8 denom = 0;",
+            "return num / denom;"
+        ]
+    }
+]

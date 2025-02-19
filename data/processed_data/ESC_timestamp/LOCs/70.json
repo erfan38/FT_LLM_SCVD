@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 287,
+        "end_line": 288,
+        "code": [
+            "CustomerService[cs] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 324,
+        "end_line": 324,
+        "code": [
+            "require((block.timestamp-CustomerService[msg.sender])>exchangeInterval);"
+        ]
+    },
+    {
+        "start_line": 332,
+        "end_line": 332,
+        "code": [
+            "CustomerService[msg.sender] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 342,
+        "end_line": 342,
+        "code": [
+            "function destory(uint256 _amount) external {"
+        ]
+    },
+    {
+        "start_line": 344,
+        "end_line": 344,
+        "code": [
+            "require(balances[msg.sender]>=_amount && _amount>destroyThreshold && circulatingSupply>=_amount);"
+        ]
+    }
+]

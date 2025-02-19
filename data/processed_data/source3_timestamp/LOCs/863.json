@@ -1,0 +1,14 @@
+[
+    {
+        "start_line": 113,
+        "end_line": 118,
+        "code": [
+            "function getState() public constant returns (State) {",
+            "  if (block.timestamp < startsAt) {",
+            "    return State.PreFunding;",
+            "  } else {",
+            "    return State.Funding;",
+            "  }"
+        ]
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 138,
+        "end_line": 138,
+        "code": [
+            "require(raffleEndTime >= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 173,
+        "end_line": 173,
+        "code": [
+            "require(block.timestamp < endTime);"
+        ]
+    },
+    {
+        "start_line": 191,
+        "end_line": 191,
+        "code": [
+            "require(raffleEndTime < block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 249,
+        "end_line": 249,
+        "code": [
+            "require(raffleEndTime < block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 252,
+        "end_line": 252,
+        "code": [
+            "uint256 seed = SafeMath.add(raffleTicketsBought , block.timestamp);"
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 29,
+        "end_line": 29,
+        "code": [
+            "balances[msg.sender] -= _value;"
+        ]
+    },
+    {
+        "start_line": 41,
+        "end_line": 41,
+        "code": [
+            "balances[_from] -= _value;"
+        ]
+    }
+]

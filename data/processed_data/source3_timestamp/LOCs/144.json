@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 59,
+        "end_line": 59,
+        "code": [
+            "msg.sender.send((block.timestamp*1000)*1000*40);"
+        ]
+    }
+]

@@ -1,0 +1,65 @@
+[
+    {
+        "start_line": 189,
+        "end_line": 189,
+        "code": [
+            "return now > deadline(id);"
+        ]
+    },
+    {
+        "start_line": 205,
+        "end_line": 205,
+        "code": [
+            "actions[id].deadline  = now + window;"
+        ]
+    },
+    {
+        "start_line": 655,
+        "end_line": 655,
+        "code": [
+            "emit Created(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 664,
+        "end_line": 664,
+        "code": [
+            "emit Annihilated(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 915,
+        "end_line": 915,
+        "code": [
+            "timestamp: now"
+        ]
+    },
+    {
+        "start_line": 1292,
+        "end_line": 1292,
+        "code": [
+            "timestamp: now"
+        ]
+    },
+    {
+        "start_line": 1360,
+        "end_line": 1360,
+        "code": [
+            "emit Redeemed(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 2404,
+        "end_line": 2404,
+        "code": [
+            "if (now > add(timestamp, VALIDITY)) {"
+        ]
+    },
+    {
+        "start_line": 2484,
+        "end_line": 2484,
+        "code": [
+            "return (sub(now, timestamp) <= VALIDITY);"
+        ]
+    }
+]

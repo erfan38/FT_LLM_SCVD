@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "require(_contract.call.value(_amount)());"
+        ]
+    },
+    {
+        "start_line": 10,
+        "end_line": 10,
+        "code": [
+            "balances[_contract] -= _amount;"
+        ]
+    }
+]

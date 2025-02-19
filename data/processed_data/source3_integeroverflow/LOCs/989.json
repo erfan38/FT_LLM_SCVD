@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 7,
+        "code": [
+            "require(msg.value >= ticketPrice * numberOfTickets, \"Insufficient payment\");",
+            "totalPool += msg.value;"
+        ]
+    }
+]

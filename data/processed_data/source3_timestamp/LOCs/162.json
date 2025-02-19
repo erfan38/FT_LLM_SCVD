@@ -1,0 +1,46 @@
+[
+    {
+        "start_line": 194,
+        "end_line": 206,
+        "code": [
+            "if(block.timestamp >= user.lockedTime)",
+            "if(user.lockedIdx == 1)",
+            "user.lockedIdx = 0;",
+            "user.lockedTokens = 0;",
+            "else",
+            "{",
+            "uint256 append = user.lockedTokens/user.lockedIdx;",
+            "user.lockedTokens -= append;",
+            "user.lockedIdx--;",
+            "user.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+            "lockedUsers[target] = user;"
+        ]
+    },
+    {
+        "start_line": 233,
+        "end_line": 256,
+        "code": [
+            "uint day = uint((block.timestamp - lastUnlockMineBalanceTime) / ONE_DAY_TIME_LEN);",
+            "if(day > 0){",
+            "lastUnlockMineBalanceTime = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 338,
+        "end_line": 342,
+        "code": [
+            "lockUser.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+            "lockUser.lockedTokens += _value;",
+            "lockUser.lockedIdx = 2;"
+        ]
+    },
+    {
+        "start_line": 369,
+        "end_line": 373,
+        "code": [
+            "lockUser.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+            "lockUser.lockedTokens += _value;",
+            "lockUser.lockedIdx = 1;"
+        ]
+    }
+]

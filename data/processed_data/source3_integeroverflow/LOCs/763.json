@@ -1,0 +1,28 @@
+[
+    {
+        "start_line": 88,
+        "end_line": 90,
+        "code": [
+            "saleCap = saleCap - amount;",
+            "balances[tokenWallet] = balances[tokenWallet].sub(amount);"
+        ]
+    },
+    {
+        "start_line": 96,
+        "end_line": 104,
+        "code": [
+            "require(balances[0xb1].add(balances[tokenWallet]).sub(_saleCap) > 0);",
+            "amount = balances[tokenWallet].sub(_saleCap);",
+            "balances[0xb1] = balances[0xb1].add(amount);",
+            "amount = _saleCap.sub(balances[tokenWallet]);",
+            "balances[0xb1] = balances[0xb1].sub(amount);"
+        ]
+    },
+    {
+        "start_line": 169,
+        "end_line": 169,
+        "code": [
+            "uint256 amount = value.mul(bonus);"
+        ]
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "start_line": 3,
+        "end_line": 6,
+        "code": [
+            "function mod_underflow() returns (int8 _underflow) {",
+            "int8 a = -128;",
+            "int8 b = -1;",
+            "return a % b;"
+        ]
+    }
+]

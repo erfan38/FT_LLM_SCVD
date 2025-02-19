@@ -1,0 +1,33 @@
+[
+    {
+        "start_line": 157,
+        "end_line": 158,
+        "code": [
+            "uint256 currentTimestamp = block.timestamp;",
+            "require(currentTimestamp >= openGroup.startTime && currentTimestamp <= openGroup.deadline);"
+        ]
+    },
+    {
+        "start_line": 166,
+        "end_line": 166,
+        "code": [
+            "if(currentTimestamp <= openGroup.phase1endTime){"
+        ]
+    },
+    {
+        "start_line": 169,
+        "end_line": 170,
+        "code": [
+            "} else if (currentTimestamp <= openGroup.phase2endTime) {",
+            "require(userWeiTotal <= openGroup.max2);"
+        ]
+    },
+    {
+        "start_line": 174,
+        "end_line": 175,
+        "code": [
+            "} else {",
+            "require(userWeiTotal <= openGroup.max3);"
+        ]
+    }
+]

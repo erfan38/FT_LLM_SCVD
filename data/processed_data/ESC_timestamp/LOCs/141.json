@@ -1,0 +1,20 @@
+[
+    {
+        "start_line": 468,
+        "end_line": 470,
+        "code": [
+            "function time() public constant returns (uint)",
+            "{",
+            "    return block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 527,
+        "end_line": 529,
+        "code": [
+            "function current_week() constant returns (uint) {",
+            "    return sub(block.timestamp, start_time) / 7 days;",
+            "}"
+        ]
+    }
+]

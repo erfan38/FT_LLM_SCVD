@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 66,
+        "end_line": 67,
+        "code": [
+            "    startTime = block.timestamp;",
+            "    endTime = startTime + 365 days;"
+        ]
+    },
+    {
+        "start_line": 110,
+        "end_line": 110,
+        "code": [
+            "    if (block.timestamp > endTime) {"
+        ]
+    }
+]

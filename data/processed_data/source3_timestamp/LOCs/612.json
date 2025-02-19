@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 11,
+        "code": [
+            "uint256 public levelEndDate;"
+        ]
+    },
+    {
+        "start_line": 25,
+        "end_line": 25,
+        "code": [
+            "levelEndDate = block.timestamp + (1 * 7 days);"
+        ]
+    },
+    {
+        "start_line": 38,
+        "end_line": 38,
+        "code": [
+            "if (levelEndDate < block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 45,
+        "end_line": 45,
+        "code": [
+            "if (levelEndDate < block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 41,
+        "end_line": 41,
+        "code": [
+            "levelEndDate = levelEndDate.add(1 * 7 days);"
+        ]
+    }
+]

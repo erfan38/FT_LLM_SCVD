@@ -1,0 +1,54 @@
+[
+    {
+        "start_line": 62,
+        "end_line": 67,
+        "code": [
+            "uint256 unlockTime = crowdSaleEndTime + 1 years;",
+            "if (crowdSaleEndTime == 0 || block.timestamp < unlockTime) {",
+            "    return false;",
+            "}"
+        ]
+    },
+    {
+        "start_line": 108,
+        "end_line": 108,
+        "code": [
+            "require((crowdSaleEndTime <= block.timestamp) && isTransferAllowed(_from, _value));"
+        ]
+    },
+    {
+        "start_line": 116,
+        "end_line": 116,
+        "code": [
+            "require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 124,
+        "end_line": 124,
+        "code": [
+            "require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 132,
+        "end_line": 132,
+        "code": [
+            "require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 147,
+        "end_line": 147,
+        "code": [
+            "require(block.timestamp > crowdSaleEndTime);"
+        ]
+    },
+    {
+        "start_line": 162,
+        "end_line": 162,
+        "code": [
+            "require(block.timestamp > crowdSaleEndTime);"
+        ]
+    }
+]

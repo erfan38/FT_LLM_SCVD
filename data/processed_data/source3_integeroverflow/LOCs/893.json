@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "totalLiquidity = totalLiquidity + _amount;",
+            "totalLiquidity = totalLiquidity - block.number;"
+        ]
+    }
+]

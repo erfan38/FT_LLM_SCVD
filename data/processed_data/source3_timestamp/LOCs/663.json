@@ -1,0 +1,50 @@
+[
+    {
+        "start_line": 171,
+        "end_line": 181,
+        "code": [
+            "jobEscrows[jobHash] = JobEscrow(",
+            "  true,",
+            "  uint32(block.timestamp) + _jobStartedWindowInSeconds,",
+            "  STATUS_JOB_CREATED,",
+            "  0,",
+            "  _secondsToComplete,",
+            "  0);"
+        ]
+    },
+    {
+        "start_line": 223,
+        "end_line": 223,
+        "code": [
+            "require(jobValue > 0 && jobValue == _value);"
+        ]
+    },
+    {
+        "start_line": 279,
+        "end_line": 279,
+        "code": [
+            "require(block.timestamp > jobEscrows[jobHash].jobCompleteDate + 4 weeks);"
+        ]
+    },
+    {
+        "start_line": 315,
+        "end_line": 336,
+        "code": [
+            "require(block.timestamp > jobEscrows[jobHash].agreedCompletionDate + 4 weeks);"
+        ]
+    },
+    {
+        "start_line": 391,
+        "end_line": 391,
+        "code": [
+            "jobEscrows[jobHash].agreedCompletionDate = uint32(block.timestamp) + jobEscrows[jobHash].secondsToComplete;"
+        ]
+    },
+    {
+        "start_line": 483,
+        "end_line": 483,
+        "code": [
+            "require(jobEscrows[jobHash].hirerCanCancelAfter < block.timestamp);"
+        ]
+    }
+]

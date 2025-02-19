@@ -1,0 +1,41 @@
+[
+    {
+        "start_line": 60,
+        "end_line": 62,
+        "code": [
+            "require(_time > block.timestamp);",
+            "require(isReleased == false);",
+            "releaseTime = _time;"
+        ]
+    },
+    {
+        "start_line": 71,
+        "end_line": 73,
+        "code": [
+            "if (isReleased == false && _now() > releaseTime) {",
+            "isReleased = true;"
+        ]
+    },
+    {
+        "start_line": 97,
+        "end_line": 99,
+        "code": [
+            "require(block.timestamp >= releaseTime);",
+            "require(fundingLowcapReached == true);"
+        ]
+    },
+    {
+        "start_line": 176,
+        "end_line": 176,
+        "code": [
+            "if (vestingRules[_address][i].processed == false && vestingRules[_address][i].unlockTime < _now()) {"
+        ]
+    },
+    {
+        "start_line": 186,
+        "end_line": 186,
+        "code": [
+            "return block.timestamp;"
+        ]
+    }
+]

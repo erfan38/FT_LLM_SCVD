@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 143,
+        "end_line": 143,
+        "code": [
+            "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp, latestApply[token][msg.sender]) > applyWait);"
+        ]
+    }
+]

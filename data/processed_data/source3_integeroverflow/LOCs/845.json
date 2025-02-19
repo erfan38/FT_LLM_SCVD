@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 2,
+        "end_line": 3,
+        "code": [
+            "function multiply(uint8 a, uint8 b) public pure returns (uint8) {",
+            "return a * b;"
+        ]
+    }
+]

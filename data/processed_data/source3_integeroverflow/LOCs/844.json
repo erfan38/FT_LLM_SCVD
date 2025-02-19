@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 7,
+        "code": [
+            "sum += numbers[i];",
+            "return sum / numbers.length;"
+        ]
+    }
+]

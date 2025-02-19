@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "rewardPerToken = rewardPerToken + ((block.timestamp - lastUpdateTime) * 1e18);"
+        ]
+    }
+]

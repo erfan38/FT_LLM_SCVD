@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 103,
+        "end_line": 103,
+        "code": [
+            "uint256 _amount = mintedAmount * 10 ** uint256(decimals);"
+        ]
+    }
+]

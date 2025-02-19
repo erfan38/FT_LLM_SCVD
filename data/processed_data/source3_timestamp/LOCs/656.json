@@ -1,0 +1,32 @@
+[
+    {
+        "start_line": 49,
+        "end_line": 49,
+        "code": [
+            "require(timestamp <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 87,
+        "end_line": 87,
+        "code": [
+            "require(_unFrozenTime > block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 64,
+        "end_line": 64,
+        "code": [
+            "lastReleaseTime = timestamp;"
+        ]
+    },
+    {
+        "start_line": 74,
+        "end_line": 76,
+        "code": [
+            "if ((lastReleaseTime.parseTimestamp().year == timestamp.parseTimestamp().year)",
+            "    && (lastReleaseTime.parseTimestamp().month == timestamp.parseTimestamp().month)",
+            "    && (lastReleaseTime.parseTimestamp().day == timestamp.parseTimestamp().day)) {"
+        ]
+    }
+]

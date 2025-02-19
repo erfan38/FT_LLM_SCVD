@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 19,
+        "end_line": 19,
+        "code": [
+            "require(block.timestamp < _timestamp);"
+        ]
+    },
+    {
+        "start_line": 31,
+        "end_line": 31,
+        "code": [
+            "return startTime[_stateId] <= block.timestamp;"
+        ]
+    }
+]

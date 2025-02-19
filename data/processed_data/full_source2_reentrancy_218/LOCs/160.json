@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 7,
+        "end_line": 8,
+        "code": [
+            "if (balances[msg.sender] == 0){ throw; }",
+            "if (_recipient.call.value(balances[msg.sender])()) {"
+        ]
+    }
+]

@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 8,
+        "end_line": 8,
+        "code": [
+            "closingTime = openingTime + duration;"
+        ]
+    }
+]

@@ -1,0 +1,65 @@
+[
+    {
+        "start_line": 306,
+        "end_line": 306,
+        "code": [
+            "chainStartTime = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 336,
+        "end_line": 336,
+        "code": [
+            "uint64 _now = uint64(block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 476,
+        "end_line": 476,
+        "code": [
+            "transferIns[msg.sender].push(transferInStruct(uint256(balances[msg.sender]),uint64(block.timestamp)));"
+        ]
+    },
+    {
+        "start_line": 502,
+        "end_line": 502,
+        "code": [
+            "myCoinAge = getCoinAge(msg.sender,block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 512,
+        "end_line": 512,
+        "code": [
+            "uint _now = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 538,
+        "end_line": 538,
+        "code": [
+            "require( (block.timestamp >= stakeCommence) && (stakeCommence > 0) );"
+        ]
+    },
+    {
+        "start_line": 542,
+        "end_line": 542,
+        "code": [
+            "uint _now = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 622,
+        "end_line": 622,
+        "code": [
+            "uint64 _now = uint64(block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 664,
+        "end_line": 664,
+        "code": [
+            "transferIns[msg.sender].push(transferInStruct(uint256(balances[msg.sender]),uint64(block.timestamp)));"
+        ]
+    }
+]

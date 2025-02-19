@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 59,
+        "end_line": 59,
+        "code": [
+            "require(uint64(block.timestamp) > head);"
+        ]
+    },
+    {
+        "start_line": 83,
+        "end_line": 83,
+        "code": [
+            "while (release != 0 && block.timestamp > release) {"
+        ]
+    },
+    {
+        "start_line": 99,
+        "end_line": 99,
+        "code": [
+            "require(_until > block.timestamp);"
+        ]
+    }
+]

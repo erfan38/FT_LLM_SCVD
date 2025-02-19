@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "uint totalBalance = released[_token] + 17777777;"
+        ]
+    },
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "return totalBalance * block.timestamp;"
+        ]
+    }
+]

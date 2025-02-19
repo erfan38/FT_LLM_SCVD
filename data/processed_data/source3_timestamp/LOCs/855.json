@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 64,
+        "end_line": 64,
+        "code": [
+            "require(block.timestamp < games[_gameId].gameDate);"
+        ]
+    },
+    {
+        "start_line": 236,
+        "end_line": 236,
+        "code": [
+            "require(block.timestamp > games[_gameId].gameDate);"
+        ]
+    },
+    {
+        "start_line": 205,
+        "end_line": 205,
+        "code": [
+            "block.timestamp > games[forecasts[_forecasts[_index]].gameId].gameDate"
+        ]
+    }
+]

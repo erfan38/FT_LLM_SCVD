@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "return stakedAmount[user] * rewardRate / 100;"
+        ]
+    }
+]

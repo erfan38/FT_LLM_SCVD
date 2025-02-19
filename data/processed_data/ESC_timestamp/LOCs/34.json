@@ -1,0 +1,114 @@
+[
+    {
+        "start_line": 97,
+        "end_line": 97,
+        "code": [
+            "uint public constant ORDER_EXPIRATION_TIME = 86400;"
+        ]
+    },
+    {
+        "start_line": 124,
+        "end_line": 124,
+        "code": [
+            "function isCompetitionActive() view returns (bool) { return now >= startTime && now < endTime; }"
+        ]
+    },
+    {
+        "start_line": 134,
+        "end_line": 134,
+        "code": [
+            "function getTimeTillEnd() view returns (uint) { if (now > endTime) { return 0; } return sub(endTime, now); }"
+        ]
+    },
+    {
+        "start_line": 447,
+        "end_line": 447,
+        "code": [
+            "require(now >= add(requests[id].timestamp, modules.pricefeed.getInterval()) && modules.pricefeed.getLastUpdateId() >= add(requests[id].atUpdateId, 2));"
+        ]
+    },
+    {
+        "start_line": 572,
+        "end_line": 572,
+        "code": [
+            "emit Created(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 581,
+        "end_line": 581,
+        "code": [
+            "emit Annihilated(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 695,
+        "end_line": 695,
+        "code": [
+            "require(msg.value <= whitelistantToMaxBuyin[msg.sender]);"
+        ]
+    },
+    {
+        "start_line": 1115,
+        "end_line": 1115,
+        "code": [
+            "timestamp: now"
+        ]
+    },
+    {
+        "start_line": 1118,
+        "end_line": 1118,
+        "code": [
+            "emit FeesConverted(now, feesShareQuantity, unclaimedFees);"
+        ]
+    },
+    {
+        "start_line": 1120,
+        "end_line": 1120,
+        "code": [
+            "emit CalculationUpdate(now, managementFee, performanceFee, nav, sharePrice, _totalSupply);"
+        ]
+    },
+    {
+        "start_line": 1182,
+        "end_line": 1182,
+        "code": [
+            "emit Redeemed(msg.sender, now, shareQuantity);"
+        ]
+    },
+    {
+        "start_line": 1360,
+        "end_line": 1360,
+        "code": [
+            "function isCompetitionActive() view returns (bool) { return now >= startTime && now < endTime; }"
+        ]
+    },
+    {
+        "start_line": 1373,
+        "end_line": 1373,
+        "code": [
+            "return sub(endTime, now);"
+        ]
+    },
+    {
+        "start_line": 1999,
+        "end_line": 1999,
+        "code": [
+            "require(assetsToPrices[ofAssets[i]].timestamp != now);"
+        ]
+    },
+    {
+        "start_line": 2100,
+        "end_line": 2100,
+        "code": [
+            "assetsToPrices[ofAssets[i]].timestamp = now;"
+        ]
+    },
+    {
+        "start_line": 2680,
+        "end_line": 2680,
+        "code": [
+            "return (sub(now, timestamp) <= VALIDITY);"
+        ]
+    }
+]

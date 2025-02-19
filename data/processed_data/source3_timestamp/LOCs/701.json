@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 50,
+        "end_line": 51,
+        "code": [
+            "function random() view returns (uint8) {",
+            "    return uint8(uint256(keccak256(block.timestamp, block.difficulty))%256);"
+        ]
+    }
+]

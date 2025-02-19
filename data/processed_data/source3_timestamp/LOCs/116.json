@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 36,
+        "end_line": 36,
+        "code": [
+            "if (nodes[left].end_stamp <= block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 64,
+        "end_line": 64,
+        "code": [
+            "if (nodes[i].end_stamp > block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 81,
+        "end_line": 81,
+        "code": [
+            "require(block.timestamp < end_stamp);"
+        ]
+    }
+]

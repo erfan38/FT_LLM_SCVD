@@ -1,0 +1,67 @@
+[
+    {
+        "start_line": 28,
+        "end_line": 32,
+        "code": [
+            "if (block.timestamp < Timestamp){",
+            "return (true);",
+            "}",
+            "return false;"
+        ]
+    },
+    {
+        "start_line": 38,
+        "end_line": 38,
+        "code": [
+            "Timestamp = block.timestamp + RoundTimes[CurrentGame];"
+        ]
+    },
+    {
+        "start_line": 131,
+        "end_line": 133,
+        "code": [
+            "StillOpen = Timer();",
+            "if (StillOpen){",
+            "revert();"
+        ]
+    },
+    {
+        "start_line": 156,
+        "end_line": 156,
+        "code": [
+            "Timestamp = now;"
+        ]
+    },
+    {
+        "start_line": 374,
+        "end_line": 375,
+        "code": [
+            "timespent = now - CurrTimeHigh;",
+            "payment = (PotTarget * timespent) / RoundTimes[2];"
+        ]
+    },
+    {
+        "start_line": 393,
+        "end_line": 394,
+        "code": [
+            "timespent = now - CurrTimeLow;",
+            "payment = (PotTarget * timespent) / RoundTimes[2];"
+        ]
+    },
+    {
+        "start_line": 428,
+        "end_line": 429,
+        "code": [
+            "timespent = Timestamp - CurrTimeLow;",
+            "payment = (PotTarget * timespent) / RoundTimes[2];"
+        ]
+    },
+    {
+        "start_line": 435,
+        "end_line": 436,
+        "code": [
+            "timespent = Timestamp - CurrTimeHigh;",
+            "payment = (PotTarget * timespent) / RoundTimes[2];"
+        ]
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 12,
+        "end_line": 14,
+        "code": [
+            "function ExShellStock() {",
+            "totalSupply = 1000000000;"
+        ]
+    }
+]
