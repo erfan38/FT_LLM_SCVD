@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 78,
+        "end_line": 81,
+        "code": [
+            "modifier onlyUnlocked() {",
+            "uint nowtime = block.timestamp;",
+            "uint futuretime = 1550537591;"
+        ]
+    }
+]

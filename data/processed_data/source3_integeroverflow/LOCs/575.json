@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 114,
+        "end_line": 114,
+        "code": [
+            "uint lockedAmount = lockInfo[receiver] + tokens;"
+        ]
+    },
+    {
+        "start_line": 84,
+        "end_line": 84,
+        "code": [
+            "for (uint i = 0; i < accounts.length; i++) {"
+        ]
+    },
+    {
+        "start_line": 91,
+        "end_line": 91,
+        "code": [
+            "for (uint i = 0; i < accounts.length; i++) {"
+        ]
+    },
+    {
+        "start_line": 98,
+        "end_line": 98,
+        "code": [
+            "for (uint i = 0; i < receivers.length; i++) {"
+        ]
+    },
+    {
+        "start_line": 105,
+        "end_line": 105,
+        "code": [
+            "for (uint i = 0; i < receivers.length; i++) {"
+        ]
+    }
+]

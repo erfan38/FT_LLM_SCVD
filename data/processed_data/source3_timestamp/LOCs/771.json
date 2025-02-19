@@ -1,0 +1,33 @@
+[
+    {
+        "start_line": 18,
+        "end_line": 19,
+        "code": [
+            "if (block.timestamp < releaseTime)",
+            "            throw;"
+        ]
+    },
+    {
+        "start_line": 28,
+        "end_line": 29,
+        "code": [
+            "if (block.timestamp < releaseTime)",
+            "            throw;"
+        ]
+    },
+    {
+        "start_line": 49,
+        "end_line": 50,
+        "code": [
+            "if (block.timestamp < releaseTime)",
+            "            return releaseTime - block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 45,
+        "end_line": 45,
+        "code": [
+            "return block.timestamp;"
+        ]
+    }
+]

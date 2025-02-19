@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 12,
+        "code": [
+            "uint256 vestedPercentage = vestingPeriod / (365 days) * 25;",
+            "return beneficiaries[msg.sender]._totalAmount * vestedPercentage / 100;"
+        ]
+    }
+]

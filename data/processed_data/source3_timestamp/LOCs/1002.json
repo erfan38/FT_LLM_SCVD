@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "depositTime[msg.sender] = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 11,
+        "end_line": 11,
+        "code": [
+            "uint256 timeElapsed = block.timestamp - depositTime[msg.sender];"
+        ]
+    }
+]

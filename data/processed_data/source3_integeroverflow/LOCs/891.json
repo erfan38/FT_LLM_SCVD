@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "totalVotes = totalVotes + _voteCount;",
+            "totalVotes = totalVotes - block.number;"
+        ]
+    }
+]

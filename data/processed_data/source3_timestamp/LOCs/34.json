@@ -1,0 +1,58 @@
+[
+    {
+        "start_line": 149,
+        "end_line": 149,
+        "code": [
+            "assert(now <= startsAt);"
+        ]
+    },
+    {
+        "start_line": 160,
+        "end_line": 160,
+        "code": [
+            "assert(now <= endsAt);"
+        ]
+    },
+    {
+        "start_line": 281,
+        "end_line": 281,
+        "code": [
+            "assert(now <= endsAt);"
+        ]
+    },
+    {
+        "start_line": 295,
+        "end_line": 295,
+        "code": [
+            "assert(now <= endsAt);"
+        ]
+    },
+    {
+        "start_line": 382,
+        "end_line": 382,
+        "code": [
+            "assert(now <= time);"
+        ]
+    },
+    {
+        "start_line": 405,
+        "end_line": 405,
+        "code": [
+            "assert(now <= time);"
+        ]
+    },
+    {
+        "start_line": 468,
+        "end_line": 468,
+        "code": [
+            "else if (block.timestamp < startsAt) return State.PreFunding;"
+        ]
+    },
+    {
+        "start_line": 469,
+        "end_line": 469,
+        "code": [
+            "else if (block.timestamp <= endsAt && !isCrowdsaleFull()) return State.Funding;"
+        ]
+    }
+]

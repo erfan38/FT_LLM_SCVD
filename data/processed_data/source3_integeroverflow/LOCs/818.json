@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 5,
+        "code": [
+            "return a << 16;"
+        ]
+    }
+]

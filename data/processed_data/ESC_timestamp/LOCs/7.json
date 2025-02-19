@@ -1,0 +1,35 @@
+[
+    {
+        "start_line": 61,
+        "end_line": 61,
+        "code": [
+            "assert(block.timestamp >= STARTDATE);"
+        ]
+    },
+    {
+        "start_line": 177,
+        "end_line": 178,
+        "code": [
+            "if ((block.timestamp >= ENDDATE && state == State.Running)",
+            "    || (block.timestamp >= ENDDATE && weiRaised < MINSALESCAP)) {"
+        ]
+    },
+    {
+        "start_line": 189,
+        "end_line": 199,
+        "code": [
+            "if (block.timestamp <= 1535241660) {",
+            "    if (_weiAmount >= 1700 ether) {",
+            "        discount = 30;",
+            "    } else if (_weiAmount > 0.2 ether) {",
+            "        discount = 25;",
+            "    }",
+            "} else if (block.timestamp <= 1537747260) {",
+            "    discount = 15;",
+            "} else if (block.timestamp <= 1540339260) {",
+            "    discount = 10;",
+            "} else if (block.timestamp <= 1543536060) {",
+            "    discount = 5;"
+        ]
+    }
+]

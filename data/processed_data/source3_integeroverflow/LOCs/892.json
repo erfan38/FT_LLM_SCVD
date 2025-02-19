@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "totalStaked = totalStaked + _amount;",
+            "totalStaked = totalStaked - block.timestamp;"
+        ]
+    }
+]

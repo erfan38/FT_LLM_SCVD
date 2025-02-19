@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 5,
+        "code": [
+            "require(block.timestamp >= lastClaimTime[msg.sender] + 1 days, \"Wait 24 hours between claims\");"
+        ]
+    }
+]

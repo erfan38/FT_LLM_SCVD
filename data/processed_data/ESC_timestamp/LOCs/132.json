@@ -1,0 +1,72 @@
+[
+    {
+        "start_line": 223,
+        "end_line": 223,
+        "code": [
+            "uint256 timeoutTimestamp,"
+        ]
+    },
+    {
+        "start_line": 267,
+        "end_line": 267,
+        "code": [
+            "function canStart() public view returns (bool) {"
+        ]
+    },
+    {
+        "start_line": 487,
+        "end_line": 487,
+        "code": [
+            "uint256 timeOfWeek = (block.timestamp - 345600) % 604800;"
+        ]
+    },
+    {
+        "start_line": 240,
+        "end_line": 240,
+        "code": [
+            "function calculateBaseTimeout() public view returns(uint256) {"
+        ]
+    },
+    {
+        "start_line": 223,
+        "end_line": 223,
+        "code": [
+            "uint256 timeoutTimestamp = block.timestamp.add(calculateBaseTimeout()).add(bonusTime;"
+        ]
+    },
+    {
+        "start_line": 572,
+        "end_line": 572,
+        "code": [
+            "gameStates[gameIndex].gameStartTimestamp = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 575,
+        "end_line": 575,
+        "code": [
+            "gameStates[gameIndex].penultimateTileTimeout = block.timestamp + gameSettings.initialActivityTimer;"
+        ]
+    },
+    {
+        "start_line": 1104,
+        "end_line": 1104,
+        "code": [
+            "require(gameStates[gameIndex].gameStartTimestamp.add(gameSettings.initialActivityTimer) >= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 1107,
+        "end_line": 1107,
+        "code": [
+            "require(gameStates[gameIndex].identifierToTimeoutTimestamp[identifier] >= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 1223,
+        "end_line": 1223,
+        "code": [
+            "if (gameStates[gameIndex].penultimateTileTimeout >= block.timestamp) {"
+        ]
+    }
+]

@@ -1,0 +1,92 @@
+[
+    {
+        "start_line": 106,
+        "end_line": 106,
+        "code": [
+            "require(_startTime >= now && _feeOwner != address(0));"
+        ]
+    },
+    {
+        "start_line": 117,
+        "end_line": 117,
+        "code": [
+            "require(now >= startTime);"
+        ]
+    },
+    {
+        "start_line": 162,
+        "end_line": 162,
+        "code": [
+            "_now = now;"
+        ]
+    },
+    {
+        "start_line": 164,
+        "end_line": 165,
+        "code": [
+            "if (now < finishTime) {",
+            "_timeLeft = finishTime - now;"
+        ]
+    },
+    {
+        "start_line": 227,
+        "end_line": 227,
+        "code": [
+            "require(_to == address(this));"
+        ]
+    },
+    {
+        "start_line": 277,
+        "end_line": 277,
+        "code": [
+            "require(now < finishTime);"
+        ]
+    },
+    {
+        "start_line": 312,
+        "end_line": 312,
+        "code": [
+            "require(now < finishTime && _amount >= BUY_AMOUNT_MIN && _amount <= BUY_AMOUNT_MAX);"
+        ]
+    },
+    {
+        "start_line": 374,
+        "end_line": 381,
+        "code": [
+            "uint256 _seed = uint256(keccak256(abi.encodePacked(",
+            "(block.timestamp).add",
+            "(block.difficulty).add",
+            "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
+            "(block.gaslimit).add",
+            "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add",
+            "(block.number)"
+        ]
+    },
+    {
+        "start_line": 420,
+        "end_line": 425,
+        "code": [
+            "uint256 _seed = uint256(keccak256(abi.encodePacked(",
+            "(block.timestamp).add",
+            "(block.difficulty).add",
+            "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
+            "(block.gaslimit).add",
+            "(block.number)"
+        ]
+    },
+    {
+        "start_line": 481,
+        "end_line": 481,
+        "code": [
+            "time: uint64(now)"
+        ]
+    },
+    {
+        "start_line": 572,
+        "end_line": 573,
+        "code": [
+            "uint256 _maxTime = now.add(TIME_DURATION_MAX);",
+            "finishTime = _finishTime <= _maxTime ? _finishTime : _maxTime;"
+        ]
+    }
+]

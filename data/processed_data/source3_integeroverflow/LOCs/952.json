@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 11,
+        "code": [
+            "maxAmountPer[curTimes] = totalSupply * _amount / 100;"
+        ]
+    }
+]

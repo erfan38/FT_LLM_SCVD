@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 76,
+        "end_line": 76,
+        "code": [
+            "bool withinPeriod = now >= startTime && now <= endTime;"
+        ]
+    },
+    {
+        "start_line": 83,
+        "end_line": 83,
+        "code": [
+            "return now > endTime;"
+        ]
+    }
+]

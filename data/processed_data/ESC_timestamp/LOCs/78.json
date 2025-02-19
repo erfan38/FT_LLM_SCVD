@@ -1,0 +1,88 @@
+[
+    {
+        "start_line": 498,
+        "end_line": 500,
+        "code": [
+            "function time() constant returns (uint) {",
+            "    return block.timestamp;",
+            "}"
+        ]
+    },
+    {
+        "start_line": 502,
+        "end_line": 504,
+        "code": [
+            "function today() constant returns (uint) {",
+            "    return dayFor(time());",
+            "}"
+        ]
+    },
+    {
+        "start_line": 508,
+        "end_line": 518,
+        "code": [
+            "function dayFor(uint timestamp) constant returns (uint) {",
+            "    if (timestamp < startTime) {",
+            "        return 0;",
+            "    }",
+            "    if (timestamp >= startTime && timestamp < finalWindowTime) {",
+            "        return sub(timestamp, startTime) / 5 minutes + 1;",
+            "    }",
+            "    if (timestamp >= finalWindowTime && timestamp < finishTime) {",
+            "        return 176;",
+            "    }",
+            "    return 999;",
+            "}"
+        ]
+    },
+    {
+        "start_line": 529,
+        "end_line": 533,
+        "code": [
+            "function buyWithLimit(uint day, uint limit) payable {",
+            "    assert(today() > 0 && today() <= numberOfDays + 1);",
+            "    assert(msg.value >= 0.01 ether);"
+        ]
+    },
+    {
+        "start_line": 546,
+        "end_line": 548,
+        "code": [
+            "function buy() payable {",
+            "    buyWithLimit(today(), 0);",
+            "}"
+        ]
+    },
+    {
+        "start_line": 554,
+        "end_line": 556,
+        "code": [
+            "function claim(uint day) {",
+            "    assert(today() > day);"
+        ]
+    },
+    {
+        "start_line": 578,
+        "end_line": 580,
+        "code": [
+            "function claimAll() {",
+            "    for (uint i = 0; i < today(); i++) {"
+        ]
+    },
+    {
+        "start_line": 596,
+        "end_line": 597,
+        "code": [
+            "function collect() auth {",
+            "    assert(today() > 0);"
+        ]
+    },
+    {
+        "start_line": 603,
+        "end_line": 605,
+        "code": [
+            "function freeze() {",
+            "    assert(time() > finishTime);"
+        ]
+    }
+]

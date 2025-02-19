@@ -1,0 +1,47 @@
+[
+    {
+        "start_line": 52,
+        "end_line": 54,
+        "code": [
+            "_CurrentDistribPublicSupply += _amount;",
+            "balances[msg.sender] += _amount;",
+            "_totalSupply += _amount;"
+        ]
+    },
+    {
+        "start_line": 100,
+        "end_line": 102,
+        "code": [
+            "_totalSupply = _OwnerDistribSupply;",
+            "balances[owner] = _totalSupply;",
+            "_CurrentDistribPublicSupply += _totalSupply;"
+        ]
+    },
+    {
+        "start_line": 166,
+        "end_line": 168,
+        "code": [
+            "_CurrentDistribPublicSupply += _amount;",
+            "balances[addresses[i]] += _amount;",
+            "_totalSupply += _amount;"
+        ]
+    },
+    {
+        "start_line": 190,
+        "end_line": 192,
+        "code": [
+            "_CurrentDistribPublicSupply += _amount;",
+            "balances[addresses[i]] += _amount;",
+            "_totalSupply += _amount;"
+        ]
+    },
+    {
+        "start_line": 206,
+        "end_line": 208,
+        "code": [
+            "balances[msg.sender] -= _amount;",
+            "_totalSupply -= _amount;",
+            "Burn(msg.sender, _amount);"
+        ]
+    }
+]

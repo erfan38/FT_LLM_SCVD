@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 177,
+        "end_line": 177,
+        "code": [
+            "return uint256(uint256(keccak256(block.timestamp, block.difficulty))%6);"
+        ]
+    }
+]

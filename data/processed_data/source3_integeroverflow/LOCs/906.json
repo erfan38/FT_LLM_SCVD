@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "uint256 rewardMultiplier = block.number - 1000000;",
+            "return baseReward * rewardMultiplier;"
+        ]
+    }
+]

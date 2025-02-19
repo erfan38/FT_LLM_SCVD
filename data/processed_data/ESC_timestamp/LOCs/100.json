@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 42,
+        "end_line": 42,
+        "code": [
+            "return int256(uint256(keccak256(nonce + block.number + block.timestamp + uint256(block.coinbase))) % uint256((max - min))) + min;"
+        ]
+    }
+]

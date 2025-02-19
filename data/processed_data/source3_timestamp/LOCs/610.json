@@ -1,0 +1,47 @@
+[
+    {
+        "start_line": 149,
+        "end_line": 151,
+        "code": [
+            "if (block.timestamp >= tiers[i].startTime && block.timestamp <= tiers[i].endTime) {",
+            "return i;"
+        ]
+    },
+    {
+        "start_line": 164,
+        "end_line": 168,
+        "code": [
+            "if (endTime < block.timestamp) {",
+            "return (0, 0);",
+            "}",
+            "if (startTime > block.timestamp) {",
+            "activeTier = PRE_ICO_TIER_FIRST;"
+        ]
+    },
+    {
+        "start_line": 190,
+        "end_line": 194,
+        "code": [
+            "if (activeTier == tiers.length) {",
+            "if (endTime < block.timestamp) {",
+            "return (0, 0);",
+            "}",
+            "if (startTime > block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 254,
+        "end_line": 254,
+        "code": [
+            "if (isActive() || block.timestamp < startTime || collectedUSD.add(preICOStats.collectedUSD) >= softCap) {"
+        ]
+    },
+    {
+        "start_line": 237,
+        "end_line": 239,
+        "code": [
+            "if (block.timestamp >= endTime && maxTokenSupply > soldTokens) {",
+            "token.burnUnsoldTokens(maxTokenSupply.sub(soldTokens));"
+        ]
+    }
+]

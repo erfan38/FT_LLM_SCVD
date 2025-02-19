@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "if (block.timestamp >= start) {"
+        ]
+    },
+    {
+        "start_line": 10,
+        "end_line": 10,
+        "code": [
+            "if (block.timestamp >= cliff && block.timestamp < end) {"
+        ]
+    },
+    {
+        "start_line": 21,
+        "end_line": 21,
+        "code": [
+            "if (block.timestamp >= end) {"
+        ]
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "totalValue += value;",
+            "count += 1;"
+        ]
+    },
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "return totalValue / count;"
+        ]
+    }
+]

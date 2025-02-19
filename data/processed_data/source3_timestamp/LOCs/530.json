@@ -1,0 +1,45 @@
+[
+    {
+        "start_line": 26,
+        "end_line": 26,
+        "code": [
+            "require(started == true && startTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 35,
+        "end_line": 37,
+        "code": [
+            "require(_startTime >= block.timestamp);",
+            "require(_startTime <= block.timestamp + 60 days);"
+        ]
+    },
+    {
+        "start_line": 61,
+        "end_line": 61,
+        "code": [
+            "if(started == false || startTime >= block.timestamp){"
+        ]
+    },
+    {
+        "start_line": 65,
+        "end_line": 65,
+        "code": [
+            "if (block.timestamp >= startTime.add(duration)){"
+        ]
+    },
+    {
+        "start_line": 69,
+        "end_line": 69,
+        "code": [
+            "uint currentYear = block.timestamp.sub(startTime).div(1 years);"
+        ]
+    },
+    {
+        "start_line": 70,
+        "end_line": 70,
+        "code": [
+            "uint currentDay = (block.timestamp.sub(startTime) % (1 years)).div(1 days);"
+        ]
+    }
+]

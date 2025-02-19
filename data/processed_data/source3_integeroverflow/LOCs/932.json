@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 7,
+        "code": [
+            "uint256 reward = REWARD_RATE * timePeriod;",
+            "totalRewards = totalRewards + reward;"
+        ]
+    }
+]

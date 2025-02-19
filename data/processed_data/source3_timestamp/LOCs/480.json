@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 85,
+        "end_line": 85,
+        "code": [
+            "    pendingTransactions[_transactionId] = TokenPurchaseRecord(now, weiAmount, beneficiary);"
+        ]
+    },
+    {
+        "start_line": 89,
+        "end_line": 89,
+        "code": [
+            "    emit TokenPurchaseRequest(_transactionId, beneficiary, now, weiAmount, tokensAmount);"
+        ]
+    },
+    {
+        "start_line": 95,
+        "end_line": 95,
+        "code": [
+            "    require(newDate > now);"
+        ]
+    },
+    {
+        "start_line": 103,
+        "end_line": 103,
+        "code": [
+            "    require(now < startTime);"
+        ]
+    },
+    {
+        "start_line": 111,
+        "end_line": 111,
+        "code": [
+            "    require(now < startTime);"
+        ]
+    },
+    {
+        "start_line": 155,
+        "end_line": 155,
+        "code": [
+            "    bool withinCrowdsaleInterval = now >= startTime && now <= endTime;"
+        ]
+    }
+]

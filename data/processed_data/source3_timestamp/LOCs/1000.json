@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "require(block.timestamp >= lastWithdrawal[msg.sender] + 1 days, \"Daily limit reached\");"
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 143,
+        "end_line": 143,
+        "code": [
+            "timestamp: block.timestamp"
+        ]
+    },
+    {
+        "start_line": 239,
+        "end_line": 239,
+        "code": [
+            "return (sub(now, timestamp) <= VALIDITY);"
+        ]
+    }
+]

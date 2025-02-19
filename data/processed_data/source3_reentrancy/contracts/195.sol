@@ -1,0 +1,1 @@
+contract CurryCoin is StandardToken { // CHANGE THIS. Update the 

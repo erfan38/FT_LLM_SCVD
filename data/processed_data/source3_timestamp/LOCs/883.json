@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 79,
+        "end_line": 79,
+        "code": [
+            "bool validTimestamp = startingTimestamp <= block.timestamp && endingTimestamp >= block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 167,
+        "end_line": 167,
+        "code": [
+            "TokenPurchase(msg.sender, beneficiary, _value, tokens, now);"
+        ]
+    },
+    {
+        "start_line": 180,
+        "end_line": 180,
+        "code": [
+            "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
+        ]
+    },
+    {
+        "start_line": 208,
+        "end_line": 208,
+        "code": [
+            "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
+        ]
+    },
+    {
+        "start_line": 241,
+        "end_line": 241,
+        "code": [
+            "WalletChange(_wallet , now);"
+        ]
+    }
+]

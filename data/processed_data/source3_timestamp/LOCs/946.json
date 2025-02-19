@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 174,
+        "end_line": 177,
+        "code": [
+            "        uint64 tmNow = uint64(block.timestamp);",
+            "        require(tmNow >= nextJackpotTime);",
+            "        nextJackpotTime = tmNow + 72000;"
+        ]
+    }
+]

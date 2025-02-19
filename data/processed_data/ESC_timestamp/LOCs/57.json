@@ -1,0 +1,79 @@
+[
+    {
+        "start_line": 412,
+        "end_line": 412,
+        "code": [
+            "            if (crowdSaleEndTime == 0 || block.timestamp < unlockTime) {"
+        ]
+    },
+    {
+        "start_line": 436,
+        "end_line": 436,
+        "code": [
+            "        if (block.timestamp < crowdSaleEndTime &&"
+        ]
+    },
+    {
+        "start_line": 463,
+        "end_line": 463,
+        "code": [
+            "        require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 471,
+        "end_line": 471,
+        "code": [
+            "        require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 479,
+        "end_line": 479,
+        "code": [
+            "        require(crowdSaleEndTime <= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 494,
+        "end_line": 494,
+        "code": [
+            "        require(block.timestamp > crowdSaleEndTime);"
+        ]
+    },
+    {
+        "start_line": 509,
+        "end_line": 509,
+        "code": [
+            "        require(block.timestamp > crowdSaleEndTime);"
+        ]
+    },
+    {
+        "start_line": 888,
+        "end_line": 888,
+        "code": [
+            "            if (block.timestamp >= tiers[i].startTime && block.timestamp <= tiers[i].endTime) {"
+        ]
+    },
+    {
+        "start_line": 902,
+        "end_line": 902,
+        "code": [
+            "            if (endTime < block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 928,
+        "end_line": 928,
+        "code": [
+            "            if (endTime < block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 992,
+        "end_line": 992,
+        "code": [
+            "        if (isActive() || block.timestamp < startTime || collectedUSD.add(preICOStats.collectedUSD) >= softCap) {"
+        ]
+    }
+]

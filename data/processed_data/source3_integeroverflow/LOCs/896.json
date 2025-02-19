@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "circulatingSupply = circulatingSupply - _burnAmount;",
+            "circulatingSupply = circulatingSupply + block.timestamp;"
+        ]
+    }
+]

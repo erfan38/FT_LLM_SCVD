@@ -1,0 +1,24 @@
+[
+    {
+        "start_line": 64,
+        "end_line": 65,
+        "code": [
+            "latestApply[token][msg.sender] = block.timestamp;",
+            "ApplyWithdraw(token, msg.sender, amount, block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 78,
+        "end_line": 78,
+        "code": [
+            "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp, latestApply[token][msg.sender]) > applyWait);"
+        ]
+    },
+    {
+        "start_line": 190,
+        "end_line": 190,
+        "code": [
+            "require(makerOrder.expires >= block.number && takerOrder.expires >= block.number);"
+        ]
+    }
+]

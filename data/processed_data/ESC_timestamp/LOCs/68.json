@@ -1,0 +1,31 @@
+[
+    {
+        "start_line": 551,
+        "end_line": 551,
+        "code": [
+            "uint64 tmNow = uint64(block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 1355,
+        "end_line": 1356,
+        "code": [
+            "uint64 tmNow = uint64(block.timestamp);",
+            "require(tmNow >= nextJackpotTime);"
+        ]
+    },
+    {
+        "start_line": 1366,
+        "end_line": 1366,
+        "code": [
+            "nextJackpotTime = uint64(block.timestamp) + 72000;"
+        ]
+    },
+    {
+        "start_line": 1388,
+        "end_line": 1388,
+        "code": [
+            "seed = uint256(keccak256(seed, block.blockhash(block.number - 1), block.coinbase, block.difficulty));"
+        ]
+    }
+]

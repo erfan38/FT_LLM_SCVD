@@ -1,0 +1,51 @@
+[
+    {
+        "start_line": 375,
+        "end_line": 375,
+        "code": [
+            "function timenow() public view returns(uint32) { return uint32(block.timestamp); }"
+        ]
+    },
+    {
+        "start_line": 478,
+        "end_line": 478,
+        "code": [
+            "if ( status == Status.PLAYING && timenow() > dateStopBuy ) status = Status.PROCESSING;"
+        ]
+    },
+    {
+        "start_line": 651,
+        "end_line": 651,
+        "code": [
+            "require( timenow() < curGame.dateStopBuy );"
+        ]
+    },
+    {
+        "start_line": 618,
+        "end_line": 618,
+        "code": [
+            "require( _dateStopBuy > timenow() );"
+        ]
+    },
+    {
+        "start_line": 793,
+        "end_line": 793,
+        "code": [
+            "if ( timenow() < curGame.dateStopBuy ) delay = curGame.dateStopBuy - timenow() + delaySec;"
+        ]
+    },
+    {
+        "start_line": 761,
+        "end_line": 761,
+        "code": [
+            "require( timenow() > curGame.dateStopBuy );"
+        ]
+    },
+    {
+        "start_line": 744,
+        "end_line": 744,
+        "code": [
+            "require( msg.sender == owner || admins[msg.sender] || timenow() > curGame.dateStopBuy.add(7 * 24*60*60) );"
+        ]
+    }
+]

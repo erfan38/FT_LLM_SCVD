@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 41,
+        "end_line": 41,
+        "code": [
+            "require(balanceOf[_to] + _value >= balanceOf[_to]);"
+        ]
+    },
+    {
+        "start_line": 89,
+        "end_line": 89,
+        "code": [
+            "balanceOf[msg.sender] -= _value;"
+        ]
+    },
+    {
+        "start_line": 90,
+        "end_line": 90,
+        "code": [
+            "totalSupply -= _value;"
+        ]
+    },
+    {
+        "start_line": 99,
+        "end_line": 99,
+        "code": [
+            "balanceOf[_from] -= _value;"
+        ]
+    },
+    {
+        "start_line": 101,
+        "end_line": 101,
+        "code": [
+            "totalSupply -= _value;"
+        ]
+    }
+]

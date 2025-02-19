@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 6,
+        "code": [
+            "uint256 vestingPeriod = block.timestamp - vestingStart;",
+            "return vestingPeriod * 10;"
+        ]
+    }
+]

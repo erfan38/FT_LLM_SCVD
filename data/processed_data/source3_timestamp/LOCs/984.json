@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 7,
+        "end_line": 7,
+        "code": [
+            "require(block.timestamp < auctionEnd, \"Auction ended\");"
+        ]
+    },
+    {
+        "start_line": 14,
+        "end_line": 14,
+        "code": [
+            "require(block.timestamp >= auctionEnd, \"Auction not yet ended\");"
+        ]
+    }
+]
