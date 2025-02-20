@@ -1,0 +1,1 @@
+contract OxyCoin is StandardToken { // CHANGE THIS. Update the 

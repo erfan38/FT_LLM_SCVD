@@ -1,2 +1,0 @@
-contract modularLong is LOLevents {}
-

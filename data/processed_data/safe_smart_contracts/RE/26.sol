@@ -1,0 +1,1 @@
+contract PKCoin is StandardToken { // CHANGE THIS. Update the 
