@@ -1,0 +1,1 @@
+function _assertUserHasEnoughGiantLPToClaimVaultLP(LPToken _token, uint256 _amount) internal view { require(_amount >= MIN_STAKING_AMOUNT, "Invalid amount"); require(_token.balanceOf(address(this)) >= _amount, "Pool does not own specified LP"); require(lpTokenETH.lastInteractedTimestamp(msg.sender) + 1 days < block.timestamp, "Too new"); }

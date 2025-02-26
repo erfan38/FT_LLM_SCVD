@@ -1,0 +1,1 @@
+function mint(address recipient, uint256 amount) external onlyWhitelisted { if (paused[msg.sender]) { revert IllegalState(); } uint256 total = amount + totalMinted[msg.sender]; if (total > mintCeiling[msg.sender]) { revert IllegalState(); } totalMinted[msg.sender] = total; _mint(recipient, amount); }

@@ -1,0 +1,1 @@
+function setTimekeeper(address _timekeeper) external onlyRoleMalt(POOL_UPDATER_ROLE, "Must have pool updater privs") { require(_timekeeper != address(0), "Not address 0"); timekeeper = ITimekeeper(_timekeeper); }

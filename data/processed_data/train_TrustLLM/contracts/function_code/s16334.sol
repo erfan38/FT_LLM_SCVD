@@ -1,0 +1,1 @@
+function canLiquidate(ILienToken.Stack memory stack) public view returns (bool) { RouterStorage storage s = _loadRouterSlot(); return (stack.point.end <= block.timestamp || msg.sender == s.COLLATERAL_TOKEN.ownerOf(stack.lien.collateralId)); }

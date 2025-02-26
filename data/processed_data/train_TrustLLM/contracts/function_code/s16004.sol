@@ -1,0 +1,1 @@
+function getPrice(address _asset) external view override returns (uint256 price) { uint256 updatedAt = assetPriceMap[_asset].updatedAt; require( (block.number - updatedAt) <= config.expirationPeriod, "NFTOracle: asset price expired" ); return assetPriceMap[_asset].twap; }

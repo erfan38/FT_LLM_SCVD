@@ -1,0 +1,1 @@
+function calculateAmountRequiredForLP(uint256 amount, bool isBTRFLY) internal view returns (uint256) { uint256 priceOracle = ICurveCryptoPool(CURVEPOOL).price_oracle(); if (isBTRFLY) { return (((amount * priceOracle) / (10**18)) * (10**_ethDecimals)) / (10**_btrflyDecimals); } return (((amount * (10**18)) / priceOracle) * (10**_btrflyDecimals)) / (10**_ethDecimals); }

@@ -1,0 +1,1 @@
+function addVoteEscrow(address _voteEscrow) external onlyOwner { if (address(ve) == address(0)) { ve = VE(pendingVoteEscrow); } else { voteEscrowEnableDate = block.timestamp + 1 days; pendingVoteEscrow = _voteEscrow; } }

@@ -1,0 +1,1 @@
+function initiateWithdrawal(uint256 _amount) external override { require(balanceOf(msg.sender) >= _amount, "Insufficient balance"); _accountToWithdrawalRequest[msg.sender].amount = _amount; _accountToWithdrawalRequest[msg.sender].blockNumber = block.number; }

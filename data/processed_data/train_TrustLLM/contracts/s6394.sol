@@ -1,0 +1,1 @@
+function lastResortTimelockOwnerClaimNFT() external onlyOwner { if (settings.recoverTimelock > block.timestamp) { revert RECOVERY_IS_NOT_YET_POSSIBLE(); } emit OwnerReclaimedNFT(owner()); IERC721EnumerableUpgradeable(settings.token).transferFrom( address(this), owner(), settings.tokenId ); }

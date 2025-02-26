@@ -1,0 +1,1 @@
+function repay(address user, uint amount) public { uint debt = debts[user]; require(debt >= amount, "Insufficient debt"); debts[user] -= amount; totalDebt -= amount; dbr.onRepay(user, amount); dola.transferFrom(msg.sender, address(this), amount); emit Repay(user, msg.sender, amount); }

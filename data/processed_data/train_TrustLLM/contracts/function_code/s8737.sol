@@ -1,0 +1,1 @@
+function removeDelegation(uint256 tokenId) external { require(ownerOf(tokenId) == msg.sender, 'VEDelegation: Not allowed'); uint256 nCheckpoints = numCheckpoints[tokenId]; Checkpoint storage checkpoint = checkpoints[tokenId][nCheckpoints - 1]; removeElement(checkpoint.delegatedTokenIds, tokenId); _writeCheckpoint(tokenId, nCheckpoints, checkpoint.delegatedTokenIds); }

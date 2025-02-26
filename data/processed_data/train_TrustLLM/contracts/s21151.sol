@@ -1,0 +1,1 @@
+function mint(address user, uint256 amount) external returns (bool) { require(configurator.tokenMiner(msg.sender), "not authorized"); require(totalSupply() + amount <= maxSupply, "exceeding the maximum supply quantity."); try IProtocolRewardsPool(configurator.getProtocolRewardsPool()).refreshReward(user) {} catch {} _mint(user, amount); return true; }

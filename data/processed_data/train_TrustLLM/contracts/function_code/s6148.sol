@@ -1,0 +1,1 @@
+function shutdownPool(uint256 _pid) external returns (bool) { require(msg.sender == poolManager, "!auth"); PoolInfo storage pool = poolInfo[_pid]; try IStaker(staker).withdrawAll(pool.lptoken, pool.gauge) {} catch {} pool.shutdown = true; gaugeMap[pool.gauge] = false; emit PoolShuttedDown(_pid); return true; }

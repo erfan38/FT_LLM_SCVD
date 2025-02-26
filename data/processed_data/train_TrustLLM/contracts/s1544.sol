@@ -1,0 +1,1 @@
+function mint(uint256 shares, address to) public virtual returns (uint256 amount) { amount = previewMint(shares); asset.safeTransferFrom(msg.sender, address(this), amount); _mint(to, amount); emit Deposit(msg.sender, to, amount, shares); afterDeposit(amount, shares); }

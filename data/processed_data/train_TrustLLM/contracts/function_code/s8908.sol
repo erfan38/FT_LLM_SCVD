@@ -1,0 +1,1 @@
+function executeDraw() external override whenNotExecutingDraw { if (block.timestamp < drawScheduledAt(currentDraw)) { revert ExecutingDrawTooEarly(); } returnUnclaimedJackpotToThePot(); drawExecutionInProgress = true; requestRandomNumber(); emit StartedExecutingDraw(currentDraw); }

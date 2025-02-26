@@ -1,0 +1,1 @@
+function disputeTree(string memory reason) external { if (block.timestamp >= endOfDisputePeriod) revert InvalidDispute(); IERC20(disputeToken).safeTransferFrom(msg.sender, address(this), disputeAmount); disputer = msg.sender; emit Disputed(reason); }

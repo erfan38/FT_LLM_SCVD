@@ -1,0 +1,1 @@
+function createSplitProxy(string memory _splitId) private returns (address splitProxy) { splitProxy = address( new SplitProxy{salt: keccak256(abi.encode(merkleRoot))}() ); splits[_splitId] = splitProxy; emit SplitCreated(splitProxy, _splitId); delete merkleRoot; delete splitAsset; }

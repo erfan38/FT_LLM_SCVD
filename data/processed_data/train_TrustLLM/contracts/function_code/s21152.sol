@@ -1,0 +1,1 @@
+function withdraw(uint256 _amount) external updateReward(msg.sender) { require(_amount > 0, "amount = 0"); balanceOf[msg.sender] -= _amount; totalSupply -= _amount; stakingToken.transfer(msg.sender, _amount); emit WithdrawToken(msg.sender, _amount, block.timestamp); }
