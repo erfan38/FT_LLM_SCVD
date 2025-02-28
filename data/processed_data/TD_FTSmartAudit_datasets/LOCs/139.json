@@ -1,10 +1,13 @@
 [
     {
         "start_line": 18,
-        "end_line": 20,
+        "end_line": 23,
         "code": [
             "        require(now != pastBlockTime); // only 1 transaction per block",
-            "        pastBlockTime = now;"
+            "        pastBlockTime = now;",
+            "        if(now % 15 == 0) { // winner",
+            "            msg.sender.transfer(this.balance);",
+            "        }"
         ]
     }
 ]

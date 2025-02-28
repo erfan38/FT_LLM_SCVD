@@ -5,5 +5,17 @@
         "code": [
             "        var random = uint(sha3(block.timestamp)) % 2;"
         ]
+    },
+    {
+        "start_line": 48,
+        "end_line": 52,
+        "code": [
+            "        if (random == 0) {",
+            "            bank.transfer(FEE_AMOUNT);",
+            "            msg.sender.transfer(pot - FEE_AMOUNT);",
+            "            pot = 0;",
+            "        }"
+        ]
+
     }
 ]
