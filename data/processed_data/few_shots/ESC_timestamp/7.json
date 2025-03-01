@@ -5,36 +5,34 @@
         "output": "1. The contract uses block.timestamp in multiple critical operations, making it susceptible to timestamp dependence vulnerabilities. Specifically, lines such as 'assert(block.timestamp >= STARTDATE);', '_calculateTokenAmount' method, and '_updateStateIfExpired' method rely heavily on block.timestamp. This exposes the contract to miner manipulation, as miners can adjust the timestamp of the blocks they mine, potentially leading to unfair advantages or contract state manipulations. The precision of time measurements in these instances directly impacts the contract's logic, affecting the sale's status, token distribution, and eligibility for refunds. This dependence on block.timestamp for critical operations without proper safeguards increases the risk of vulnerabilities related to time constraints and miner exploitation."
       },
     {
-        "start_line": 61,
-        "end_line": 61,
-        "code": [
+        "vulnerableLines": "61-61",
+        "vulnerableCode": [
+            
             "assert(block.timestamp >= STARTDATE);"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
-        "potential risk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
+        "potentialSecurityRisk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
+        "fixedCode": [
             "require(block.timestamp >= STARTDATE + 15); // Adding a buffer to prevent manipulation"
         ]
     },
     {
-        "start_line": 177,
-        "end_line": 178,
-        "code": [
+        "vulnerableLines": "177-178",
+        "vulnerableCode": [
             "if ((block.timestamp >= ENDDATE && state == State.Running)",
             "    || (block.timestamp >= ENDDATE && weiRaised < MINSALESCAP)) {"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
-        "potential risk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
+        "potentialSecurityRisk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
+        "fixedCode": [
             "if ((block.timestamp + 15 >= ENDDATE && state == State.Running)",
             "    || (block.timestamp + 15 >= ENDDATE && weiRaised < MINSALESCAP)) {",
             "// Adding a buffer to prevent timestamp manipulation"
         ]
     },
     {
-        "start_line": 189,
-        "end_line": 199,
-        "code": [
+        "vulnerableLines": "189-199",
+        "vulnerableCode": [
             "if (block.timestamp <= 1535241660) {",
             "    if (_weiAmount >= 1700 ether) {",
             "        discount = 30;",
@@ -48,9 +46,9 @@
             "} else if (block.timestamp <= 1543536060) {",
             "    discount = 5;"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
-        "potential risk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
+        "potentialSecurityRisk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
+        "fixedCode": [
             "if (block.timestamp + 15 <= 1535241660) {",
             "    if (_weiAmount >= 1700 ether) {",
             "        discount = 30;",
