@@ -1,1 +1,0 @@
-function unwrapETH2LD( bytes32 labelhash, address newRegistrant, address newController ) public override onlyTokenOwner(_makeNode(ETH_NODE, labelhash)) { _unwrap(_makeNode(ETH_NODE, labelhash), newController); registrar.transferFrom( address(this), newRegistrant, uint256(labelhash) ); }

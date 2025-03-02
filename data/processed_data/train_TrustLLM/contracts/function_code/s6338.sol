@@ -1,1 +1,0 @@
-ILayerZeroEndpoint public endpoint;

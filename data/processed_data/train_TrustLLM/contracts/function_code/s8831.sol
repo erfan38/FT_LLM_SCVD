@@ -1,1 +1,0 @@
-function requireNextActiveMultisig() external view returns (address) { uint256 total = getUint(keccak256("multisig.count")); address addr; bool enabled; for (uint256 i = 0; i < total; i++) { (addr, enabled) = getMultisig(i); if (enabled) { return addr; } } revert NoEnabledMultisigFound(); }

@@ -1,1 +1,0 @@
-function calculateAuctionPriceMultiplier( uint256 auctionStartTimestamp, uint256 currentTimestamp ) external view override returns (uint256) { uint256 ticks = PRBMathUD60x18.div( currentTimestamp - auctionStartTimestamp, _tickLength ); return _calculateAuctionPriceMultiplierByTicks(ticks); }

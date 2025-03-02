@@ -1,1 +1,0 @@
-function refPerTok() public view override returns (uint192) { uint256 rate = ICToken(address(erc20)).exchangeRateStored(); int8 shiftLeft = 8 - int8(referenceERC20Decimals) - 18; return shiftl_toFix(rate, shiftLeft); }

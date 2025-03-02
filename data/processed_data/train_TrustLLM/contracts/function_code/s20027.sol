@@ -1,1 +1,0 @@
-function tryAvertChallenge(uint256 _collateralAmount, uint256 _bidAmountZCHF) external onlyHub returns (bool) { if (block.timestamp >= expiration){ return false; } else if (_bidAmountZCHF * ONE_DEC18 >= price * _collateralAmount){ challengedAmount -= _collateralAmount; restrictMinting(1 days); return true; } else { return false; } }

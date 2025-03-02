@@ -5,9 +5,8 @@
         "output": "1. The contract uses block.timestamp in the function vestedAmount which can lead to timestamp dependence vulnerabilities. Specifically,line 128 checks if the current time is past the cliff period and line 130 calculates the vested amount based on the difference between block.timestamp and the start time. This can be manipulated by miners as they have control over the timestamps of the blocks they mine. The precision of block.timestamp is also a concern as it could affect the contract logic if the miner manipulates the time. The time constraints in the critical operation of vesting tokens are tied to block.timestamp, making it susceptible to miner manipulation. The potential impact of this vulnerability is that the vested token amounts could be inaccurately calculated, leading to either premature or delayed releases of tokens."
       },
     {
-        "start_line": 154,
-        "end_line": 159,
-        "code": [
+        "vulnerableLines": "154-159",
+        "vulnerableCode": [
             "if (block.timestamp < cliff) {",
             "    return 0;",
             "} else if (block.timestamp >= start.add(duration) || revoked[token]) {",
@@ -15,9 +14,9 @@
             "} else {",
             "    return totalBalance.mul(block.timestamp.sub(start)).div(duration);"
         ],
-        "reasoning": "This contract relies on `block.timestamp` to determine the release of vested tokens. Since miners can slightly manipulate timestamps, they could accelerate or delay token release by modifying the block's timestamp within an allowable range.",
-        "potential risk": "A miner could alter the timestamp to unlock tokens earlier or delay their release. For example, they could artificially shorten the vesting period by setting a favorable timestamp, leading to an unfair advantage for certain users.",
-        "fixed code": [
+        "vulnerabilityReason": "This contract relies on `block.timestamp` to determine the release of vested tokens. Since miners can slightly manipulate timestamps, they could accelerate or delay token release by modifying the block's timestamp within an allowable range.",
+        "potentialSecurityRisk": "A miner could alter the timestamp to unlock tokens earlier or delay their release. For example, they could artificially shorten the vesting period by setting a favorable timestamp, leading to an unfair advantage for certain users.",
+        "fixedCode": [
             "if (block.timestamp + 15 < cliff) {",
             "    return 0;",
             "} else if (block.timestamp + 15 >= start.add(duration) || revoked[token]) {",

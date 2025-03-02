@@ -1,1 +1,0 @@
-function _verifyUnsuccessfulState(uint256 _poolId) internal view returns ( address, uint48, uint40, bool, bytes32 ) { PoolInfo memory pool = poolInfo[_poolId]; if (pool.success || block.timestamp > pool.terminationPeriod) revert InvalidState(); return ( pool.nftContract, pool.totalSupply, pool.terminationPeriod, pool.success, pool.merkleRoot ); }

@@ -1,1 +1,0 @@
-function maxSellAllAmount( ERC20 pay_gem, ERC20 buy_gem, uint256 min_fill_amount ) external returns (uint256 fill) { uint256 maxAmount = ERC20(buy_gem).balanceOf(msg.sender); fill = RubiconMarket(RubiconMarketAddress).sellAllAmount( pay_gem, maxAmount, buy_gem, min_fill_amount ); ERC20(buy_gem).transfer(msg.sender, fill); }
