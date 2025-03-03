@@ -5,15 +5,14 @@
         "output": "1. The smart contract code contains reentrancy vulnerabilities. The primary issue lies in the `Collect` function. Specifically, the use of `call.value()` in the `Collect` function can lead to reentrancy attacks. The code executes an external call to transfer funds before updating the state, which is a common pattern that can be exploited. Here is the problematic section of the code:\n\n```solidity\nfunction Collect(uint _am)\npublic\npayable\n{\n    var acc = Acc[msg.sender];\n    if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)\n    {\n        if(msg.sender.call.value(_am)())\n        {\n            acc.balance-=_am;\n            LogFile.AddMessage(msg.sender,_am,\"Collect\");\n        }\n    }\n}\n```\n\nIn this function, the external call `msg.sender.call.value(_am)()` is made before the state change `acc.balance-=_am`. This allows an attacker to recursively call the `Collect` function before the state is updated, leading to a reentrancy attack. This vulnerability is related to the order of operations and the use of external calls without proper state updates."
       },
     {
-        "start_line": 54,
-        "end_line": 56,
-        "code": [
+        "vulnerableLines": "54-56",
+        "vulnerableCode": [
             "if(msg.sender.call.value(_am)())",
             "acc.balance-=_am;"
         ],
-        "reasoning": "The contract sends Ether to `msg.sender` using `call.value(_am)()`, which does not impose a gas limit. Additionally, the balance is updated *after* the transfer. This allows a malicious contract to repeatedly re-enter the function before the balance deduction, enabling an attacker to drain funds from the contract.",
-        "potential risk": "An attacker could deploy a malicious contract that exploits this function by re-entering before the balance update. By calling this function recursively within the fallback function of their contract, they can withdraw more funds than they initially deposited, leading to a complete depletion of the contract's balance.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract sends Ether to `msg.sender` using `call.value(_am)()`, which does not impose a gas limit. Additionally, the balance is updated *after* the transfer. This allows a malicious contract to repeatedly re-enter the function before the balance deduction, enabling an attacker to drain funds from the contract.",
+        "potentialSecurityRisk": "An attacker could deploy a malicious contract that exploits this function by re-entering before the balance update. By calling this function recursively within the fallback function of their contract, they can withdraw more funds than they initially deposited, leading to a complete depletion of the contract's balance.",
+        "fixedCode": [
             "require(acc.balance >= _am, \"Insufficient balance\");",
             "acc.balance -= _am;",
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",

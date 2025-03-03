@@ -5,15 +5,14 @@
         "output": "1. The smart contract code provided is vulnerable to integer overflow/underflow issues. Specifically, the arithmetic operations in the 'transfer' and 'transferFrom' functions do not include any checks for overflow or underflow. In the 'transfer' function, the line 'balances[msg.sender] -= _value;' and 'balances[_to] += _value;' can lead to underflow if the sender's balance is less than the transfer value, and overflow if the recipient's balance plus the transfer value exceeds the maximum uint256 value. Similarly, in the 'transferFrom' function, the lines 'balances[_to] += _value;' and 'balances[_from] -= _value;' are susceptible to the same issues. Additionally, the line 'allowed[_from][msg.sender] -= _value;' can cause underflow if the allowance is less than the transfer value. These vulnerabilities can result in unintended behavior, such as incorrect balances or allowances, potentially leading to loss of funds or unauthorized transfers."
       },
     {
-        "start_line": 23,
-        "end_line": 24,
-        "code": [
+        "vulnerableLines": "23-24",
+        "vulnerableCode": [
             "balances[msg.sender] -= _value;",
             "balances[_to] += _value;"
         ],
-        "reasoning": "The contract performs arithmetic operations (`+=` and `-=`) on `balances` and `allowed` mappings without checking for overflow or underflow. In Solidity versions prior to 0.8.0, subtracting `_value` from `balances[msg.sender]` without validation could cause an underflow if `_value` is greater than the current balance, leading to unexpected behavior.",
-        "potential risk": "An attacker could exploit this by transferring more tokens than they actually have, causing an integer underflow. This could result in unintended large balances, effectively allowing an attacker to steal tokens.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract performs arithmetic operations (`+=` and `-=`) on `balances` and `allowed` mappings without checking for overflow or underflow. In Solidity versions prior to 0.8.0, subtracting `_value` from `balances[msg.sender]` without validation could cause an underflow if `_value` is greater than the current balance, leading to unexpected behavior.",
+        "potentialSecurityRisk": "An attacker could exploit this by transferring more tokens than they actually have, causing an integer underflow. This could result in unintended large balances, effectively allowing an attacker to steal tokens.",
+        "fixedCode": [
             "require(balances[msg.sender] >= _value, \"Insufficient balance\");",
             "balances[msg.sender] -= _value;",
             "balances[_to] += _value;",
@@ -21,15 +20,14 @@
         ]
     },
     {
-        "start_line": 32,
-        "end_line": 33,
-        "code": [
+        "start_line": "32-33",
+        "vulnerableCode": [
             "balances[_to] += _value;",
             "balances[_from] -= _value;"
         ],
-        "reasoning": "The contract modifies `balances[_to]` and `balances[_from]` without checking for overflow or underflow. If `_value` is too large, `balances[_to]` could overflow or `balances[_from]` could underflow, causing unintended behavior.",
-        "potential risk": "An attacker could attempt to transfer more tokens than they own, triggering an underflow on `balances[_from]`. Alternatively, `balances[_to]` could exceed the maximum `uint256` limit, leading to an overflow.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract modifies `balances[_to]` and `balances[_from]` without checking for overflow or underflow. If `_value` is too large, `balances[_to]` could overflow or `balances[_from]` could underflow, causing unintended behavior.",
+        "potentialSecurityRisk": "An attacker could attempt to transfer more tokens than they own, triggering an underflow on `balances[_from]`. Alternatively, `balances[_to]` could exceed the maximum `uint256` limit, leading to an overflow.",
+        "fixedCode": [
             "require(balances[_from] >= _value, \"Insufficient balance\");",
             "require(balances[_to] + _value >= balances[_to], \"Overflow detected\");",
             "balances[_from] -= _value;",
@@ -38,14 +36,13 @@
         ]
     },
     {
-        "start_line": 35,
-        "end_line": 35,
-        "code": [
+        "vulnerableLines": "35-35",
+        "vulnerableCode": [
             "allowed[_from][msg.sender] -= _value;"
         ],
-        "reasoning": "The contract performs arithmetic operations (`+=` and `-=`) on `balances` and `allowed` mappings without checking for overflow or underflow. In Solidity versions prior to 0.8.0, subtracting `_value` from `balances[msg.sender]` or `allowed[_from][msg.sender]` without validation could cause an underflow if `_value` is greater than the current balance or allowance, leading to unexpected behavior.",
-        "potential risk": "An attacker could exploit this by transferring or approving more tokens than available, causing an integer underflow. This could result in unintended large balances or approvals, effectively allowing an attacker to bypass security checks and steal tokens.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract performs arithmetic operations (`+=` and `-=`) on `balances` and `allowed` mappings without checking for overflow or underflow. In Solidity versions prior to 0.8.0, subtracting `_value` from `balances[msg.sender]` or `allowed[_from][msg.sender]` without validation could cause an underflow if `_value` is greater than the current balance or allowance, leading to unexpected behavior.",
+        "potentialSecurityRisk": "An attacker could exploit this by transferring or approving more tokens than available, causing an integer underflow. This could result in unintended large balances or approvals, effectively allowing an attacker to bypass security checks and steal tokens.",
+        "fixedCode": [
             "require(allowed[_from][msg.sender] >= _value, \"Allowance exceeded\");",
             "allowed[_from][msg.sender] -= _value;",
             "// Using Solidity 0.8+ built-in overflow/underflow protection (or SafeMath for older versions)"

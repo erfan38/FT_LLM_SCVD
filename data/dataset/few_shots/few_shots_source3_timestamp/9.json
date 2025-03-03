@@ -5,31 +5,29 @@
         "output": "1. The contract contains timestamp dependence vulnerabilities. Specifically, the functions _buyDiscountTTM, _buyDiscountTTW, and setDiscountTime utilize block.timestamp for determining the price of certain tokens based on whether the current time is before or after a discount period. This can be manipulated by miners who have control over the block timestamp, allowing them to execute transactions at more favorable prices. The critical operations of buying discounted tokens rely on precise time measurements which can be exploited due to the inherent imprecision and manipulability of block.timestamp. The potential for miner manipulation exists as they can adjust the block timestamp to trigger conditions that result in lower prices for tokens. The precision of time measurements impacts contract logic significantly, as the difference between discounted and regular prices hinges on the exact moment the transaction is processed."
       },
     {
-        "start_line": 86,
-        "end_line": 87,
-        "code": [
+        "vulnerableLines": "86-87",
+        "vulnerableCode": [
             "require(_endTime > block.timestamp);",
             "endDiscountTime = _endTime;"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
-        "potential risk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
+        "potentialSecurityRisk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
+        "fixedCode": [
             "require(_endTime > block.timestamp + 15); // Adding a buffer to prevent manipulation",
             "endDiscountTime = _endTime;"
         ]   
     },
     {
-        "start_line": 219,
-        "end_line": 222,
-        "code": [
+        "vulnerableLines": "219-222",
+        "vulnerableCode": [
             "if (block.timestamp <= endDiscountTime) {",
             "require(_value == 0.64 ether);",
             "} else {",
             "require(_value == 0.99 ether);"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
-        "potential risk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
+        "potentialSecurityRisk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
+        "fixedCode": [
             "if (block.timestamp + 15 <= endDiscountTime) {",
             "    require(_value == 0.64 ether);",
             "} else {",
@@ -38,17 +36,16 @@
         ]
     },
     {
-        "start_line": 249,
-        "end_line": 252,
-        "code": [
+        "vulnerableLines": "249-252",
+        "vulnerableCode": [
             "if (block.timestamp <= endDiscountTime) {",
             "require(_value == 0.585 ether);",
             "} else {",
             "require(_value == 0.90 ether);"
         ],
-        "reasoning": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
-        "potential risk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract relies on `block.timestamp` to determine conditions for execution. This introduces a vulnerability because miners can manipulate the timestamp within a small range, potentially altering the contract's behavior.",
+        "potentialSecurityRisk": "An attacker (or miner) can slightly modify the block timestamp to exploit conditions that depend on it. For instance, they can extend the discount period artificially or ensure they get a lower price unfairly.",
+        "fixedCode": [
             "if (block.timestamp + 15 <= endDiscountTime) {",
             "    require(_value == 0.585 ether);",
             "} else {",

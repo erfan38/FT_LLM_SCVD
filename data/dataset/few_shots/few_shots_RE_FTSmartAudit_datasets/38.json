@@ -5,18 +5,17 @@
         "output": "1. The smart contract contains a reentrancy vulnerability. The contract sends Ether using `call.value(_am)()`, which allows an external contract (`msg.sender`) to receive funds without a gas limit. Since the balance is updated *after* the transfer, a malicious contract can repeatedly call this function before the balance update, leading to multiple unauthorized withdrawals. To mitigate this, the contract should follow the Checks-Effects-Interactions pattern by updating the balance before sending funds."
     },
     {
-        "start_line": 29,
-        "end_line": 31,
-        "code": [
+        "vulnerableLines": "29-31",
+        "vulnerableCode": [
             "            if(msg.sender.call.value(_am)())",
             "            {",
             "                acc.balance-=_am;",
             "                LogFile.AddMessage(msg.sender,_am,\"Collect\");",
             "            }"
         ],
-        "reasoning": "The contract sends Ether using `call.value(_am)()`, which allows an external contract (`msg.sender`) to receive funds without a gas limit. Since the balance is updated *after* the transfer, a malicious contract can repeatedly call this function before the balance update, leading to multiple unauthorized withdrawals.",
-        "potential risk": "An attacker can deploy a malicious contract that re-enters this function through its fallback function, withdrawing more Ether than they initially deposited. This could lead to the depletion of the contract's balance.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract sends Ether using `call.value(_am)()`, which allows an external contract (`msg.sender`) to receive funds without a gas limit. Since the balance is updated *after* the transfer, a malicious contract can repeatedly call this function before the balance update, leading to multiple unauthorized withdrawals.",
+        "potentialSecurityRisk": "An attacker can deploy a malicious contract that re-enters this function through its fallback function, withdrawing more Ether than they initially deposited. This could lead to the depletion of the contract's balance.",
+        "fixedCode": [
             "require(_am <= acc.balance, \"Insufficient balance\");",
             "acc.balance -= _am;",  
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",

@@ -5,16 +5,15 @@
         "output": "1. The smart contract contains an arithmetic vulnerability. The function 'buy' and 'sell' perform multiplication using 'numTokens * PRICE_PER_TOKEN' without checking for overflow. In Solidity versions prior to 0.8.0, this can lead to overflow if 'numTokens' is large enough, potentially allowing an attacker to manipulate the contract’s balance calculations and exploit token transfers. To mitigate this, the contract should add explicit checks against multiplication overflow and consider using Solidity 0.8+ or SafeMath."
     },
     {
-        "start_line": 23,
-        "end_line": 33,
-        "code": [
+        "vulnerableLines": "23-33",
+        "vulnerableCode": [
             "        require(msg.value == numTokens * PRICE_PER_TOKEN);",
             "        balanceOf[msg.sender] += numTokens;",
             "        msg.sender.transfer(numTokens * PRICE_PER_TOKEN);"
         ],
-        "reasoning": "The contract multiplies `numTokens` by `PRICE_PER_TOKEN` without checking for overflow. In Solidity versions prior to 0.8.0, this can cause an overflow if `numTokens` is large enough, potentially leading to incorrect Ether transfers and breaking the contract's logic.",
-        "potential risk": "If an attacker passes a very large `numTokens` value, the multiplication can exceed the maximum value that an unsigned integer can store. This could result in incorrect token purchases, contract misbehavior, or even allowing an attacker to buy tokens for free due to a wraparound effect.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract multiplies `numTokens` by `PRICE_PER_TOKEN` without checking for overflow. In Solidity versions prior to 0.8.0, this can cause an overflow if `numTokens` is large enough, potentially leading to incorrect Ether transfers and breaking the contract's logic.",
+        "potentialSecurityRisk": "If an attacker passes a very large `numTokens` value, the multiplication can exceed the maximum value that an unsigned integer can store. This could result in incorrect token purchases, contract misbehavior, or even allowing an attacker to buy tokens for free due to a wraparound effect.",
+        "fixedCode": [
             "require(msg.value == numTokens * PRICE_PER_TOKEN, \"Incorrect payment amount\");",
             "require(numTokens <= type(uint256).max / PRICE_PER_TOKEN, \"Multiplication overflow\");",
             "balanceOf[msg.sender] += numTokens;",

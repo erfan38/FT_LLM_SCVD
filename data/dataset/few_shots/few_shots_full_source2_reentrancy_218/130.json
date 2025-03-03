@@ -5,14 +5,13 @@
         "output": "1. The smart contract contains a reentrancy vulnerability. The function 'shareProfits' transfers Ether using 'call.value(profit)()', which allows an external contract to execute arbitrary code before the balance is updated. A malicious contract could re-enter the function and repeatedly withdraw funds before the contract state is properly updated, potentially draining the contract’s balance. To mitigate this risk, the contract should follow the Checks-Effects-Interactions pattern and use reentrancy guards."
     },
     {
-        "start_line": 13,
-        "end_line": 13,
-        "code": [
+        "vulnerableLines": "13-13",
+        "vulnerableCode": [
             "if (!ADMIN_CONTRACT.call.value(profit)()) throw;"
         ],
-        "reasoning": "The contract uses `call.value(profit)()`, which allows external calls without a gas limit. If the receiving contract is malicious, it can re-enter this function before the original execution completes, potentially leading to multiple withdrawals.",
-        "potential risk": "An attacker could deploy a malicious contract as `ADMIN_CONTRACT`, which calls back into this function before the contract updates its state. This could allow multiple profit withdrawals in a single transaction, resulting in a complete depletion of the contract balance.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `call.value(profit)()`, which allows external calls without a gas limit. If the receiving contract is malicious, it can re-enter this function before the original execution completes, potentially leading to multiple withdrawals.",
+        "potentialSecurityRisk": "An attacker could deploy a malicious contract as `ADMIN_CONTRACT`, which calls back into this function before the contract updates its state. This could allow multiple profit withdrawals in a single transaction, resulting in a complete depletion of the contract balance.",
+        "fixedCode": [
             "require(profit <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = ADMIN_CONTRACT.call{value: profit}(\"\");",
             "require(success, \"Transfer failed\");",

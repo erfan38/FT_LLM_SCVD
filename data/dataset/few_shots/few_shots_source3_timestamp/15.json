@@ -5,145 +5,131 @@
         "output": "1. The contract uses block.timestamp (referred to as now) in multiple critical operations which can be manipulated by miners. Specifically, the 'buyCore' function at line 143 checks if the current time is greater than 'round_[_rID].strt + rndGap_' and less than or equal to 'round_[_rID].end' or if it's greater than 'round_[_rID].end' and 'round_[_rID].plyr' is 0. This time constraint can be exploited by miners to influence whether the transaction proceeds under the active round or starts a new round. Similarly, the 'updateTimer' function at line 406 updates the round end time based on the number of keys bought and the current time, making it susceptible to miner manipulation. The 'airdrop' function at line 443 uses block.timestamp to determine if an airdrop should occur, which again can be manipulated by miners. These issues highlight the contract's dependency on precise time measurements which can be easily influenced, impacting the fairness and integrity of the game mechanics."
       },
     {
-        "start_line": 367,
-        "end_line": 367,
-        "code": [
+        "vulnerableLines": "367-367",
+        "vulnerableCode": [
             "uint256 _now = now;"
         ],
-        "reasoning": "The use of 'now' (alias for block.timestamp) introduces dependency on block timestamp, which miners can manipulate within a small range.",
-        "potential risk": "An attacker could manipulate the block timestamp to influence time-sensitive logic, such as lottery results or time-based rewards.",
-        "fixed code": "uint256 _now = block.timestamp;"
+        "vulnerabilityReason": "The use of 'now' (alias for block.timestamp) introduces dependency on block timestamp, which miners can manipulate within a small range.",
+        "potentialSecurityRisk": "An attacker could manipulate the block timestamp to influence time-sensitive logic, such as lottery results or time-based rewards.",
+        "fixedCode": "uint256 _now = block.timestamp;"
     },
     {
-        "start_line": 403,
-        "end_line": 403,
-        "code": [
+        "vulnerableLines": "403-403",
+        "vulnerableCode": [
             "_eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);"
         ],
-        "reasoning": "Multiplying 'now' directly in calculations makes the contract sensitive to timestamp manipulations, leading to incorrect event data or unexpected outcomes.",
-        "potential risk": "Attackers could force a small time shift in block timestamps to impact game mechanics or financial calculations.",
-        "fixed code": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000);"
+        "vulnerabilityReason": "Multiplying 'now' directly in calculations makes the contract sensitive to timestamp manipulations, leading to incorrect event data or unexpected outcomes.",
+        "potentialSecurityRisk": "Attackers could force a small time shift in block timestamps to impact game mechanics or financial calculations.",
+        "fixedCode": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000);"
     },
     {
-        "start_line": 506,
-        "end_line": 506,
-        "code": [
+        "vulnerableLines": "506-506",
+        "vulnerableCode": [
             "uint256 _now = now;"
         ],
-        "reasoning": "Using 'now' in calculations introduces timestamp dependency, which allows miners to control contract behavior by slightly adjusting block timestamps.",
-        "potential risk": "A miner can alter the block timestamp to extend or shorten the duration of time-based conditions, potentially affecting rewards or game rounds.",
-        "fixed code": "uint256 _now = block.timestamp;"
+        "vulnerabilityReason": "Using 'now' in calculations introduces timestamp dependency, which allows miners to control contract behavior by slightly adjusting block timestamps.",
+        "potentialSecurityRisk": "A miner can alter the block timestamp to extend or shorten the duration of time-based conditions, potentially affecting rewards or game rounds.",
+        "fixedCode": "uint256 _now = block.timestamp;"
     },
     {
-        "start_line": 509,
-        "end_line": 511,
-        "code": [
+        "vulnerableLines": "509-511",
+        "vulnerableCode": [
             "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))",
             "return ( (round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000) );"
         ],
-        "reasoning": "The contract relies on '_now' to determine if a round is still active. Since '_now' is based on 'now', miners can slightly adjust block timestamps to trigger or bypass conditions.",
-        "potential risk": "Miners could influence game mechanics by modifying timestamps to extend their control over rounds, leading to unfair advantages.",
-        "fixed code": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))) return ((round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000));"
+        "vulnerabilityReason": "The contract relies on '_now' to determine if a round is still active. Since '_now' is based on 'now', miners can slightly adjust block timestamps to trigger or bypass conditions.",
+        "potentialSecurityRisk": "Miners could influence game mechanics by modifying timestamps to extend their control over rounds, leading to unfair advantages.",
+        "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))) return ((round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000));"
     },
     {
-        "start_line": 525,
-        "end_line": 525,
-        "code": [
+        "vulnerableLines": "525-525",
+        "vulnerableCode": [
             "uint256 _now = now;"
         ],
-        "reasoning": "The reliance on 'now' makes the contract behavior dependent on block timestamps, which are subject to miner manipulation.",
-        "potential risk": "Timestamp dependency could allow attackers to alter time-based calculations, leading to exploitation of financial incentives.",
-        "fixed code": "uint256 _now = block.timestamp;"
+        "vulnerabilityReason": "The reliance on 'now' makes the contract behavior dependent on block timestamps, which are subject to miner manipulation.",
+        "potentialSecurityRisk": "Timestamp dependency could allow attackers to alter time-based calculations, leading to exploitation of financial incentives.",
+        "fixedCode": "uint256 _now = block.timestamp;"
     },
     {
-        "start_line": 546,
-        "end_line": 546,
-        "code": [
+        "vulnerableLines": "546-546",
+        "vulnerableCode": [
             "if (now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
         ],
-        "reasoning": "This condition is heavily dependent on 'now', making the end-of-round logic susceptible to timestamp manipulation.",
-        "potential risk": "An attacker could slightly adjust the timestamp to force an early or delayed round end, disrupting expected game mechanics.",
-        "fixed code": "if (block.timestamp > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+        "vulnerabilityReason": "This condition is heavily dependent on 'now', making the end-of-round logic susceptible to timestamp manipulation.",
+        "potentialSecurityRisk": "An attacker could slightly adjust the timestamp to force an early or delayed round end, disrupting expected game mechanics.",
+        "fixedCode": "if (block.timestamp > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
     },
     {
-        "start_line": 864,
-        "end_line": 864,
-        "code": [
+        "vulnerableLines": "864-864",
+        "vulnerableCode": [
             "uint256 _now = now;"
         ],
-        "reasoning": "Using 'now' to capture the current time can be manipulated by miners, making the contract vulnerable to timestamp-based exploits.",
-        "potential risk": "Attackers could slightly modify the block timestamp to alter the timing of critical contract logic.",
-        "fixed code": "uint256 _now = block.timestamp;"
+        "vulnerabilityReason": "Using 'now' to capture the current time can be manipulated by miners, making the contract vulnerable to timestamp-based exploits.",
+        "potentialSecurityRisk": "Attackers could slightly modify the block timestamp to alter the timing of critical contract logic.",
+        "fixedCode": "uint256 _now = block.timestamp;"
     },
     {
-        "start_line": 886,
-        "end_line": 886,
-        "code": [
+        "vulnerableLines": "886-886",
+        "vulnerableCode": [
             "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
         ],
-        "reasoning": "This condition relies on '_now', which is dependent on block.timestamp and thus susceptible to miner manipulation.",
-        "potential risk": "A malicious miner could adjust timestamps to extend or shorten round durations, potentially influencing game outcomes.",
-        "fixed code": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0)))"
+        "vulnerabilityReason": "This condition relies on '_now', which is dependent on block.timestamp and thus susceptible to miner manipulation.",
+        "potentialSecurityRisk": "A malicious miner could adjust timestamps to extend or shorten round durations, potentially influencing game outcomes.",
+        "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0)))"
     },
     {
-        "start_line": 1056,
-        "end_line": 1056,
-        "code": [
+        "vulnerableLines": "1056-1056",
+        "vulnerableCode": [
             "round_[_rID].strt = now;"
         ],
-        "reasoning": "Using 'now' to initialize a round start time creates a dependency on block timestamps, which are manipulable.",
-        "potential risk": "An attacker could adjust the timestamp to start the round at a more favorable time.",
-        "fixed code": "round_[_rID].strt = block.timestamp;"
+        "vulnerabilityReason": "Using 'now' to initialize a round start time creates a dependency on block timestamps, which are manipulable.",
+        "potentialSecurityRisk": "An attacker could adjust the timestamp to start the round at a more favorable time.",
+        "fixedCode": "round_[_rID].strt = block.timestamp;"
     },
     {
-        "start_line": 1057,
-        "end_line": 1057,
-        "code": [
+        "vulnerableLines": "1057-1057",
+        "vulnerableCode": [
             "round_[_rID].end = now.add(rndInit_).add(rndGap_);"
         ],
-        "reasoning": "Relying on 'now' to calculate the round end time allows an attacker to influence when the round ends.",
-        "potential risk": "Miners could extend or shorten rounds by modifying the block timestamp.",
-        "fixed code": "round_[_rID].end = block.timestamp.add(rndInit_).add(rndGap_);"
+        "vulnerabilityReason": "Relying on 'now' to calculate the round end time allows an attacker to influence when the round ends.",
+        "potentialSecurityRisk": "Miners could extend or shorten rounds by modifying the block timestamp.",
+        "fixedCode": "round_[_rID].end = block.timestamp.add(rndInit_).add(rndGap_);"
     },
     {
-        "start_line": 1113,
-        "end_line": 1113,
-        "code": [
+        "vulnerableLines": "1113-1113",
+        "vulnerableCode": [
             "(block.timestamp).add"
         ],
-        "reasoning": "While 'block.timestamp' is used here, it is part of an equation that is susceptible to timestamp manipulation due to its presence in a pseudo-random number generator.",
-        "potential risk": "Miners could alter block timestamps slightly to predict or manipulate pseudo-random results.",
-        "fixed code": "(block.number).add"
+        "vulnerabilityReason": "While 'block.timestamp' is used here, it is part of an equation that is susceptible to timestamp manipulation due to its presence in a pseudo-random number generator.",
+        "potentialSecurityRisk": "Miners could alter block timestamps slightly to predict or manipulate pseudo-random results.",
+        "fixedCode": "(block.number).add"
     },
     {
-        "start_line": 1155,
-        "end_line": 1155,
-        "code": [
+        "vulnerableLines": "1155-1155",
+        "vulnerableCode": [
             "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add"
         ],
-        "reasoning": "Dividing by 'now' in a randomness function is problematic, as 'now' is manipulable by miners.",
-        "potential risk": "Miners could tweak timestamps to gain predictable outputs from this pseudo-random function.",
-        "fixed code": "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.number)).add"
+        "vulnerabilityReason": "Dividing by 'now' in a randomness function is problematic, as 'now' is manipulable by miners.",
+        "potentialSecurityRisk": "Miners could tweak timestamps to gain predictable outputs from this pseudo-random function.",
+        "fixedCode": "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.number)).add"
     },
     {
-        "start_line": 1320,
-        "end_line": 1320,
-        "code": [
+        "vulnerableLines": "1320-1320",
+        "vulnerableCode": [
             "_eventData_.compressedData = _eventData_.compressedData + (now * 1000000000000000000) + (_team * 100000000000000000000000000000);"
         ],
-        "reasoning": "Multiplying 'now' and including it in compressed data calculations creates a dependency on timestamps, which can be manipulated by miners to alter contract behavior.",
-        "potential risk": "An attacker could slightly manipulate the timestamp to adjust compressed data values, potentially leading to incorrect calculations or unfair advantages.",
-        "fixed code": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000) + (_team * 100000000000000000000000000000);"
+        "vulnerabilityReason": "Multiplying 'now' and including it in compressed data calculations creates a dependency on timestamps, which can be manipulated by miners to alter contract behavior.",
+        "potentialSecurityRisk": "An attacker could slightly manipulate the timestamp to adjust compressed data values, potentially leading to incorrect calculations or unfair advantages.",
+        "fixedCode": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000) + (_team * 100000000000000000000000000000);"
     },
     {
-        "start_line": 1361,
-        "end_line": 1362,
-        "code": [
+        "vulnerableLines": "1361-1362",
+        "vulnerableCode": [
             "round_[1].strt = now + rndExtra_ - rndGap_;",
             "round_[1].end = now + rndInit_ + rndExtra_;"
         ],
-        "reasoning": "Setting initial round start and end times based on 'now' makes the round mechanics vulnerable to timestamp manipulation.",
-        "potential risk": "Attackers could influence game start and end times, potentially causing unfair advantages or unexpected contract behavior.",
-        "fixed code": "round_[1].strt = block.timestamp + rndExtra_ - rndGap_;\nround_[1].end = block.timestamp + rndInit_ + rndExtra_;"
+        "vulnerabilityReason": "Setting initial round start and end times based on 'now' makes the round mechanics vulnerable to timestamp manipulation.",
+        "potentialSecurityRisk": "Attackers could influence game start and end times, potentially causing unfair advantages or unexpected contract behavior.",
+        "fixedCode": "round_[1].strt = block.timestamp + rndExtra_ - rndGap_;\nround_[1].end = block.timestamp + rndInit_ + rndExtra_;"
     }
 ]

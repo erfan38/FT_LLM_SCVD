@@ -5,18 +5,17 @@
         "output": "1. The smart contract contains a reentrancy vulnerability. The contract first transfers Ether using `.transfer()`, which is generally safe due to gas limitations. However, it then immediately follows with an ERC-20 token transfer. If the ERC-20 token has a fallback function that interacts with this contract, it could execute a reentrancy attack before state changes are finalized. To mitigate this, the contract should transfer ERC-20 tokens before sending Ether."
     },
     {
-        "start_line": 426,
-        "end_line": 430,
-        "code": [
+        "vulnerableLines": "426-430",
+        "vulnerableCode": [
             "Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);",
             "}",
             "if(Channels[_lcID].initialDeposit[1] != 0) {",
             "// <yes> <report> REENTRANCY",
             "require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], Channels[_lcID].erc20Balances[0]),\"CreateChannel: token transfer failure\");"
         ],
-        "reasoning": "The contract first transfers Ether using `.transfer()`, which is generally safe due to gas limitations. However, it then immediately follows with an ERC-20 token transfer. If the ERC-20 token has a fallback function that interacts with this contract, it could execute a reentrancy attack before state changes are finalized.",
-        "potential risk": "A malicious ERC-20 token could implement a fallback function that re-enters the contract before the Ether transfer is completed, allowing an attacker to manipulate balances and withdraw more than intended.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract first transfers Ether using `.transfer()`, which is generally safe due to gas limitations. However, it then immediately follows with an ERC-20 token transfer. If the ERC-20 token has a fallback function that interacts with this contract, it could execute a reentrancy attack before state changes are finalized.",
+        "potentialSecurityRisk": "A malicious ERC-20 token could implement a fallback function that re-enters the contract before the Ether transfer is completed, allowing an attacker to manipulate balances and withdraw more than intended.",
+        "fixedCode": [
             "uint256 ethAmount = Channels[_lcID].ethBalances[0];",
             "uint256 erc20Amount = Channels[_lcID].erc20Balances[0];",
             "address party = Channels[_lcID].partyAddresses[0];",

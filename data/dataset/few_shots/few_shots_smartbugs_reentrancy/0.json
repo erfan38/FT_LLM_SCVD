@@ -5,17 +5,16 @@
     "output": "1. The contract contains reentrancy vulnerabilities due to the use of low-level call instructions to transfer Ether without ensuring that the state is updated before the Ether is sent. Specifically, in the function __callback(), lines containing the low-level call instruction are susceptible. If an attacker controls the destination address, they can execute a reentrant call back into the contract before the contract's state is updated to reflect the withdrawal. This allows the attacker to withdraw funds repeatedly without the contract's balance being reduced. Additionally, the function playerWithdrawPendingTransactions() uses a low-level call to send Ether to the player's address but does not check the success of the transaction immediately after updating the player's pending withdrawal balance. This creates another opportunity for a reentrant attack where an attacker could attempt to withdraw funds multiple times before the contract updates its state."
     },
     {
-        "start_line": 268,
-        "end_line": 272,
-        "code": [
+        "vulnerableLines": "268-272",
+        "vulnerableCode": [
             "            if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
             "                LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof);",
             "                playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);",
             "            }"
         ],
-        "reasoning": "The contract uses `.send()`, which is an external call that does not impose a gas limit and does not properly check for execution success. Additionally, if reentrancy occurs before updating the balance, an attacker could repeatedly withdraw funds before the contract registers the deduction.",
-        "potential risk": "A malicious contract could re-enter before the balance is updated, allowing the attacker to withdraw multiple times before the contract updates the withdrawal record. This can lead to draining the contract's funds entirely.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `.send()`, which is an external call that does not impose a gas limit and does not properly check for execution success. Additionally, if reentrancy occurs before updating the balance, an attacker could repeatedly withdraw funds before the contract registers the deduction.",
+        "potentialSecurityRisk": "A malicious contract could re-enter before the balance is updated, allowing the attacker to withdraw multiple times before the contract updates the withdrawal record. This can lead to draining the contract's funds entirely.",
+        "fixedCode": [
             "require(playerTempBetValue[myid] <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = playerTempAddress[myid].call{value: playerTempBetValue[myid]}(\"\");",
             "require(success, \"Transfer failed\");",
@@ -23,17 +22,16 @@
         ]
     },
     {
-        "start_line": 304,
-        "end_line": 308,
-        "code": [
+        "vulnerableLines": "304-308",
+        "vulnerableCode": [
             "            if(!playerTempAddress[myid].send(playerTempReward[myid])){",
             "                LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 2, proof);",
             "                playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);",
             "            }"
         ],
-        "reasoning": "The contract uses `.send()`, which does not revert on failure and does not prevent reentrancy. Additionally, it updates the withdrawal record *after* sending funds, meaning an attacker could trigger multiple reentrant calls before the balance is correctly updated.",
-        "potential risk": "A malicious contract could call back into this function before the balance update, allowing the attacker to repeatedly withdraw rewards before the contract registers the deduction. This could result in draining the contract's funds entirely.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `.send()`, which does not revert on failure and does not prevent reentrancy. Additionally, it updates the withdrawal record *after* sending funds, meaning an attacker could trigger multiple reentrant calls before the balance is correctly updated.",
+        "potentialSecurityRisk": "A malicious contract could call back into this function before the balance update, allowing the attacker to repeatedly withdraw rewards before the contract registers the deduction. This could result in draining the contract's funds entirely.",
+        "fixedCode": [
             "require(playerTempReward[myid] <= address(this).balance, \"Insufficient contract balance\");",
             "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);",
             "(bool success, ) = playerTempAddress[myid].call{value: playerTempReward[myid]}(\"\");",
@@ -42,28 +40,26 @@
         ]
     },
     {
-        "start_line": 358,
-        "end_line": 358,
-        "code": [
+        "vulnerableLines": "358-358",
+        "vulnerableCode": [
             "        if (msg.sender.call.value(withdrawAmount)()) {"
         ],
-        "reasoning": "The contract uses `call.value()` without proper checks and updates the balance after sending funds. This allows reentrancy, where an attacker could re-enter the contract before the balance is updated.",
-        "potential risk": "An attacker could repeatedly call this function within a fallback function, withdrawing funds multiple times before the contract registers the deduction, eventually draining the entire contract balance.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `call.value()` without proper checks and updates the balance after sending funds. This allows reentrancy, where an attacker could re-enter the contract before the balance is updated.",
+        "potentialSecurityRisk": "An attacker could repeatedly call this function within a fallback function, withdrawing funds multiple times before the contract registers the deduction, eventually draining the entire contract balance.",
+        "fixedCode": [
             "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance\");",
             "msg.sender.transfer(withdrawAmount);",
             "// Using `transfer` instead of `call.value` to prevent reentrancy"
         ]
     },
     {
-        "start_line": 465,
-        "end_line": 465,
-        "code": [
+        "vulnerableLines": "465-465",
+        "vulnerableCode": [
             "        if(!sendTo.send(originalPlayerBetValue)) throw;"
         ],
-        "reasoning": "The contract uses `.send()`, which does not revert on failure and does not properly prevent reentrancy. If the receiver is a malicious contract, it could trigger reentrant calls before the balance is updated.",
-        "potential risk": "An attacker could repeatedly withdraw funds by making reentrant calls before the contract registers the deduction, leading to a loss of funds.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `.send()`, which does not revert on failure and does not properly prevent reentrancy. If the receiver is a malicious contract, it could trigger reentrant calls before the balance is updated.",
+        "potentialSecurityRisk": "An attacker could repeatedly withdraw funds by making reentrant calls before the contract registers the deduction, leading to a loss of funds.",
+        "fixedCode": [
             "require(originalPlayerBetValue <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = sendTo.call{value: originalPlayerBetValue}(\"\");",
             "require(success, \"Transfer failed\");",
@@ -71,14 +67,13 @@
         ]
     },
     {
-        "start_line": 447,
-        "end_line": 447,
-        "code": [
+        "vulnerableLines": "447-447",
+        "vulnerableCode": [
             "        if(!sendTo.send(amount)) throw;"
         ],
-        "reasoning": "The contract uses `.send()`, which does not revert on failure, and there is no proper balance update before transferring funds. This allows a reentrancy attack if the receiving contract is malicious.",
-        "potential risk": "A malicious contract could repeatedly invoke this function before the balance updates, allowing the attacker to withdraw more funds than intended and draining the contract balance.",
-        "fixed code": [
+        "vulnerabilityReason": "The contract uses `.send()`, which does not revert on failure, and there is no proper balance update before transferring funds. This allows a reentrancy attack if the receiving contract is malicious.",
+        "potentialSecurityRisk": "A malicious contract could repeatedly invoke this function before the balance updates, allowing the attacker to withdraw more funds than intended and draining the contract balance.",
+        "fixedCode": [
             "require(amount <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = sendTo.call{value: amount}(\"\");",
             "require(success, \"Transfer failed\");",
