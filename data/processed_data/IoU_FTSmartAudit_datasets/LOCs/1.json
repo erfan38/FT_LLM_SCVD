@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "        count += input;"
+        ]
+    },
+    {
+        "start_line": 15,
+        "end_line": 15,
+        "code": [
+            "        count *= input;"
+        ]
+    },
+    {
+        "start_line": 21,
+        "end_line": 21,
+        "code": [
+            "        count -= input;"
+        ]
+    },
+    {
+        "start_line": 27,
+        "end_line": 27,
+        "code": [
+            "        uint res = count + input;"
+        ]
+    },
+    {
+        "start_line": 33,
+        "end_line": 33,
+        "code": [
+            "        uint res = count * input;"
+        ]
+    },
+    {
+        "start_line": 39,
+        "end_line": 39,
+        "code": [
+            "       \tuint res = count - input;"
+        ]
+    }
+]

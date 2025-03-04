@@ -1,9 +1,13 @@
 [
     {
-        "start_line": 24,
-        "end_line": 24,
+        "start_line": 49,
+        "end_line": 49,
         "code": [
-            "         if( ! (msg.sender.call.value(userBalance[msg.sender])() ) ){"
+            "            if(msg.sender.call.value(_am)())",
+            "{",
+                "balances[msg.sender]-=_am;",
+                "Log.AddMessage(msg.sender,_am,\"Collect\");",
+            "}"
         ]
     }
 ]

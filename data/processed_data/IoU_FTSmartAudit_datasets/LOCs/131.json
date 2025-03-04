@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 16,
-        "end_line": 16,
-        "code": [
-            "        map[k] -= v;"
-        ]
-    }
-]

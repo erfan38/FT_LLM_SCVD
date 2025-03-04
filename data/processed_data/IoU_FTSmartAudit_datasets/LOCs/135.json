@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 25,
-        "end_line": 25,
-        "code": [
-            "        count -= input;"
-        ]
-    }
-]

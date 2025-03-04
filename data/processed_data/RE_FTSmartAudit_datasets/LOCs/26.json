@@ -1,9 +1,9 @@
 [
     {
-        "start_line": 54,
-        "end_line": 54,
+        "start_line": 15,
+        "end_line": 15,
         "code": [
-            "            if(msg.sender.call.value(_am)())"
+            "\t\tif (!(msg.sender.call.value(amountToWithdraw)())) { throw; }"
         ]
     }
 ]

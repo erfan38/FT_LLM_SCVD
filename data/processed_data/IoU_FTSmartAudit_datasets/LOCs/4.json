@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 12,
+        "end_line": 12,
+        "code": [
+            "        balanceOf[_to] += _value;"
+        ]
+    }
+]

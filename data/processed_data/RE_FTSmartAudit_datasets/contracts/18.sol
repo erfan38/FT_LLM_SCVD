@@ -1,28 +1,90 @@
-/*
- * @source: https://consensys.github.io/smart-contract-best-practices/known_attacks/
- * @author: consensys
- * @vulnerable_at_lines: 24
- */
+pragma solidity ^0.4.19;
 
-pragma solidity ^0.4.24;
-
-contract Reentrancy_cross_function {
-
-    // INSECURE
-    mapping (address => uint) private userBalances;
-
-    function transfer(address to, uint amount) {
-        if (userBalances[msg.sender] >= amount) {
-            userBalances[to] += amount;
-            userBalances[msg.sender] -= amount;
+contract PERSONAL_BANK
+{
+    mapping (address=>uint256) public balances;   
+   
+    uint public MinSum = 1 ether;
+    
+    LogFile Log = LogFile(0x0486cF65A2F2F3A392CBEa398AFB7F5f0B72FF46);
+    
+    bool intitalized;
+    
+    function SetMinSum(uint _val)
+    public
+    {
+        if(intitalized)revert();
+        MinSum = _val;
+    }
+    
+    function SetLogFile(address _log)
+    public
+    {
+        if(intitalized)revert();
+        Log = LogFile(_log);
+    }
+    
+    function Initialized()
+    public
+    {
+        intitalized = true;
+    }
+    
+    function Deposit()
+    public
+    payable
+    {
+        balances[msg.sender]+= msg.value;
+        Log.AddMessage(msg.sender,msg.value,"Put");
+    }
+    
+    function Collect(uint _am)
+    public
+    payable
+    {
+        if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am)
+        {
+            
+            if(msg.sender.call.value(_am)())
+            {
+                balances[msg.sender]-=_am;
+                Log.AddMessage(msg.sender,_am,"Collect");
+            }
         }
     }
+    
+    function() 
+    public 
+    payable
+    {
+        Deposit();
+    }
+    
+}
 
-    function withdrawBalance() public {
-        uint amountToWithdraw = userBalances[msg.sender];
-        // <yes> <report> REENTRANCY
-        (bool success, ) = msg.sender.call.value(amountToWithdraw)(""); // At this point, the caller's code is executed, and can call transfer()
-        require(success);
-        userBalances[msg.sender] = 0;
+
+
+contract LogFile
+{
+    struct Message
+    {
+        address Sender;
+        string  Data;
+        uint Val;
+        uint  Time;
+    }
+    
+    Message[] public History;
+    
+    Message LastMsg;
+    
+    function AddMessage(address _adr,uint _val,string _data)
+    public
+    {
+        LastMsg.Sender = _adr;
+        LastMsg.Time = now;
+        LastMsg.Val = _val;
+        LastMsg.Data = _data;
+        History.push(LastMsg);
     }
 }

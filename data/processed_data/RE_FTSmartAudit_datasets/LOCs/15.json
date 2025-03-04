@@ -1,9 +1,16 @@
 [
     {
-        "start_line": 18,
-        "end_line": 18,
+        "start_line": 405,
+        "end_line": 405,
         "code": [
-            "            bool callResult = msg.sender.call.value(oCredit)();"
+            "     Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);"
+        ]
+    },
+    {
+        "start_line": 409,
+        "end_line": 409,
+        "code": [
+            "             require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], Channels[_lcID].erc20Balances[0]),\"CreateChannel: token transfer failure\");"
         ]
     }
 ]

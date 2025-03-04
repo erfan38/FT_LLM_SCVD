@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 19,
-        "end_line": 19,
-        "code": [
-            "      bool res = msg.sender.call.value(amount)();"
-        ]
-    }
-]

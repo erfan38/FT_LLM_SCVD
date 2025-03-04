@@ -1,21 +1,19 @@
 [
     {
-        "start_line": 43,
-        "end_line": 43,
+        "start_line": 36,
+        "end_line": 36,
         "code": [
             "        var random = uint(sha3(block.timestamp)) % 2;"
         ]
     },
     {
-        "start_line": 48,
-        "end_line": 52,
+        "start_line": 42,
+        "end_line": 45,
         "code": [
-            "        if (random == 0) {",
             "            bank.transfer(FEE_AMOUNT);",
-            "            msg.sender.transfer(pot - FEE_AMOUNT);",
-            "            pot = 0;",
-            "        }"
+            "",
+            "            ",
+            "            msg.sender.transfer(pot - FEE_AMOUNT);"
         ]
-
     }
 ]

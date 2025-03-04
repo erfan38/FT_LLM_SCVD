@@ -1,9 +1,9 @@
 [
     {
-        "start_line": 27,
-        "end_line": 27,
+        "start_line": 20,
+        "end_line": 20,
         "code": [
-            "    lastInvestmentTimestamp = block.timestamp;"
+            "lastInvestmentTimestamp = block.timestamp;"
         ]
     }
 ]

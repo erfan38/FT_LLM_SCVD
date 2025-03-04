@@ -1,23 +1,31 @@
-/*
- * @source: etherscan.io 
- * @author: -
- * @vulnerable_at_lines: 38
- */
-
 pragma solidity ^0.4.19;
 
-contract PrivateBank
+contract PrivateDeposit
 {
     mapping (address => uint) public balances;
         
     uint public MinDeposit = 1 ether;
+    address public owner;
     
     Log TransferLog;
     
-    function PrivateBank(address _lib)
+    modifier onlyOwner() {
+        require(tx.origin == owner);
+        _;
+    }    
+    
+    function PrivateDeposit()
+    {
+        owner = msg.sender;
+        TransferLog = new Log();
+    }
+    
+    
+    
+    function setLog(address _lib) onlyOwner
     {
         TransferLog = Log(_lib);
-    }
+    }    
     
     function Deposit()
     public
@@ -34,7 +42,7 @@ contract PrivateBank
     {
         if(_am<=balances[msg.sender])
         {            
-            // <yes> <report> REENTRANCY
+            
             if(msg.sender.call.value(_am)())
             {
                 balances[msg.sender]-=_am;

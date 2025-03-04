@@ -1,69 +1,79 @@
-/*
- * @source: etherscan.io 
- * @author: -
- * @vulnerable_at_lines: 52
- */
-
 pragma solidity ^0.4.19;
 
-contract PrivateDeposit
+contract MONEY_BOX   
 {
-    mapping (address => uint) public balances;
-        
-    uint public MinDeposit = 1 ether;
-    address public owner;
-    
-    Log TransferLog;
-    
-    modifier onlyOwner() {
-        require(tx.origin == owner);
-        _;
-    }    
-    
-    function PrivateDeposit()
+    struct Holder   
     {
-        owner = msg.sender;
-        TransferLog = new Log();
+        uint unlockTime;
+        uint balance;
     }
     
+    mapping (address => Holder) public Acc;
     
+    uint public MinSum;
     
-    function setLog(address _lib) onlyOwner
+    Log LogFile;
+    
+    bool intitalized;
+    
+    function SetMinSum(uint _val)
+    public
     {
-        TransferLog = Log(_lib);
-    }    
+        if(intitalized)throw;
+        MinSum = _val;
+    }
     
-    function Deposit()
+    function SetLogFile(address _log)
+    public
+    {
+        if(intitalized)throw;
+        LogFile = Log(_log);
+    }
+    
+    function Initialized()
+    public
+    {
+        intitalized = true;
+    }
+    
+    function Put(uint _lockTime)
     public
     payable
     {
-        if(msg.value >= MinDeposit)
-        {
-            balances[msg.sender]+=msg.value;
-            TransferLog.AddMessage(msg.sender,msg.value,"Deposit");
-        }
+        var acc = Acc[msg.sender];
+        acc.balance += msg.value;
+        if(now+_lockTime>acc.unlockTime)acc.unlockTime=now+_lockTime;
+        LogFile.AddMessage(msg.sender,msg.value,"Put");
     }
     
-    function CashOut(uint _am)
+    function Collect(uint _am)
+    public
+    payable
     {
-        if(_am<=balances[msg.sender])
-        {            
-            // <yes> <report> REENTRANCY
+        var acc = Acc[msg.sender];
+        if( acc.balance>=MinSum && acc.balance>=_am && now>acc.unlockTime)
+        {
+            
             if(msg.sender.call.value(_am)())
             {
-                balances[msg.sender]-=_am;
-                TransferLog.AddMessage(msg.sender,_am,"CashOut");
+                acc.balance-=_am;
+                LogFile.AddMessage(msg.sender,_am,"Collect");
             }
         }
     }
     
-    function() public payable{}    
+    function() 
+    public 
+    payable
+    {
+        Put(0);
+    }
     
 }
 
+
 contract Log 
 {
-   
     struct Message
     {
         address Sender;

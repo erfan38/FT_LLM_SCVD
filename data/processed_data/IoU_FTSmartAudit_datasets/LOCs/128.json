@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 17,
-        "end_line": 17,
-        "code": [
-            "        uint res = count - input;"
-        ]
-    }
-]

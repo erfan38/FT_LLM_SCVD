@@ -1,9 +1,9 @@
 [
     {
-        "start_line": 63,
-        "end_line": 63,
+        "start_line": 11,
+        "end_line": 11,
         "code": [
-            "            if(msg.sender.call.value(_am)())"
+            "        (bool success, ) = msg.sender.call.value(amountToWithdraw)(\"\"); "
         ]
     }
 ]
