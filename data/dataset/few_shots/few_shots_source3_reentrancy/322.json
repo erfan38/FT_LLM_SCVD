@@ -8,6 +8,7 @@
         "vulnerableLines": "54-56",
         "vulnerableCode": [
             "if(msg.sender.call.value(_am)())",
+            "{",
             "acc.balance-=_am;"
         ],
         "vulnerabilityReason": "The contract sends Ether to `msg.sender` using `call.value(_am)()`, which does not impose a gas limit. Additionally, the balance is updated *after* the transfer. This allows a malicious contract to repeatedly re-enter the function before the balance deduction, enabling an attacker to drain funds from the contract.",
@@ -16,8 +17,7 @@
             "require(acc.balance >= _am, \"Insufficient balance\");",
             "acc.balance -= _am;",
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

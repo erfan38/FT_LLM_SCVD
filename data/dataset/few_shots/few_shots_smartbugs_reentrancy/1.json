@@ -16,8 +16,7 @@
             "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance\");",
             "playerPendingWithdrawals[msg.sender] = 0;",  
             "(bool success, ) = msg.sender.call{value: withdrawAmount}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -33,8 +32,7 @@
             "require(playerTempBetValue[myid] <= address(this).balance, \"Insufficient contract balance\");",
             "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);",
             "(bool success, ) = playerTempAddress[myid].call{value: playerTempBetValue[myid]}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -49,8 +47,7 @@
             "require(1 <= address(this).balance, \"Insufficient contract balance\");",
             "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], 1);",
             "(bool success, ) = playerTempAddress[myid].call{value: 1}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -63,8 +60,7 @@
         "fixedCode": [
             "require(originalPlayerBetValue <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = sendTo.call{value: originalPlayerBetValue}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

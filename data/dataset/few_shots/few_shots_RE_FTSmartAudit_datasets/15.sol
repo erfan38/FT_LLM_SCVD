@@ -1,54 +1,38 @@
-/*
- * @source: https://github.com/trailofbits/not-so-smart-contracts/blob/master/reentrancy/SpankChain_source_code/SpankChain_Payment.sol
- * @author: -
- * @vulnerable_at_lines: 426,430
- */
-
- // https://etherscan.io/address/0xf91546835f756da0c10cfa0cda95b15577b84aa7#code
-
- pragma solidity ^0.4.23;
- // produced by the Solididy File Flattener (c) David Appleton 2018
- // contact : dave@akomba.com
- // released under Apache 2.0 licence
+pragma solidity ^0.4.23;
+ 
+ 
+ 
  contract Token {
-     /* This is a slight change to the ERC20 base standard.
-     function totalSupply() constant returns (uint256 supply);
-     is replaced with:
-     uint256 public totalSupply;
-     This automatically creates a getter function for the totalSupply.
-     This is moved to the base contract since public getter functions are not
-     currently recognised as an implementation of the matching abstract
-     function by the compiler.
-     */
-     /// total amount of tokens
+     
+     
      uint256 public totalSupply;
 
-     /// @param _owner The address from which the balance will be retrieved
-     /// @return The balance
+     
+     
      function balanceOf(address _owner) public constant returns (uint256 balance);
 
-     /// @notice send `_value` token to `_to` from `msg.sender`
-     /// @param _to The address of the recipient
-     /// @param _value The amount of token to be transferred
-     /// @return Whether the transfer was successful or not
+     
+     
+     
+     
      function transfer(address _to, uint256 _value) public returns (bool success);
 
-     /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`
-     /// @param _from The address of the sender
-     /// @param _to The address of the recipient
-     /// @param _value The amount of token to be transferred
-     /// @return Whether the transfer was successful or not
+     
+     
+     
+     
+     
      function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
 
-     /// @notice `msg.sender` approves `_spender` to spend `_value` tokens
-     /// @param _spender The address of the account able to transfer the tokens
-     /// @param _value The amount of tokens to be approved for transfer
-     /// @return Whether the approval was successful or not
+     
+     
+     
+     
      function approve(address _spender, uint256 _value) public returns (bool success);
 
-     /// @param _owner The address of the account owning tokens
-     /// @param _spender The address of the account able to transfer the tokens
-     /// @return Amount of remaining tokens allowed to spent
+     
+     
+     
      function allowance(address _owner, address _spender) public constant returns (uint256 remaining);
 
      event Transfer(address indexed _from, address indexed _to, uint256 _value);
@@ -57,12 +41,12 @@
 
  library ECTools {
 
-     // @dev Recovers the address which has signed a message
-     // @thanks https://gist.github.com/axic/5b33912c6f61ae6fd96d6c4a47afde6d
+     
+     
      function recoverSigner(bytes32 _hashedMsg, string _sig) public pure returns (address) {
          require(_hashedMsg != 0x00);
 
-         // need this for test RPC
+         
          bytes memory prefix = "\x19Ethereum Signed Message:\n32";
          bytes32 prefixedHash = keccak256(abi.encodePacked(prefix, _hashedMsg));
 
@@ -87,14 +71,14 @@
          return ecrecover(prefixedHash, v, r, s);
      }
 
-     // @dev Verifies if the message is signed by an address
+     
      function isSignedBy(bytes32 _hashedMsg, string _sig, address _addr) public pure returns (bool) {
          require(_addr != 0x0);
 
          return _addr == recoverSigner(_hashedMsg, _sig);
      }
 
-     // @dev Converts an hexstring to bytes
+     
      function hexstrToBytes(string _hexstr) public pure returns (bytes) {
          uint len = bytes(_hexstr).length;
          require(len % 2 == 0);
@@ -112,10 +96,10 @@
          return bstr;
      }
 
-     // @dev Parses a hexchar, like 'a', and returns its hex value, in this case 10
+     
      function parseInt16Char(string _char) public pure returns (uint) {
          bytes memory bresult = bytes(_char);
-         // bool decimals = false;
+         
          if ((bresult[0] >= 48) && (bresult[0] <= 57)) {
              return uint(bresult[0]) - 48;
          } else if ((bresult[0] >= 65) && (bresult[0] <= 70)) {
@@ -127,15 +111,15 @@
          }
      }
 
-     // @dev Converts a uint to a bytes32
-     // @thanks https://ethereum.stackexchange.com/questions/4170/how-to-convert-a-uint-to-bytes-in-solidity
+     
+     
      function uintToBytes32(uint _uint) public pure returns (bytes b) {
          b = new bytes(32);
          assembly {mstore(add(b, 32), _uint)}
      }
 
-     // @dev Hashes the signed message
-     // @ref https://github.com/ethereum/go-ethereum/issues/3731#issuecomment-293866868
+     
+     
      function toEthereumSignedMessage(string _msg) public pure returns (bytes32) {
          uint len = bytes(_msg).length;
          require(len > 0);
@@ -143,7 +127,7 @@
          return keccak256(abi.encodePacked(prefix, uintToString(len), _msg));
      }
 
-     // @dev Converts a uint in a string
+     
      function uintToString(uint _uint) public pure returns (string str) {
          uint len = 0;
          uint m = _uint + 0;
@@ -162,8 +146,8 @@
      }
 
 
-     // @dev extract a substring
-     // @thanks https://ethereum.stackexchange.com/questions/31457/substring-in-solidity
+     
+     
      function substring(string _str, uint _startIndex, uint _endIndex) public pure returns (string) {
          bytes memory strBytes = bytes(_str);
          require(_startIndex <= _endIndex);
@@ -180,10 +164,10 @@
  contract StandardToken is Token {
 
      function transfer(address _to, uint256 _value) public returns (bool success) {
-         //Default assumes totalSupply can't be over max (2^256 - 1).
-         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
-         //Replace the if with this one instead.
-         //require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);
+         
+         
+         
+         
          require(balances[msg.sender] >= _value);
          balances[msg.sender] -= _value;
          balances[_to] += _value;
@@ -192,8 +176,8 @@
      }
 
      function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
-         //same as above. Replace this line with the following if you want to protect against wrapping uints.
-         //require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);
+         
+         
          require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value);
          balances[_to] += _value;
          balances[_from] -= _value;
@@ -222,18 +206,13 @@
 
  contract HumanStandardToken is StandardToken {
 
-     /* Public variables of the token */
+     
 
-     /*
-     NOTE:
-     The following variables are OPTIONAL vanities. One does not have to include them.
-     They allow one to customise the token contract & in no way influences the core functionality.
-     Some wallets/interfaces might not even bother to look at this information.
-     */
-     string public name;                   //fancy name: eg Simon Bucks
-     uint8 public decimals;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
-     string public symbol;                 //An identifier: eg SBX
-     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
+     
+     string public name;                   
+     uint8 public decimals;                
+     string public symbol;                 
+     string public version = 'H0.1';       
 
      constructor(
          uint256 _initialAmount,
@@ -241,21 +220,21 @@
          uint8 _decimalUnits,
          string _tokenSymbol
          ) public {
-         balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens
-         totalSupply = _initialAmount;                        // Update total supply
-         name = _tokenName;                                   // Set the name for display purposes
-         decimals = _decimalUnits;                            // Amount of decimals for display purposes
-         symbol = _tokenSymbol;                               // Set the symbol for display purposes
+         balances[msg.sender] = _initialAmount;               
+         totalSupply = _initialAmount;                        
+         name = _tokenName;                                   
+         decimals = _decimalUnits;                            
+         symbol = _tokenSymbol;                               
      }
 
-     /* Approves and then calls the receiving contract */
+     
      function approveAndCall(address _spender, uint256 _value, bytes _extraData) public returns (bool success) {
          allowed[msg.sender][_spender] = _value;
          emit Approval(msg.sender, _spender, _value);
 
-         //call the receiveApproval function on the contract you want to be notified. This crafts the function signature manually so one doesn't have to include a contract in here just for this.
-         //receiveApproval(address _from, uint256 _value, address _tokenContract, bytes _extraData)
-         //it is assumed that when does this that the call *should* succeed, otherwise one would use vanilla approve instead.
+         
+         
+         
          require(_spender.call(bytes4(bytes32(keccak256("receiveApproval(address,uint256,address,bytes)"))), msg.sender, _value, this, _extraData));
          return true;
      }
@@ -341,33 +320,33 @@
      );
 
      struct Channel {
-         //TODO: figure out if it's better just to split arrays by balances/deposits instead of eth/erc20
-         address[2] partyAddresses; // 0: partyA 1: partyI
-         uint256[4] ethBalances; // 0: balanceA 1:balanceI 2:depositedA 3:depositedI
-         uint256[4] erc20Balances; // 0: balanceA 1:balanceI 2:depositedA 3:depositedI
-         uint256[2] initialDeposit; // 0: eth 1: tokens
+         
+         address[2] partyAddresses; 
+         uint256[4] ethBalances; 
+         uint256[4] erc20Balances; 
+         uint256[2] initialDeposit; 
          uint256 sequence;
          uint256 confirmTime;
          bytes32 VCrootHash;
          uint256 LCopenTimeout;
-         uint256 updateLCtimeout; // when update LC times out
-         bool isOpen; // true when both parties have joined
+         uint256 updateLCtimeout; 
+         bool isOpen; 
          bool isUpdateLCSettling;
          uint256 numOpenVC;
          HumanStandardToken token;
      }
 
-     // virtual-channel state
+     
      struct VirtualChannel {
          bool isClose;
          bool isInSettlementState;
          uint256 sequence;
-         address challenger; // Initiator of challenge
-         uint256 updateVCtimeout; // when update VC times out
-         // channel state
-         address partyA; // VC participant A
-         address partyB; // VC participant B
-         address partyI; // LC hub
+         address challenger; 
+         uint256 updateVCtimeout; 
+         
+         address partyA; 
+         address partyB; 
+         address partyI; 
          uint256[2] ethBalances;
          uint256[2] erc20Balances;
          uint256[2] bond;
@@ -382,7 +361,7 @@
          address _partyI,
          uint256 _confirmTime,
          address _token,
-         uint256[2] _balances // [eth, token]
+         uint256[2] _balances 
      )
          public
          payable
@@ -390,10 +369,10 @@
          require(Channels[_lcID].partyAddresses[0] == address(0), "Channel has already been created.");
          require(_partyI != 0x0, "No partyI address provided to LC creation");
          require(_balances[0] >= 0 && _balances[1] >= 0, "Balances cannot be negative");
-         // Set initial ledger channel state
-         // Alice must execute this and we assume the initial state
-         // to be signed from this requirement
-         // Alternative is to check a sig as in joinChannel
+         
+         
+         
+         
          Channels[_lcID].partyAddresses[0] = msg.sender;
          Channels[_lcID].partyAddresses[1] = _partyI;
 
@@ -409,8 +388,8 @@
 
          Channels[_lcID].sequence = 0;
          Channels[_lcID].confirmTime = _confirmTime;
-         // is close flag, lc state sequence, number open vc, vc root hash, partyA...
-         //Channels[_lcID].stateHash = keccak256(uint256(0), uint256(0), uint256(0), bytes32(0x0), bytes32(msg.sender), bytes32(_partyI), balanceA, balanceI);
+         
+         
          Channels[_lcID].LCopenTimeout = now + _confirmTime;
          Channels[_lcID].initialDeposit = _balances;
 
@@ -422,22 +401,22 @@
          require(now > Channels[_lcID].LCopenTimeout);
 
          if(Channels[_lcID].initialDeposit[0] != 0) {
-             // <yes> <report> REENTRANCY
+             
              Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);
          }
          if(Channels[_lcID].initialDeposit[1] != 0) {
-             // <yes> <report> REENTRANCY
+             
              require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], Channels[_lcID].erc20Balances[0]),"CreateChannel: token transfer failure");
          }
 
          emit DidLCClose(_lcID, 0, Channels[_lcID].ethBalances[0], Channels[_lcID].erc20Balances[0], 0, 0);
 
-         // only safe to delete since no action was taken on this channel
+         
          delete Channels[_lcID];
      }
 
      function joinChannel(bytes32 _lcID, uint256[2] _balances) public payable {
-         // require the channel is not open yet
+         
          require(Channels[_lcID].isOpen == false);
          require(msg.sender == Channels[_lcID].partyAddresses[1]);
 
@@ -452,7 +431,7 @@
 
          Channels[_lcID].initialDeposit[0]+=_balances[0];
          Channels[_lcID].initialDeposit[1]+=_balances[1];
-         // no longer allow joining functions to be called
+         
          Channels[_lcID].isOpen = true;
          numChannels++;
 
@@ -460,13 +439,13 @@
      }
 
 
-     // additive updates of monetary state
-     // TODO check this for attack vectors
+     
+     
      function deposit(bytes32 _lcID, address recipient, uint256 _balance, bool isToken) public payable {
          require(Channels[_lcID].isOpen == true, "Tried adding funds to a closed channel");
          require(recipient == Channels[_lcID].partyAddresses[0] || recipient == Channels[_lcID].partyAddresses[1]);
 
-         //if(Channels[_lcID].token)
+         
 
          if (Channels[_lcID].partyAddresses[0] == recipient) {
              if(isToken) {
@@ -491,18 +470,18 @@
          emit DidLCDeposit(_lcID, recipient, _balance, isToken);
      }
 
-     // TODO: Check there are no open virtual channels, the client should have cought this before signing a close LC state update
+     
      function consensusCloseChannel(
          bytes32 _lcID,
          uint256 _sequence,
-         uint256[4] _balances, // 0: ethBalanceA 1:ethBalanceI 2:tokenBalanceA 3:tokenBalanceI
+         uint256[4] _balances, 
          string _sigA,
          string _sigI
      )
          public
      {
-         // assume num open vc is 0 and root hash is 0x0
-         //require(Channels[_lcID].sequence < _sequence);
+         
+         
          require(Channels[_lcID].isOpen == true);
          uint256 totalEthDeposit = Channels[_lcID].initialDeposit[0] + Channels[_lcID].ethBalances[2] + Channels[_lcID].ethBalances[3];
          uint256 totalTokenDeposit = Channels[_lcID].initialDeposit[1] + Channels[_lcID].erc20Balances[2] + Channels[_lcID].erc20Balances[3];
@@ -545,11 +524,11 @@
          emit DidLCClose(_lcID, _sequence, _balances[0], _balances[1], _balances[2], _balances[3]);
      }
 
-     // Byzantine functions
+     
 
      function updateLCstate(
          bytes32 _lcID,
-         uint256[6] updateParams, // [sequence, numOpenVc, ethbalanceA, ethbalanceI, tokenbalanceA, tokenbalanceI]
+         uint256[6] updateParams, 
          bytes32 _VCroot,
          string _sigA,
          string _sigI
@@ -558,7 +537,7 @@
      {
          Channel storage channel = Channels[_lcID];
          require(channel.isOpen);
-         require(channel.sequence < updateParams[0]); // do same as vc sequence check
+         require(channel.sequence < updateParams[0]); 
          require(channel.ethBalances[0] + channel.ethBalances[1] >= updateParams[2] + updateParams[3]);
          require(channel.erc20Balances[0] + channel.erc20Balances[1] >= updateParams[4] + updateParams[5]);
 
@@ -585,7 +564,7 @@
          require(channel.partyAddresses[0] == ECTools.recoverSigner(_state, _sigA));
          require(channel.partyAddresses[1] == ECTools.recoverSigner(_state, _sigI));
 
-         // update LC state
+         
          channel.sequence = updateParams[0];
          channel.numOpenVC = updateParams[1];
          channel.ethBalances[0] = updateParams[2];
@@ -596,7 +575,7 @@
          channel.isUpdateLCSettling = true;
          channel.updateLCtimeout = now + channel.confirmTime;
 
-         // make settlement flag
+         
 
          emit DidLCUpdateState (
              _lcID,
@@ -611,7 +590,7 @@
          );
      }
 
-     // supply initial state of VC to "prime" the force push game
+     
      function initVCstate(
          bytes32 _lcID,
          bytes32 _vcID,
@@ -619,31 +598,31 @@
          address _partyA,
          address _partyB,
          uint256[2] _bond,
-         uint256[4] _balances, // 0: ethBalanceA 1:ethBalanceI 2:tokenBalanceA 3:tokenBalanceI
+         uint256[4] _balances, 
          string sigA
      )
          public
      {
          require(Channels[_lcID].isOpen, "LC is closed.");
-         // sub-channel must be open
+         
          require(!virtualChannels[_vcID].isClose, "VC is closed.");
-         // Check time has passed on updateLCtimeout and has not passed the time to store a vc state
+         
          require(Channels[_lcID].updateLCtimeout < now, "LC timeout not over.");
-         // prevent rentry of initializing vc state
+         
          require(virtualChannels[_vcID].updateVCtimeout == 0);
-         // partyB is now Ingrid
+         
          bytes32 _initState = keccak256(
              abi.encodePacked(_vcID, uint256(0), _partyA, _partyB, _bond[0], _bond[1], _balances[0], _balances[1], _balances[2], _balances[3])
          );
 
-         // Make sure Alice has signed initial vc state (A/B in oldState)
+         
          require(_partyA == ECTools.recoverSigner(_initState, sigA));
 
-         // Check the oldState is in the root hash
+         
          require(_isContained(_initState, _proof, Channels[_lcID].VCrootHash) == true);
 
-         virtualChannels[_vcID].partyA = _partyA; // VC participant A
-         virtualChannels[_vcID].partyB = _partyB; // VC participant B
+         virtualChannels[_vcID].partyA = _partyA; 
+         virtualChannels[_vcID].partyB = _partyB; 
          virtualChannels[_vcID].sequence = uint256(0);
          virtualChannels[_vcID].ethBalances[0] = _balances[0];
          virtualChannels[_vcID].ethBalances[1] = _balances[1];
@@ -656,22 +635,22 @@
          emit DidVCInit(_lcID, _vcID, _proof, uint256(0), _partyA, _partyB, _balances[0], _balances[1]);
      }
 
-     //TODO: verify state transition since the hub did not agree to this state
-     // make sure the A/B balances are not beyond ingrids bonds
-     // Params: vc init state, vc final balance, vcID
+     
+     
+     
      function settleVC(
          bytes32 _lcID,
          bytes32 _vcID,
          uint256 updateSeq,
          address _partyA,
          address _partyB,
-         uint256[4] updateBal, // [ethupdateBalA, ethupdateBalB, tokenupdateBalA, tokenupdateBalB]
+         uint256[4] updateBal, 
          string sigA
      )
          public
      {
          require(Channels[_lcID].isOpen, "LC is closed.");
-         // sub-channel must be open
+         
          require(!virtualChannels[_vcID].isClose, "VC is closed.");
          require(virtualChannels[_vcID].sequence < updateSeq, "VC sequence is higher than update sequence.");
          require(
@@ -682,11 +661,11 @@
              virtualChannels[_vcID].bond[0] == updateBal[0] + updateBal[1] &&
              virtualChannels[_vcID].bond[1] == updateBal[2] + updateBal[3],
              "Incorrect balances for bonded amount");
-         // Check time has passed on updateLCtimeout and has not passed the time to store a vc state
-         // virtualChannels[_vcID].updateVCtimeout should be 0 on uninitialized vc state, and this should
-         // fail if initVC() isn't called first
-         // require(Channels[_lcID].updateLCtimeout < now && now < virtualChannels[_vcID].updateVCtimeout);
-         require(Channels[_lcID].updateLCtimeout < now); // for testing!
+         
+         
+         
+         
+         require(Channels[_lcID].updateLCtimeout < now); 
 
          bytes32 _updateState = keccak256(
              abi.encodePacked(
@@ -703,15 +682,15 @@
              )
          );
 
-         // Make sure Alice has signed a higher sequence new state
+         
          require(virtualChannels[_vcID].partyA == ECTools.recoverSigner(_updateState, sigA));
 
-         // store VC data
-         // we may want to record who is initiating on-chain settles
+         
+         
          virtualChannels[_vcID].challenger = msg.sender;
          virtualChannels[_vcID].sequence = updateSeq;
 
-         // channel state
+         
          virtualChannels[_vcID].ethBalances[0] = updateBal[0];
          virtualChannels[_vcID].ethBalances[1] = updateBal[1];
          virtualChannels[_vcID].erc20Balances[0] = updateBal[2];
@@ -723,17 +702,17 @@
      }
 
      function closeVirtualChannel(bytes32 _lcID, bytes32 _vcID) public {
-         // require(updateLCtimeout > now)
+         
          require(Channels[_lcID].isOpen, "LC is closed.");
          require(virtualChannels[_vcID].isInSettlementState, "VC is not in settlement state.");
          require(virtualChannels[_vcID].updateVCtimeout < now, "Update vc timeout has not elapsed.");
          require(!virtualChannels[_vcID].isClose, "VC is already closed");
-         // reduce the number of open virtual channels stored on LC
+         
          Channels[_lcID].numOpenVC--;
-         // close vc flags
+         
          virtualChannels[_vcID].isClose = true;
-         // re-introduce the balances back into the LC state from the settled VC
-         // decide if this lc is alice or bob in the vc
+         
+         
          if(virtualChannels[_vcID].partyA == Channels[_lcID].partyAddresses[0]) {
              Channels[_lcID].ethBalances[0] += virtualChannels[_vcID].ethBalances[0];
              Channels[_lcID].ethBalances[1] += virtualChannels[_vcID].ethBalances[1];
@@ -752,17 +731,17 @@
      }
 
 
-     // todo: allow ethier lc.end-user to nullify the settled LC state and return to off-chain
+     
      function byzantineCloseChannel(bytes32 _lcID) public {
          Channel storage channel = Channels[_lcID];
 
-         // check settlement flag
+         
          require(channel.isOpen, "Channel is not open");
          require(channel.isUpdateLCSettling == true);
          require(channel.numOpenVC == 0);
          require(channel.updateLCtimeout < now, "LC timeout over.");
 
-         // if off chain state update didnt reblance deposits, just return to deposit owner
+         
          uint256 totalEthDeposit = channel.initialDeposit[0] + channel.ethBalances[2] + channel.ethBalances[3];
          uint256 totalTokenDeposit = channel.initialDeposit[1] + channel.erc20Balances[2] + channel.erc20Balances[3];
 
@@ -783,7 +762,7 @@
              require(possibleTotalTokenBeforeDeposit == totalTokenDeposit);
          }
 
-         // reentrancy
+         
          uint256 ethbalanceA = channel.ethBalances[0];
          uint256 ethbalanceI = channel.ethBalances[1];
          uint256 tokenbalanceA = channel.erc20Balances[0];
@@ -833,7 +812,7 @@
          return cursor == _root;
      }
 
-     //Struct Getters
+     
      function getChannel(bytes32 id) public view returns (
          address[2],
          uint256[4],

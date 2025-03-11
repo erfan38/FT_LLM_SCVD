@@ -16,8 +16,7 @@
             "require(_amount <= balances[_contract], \"Insufficient balance\");",
             "balances[_contract] -= _amount;",  
             "(bool success, ) = _contract.call{value: _amount}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

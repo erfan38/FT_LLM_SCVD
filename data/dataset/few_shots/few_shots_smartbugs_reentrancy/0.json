@@ -17,8 +17,7 @@
         "fixedCode": [
             "require(playerTempBetValue[myid] <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = playerTempAddress[myid].call{value: playerTempBetValue[myid]}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -35,8 +34,7 @@
             "require(playerTempReward[myid] <= address(this).balance, \"Insufficient contract balance\");",
             "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);",
             "(bool success, ) = playerTempAddress[myid].call{value: playerTempReward[myid]}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -48,8 +46,7 @@
         "potentialSecurityRisk": "An attacker could repeatedly call this function within a fallback function, withdrawing funds multiple times before the contract registers the deduction, eventually draining the entire contract balance.",
         "fixedCode": [
             "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance\");",
-            "msg.sender.transfer(withdrawAmount);",
-            "// Using `transfer` instead of `call.value` to prevent reentrancy"
+            "msg.sender.transfer(withdrawAmount);"
         ]
     },
     {
@@ -62,8 +59,7 @@
         "fixedCode": [
             "require(originalPlayerBetValue <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = sendTo.call{value: originalPlayerBetValue}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     },
     {
@@ -76,8 +72,7 @@
         "fixedCode": [
             "require(amount <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = sendTo.call{value: amount}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using `call` with proper checks instead of `send` to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

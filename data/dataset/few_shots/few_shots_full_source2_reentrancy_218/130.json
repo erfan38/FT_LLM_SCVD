@@ -14,8 +14,7 @@
         "fixedCode": [
             "require(profit <= address(this).balance, \"Insufficient contract balance\");",
             "(bool success, ) = ADMIN_CONTRACT.call{value: profit}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

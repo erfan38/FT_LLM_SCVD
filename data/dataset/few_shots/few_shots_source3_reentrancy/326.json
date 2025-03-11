@@ -16,8 +16,7 @@
             "require(Bal[msg.sender] >= _am, \"Insufficient balance\");",
             "Bal[msg.sender] -= _am;",
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",
-            "require(success, \"Transfer failed\");",
-            "// Using Checks-Effects-Interactions pattern to prevent reentrancy"
+            "require(success, \"Transfer failed\");"
         ]
     }
 ]

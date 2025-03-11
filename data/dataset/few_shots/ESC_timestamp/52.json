@@ -14,16 +14,17 @@
             "} else {",
             "    return totalBalance.mul(block.timestamp.sub(start)).div(duration);"
         ],
-        "vulnerabilityReason": "This contract relies on `block.timestamp` to determine the release of vested tokens. Since miners can slightly manipulate timestamps, they could accelerate or delay token release by modifying the block's timestamp within an allowable range.",
-        "potentialSecurityRisk": "A miner could alter the timestamp to unlock tokens earlier or delay their release. For example, they could artificially shorten the vesting period by setting a favorable timestamp, leading to an unfair advantage for certain users.",
+        "vulnerabilityReason": "The reliance on block.timestamp makes the vesting schedule manipulable. Miners could alter the timestamp to shift the perceived current time, affecting how many tokens the beneficiary can release when calling the release function",
+        "potentialSecurityRisk": "A malicious miner could set block.timestamp slightly ahead to release more tokens earlier than intended, especially in the linear vesting calculation on line 159. The malicious miner could also set it earlier to reduce the vested amount, though this is less likely to benefit them unless it serves a strategic purpose (e.g., delaying a revocation by the owner).",
         "fixedCode": [
-            "if (block.timestamp + 15 < cliff) {",
+            "if (block.number < cliffBlock) {",
             "    return 0;",
-            "} else if (block.timestamp + 15 >= start.add(duration) || revoked[token]) {",
+            "} else if (block.number  >= start.add(duration) || revoked[token]) {",
             "    return totalBalance;",
             "} else {",
-            "    return totalBalance.mul(block.timestamp.add(15).sub(start)).div(duration);",
-            "} // Adding a buffer to prevent timestamp manipulation"
+                "uint256 blocksElapsed = block.number.sub(startBlock); ",
+                "return totalBalance.mul(blocksElapsed).div(durationBlocks)",
+            "}"
         ]
     }
 ]
