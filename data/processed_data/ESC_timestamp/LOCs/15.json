@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "203-204",
+            "vulnerableCode": [
+                "function _random() private view returns (uint8) {",
+                "    return uint8(uint256(keccak256(block.timestamp, block.difficulty))%2);"
+            ],
+            "vulnerabilityReason": "The function uses block.timestamp to generate a pseudo-random number, which can be influenced by miners. By manipulating the mining timestamp, a miner can affect the outcome of the randomness calculation, potentially leading to biased results in game or bet outcomes.",
+            "potentialSecurityRisk": "A malicious miner could manipulate the timestamp to ensure their transaction wins during betting, gaining an unfair advantage and compromising the integrity of the random selection process for determining winners.",
+            "fixedCode": "function _random() private view returns (uint8) { uint256 randomSource = uint256(keccak256(block.difficulty, block.number)); return uint8(randomSource % 2); }"
+        }
+    ]
+}

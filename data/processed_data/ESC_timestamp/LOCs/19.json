@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "78-81",
+            "vulnerableCode": [
+                "modifier onlyUnlocked() {",
+                "uint nowtime = block.timestamp;",
+                "uint futuretime = 1550537591;"
+            ],
+            "vulnerabilityReason": "The `onlyUnlocked` modifier relies on `block.timestamp` to compare it against a hardcoded future time. Miners can manipulate the block timestamp to their advantage, which can lead to premature unlocking of the functionality reliant on this modifier.",
+            "potentialSecurityRisk": "Malicious miners can manipulate the `block.timestamp` to unlock features or functions of the contract before they are intended to be available, possibly allowing unauthorized access or funds to be released to themselves or other addresses.",
+            "fixedCode": "modifier onlyUnlocked() { require(now > futuretime || !lockedAddress[msg.sender]); _; }"
+        }
+    ]
+}

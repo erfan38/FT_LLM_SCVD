@@ -1,0 +1,43 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "61-61",
+            "vulnerableCode": [
+                "assert(block.timestamp >= STARTDATE);"
+            ],
+            "vulnerabilityReason": "This line directly relies on block.timestamp to ensure that the sale has started, making it vulnerable to miner manipulation. A miner could manipulate the block timestamp to an earlier time than expected, resulting in unintended behavior during the contract execution.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to assert the condition as true, meaning that actions reliant on the condition could erroneously proceed, such as allowing sales to occur before the intended start time, leading to financial discrepancies or unfair advantages.",
+            "fixedCode": "require(block.timestamp >= STARTDATE, 'Sale has not started yet.');"
+        },
+        {
+            "vulnerableLines": "177-178",
+            "vulnerableCode": [
+                "if ((block.timestamp >= ENDDATE && state == State.Running)",
+                "    || (block.timestamp >= ENDDATE && weiRaised < MINSALESCAP)) {"
+            ],
+            "vulnerabilityReason": "This conditional checks if the crowdsale has ended based on block.timestamp, making it susceptible to manipulation. Miners might adjust the timestamp to trigger the expiration condition prematurely or manipulate the state of the contract.",
+            "potentialSecurityRisk": "Allowing miners to control the transition state of the contract can lead to patched conditions where a sale is wrongfully terminated or continued, potentially redistributing funds or altering the states unfairly.",
+            "fixedCode": "if ((block.timestamp >= ENDDATE + TIME_TOLERANCE && state == State.Running) || (block.timestamp >= ENDDATE + TIME_TOLERANCE && weiRaised < MINSALESCAP)) {"
+        },
+        {
+            "vulnerableLines": "189-201",
+            "vulnerableCode": [
+                "if (block.timestamp <= 1535241660) {",
+                "    if (_weiAmount >= 1700 ether) {",
+                "        discount = 30;",
+                "    } else if (_weiAmount > 0.2 ether) {",
+                "        discount = 25;",
+                "    }",
+                "} else if (block.timestamp <= 1537747260) {",
+                "    discount = 15;",
+                "} else if (block.timestamp <= 1540339260) {",
+                "    discount = 10;",
+                "} else if (block.timestamp <= 1543536060) {",
+                "    discount = 5;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to determine discounts based on time periods creates a vulnerability. Miners could manipulate block.timestamp to shift discount tiers unfairly in their favor, preventing the intended distribution of tokens.",
+            "potentialSecurityRisk": "Miners manipulating the timestamp could result in incorrect discount calculations, leading to potential exploitation, where they could claim more tokens than intended, thus financially affecting other contributors who do not manipulate timestamps.",
+            "fixedCode": "uint256 currentTime = block.timestamp; if (currentTime <= 1535241660) {...} else if (currentTime <= 1537747260 + TIME_TOLERANCE) {...} else if (currentTime <= 1540339260 + TIME_TOLERANCE) {...} else if (currentTime <= 1543536060 + TIME_TOLERANCE ) {...}"
+        }
+    ]
+}

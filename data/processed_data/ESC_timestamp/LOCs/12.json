@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "346-346",
+            "vulnerableCode": [
+                "require (date_ < block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the escrow date has passed by comparing 'date_' with 'block.timestamp'. Miners can manipulate 'block.timestamp', allowing them to potentially trigger the escrow's execution prematurely or delay it unfairly, undermining the intended time constraints.",
+            "potentialSecurityRisk": "A malicious miner can influence the execution of the escrow contract by adjusting the block timestamp. This could lead to either an early release of funds or an unfair delay, affecting both the creator and the beneficiary. In essence, funds could be transferred without adherence to the expected maturity date, violating the trust of all parties involved.",
+            "fixedCode": "require (date_ < now + TIME_ALLOWANCE); // where TIME_ALLOWANCE is a small buffer to account for timestamp manipulation."
+        }
+    ]
+}
