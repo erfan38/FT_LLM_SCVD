@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 28,
+        "end_line": 28,
+        "code": [
+            "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+        ]
+    }
+]

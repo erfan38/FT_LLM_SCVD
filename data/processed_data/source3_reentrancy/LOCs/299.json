@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 39,
-        "end_line": 40,
-        "code": [
-            "if(_to.call.value(_am)()==false)throw;",
-            "investors[_to] -= _am;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "39-40",
+            "vulnerableCode": [
+                "if(_to.call.value(_am)()==false)throw;",
+                "investors[_to] -= _am;"
+            ],
+            "vulnerabilityReason": "The contract makes an external call to `_to` using `call.value(_am)`, which can potentially invoke a fallback function in a malicious contract. This external call happens before updating the state variable `investors[_to]`. An attacker could exploit this by recursively calling the `FundTransfer` function before the state is updated, allowing them to drain the contract's funds before their original balance is deducted.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that repeatedly invokes the `FundTransfer` function through the fallback mechanism, resulting in the contract being drained of funds. The lack of access control also allows any address to execute this function, compounding the risk of exploitation.",
+            "fixedCode": "require(investors[_to] >= _am, 'Insufficient balance');\ninvestors[_to] -= _am;\n(bool success, ) = _to.call{value: _am}('');\nrequire(success, 'Transfer failed');"
+        }
+    ]
+}

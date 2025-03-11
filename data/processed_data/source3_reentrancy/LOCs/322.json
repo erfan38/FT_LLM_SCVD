@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 54,
-        "end_line": 56,
-        "code": [
-            "if(msg.sender.call.value(_am)())",
-            "acc.balance-=_am;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "54-56",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "acc.balance-=_am;"
+            ],
+            "vulnerabilityReason": "The contract sends Ether to `msg.sender` using `call.value(_am)()`, which does not impose a gas limit. Furthermore, the contract updates the state (deducts balance) after performing the external call. This pattern allows a malicious contract to re-enter the `Collect` function before the balance is updated, leading to a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract that calls back into the `Collect` function before the state changes are committed. This could allow the attacker to withdraw more funds than they are entitled to, effectively draining the contract's balance.",
+            "fixedCode": "require(acc.balance >= _am, \"Insufficient balance\");\nacc.balance -= _am;\nbool success = msg.sender.call.value(_am)();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

@@ -1,20 +1,26 @@
-[
-    {
-        "start_line": 220,
-        "end_line": 225,
-        "code": [
-            "function()",
-            "    public",
-            "    payable",
-            "{",
-            ""
-        ]
-    },
-    {
-        "start_line": 233,
-        "end_line": 234,
-        "code": [
-            "        NonICOBuyins = NonICOBuyins.add(msg.value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "220-225",
+            "vulnerableCode": [
+                "function()",
+                "    public",
+                "    payable",
+                "{",
+                "}"
+            ],
+            "vulnerabilityReason": "The fallback function allows Ether to be sent to the contract without any safeguards or access controls, making it vulnerable to reentrancy attacks. If a malicious contract invokes this function and executes an external call before the state changes, it can recursively call the fallback function, leading to potential fund drainage.",
+            "potentialSecurityRisk": "An attacker could exploit this fallback function to create a reentrancy attack, allowing them to withdraw more funds than they deposited, especially if it is used in conjunction with other external calls that modify the state of the contract.",
+            "fixedCode": "function() public payable { call.value(0)(); } // Dummy function to limit attacks by ensuring no functional logic is contained."
+        },
+        {
+            "vulnerableLines": "233-234",
+            "vulnerableCode": [
+                "NonICOBuyins = NonICOBuyins.add(msg.value);"
+            ],
+            "vulnerabilityReason": "The `deposit` function adds to `NonICOBuyins` directly upon receiving ether without performing any checks or state updates prior to external calls, which could potentially lead to issues should it be modified to call external contracts in the future.",
+            "potentialSecurityRisk": "If the logic were changed to include external calls after `msg.value` handling, an attacker could exploit the timing to disrupt contract states, allowing repeated calls to manipulate balances unpredictably, which could drain the contract's funds.",
+            "fixedCode": "function deposit() public payable { require(msg.value > 0, 'Must send Ether'); NonICOBuyins = NonICOBuyins.add(msg.value); } // This would ensure valid deposits."
+        }
+    ]
+}

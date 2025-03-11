@@ -1,0 +1,24 @@
+[
+    {
+        "start_line": 53,
+        "end_line": 53,
+        "code": [
+            "if (tx.destination.call.value(tx.value)(tx.data))"
+        ]
+    },
+    {
+        "start_line": 50,
+        "end_line": 52,
+        "code": [
+            "tx.executed = true;",
+            "if (!_confirmed)"
+        ]
+    },
+    {
+        "start_line": 59,
+        "end_line": 59,
+        "code": [
+            "spentToday -= tx.value;"
+        ]
+    }
+]
