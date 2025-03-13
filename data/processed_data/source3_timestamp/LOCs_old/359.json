@@ -1,0 +1,44 @@
+[
+    {
+        "start_line": 36,
+        "end_line": 36,
+        "code": [
+            "if (nodes[left].end_stamp <= block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 46,
+        "end_line": 46,
+        "code": [
+            "if (nodes[right].end_stamp > block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 64,
+        "end_line": 64,
+        "code": [
+            "if (nodes[i].end_stamp > block.timestamp) {"
+        ]
+    },
+    {
+        "start_line": 81,
+        "end_line": 81,
+        "code": [
+            "require(block.timestamp < end_stamp);"
+        ]
+    },
+    {
+        "start_line": 109,
+        "end_line": 109,
+        "code": [
+            "clearExpiredFreezing(msg.sender);"
+        ]
+    },
+    {
+        "start_line": 126,
+        "end_line": 126,
+        "code": [
+            "clearExpiredFreezing(_from);"
+        ]
+    }
+]

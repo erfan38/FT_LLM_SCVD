@@ -1,12 +1,16 @@
-[
-    {
-        "start_line": 131,
-        "end_line": 135,
-        "code": [
-            "function executeTransaction(bytes32 TransHash) public notExecuted(TransHash){",
-            "if (isConfirmed(TransHash) && Transactions[TransHash].executed == false) {",
-            "Transactions[TransHash].executed = true;",
-            "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "131-135",
+            "vulnerableCode": [
+                "function executeTransaction(bytes32 TransHash) public notExecuted(TransHash){",
+                "if (isConfirmed(TransHash)) {",
+                "Transactions[TransHash].executed = true;",
+                "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
+            ],
+            "vulnerabilityReason": "The function executes a transaction using `call.value()` that allows for the potential of reentrancy since the state change marking the transaction as executed occurs after the external call. This allows an attacker to reenter the function before the state is updated, leading to unauthorized access or manipulation.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that calls `executeTransaction` repeatedly, draining funds during the execution of the external call, before the transaction is marked as executed.",
+            "fixedCode": "function executeTransaction(bytes32 TransHash) public notExecuted(TransHash) { \n    require(isConfirmed(TransHash), 'Transaction not confirmed'); \n    // Store the amount to send before making the external call\n    uint256 amount = Transactions[TransHash].value; \n    address destination = Transactions[TransHash].destination; \n    // Update the executed state before sending\n    Transactions[TransHash].executed = true; \n    // Ensure the destination can receive the amount before executing the call\n    require(amount <= address(this).balance, 'Insufficient contract balance');  \n    require(destination.call.value(amount)(Transactions[TransHash].data), 'Transaction failed'); \n    Execution(TransHash);\n}"
+        }
+    ]
+}

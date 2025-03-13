@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 24,
+        "end_line": 24,
+        "code": [
+            "modifier onlyWhileOpen { require(block.timestamp >= openingTime && block.timestamp <= closingTime); _; }"
+        ]
+    },
+    {
+        "start_line": 72,
+        "end_line": 72,
+        "code": [
+            "return block.timestamp > closingTime;"
+        ]
+    },
+    {
+        "start_line": 105,
+        "end_line": 105,
+        "code": [
+            "openingTime = block.timestamp;"
+        ]
+    }
+]

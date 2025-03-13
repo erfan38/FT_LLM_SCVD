@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 92,
+        "end_line": 92,
+        "code": [
+            "uint randomNumber = uint8(uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)))%100);"
+        ]
+    }
+]

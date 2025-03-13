@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 95,
-        "end_line": 95,
-        "code": [
-            "require(block.timestamp < pubEnd);"
-        ]
-    },
-    {
-        "start_line": 118,
-        "end_line": 118,
-        "code": [
-            "require(block.timestamp > pubEnd);"
-        ]
-    },
-    {
-        "start_line": 149,
-        "end_line": 149,
-        "code": [
-            "require(block.timestamp > pubEnd);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "95-95",
+            "vulnerableCode": [
+                "require(block.timestamp < pubEnd);"
+            ],
+            "vulnerabilityReason": "The buy function uses block.timestamp to check if the current time is before the public end time (pubEnd). This introduces a vulnerability because miners can manipulate the block timestamp, potentially impacting when tokens can be purchased.",
+            "potentialSecurityRisk": "Miners could exploit this timestamp manipulation to buy tokens at lower prices or prevent legitimate purchases, impacting the fairness and integrity of the token sale.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < pubEnd); // Use a buffer like TIME_TOLERANCE to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "118-118",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "This condition checks if the current time is past pubEnd for withdrawing funds or tokens, relying on block.timestamp, which is manipulable by miners.",
+            "potentialSecurityRisk": "Miners might manipulate the timestamp to either allow or prevent withdrawals, affecting control over the funds or tokens improperly.",
+            "fixedCode": "require(block.timestamp - TIME_TOLERANCE > pubEnd); // Use a buffer like TIME_TOLERANCE to ensure the correct timing."
+        },
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "This line checks if the current timestamp is greater than pubEnd, making the withdrawal process dependent on block.timestamp, which miners can influence.",
+            "potentialSecurityRisk": "Similar to previous cases, this allows miners to either influence the ability to withdraw funds or withdrawals might occur at unintended times based on manipulated timestamps.",
+            "fixedCode": "require(block.timestamp - TIME_TOLERANCE > pubEnd); // Incorporate TIME_TOLERANCE to increase robustness against miner manipulation."
+        }
+    ]
+}

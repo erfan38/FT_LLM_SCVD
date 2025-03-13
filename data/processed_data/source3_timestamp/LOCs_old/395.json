@@ -1,0 +1,22 @@
+[
+    {
+        "start_line": 148,
+        "end_line": 148,
+        "code": [
+            "require(currentTimestamp >= openGroup.startTime && currentTimestamp <= openGroup.deadline);"
+        ]
+    },
+    {
+        "start_line": 155,
+        "end_line": 161,
+        "code": [
+            "if(currentTimestamp <= openGroup.phase1endTime){",
+            "    require(userETHTotal <= memberRecord.max1);",
+            "} else if (currentTimestamp <= openGroup.phase2endTime) {",
+            "    require(userETHTotal <= openGroup.max2);",
+            "} else {",
+            "    require(userETHTotal <= openGroup.max3);",
+            "}"
+        ]
+    }
+]

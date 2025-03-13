@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 12,
+        "code": [
+            "uint256 public startTime;",
+            "uint256 public endTime;"
+        ]
+    }
+]

@@ -1,12 +1,16 @@
-[
-    {
-        "start_line": 342,
-        "end_line": 348,
-        "code": [
-            "if (address(admin).call.value((_com / 2))() == false)",
-            "if (address(shareCom).call.value((_com / 2))() == false)",
-            "shareCom.transfer((_amount / 2));",
-            "admin.transfer((_amount / 2));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "342-348",
+            "vulnerableCode": [
+                "if (address(admin).call.value((_com / 2))() == false)",
+                "if (address(shareCom).call.value((_com / 2))() == false)",
+                "shareCom.transfer((_amount / 2));",
+                "admin.transfer((_amount / 2));"
+            ],
+            "vulnerabilityReason": "The use of .call.value() to transfer Ether is dangerous because it performs the transfer before verifying if the transaction is successful or updating the contract's internal state. This allows a malicious actor to invoke the contract during the external call, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit these reentrant calls to drain funds from the contract by continuously calling back into the contract before the internal state reflects the deductions from the pending withdrawals.",
+            "fixedCode": "// Define a local variable for the amounts being transferred to prevent reentrancy\nuint256 halfAmountAdmin = _com / 2;\nuint256 halfAmountShareCom = _com / 2;\n\n// Attempt to send Ether to admin\n(, ) = address(admin).call.value(halfAmountAdmin)();\nrequire(success, 'Transfer to admin failed');\n\n// Attempt to send Ether to shareCom\n(, ) = address(shareCom).call.value(halfAmountShareCom)();\nrequire(success, 'Transfer to shareCom failed');"
+        }
+    ]
+}

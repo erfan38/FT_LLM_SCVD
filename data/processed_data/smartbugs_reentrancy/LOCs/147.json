@@ -1,28 +1,36 @@
-[
-    {
-        "start_line": 223,
-        "end_line": 225,
-        "code": [
-            "        if(!winner.send(games[gameId].CurrentTotal)){",
-            "            playerPendingWithdrawals[winner] = playerPendingWithdrawals[winner].add(games[gameId].CurrentTotal);"
-        ]
-    },
-    {
-        "start_line": 273,
-        "end_line": 275,
-        "code": [
-            "            if(!_playerAddr.send(_gamePlayerBalance)){",
-            "                playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance);"
-        ]
-    },
-    {
-        "start_line": 294,
-        "end_line": 299,
-        "code": [
-            "        if (msg.sender.call.value(withdrawAmount)()) {",
-            "            return true;",
-            "        } else {",
-            "            playerPendingWithdrawals[msg.sender] = withdrawAmount;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "223-225",
+            "vulnerableCode": [
+                "        if(!winner.send(games[gameId].CurrentTotal)){",
+                "            playerPendingWithdrawals[winner] = playerPendingWithdrawals[winner].add(games[gameId].CurrentTotal);"
+            ],
+            "vulnerabilityReason": "The function uses 'send()' to transfer Ether to the winner before updating any state variables. If the recipient is a contract with a fallback function, it can call back into this function before 'CurrentTotal' is reset, allowing for exploitation.",
+            "potentialSecurityRisk": "An attacker could re-enter the 'completeGame' function during the Ether transfer, draining funds repeatedly before the contract records the amount sent, ultimately causing financial loss to the contract.",
+            "fixedCode": "if (games[gameId].CurrentTotal > 0) {\n    uint256 amountToTransfer = games[gameId].CurrentTotal;\n    games[gameId].CurrentTotal = 0; // Set to 0 before sending\n    require(winner.send(amountToTransfer), 'Transfer failed');\n} else {\n    playerPendingWithdrawals[winner] = playerPendingWithdrawals[winner].add(games[gameId].CurrentTotal);\n}"
+        },
+        {
+            "vulnerableLines": "273-275",
+            "vulnerableCode": [
+                "            if(!_playerAddr.send(_gamePlayerBalance)){",
+                "                playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance);"
+            ],
+            "vulnerabilityReason": "The function uses 'send()' before resetting the player's balance. If an external contract calls back within the send, it can lead to unauthorized fund withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this function to repeatedly withdraw funds before the state is updated, allowing them to drain the player's balance and potentially the contract's funds.",
+            "fixedCode": "if (_gamePlayerBalance > 0) {\n    games[_gameId].PlayerBidMap[_playerAddr] = 0; // Reset player balance first\n    require(_playerAddr.send(_gamePlayerBalance), 'Transfer failed');\n} else {\n    playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance);\n}"
+        },
+        {
+            "vulnerableLines": "294-299",
+            "vulnerableCode": [
+                "        if (msg.sender.call.value(withdrawAmount)()) {",
+                "            return true;",
+                "        } else {",
+                "            playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' for Ether transfer occurs before the pending withdrawals are reset. This allows a malicious user to re-enter the function and withdraw multiple times before the state changes take effect.",
+            "potentialSecurityRisk": "An attacker could recursively call the 'player_withdrawPendingTransactions' function, enabling them to withdraw more funds than they should, potentially resulting in a complete drain of contract funds.",
+            "fixedCode": "if (withdrawAmount > 0) {\n    playerPendingWithdrawals[msg.sender] = 0; // Reset pending amount before sending\n    require(msg.sender.call.value(withdrawAmount)(), 'Transfer failed');\n} else {\n    return false;\n}"
+        }
+    ]
+}

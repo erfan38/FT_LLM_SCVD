@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "4-4",
+            "vulnerableCode": [
+                "count += 1;"
+            ],
+            "vulnerabilityReason": "The 'increment' function adds 1 to 'count' without checking if 'count' is equal to its maximum value (127). If 'increment' is called when 'count' is 127, it will wrap around and overflow to -128, which can lead to unintended behavior.",
+            "potentialSecurityRisk": "This overflow can lead to incorrect counting and unexpected results in any logic that depends on the 'count' variable, potentially allowing an attacker to manipulate the count for unauthorized effects.",
+            "fixedCode": "require(count < 127, \"Count cannot exceed 127\");\ncount += 1;"
+        },
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "count -= 1;"
+            ],
+            "vulnerabilityReason": "The 'decrement' function subtracts 1 from 'count' without checking if 'count' is equal to its minimum value (-128). If 'decrement' is called when 'count' is -128, it will wrap around and underflow to 127, which can lead to unintended behavior.",
+            "potentialSecurityRisk": "This underflow can cause incorrect counting and unexpected results, potentially allowing an attacker to manipulate the count for unauthorized effects or to bypass restrictions based on the count value.",
+            "fixedCode": "require(count > -128, \"Count cannot be less than -128\");\ncount -= 1;"
+        }
+    ]
+}

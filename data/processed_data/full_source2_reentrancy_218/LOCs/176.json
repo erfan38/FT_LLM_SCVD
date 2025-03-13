@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 8,
-        "end_line": 8,
-        "code": [
-            "if(msg.sender.call.value(_am)()){"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)()){"
+            ],
+            "vulnerabilityReason": "The method 'call.value(_am)()' allows an external contract to execute arbitrary code before the state is updated. This permits reentrancy, as the recipient contract could call back into 'CashOut' before the balance is decremented, allowing it to withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract that calls back into this function, enabling them to drain the balance by withdrawing more funds than they are entitled to.",
+            "fixedCode": "balances[msg.sender] -= _am;\n(bool success, ) = msg.sender.call.value(_am)();\nrequire(success, 'Transfer failed'); // Ensure the transfer was successful"
+        }
+    ]
+}

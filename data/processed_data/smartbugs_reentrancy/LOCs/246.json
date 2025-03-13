@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 145,
-        "end_line": 145,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 211,
-        "end_line": 211,
-        "code": [
-            "balanceOf[_to] = balanceOf[_to].add(_value);"
-        ]
-    },
-    {
-        "start_line": 213,
-        "end_line": 213,
-        "code": [
-            "receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    },
-    {
-        "start_line": 376,
-        "end_line": 376,
-        "code": [
-            "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "145-145",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The external call to `_to` occurs before updating the balance of the sender and the recipient, which allows the external contract potentially to execute before the balance is updated, thereby creating a reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker could exploit this by repeatedly invoking the `transfer` function before the balance updates take effect, leading to multiple withdrawals or token transfers before the original value is recorded.",
+            "fixedCode": "require(balanceOf[msg.sender] >= _value, 'Insufficient balance.');\n        balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n        balanceOf[_to] = balanceOf[_to].add(_value);\n        if (isContract(_to)) {\n            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n        }\n        emit Transfer(msg.sender, _to, _value, _data);\n        emit Transfer(msg.sender, _to, _value);"
+        },
+        {
+            "vulnerableLines": "211-211",
+            "vulnerableCode": [
+                "balanceOf[_to] = balanceOf[_to].add(_value);"
+            ],
+            "vulnerabilityReason": "This line updates the balance of the recipient after an external call has been made, risking a scenario where an attacker re-enters the function and modifies the state in an unexpected way before the state is finalized in the transfer.",
+            "potentialSecurityRisk": "The reentrancy can lead to unexpected interactions with the recipient's token contract, potentially allowing the attacker to drain more tokens than intended.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n        balanceOf[_to] = balanceOf[_to].add(_value);"
+        },
+        {
+            "vulnerableLines": "213-213",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "The call to `tokenFallback` occurs after modifying the balance, which can lead to reentrancy if the receiver's contract is malicious and invokes the `transfer` again while executing `tokenFallback`.",
+            "potentialSecurityRisk": "The attacker can trigger a reentrant call and manipulate the contract's state before it is updated, allowing them to withdraw more than their allowed share.",
+            "fixedCode": "if (isContract(_to)) {\n            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n        }"
+        },
+        {
+            "vulnerableLines": "376-376",
+            "vulnerableCode": [
+                "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);"
+            ],
+            "vulnerabilityReason": "The subtraction from the owner's balance happens after potential interactions with external calls, allowing for state corruption through reentrancy.",
+            "potentialSecurityRisk": "An attacker could exploit this by manipulating their state through a reentrant call, causing unintended state changes and financial losses to the contract.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);\n        emit Transfer(owner, msg.sender, distributeAmount);"
+        }
+    ]
+}

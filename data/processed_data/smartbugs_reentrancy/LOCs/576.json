@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 1004,
-        "end_line": 1004,
-        "code": [
-            "if (!address(admin).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 607,
-        "end_line": 607,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1004-1004",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to send Ether to the admin address without updating the contract state beforehand. This allows the admin to potentially re-enter the contract before the state is modified, which can lead to unexpected results or exploits.",
+            "potentialSecurityRisk": "An attacker could take control of the admin address and execute a reentrant call, allowing them to withdraw more funds than intended.",
+            "fixedCode": "uint256 amount = _com; require(amount <= address(this).balance, 'Insufficient contract balance'); if (!address(admin).call.value(amount)()) { /* Handle failed transfer */ }"
+        },
+        {
+            "vulnerableLines": "607-607",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The transfer is made to the player's address without first checking or updating their balance. This can lead to reentrancy vulnerabilities as a malicious contract could call back into the withdraw function before the balance is deducted.",
+            "potentialSecurityRisk": "A malicious player could cause a reentrant call before their balance is updated, leading to multiple withdrawals before the contract's state reflects the actual balance. This could result in a loss of contract funds.",
+            "fixedCode": "uint256 amount = withdrawEarnings(_pID); if (amount > 0) {plyr_[_pID].addr.transfer(amount);}"
+        }
+    ]
+}

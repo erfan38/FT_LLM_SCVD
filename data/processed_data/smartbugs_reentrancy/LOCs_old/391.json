@@ -1,0 +1,28 @@
+[
+    {
+        "start_line": 194,
+        "end_line": 194,
+        "code": [
+            "            _eth = withdrawEarnings(_pID);"
+        ]
+    },
+    {
+        "start_line": 339,
+        "end_line": 339,
+        "code": [
+            "        if (!address(coin_base).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 1298,
+        "end_line": 1304,
+        "code": [
+            "    function potSwap()",
+            "        external",
+            "        payable",
+            "    {",
+            "        uint256 _rID = rID_ + 1;",
+            "        round_[_rID].pot = round_[_rID].pot.add(msg.value);"
+        ]
+    }
+]

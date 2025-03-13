@@ -1,53 +1,69 @@
-[
-    {
-        "start_line": 444,
-        "end_line": 446,
-        "code": [
-            "if(!bondFundAddress.call.value(_bondEthToPay).gas(400000)()) {",
-            "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _bondEthToPay);"
-        ]
-    },
-    {
-        "start_line": 450,
-        "end_line": 452,
-        "code": [
-            "if(!altFundAddress.call.value(_altEthToPay).gas(400000)()) {",
-            "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _altEthToPay);"
-        ]
-    },
-    {
-        "start_line": 373,
-        "end_line": 373,
-        "code": [
-            "require(tx.gasprice <= 0.05 szabo);"
-        ]
-    },
-    {
-        "start_line": 386,
-        "end_line": 386,
-        "code": [
-            "require(tx.gasprice <= 0.05 szabo);"
-        ]
-    },
-    {
-        "start_line": 577,
-        "end_line": 577,
-        "code": [
-            "if (tokenSupply_ > 0) {"
-        ]
-    },
-    {
-        "start_line": 969,
-        "end_line": 969,
-        "code": [
-            "msg.sender.transfer(excess);"
-        ]
-    },
-    {
-        "start_line": 441,
-        "end_line": 441,
-        "code": [
-            "totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "444-446",
+            "vulnerableCode": [
+                "if(!bondFundAddress.call.value(_bondEthToPay).gas(400000)()) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _bondEthToPay);"
+            ],
+            "vulnerabilityReason": "The external call to `bondFundAddress` using `call.value()` occurs before updating the state variable `totalEthFundRecieved`. This allows the called contract to execute code that could change the state before the fund is recorded, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a contract at `bondFundAddress` that calls back into this function before the state is updated, allowing repeated withdrawals and potentially draining the funds held in the contract.",
+            "fixedCode": "if (_bondEthToPay > 0) {\n    require(bondFundAddress.call.value(_bondEthToPay).gas(400000)()); \n}\ntotalEthFundRecieved = SafeMath.add(totalEthFundRecieved, _bondEthToPay);"
+        },
+        {
+            "vulnerableLines": "450-452",
+            "vulnerableCode": [
+                "if(!altFundAddress.call.value(_altEthToPay).gas(400000)()) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _altEthToPay);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this line also allows external calls before updating the contract's state. This creates a pathway for exploiting the contract via reentrancy.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by calling back into `payFund` before the state is updated, leading to multiple payouts without proper deductions from `totalEthFundRecieved`.",
+            "fixedCode": "if (_altEthToPay > 0) {\n    require(altFundAddress.call.value(_altEthToPay).gas(400000)()); \n}\ntotalEthFundRecieved = SafeMath.add(totalEthFundRecieved, _altEthToPay);"
+        },
+        {
+            "vulnerableLines": "373-373",
+            "vulnerableCode": [
+                "require(tx.gasprice <= 0.05 szabo);"
+            ],
+            "vulnerabilityReason": "This gas price restriction does not prevent reentrancy attacks from happening; it only restricts the gas price for transactions, which can be bypassed by calling from an external contract without appropriate checks on operations within the functions.",
+            "potentialSecurityRisk": "Even though a gas price limit is enforced, it does not address the primary concern of reentrancy in functions that make external calls, allowing an attacker to manipulate function flow regardless of the gas price.",
+            "fixedCode": "// Implementation fails to address the core concern, remove gas price constraints and introduce a reentrancy guard."
+        },
+        {
+            "vulnerableLines": "386-386",
+            "vulnerableCode": [
+                "require(tx.gasprice <= 0.05 szabo);"
+            ],
+            "vulnerabilityReason": "Same as the previous entry, the gas price requirement does not mitigate reentrancy issues since it allows attackers to exploit external calls regardless of the gas price conditions laid out here.",
+            "potentialSecurityRisk": "This control does not address reentrancy; it only limits transaction gas prices. Attackers can still exploit the functions that are at risk of reentrancy.",
+            "fixedCode": "// Implementation fails to address the core concern, remove gas price constraints and introduce a reentrancy guard."
+        },
+        {
+            "vulnerableLines": "577-577",
+            "vulnerableCode": [
+                "if (tokenSupply_ > 0) {"
+            ],
+            "vulnerabilityReason": "This line executes the logic for distributing tokens but does not ensure that user balances or states are updated prior to any external calls that may follow, exposing it to potential reentrancy if it interacts with other contracts.",
+            "potentialSecurityRisk": "If token operations interact with external contracts, there exists the risk of a malicious entity making calls that can alter required state before it is finalized in this function.",
+            "fixedCode": "// Ensure any external call occurs after validating and updating internal states before proceeding."
+        },
+        {
+            "vulnerableLines": "969-969",
+            "vulnerableCode": [
+                "msg.sender.transfer(excess);"
+            ],
+            "vulnerabilityReason": "Using `transfer` to send ether without checking the state is updated beforehand may expose this operation to be exploited by reentrancy, wherein a malicious contract can recursively call this function before funds are correctly accounted for.",
+            "potentialSecurityRisk": "An attacker can withdraw more funds than intended by re-entering the function through a fallback mechanism, draining the contract of available funds.",
+            "fixedCode": "// Implement checks and state updates before making the external transfer."
+        },
+        {
+            "vulnerableLines": "441-441",
+            "vulnerableCode": [
+                "totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "This line modifies the state of `totalEthFundRecieved` after external calls are made to pay funds, which can allow an external contract to access and exploit the balance before it is completely verified.",
+            "potentialSecurityRisk": "An attacker can exploit state changes that occur after external calls, thereby manipulating the contract balance adversely and performing multiple withdrawal actions before the state reflects reality.",
+            "fixedCode": "// Implement state updates before any external calls to safeguard against reentrancy."
+        }
+    ]
+}

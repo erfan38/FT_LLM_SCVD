@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 101,
-        "end_line": 101,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 164,
-        "end_line": 164,
-        "code": [
-            "receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "101-101",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The contract calls an external contract through `_to.call.value(0)` after updating the balance of the sender and receiver. This could allow the recipient contract to call back into the transfer function, potentially allowing for malicious reentrant calls.",
+            "potentialSecurityRisk": "If a malicious contract is set as the recipient of the transfer, it could exploit the reentrancy vulnerability to execute the transfer function multiple times before the contract's state is updated, allowing it to drain funds.",
+            "fixedCode": "// Ensure the state is updated before calling the custom fallback\n// Move the state updates and checks to occur before any external call."
+        },
+        {
+            "vulnerableLines": "164-164",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "The line invokes the `tokenFallback` method on the recipient contract after updating the state. This allows the recipient contract to potentially call back into this contract and manipulate its state further due to the lack of reentrancy protection.",
+            "potentialSecurityRisk": "A recursively called malicious contract could trigger additional transfers or withdrawal requests before the original transfer is properly finalized, leading to potential loss of funds.",
+            "fixedCode": "// Implement checks-effects-interactions pattern\n// State updates or checks should be performed prior to the external call to prevent abuse."
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "totalVotes = totalVotes + _voteCount;",
+                "totalVotes = totalVotes - block.number;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations on `totalVotes` without checks for overflow or underflow. Adding `_voteCount` to `totalVotes` can cause an overflow if the resulting sum exceeds the maximum value of `uint256`. Conversely, subtracting `block.number` from `totalVotes` can cause an underflow if `block.number` is greater than `totalVotes`, which would lead to negative values in the context of unsigned integers.",
+            "potentialSecurityRisk": "These vulnerabilities can compromise the integrity of the voting system, potentially allowing malicious actors to manipulate vote counts or cause the votes to become negative, leading to incorrect results or unexpected behavior of the contract.",
+            "fixedCode": "require(totalVotes + _voteCount >= totalVotes, \"Overflow detected\");\ntotalVotes = totalVotes + _voteCount;\nrequire(totalVotes >= block.number, \"Underflow detected\");\ntotalVotes = totalVotes - block.number;"
+        }
+    ]
+}

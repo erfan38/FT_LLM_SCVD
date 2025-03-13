@@ -3,25 +3,24 @@ Also known as or related to race to empty, recursive call vulnerability, call to
 
 The Reentrancy attack, probably the most famous Ethereum vulnerability,surprised everyone when discovered for the first time. It was first unveiled during a multimillion dollar heist which led to a hard fork of Ethereum. Reentrancy occurs when external contract calls are allowed to make new calls to the calling contract before the initial execution is complete. For a function, this means that the contract state may change in the middle of its execution as a result of a call to an untrusted contract or the use of a low level function with an external address.
 
-Loss: estimated at 3.5M ETH (~50M USD at the time)
 
 ## Attack Scenario
-A smart contract tracks the balance of a number of external addresses and allows users to retrieve funds with its public withdraw() function.
-A malicious smart contract uses the withdraw() function to retrieve its entire balance.
-The victim contract executes the call.value(amount)() low level function to send the ether to the malicious contract before updating the balance of the malicious contract.
-The malicious contract has a payable fallback() function that accepts the funds and then calls back into the victim contract's withdraw() function.
-This second execution triggers a transfer of funds: remember, the balance of the malicious contract still hasn't been updated from the first withdrawal. As a result, the malicious contract successfully withdraws its entire balance a second time.
+1- A smart contract tracks the balance of a number of external addresses and allows users to retrieve funds with its public withdraw() function.
+2- A malicious smart contract uses the withdraw() function to retrieve its entire balance.
+3- The victim contract executes the call.value(amount)() low level function to send the ether to the malicious contract before updating the balance of the malicious contract.
+4- The malicious contract has a payable fallback() function that accepts the funds and then calls back into the victim contract's withdraw() function.
+5- This second execution triggers a transfer of funds: remember, the balance of the malicious contract still hasn't been updated from the first withdrawal. As a result, the malicious contract successfully withdraws its entire balance a second time.
 
 ## Examples
 The following function contains a function vulnerable to a reentrancy attack. When the low level call() function sends ether to the msg.sender address, it becomes vulnerable; if the address is a smart contract, the payment will trigger its fallback function with what's left of the transaction gas:
 ```
 function withdraw(uint _amount) {
 	require(balances[msg.sender] >= _amount);
-	msg.sender.call.value(_amount)();
-	balances[msg.sender] -= _amount;
+	msg.sender.call.value(_amount)(); // Vulnerable: External call before state update
+	balances[msg.sender] -= _amount;  // Vulnerable: Balance updated after transfer
 }
 ````
-## 2 Reentrancy
+
 Reentrancy vulnerability is considered as an invocation to _call.value_ that can call back to itself through a chain of calls.
 
 
@@ -122,3 +121,101 @@ Case 2: When a function has not the _onlyOwner_ modifier constraint, we label th
     ```
     
 It can be observed, the function _forwardFunds_ is not constrained by the _onlyOwner_ modifier(line 9). Thus, we label the function _forwardFunds_ to have the reentrancy vulnerability, i.e., label = 1.
+
+
+#### How to fix Reentrancy vulnerable code:
+
+# ** 1-Using the Checks-Effects-Interactions pattern**
+This pattern ensures that contract state updates (effects) occur before any external interaction, preventing reentrant calls from manipulating balances before they are updated.
+
+### **Vulnerable Code:**
+msg.sender.call{value: _amount}("");  //  vulnerable: External call before state update
+balances[msg.sender] -= _amount;      //  vulnerable: Balance updated after transfer (vulnerable)
+
+### **fixed Code:**
+balances[msg.sender] -= _amount;      //  fixed: Update balance first (Effects)
+(bool success, ) = msg.sender.call{value: _amount}("");  // fixed: External call after state update (Interactions)
+require(success, "Transfer failed");  // fixed:  Ensure successful transfer
+
+# **2- Using the Withdrawal Pattern (Pull Payments)**
+Instead of sending Ether directly within a function, store the funds in a mapping and allow users to withdraw later, preventing direct reentrancy.
+
+### **Vulnerable Code:**
+
+if (!msg.sender.send(_amount)) {   // Vulnerable: Sends Ether directly to msg.sender
+    revert("Transfer failed");
+}
+balances[msg.sender] -= _amount;   // Vulnerable: Balance updated after transfer
+mapping(address => uint256) public pendingWithdrawals;
+
+### **fixed Code:**
+function withdraw() public {
+    uint256 amount = pendingWithdrawals[msg.sender];  
+    require(amount > 0, "No funds to withdraw");  
+
+    pendingWithdrawals[msg.sender] = 0;  // Fixed: Update balance first (Effects)
+
+    (bool success, ) = msg.sender.call{value: amount}("");  // Fixed: External call after state update (Interactions)
+    require(success, "Transfer failed");
+}
+
+function deposit() public payable {
+    pendingWithdrawals[msg.sender] += msg.value;
+}
+
+# **3- Use a Reentrancy Guard**
+A reentrancy guard prevents multiple reentrant calls by locking the function during execution.
+
+### **Vulnerable Code:**
+mapping(address => uint256) public balances;
+
+function withdraw(uint256 _amount) external {
+    require(balances[msg.sender] >= _amount, "Insufficient balance");
+
+    (bool success, ) = msg.sender.call{value: _amount}("");  // Vulnerable: External call before state update
+    require(success, "Transfer failed");
+
+    balances[msg.sender] -= _amount;  // Vulnerable: Balance updated after transfer
+}
+
+### **fixed Code:**
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract SecureContract is ReentrancyGuard {
+    mapping(address => uint256) public balances;
+
+    function withdraw(uint256 _amount) external nonReentrant {
+        require(balances[msg.sender] >= _amount, "Insufficient balance");
+
+        balances[msg.sender] -= _amount;  // Fixed: Update state before external call
+
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success, "Transfer failed");
+    }
+}
+
+# **4- Gas-Limited Transfers to Reduce Reentrancy Risk**
+While .call{value: amount}("") is recommended for most cases, the transfer() function can sometimes be a safer option because it limits gas to 2300, preventing complex reentrant attacks.
+
+### **Vulnerable Code:**
+mapping(address => uint256) public balances;
+
+function withdraw(uint256 _amount) external {
+    require(balances[msg.sender] >= _amount, "Insufficient balance");
+
+    (bool success, ) = msg.sender.call{value: _amount}("");  // Vulnerable: External call before state update
+    require(success, "Transfer failed");
+
+    balances[msg.sender] -= _amount;  // Vulnerable: Balance updated after transfer
+}
+
+### **fixed Code:**
+mapping(address => uint256) public balances;
+
+function withdraw(uint256 _amount) external {
+    require(balances[msg.sender] >= _amount, "Insufficient balance");
+
+    balances[msg.sender] -= _amount;  // Fixed: Update state before external call
+
+    payable(msg.sender).transfer(_amount);  // Fixed: Uses transfer to prevent reentrancy
+}

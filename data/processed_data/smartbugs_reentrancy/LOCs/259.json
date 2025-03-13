@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 70,
-        "end_line": 70,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 286,
-        "end_line": 286,
-        "code": [
-            "if (msg.value > 0) owner.transfer(msg.value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "70-73",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The contract invokes an external call using `call.value(0)` after decrementing the sender's balance. This allows an external contract to call back into the `transfer` function before the balance update has occurred, enabling a reentrancy attack.",
+            "potentialSecurityRisk": "A malicious recipient can recursively invoke the contract's methods during the external call, potentially allowing them to withdraw more tokens than they should be entitled to, resulting in significant financial loss for the contract owner.",
+            "fixedCode": "// Perform external call before modifying state: \n   // Record the balance first before making the call \n   uint256 amount = _value; \n   balances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), amount); \n   balances[_to] = SafeMath.add(balanceOf(_to), amount); \n   assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, amount, _data));"
+        },
+        {
+            "vulnerableLines": "286-286",
+            "vulnerableCode": [
+                "if (msg.value > 0) owner.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The contract directly transfers ether to the owner before updating the balances. If a malicious contract is given control through this external call, it could reenter the function and manipulate balances before they are updated.",
+            "potentialSecurityRisk": "This could lead to an attacker draining funds repeatedly by re-entering the `autoDistribute` function before the contract's state has been correctly updated, potentially allowing them to receive disproportionate amounts of tokens relative to the ether they have sent.",
+            "fixedCode": "// Update balances before transferring ether: \n    balances[owner] = SafeMath.sub(balances[owner], distributeAmount); \n    if (msg.value > 0) owner.transfer(msg.value); \n    balances[msg.sender] = SafeMath.add(balances[msg.sender], distributeAmount);"
+        }
+    ]
+}

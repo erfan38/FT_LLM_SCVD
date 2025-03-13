@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "totalRewards += _reward;"
+            ],
+            "vulnerabilityReason": "The addition operation on 'totalRewards' does not include a check for integer overflow. If the sum of 'totalRewards' and '_reward' exceeds the maximum limit of uint256, it would wrap around, causing 'totalRewards' to be set to a significantly smaller value, thus allowing more rewards to be added than intended.",
+            "potentialSecurityRisk": "This vulnerability can lead to unintended overflow behaviors where the amount of total rewards surpasses the maximum allocation that an entity could manage or intend. It could also allow an attacker to exploit this condition to manipulate reward distributions, potentially resulting in financial loss for the contract or its users.",
+            "fixedCode": "require(totalRewards + _reward >= totalRewards, \"Overflow detected\");\ntotalRewards += _reward; // Safe addition"
+        }
+    ]
+}

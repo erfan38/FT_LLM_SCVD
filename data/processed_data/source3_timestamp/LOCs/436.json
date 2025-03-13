@@ -1,37 +1,49 @@
-[
-    {
-        "start_line": 42,
-        "end_line": 42,
-        "code": [
-            "userChargeTime[_addr][_times] = ShowTime();"
-        ]
-    },
-    {
-        "start_line": 61,
-        "end_line": 61,
-        "code": [
-            "if (ShowTime() >= safeAdd(userstart,duration)) {"
-        ]
-    },
-    {
-        "start_line": 64,
-        "end_line": 64,
-        "code": [
-            "uint256 timedifference = safeSubtract(ShowTime(),userstart);"
-        ]
-    },
-    {
-        "start_line": 96,
-        "end_line": 96,
-        "code": [
-            "lastCliff[_addr][_times] = ShowTime();"
-        ]
-    },
-    {
-        "start_line": 104,
-        "end_line": 104,
-        "code": [
-            "return block.timestamp;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "42-42",
+            "vulnerableCode": [
+                "userChargeTime[_addr][_times] = ShowTime();"
+            ],
+            "vulnerabilityReason": "The `LockMechanism` function directly uses `ShowTime()` to set the user's charge time based on `block.timestamp`, which miners can manipulate.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to influence user charge times. This could allow them to gain potential advantages if the time affects release conditions.",
+            "fixedCode": "userChargeTime[_addr][_times] = currentTime; // Where currentTime should be assigned to a variable fetching the latest valid block time after considering miner manipulation."
+        },
+        {
+            "vulnerableLines": "61-61",
+            "vulnerableCode": [
+                "if (ShowTime() >= safeAdd(userstart,duration)) {"
+            ],
+            "vulnerabilityReason": "In `CalcPeriod`, using `ShowTime()` to check if the current time allows progression can be manipulated by using a prior block time.",
+            "potentialSecurityRisk": "Miners can trigger conditions by manipulating timestamps, affecting the lock release mechanics and allowing earlier than intended access to funds.",
+            "fixedCode": "if (currentTime >= safeAdd(userstart,duration + TIME_TOLERANCE)) {"
+        },
+        {
+            "vulnerableLines": "64-64",
+            "vulnerableCode": [
+                "uint256 timedifference = safeSubtract(ShowTime(),userstart);"
+            ],
+            "vulnerabilityReason": "Calculating the time difference using `block.timestamp` adds dependency on miner-controlled time, allowing them to influence the outcome.",
+            "potentialSecurityRisk": "Attackers may exploit the calculation to receive more tokens or to trigger actions too early or too late due to manipulated timestamps.",
+            "fixedCode": "uint256 timedifference = safeSubtract(currentTime, userstart); // currentTime must be a variable reflecting the manipulated block time."
+        },
+        {
+            "vulnerableLines": "96-96",
+            "vulnerableCode": [
+                "lastCliff[_addr][_times] = ShowTime();"
+            ],
+            "vulnerabilityReason": "Assigning the timestamp in the release function using `ShowTime()` introduces a point where miners can manipulate when the last cliff is registered.",
+            "potentialSecurityRisk": "Miners may manipulate the timestamp to alter cliff periods, allowing them strategic advantages in fund releases.",
+            "fixedCode": "lastCliff[_addr][_times] = currentTime; // Modified to utilize a more controlled timestamp."
+        },
+        {
+            "vulnerableLines": "104-104",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "The function `ShowTime()` returns `block.timestamp`, introducing miners’ influence on timing for various critical functions in the contract.",
+            "potentialSecurityRisk": "Manipulated timestamps can lead to incorrect period determinations or wrongly calculated release amounts, creating economic advantages for certain users.",
+            "fixedCode": "return getAdjustedTime(); // Replace with a function that compensates for miner manipulation, if retrieving it from block."
+        }
+    ]
+}

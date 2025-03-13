@@ -1,0 +1,18 @@
+[
+    {
+        "start_line": 311,
+        "end_line": 313,
+        "code": [
+            "if (!address(admin).call.value(_com)())",
+            "_p3d = _com;"
+        ]
+    },
+    {
+        "start_line": 228,
+        "end_line": 444,
+        "code": [
+            "if (_eth > 0)",
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    }
+]

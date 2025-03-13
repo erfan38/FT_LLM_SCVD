@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 22,
-        "end_line": 24,
-        "code": [
-            "if(msg.sender.call.value(_am)())",
-            "acc.balance-=_am;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "22-24",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "acc.balance-=_am;"
+            ],
+            "vulnerabilityReason": "The function uses 'call.value()' to send Ether to the caller before updating the state. This allows an attacker to call 'Collect' multiple times before the balance is decremented, which can result in draining funds from the contract.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by repeatedly calling the 'Collect' function, draining the contract's funds before the balance is properly updated and recorded, leading to significant monetary loss.",
+            "fixedCode": "if(acc.balance >= MinSum && acc.balance >= _am && now > acc.unlockTime) {\n    acc.balance -= _am; // Update the state before external call\n    if(!msg.sender.call.value(_am)()) {\n        revert(); // If transfer fails, revert the state change\n    }\n    LogFile.AddMessage(msg.sender, _am, \"Collect\");\n}"
+        }
+    ]
+}

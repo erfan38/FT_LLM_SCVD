@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "totalLiquidity = totalLiquidity - _amount;",
+                "totalLiquidity = totalLiquidity + block.number;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations directly on `totalLiquidity` without checks. Subtracting `_amount` from `totalLiquidity` can lead to an underflow if `_amount` is larger than `totalLiquidity`. Additionally, adding `block.number` to `totalLiquidity` could cause an overflow since `totalLiquidity` is a uint256, which has a maximum limit.",
+            "potentialSecurityRisk": "An underflow could result in `totalLiquidity` becoming a large positive number, which can lead to incorrect liquidity accounting, allowing for improper withdrawals or deposits. Similarly, an overflow when adding `block.number` can cause the total liquidity to wrap around, leading to erroneous calculations and potentially allowing manipulation of liquidity in the pool.",
+            "fixedCode": "require(totalLiquidity >= _amount, \"Insufficient liquidity\");\ntotalLiquidity = totalLiquidity - _amount;\nrequire(totalLiquidity + block.number >= totalLiquidity, \"Overflow detected\");\ntotalLiquidity = totalLiquidity + block.number;"
+        }
+    ]
+}

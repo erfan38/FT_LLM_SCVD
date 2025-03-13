@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 187,
-        "end_line": 187,
-        "code": [
-            "(bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);"
-        ]
-    },
-    {
-        "start_line": 191,
-        "end_line": 191,
-        "code": [
-            "(change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "187-187",
+            "vulnerableCode": [
+                "(bool success, ) = destAddress.call.value((address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0)(encodedFunctionCall);"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value()' for making external calls to 'destAddress', which can lead to reentrancy vulnerabilities, allowing an attacker to execute arbitrary code before the state changes pertaining to refunds take effect.",
+            "potentialSecurityRisk": "An attacker controlling the destination address could invoke reentrant calls while the contract is executing the call, potentially allowing them to steal funds by withdrawing multiple times before the withdrawals are updated in the state.",
+            "fixedCode": "(bool success, ) = destAddress.call{value: (address(dest) == ETH_TOKEN_ADDRESS) ? destAmount : 0}(encodedFunctionCall); require(success, \"dest call failed\");"
+        },
+        {
+            "vulnerableLines": "191-191",
+            "vulnerableCode": [
+                "(change > 0 && address(dest) == ETH_TOKEN_ADDRESS) ? msg.sender.transfer(change) : dest.safeTransfer(msg.sender, change);"
+            ],
+            "vulnerabilityReason": "This line transfers the change amount after the call to destAddress, creating a potential risk if destAddress is a malicious contract that exploits the opportunity to re-enter during fund transfers.",
+            "potentialSecurityRisk": "If the transfer of 'change' occurs after an external call, a malicious contract could exploit this to modify state variables or to trigger additional funding requests, leading to unauthorized withdrawals.",
+            "fixedCode": "if (change > 0 && address(dest) == ETH_TOKEN_ADDRESS) { require(msg.sender.send(change), \"Transfer failed\"); } else { require(dest.safeTransfer(msg.sender, change), \"Token transfer failed\"); }"
+        }
+    ]
+}

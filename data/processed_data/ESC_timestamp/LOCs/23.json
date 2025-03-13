@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "373-373",
+            "vulnerableCode": [
+                "uint new_amount = 55566600 + (block.timestamp%100);"
+            ],
+            "vulnerabilityReason": "The use of `block.timestamp` in calculating `new_amount` allows miners to manipulate the output by adjusting the timestamp of the blocks they mine. This signifies a pivotal reliance on potentially manipulated values, which can compromise the integrity of the contract's payment logic.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability by forcing the block.timestamp to achieve specific values, controlling the payment amount (`new_amount`). This could lead to situations where certain addresses receive unfairly larger payments, drastically impacting the token distribution and the overall fairness of the contract operations.",
+            "fixedCode": "uint new_amount = 55566600 + (currentBlock + TIME_TOLERANCE) % 100; // Replace with a secure time reference or buffer to prevent manipulation."
+        },
+        {
+            "vulnerableLines": "385-385",
+            "vulnerableCode": [
+                "uint new_amount = 55566600 + (block.timestamp%100);"
+            ],
+            "vulnerabilityReason": "Just like in the `pay055` method, relying on `block.timestamp` in `pay055loyal` compromises the contract's logic, as miners may alter the block timestamp to manipulate the resulting `new_amount`. This can affect how much participants are rewarded, leading to potential exploits.",
+            "potentialSecurityRisk": "If exploited, miners can use their control over the timestamp to alter the payout amount in a way that benefits them or harms tokens' holders. Similar to the `pay055` function, this could result in inequitable token distributions and abuse of the system's logic.",
+            "fixedCode": "uint new_amount = 55566600 + (currentBlock + TIME_TOLERANCE) % 100; // Use a secure mechanism for time calculations to prevent exploitation."
+        }
+    ]
+}

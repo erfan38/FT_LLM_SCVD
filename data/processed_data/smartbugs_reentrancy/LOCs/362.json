@@ -1,24 +1,32 @@
-[
-    {
-        "start_line": 302,
-        "end_line": 414,
-        "code": [
-            "if (_eth > 0)",
-            "    plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 194,
-        "end_line": 171,
-        "code": [
-            "buyCore(_pID, _affCode, _team, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 266,
-        "end_line": 335,
-        "code": [
-            "reLoadCore(_pID, _affID, _team, _eth, _eventData_);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "302-414",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract updates the player's earnings and then immediately performs an external call via `transfer()`. This allows for a potential reentrancy attack, where an attacker could call back before the contract state is properly updated, potentially allowing multiple withdrawals from the same earnings.",
+            "potentialSecurityRisk": "An attacker could exploit this by recursively re-entering the `withdraw()` function, allowing them to withdraw more funds than they are entitled to, leading to a drain of the contract's funds.",
+            "fixedCode": "if (_eth > 0) {\n    uint256 amountToWithdraw = _eth;\n    plyr_[_pID].win = 0; // Clear to prevent re-entrance\n    plyr_[_pID].addr.transfer(amountToWithdraw);\n}"
+        },
+        {
+            "vulnerableLines": "194-171",
+            "vulnerableCode": [
+                "buyCore(_pID, _affCode, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "The `buyCore` function is invoked after state changes are made within the `buyXid()` function, which could allow for a reentrant attack on user balances or other critical state variables, especially since `buyCore` likely involves some value transfer.",
+            "potentialSecurityRisk": "An attacker could manipulate the state by triggering re-entrance while `buyCore` processes a transfer, allowing unintended modifications to player funds or balances related to the game, ultimately compromising the smart contract integrity.",
+            "fixedCode": "// Ensure state changes are made before external calls if applicable"
+        },
+        {
+            "vulnerableLines": "266-335",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affID, _team, _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "Similar to the `buyCore` situation, calling `reLoadCore()` without proper state management or checks opens the potential for external manipulation and reentrancy attacks.",
+            "potentialSecurityRisk": "Allowing re-entrance during the execution of `reLoadCore` could lead to users influencing balance changes or fund distributions beyond intended limits, ultimately harming the economy of the smart contract.",
+            "fixedCode": "// Ensure no state change that can lead to re-entrant attacks happens before this call."
+        }
+    ]
+}

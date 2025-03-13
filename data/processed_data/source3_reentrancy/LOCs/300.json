@@ -1,13 +1,13 @@
 {
     "vulnerabilities": [
         {
-            "vulnerableLines": "238",
+            "vulnerableLines": "238-238",
             "vulnerableCode": [
                 "if (tx.destination.call.value(tx.value)(tx.data))"
             ],
-            "vulnerabilityReason": "The vulnerability arises because the external call to `tx.destination` using `call.value()` is executed before the transaction's `executed` status is updated. This allows an attacker to re-enter the `executeTransaction` function during this execution phase and attempt another withdrawal, potentially draining the contract of funds before the state change.",
-            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability by recursively calling the `executeTransaction` function, manipulating the state before it is updated. This could lead to unauthorized withdrawals or a complete loss of the contract's funds if they control the destination of the call.",
-            "fixedCode": "require(!tx.executed, \"Transaction already executed\");\ntx.executed = true;\n(bool success, ) = tx.destination.call{value: tx.value}(tx.data);\nrequire(success, \"Transaction execution failed\");"
+            "vulnerabilityReason": "The line makes an external call to `tx.destination.call.value(tx.value)(tx.data)` before the `executed` status of the transaction is marked as true. This allows the possibility of a reentrant call to `executeTransaction` before the contract has properly updated its internal state, which can lead to unauthorized fund withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that, upon receiving the funds, calls `executeTransaction` again before the transaction's `executed` flag is set, potentially allowing the attacker to drain the wallet's funds multiple times before the state is updated.",
+            "fixedCode": "if (isConfirmed(transactionId)) {\n    Transaction storage tx = transactions[transactionId];\n    tx.executed = true; // Mark the transaction as executed before the external call\n    (bool success, ) = tx.destination.call.value(tx.value)(tx.data);\n    require(success, \"Transaction execution failed\"); // Ensure the transaction was executed successfully\n    Execution(transactionId);\n}"
         }
     ]
 }

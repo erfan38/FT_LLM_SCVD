@@ -1,16 +1,31 @@
-[
-    {
-        "start_line": 1190,
-        "end_line": 1190,
-        "code": [
-            "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    },
-    {
-        "start_line": 1074,
-        "end_line": 1074,
-        "code": [
-            "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1190-1190",
+            "vulnerableCode": [
+                "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "This line uses `call.value()` to transfer ether to `TeamGoalbonanza` after computing `_com`, which allows an external contract to execute a fallback function and call back into this contract before the state changes are completed.",
+            "potentialSecurityRisk": "If the receiver is a malicious contract, it can re-enter the `distributeExternal` function while the state is still being altered, allowing an attacker to execute unexpected actions or withdraw funds multiple times, which can lead to a depletion of the contract's ether balance.",
+            "fixedCode": "require(address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Transfer failed\"); // Ensure successful call to prevent reentrancy attacks"
+        },
+        {
+            "vulnerableLines": "1074-1074",
+            "vulnerableCode": [
+                "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Here too, the use of `call.value()` allows for a callback into this contract before the state has completed updates, permitting a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could exploit this by manipulating state changes via a reentrant call, potentially stealing funds or causing unintended behavior within the contract.",
+            "fixedCode": "require(address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Transfer failed\"); // Ensure proper execution of the call to prevent abuse"
+        },
+        {
+            "vulnerableLines": "76-76",
+            "vulnerableCode": [
+                "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Utilizing `call.value()` to transfer funds allows external contracts to invoke calls back into this contract, exploiting any unforeseeable paths to manipulate state.",
+            "potentialSecurityRisk": "If an attacker can make a reentrant call before state updates are finalized, they could withdraw funds multiple times, causing financial losses to the contract's treasury.",
+            "fixedCode": "require(address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Transfer failed\"); // Validate result of external call to prevent unexpected reentrant behavior"
+        }
+    ]
+}

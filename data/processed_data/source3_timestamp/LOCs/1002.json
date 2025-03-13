@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 6,
-        "end_line": 6,
-        "code": [
-            "depositTime[msg.sender] = block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 11,
-        "end_line": 11,
-        "code": [
-            "uint256 timeElapsed = block.timestamp - depositTime[msg.sender];"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "depositTime[msg.sender] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The deposit function assigns the current block timestamp to depositTime, which means the record of when the deposit was made relies directly on block.timestamp. Miners can manipulate this value to a small extent, potentially leading to inaccurate deposit timings.",
+            "potentialSecurityRisk": "If a miner adjusts the timestamp of the block when the deposit transaction is processed, it can affect the interest calculations and result in incorrect financial outcomes for users, leading to a loss of trust and potential economic harm.",
+            "fixedCode": "depositTime[msg.sender] = block.timestamp + TIME_TOLERANCE; // Use a buffer like TIME_TOLERANCE to manage timestamp inaccuracies."
+        },
+        {
+            "vulnerableLines": "11-11",
+            "vulnerableCode": [
+                "uint256 timeElapsed = block.timestamp - depositTime[msg.sender];"
+            ],
+            "vulnerabilityReason": "The calculateInterest function also relies on the current block timestamp to compute the duration since the last deposit was made, making it susceptible to the same manipulation issues posed by the deposit function.",
+            "potentialSecurityRisk": "As with the deposit function, if the block timestamp is manipulated, it could lead to excessive or diminished interest being calculated, which undermines the integrity of the interest calculation process and affects user payouts.",
+            "fixedCode": "uint256 timeElapsed = (block.timestamp + TIME_TOLERANCE) - depositTime[msg.sender]; // Introduce a buffer to guard against timestamp manipulation."
+        }
+    ]
+}

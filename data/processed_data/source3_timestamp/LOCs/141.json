@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 29,
-        "end_line": 29,
-        "code": [
-            "assert(block.timestamp >= endDate);"
-        ]
-    },
-    {
-        "start_line": 40,
-        "end_line": 40,
-        "code": [
-            "assert(block.timestamp >= endDate);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "29-29",
+            "vulnerableCode": [
+                "assert(block.timestamp >= endDate);"
+            ],
+            "vulnerabilityReason": "The payOutBounty function uses block.timestamp to determine if the payout can proceed only after a specified end date. This use makes the function vulnerable to manipulation by miners who can control block timestamps within limits, causing the payout to occur at unintended times.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp causing the payout to succeed when it should not, potentially resulting in financial loss for the contract owners and distorting the intended operation of bounties.",
+            "fixedCode": "assert(block.timestamp + TIME_TOLERANCE >= endDate); // Add a buffer to mitigate manipulation risk."
+        },
+        {
+            "vulnerableLines": "40-40",
+            "vulnerableCode": [
+                "assert(block.timestamp >= endDate);"
+            ],
+            "vulnerabilityReason": "The withdrawERC20Token function relies on block.timestamp to ensure that token withdrawals can only occur after a certain date, thus exposing it to the same vulnerabilities found in the payOutBounty function.",
+            "potentialSecurityRisk": "Similar to the payOutBounty function, the timestamp manipulation could allow for premature withdrawals of tokens, which could undermine trust and security within the contract system.",
+            "fixedCode": "assert(block.timestamp + TIME_TOLERANCE >= endDate); // Add a buffer to mitigate manipulation risk."
+        }
+    ]
+}

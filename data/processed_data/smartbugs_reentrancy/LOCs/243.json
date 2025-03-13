@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 388,
-        "end_line": 390,
-        "code": [
-            "if(msg.value > 0) owner.transfer(msg.value);",
-            "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "388-390",
+            "vulnerableCode": [
+                "if(msg.value > 0) owner.transfer(msg.value);",
+                "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);"
+            ],
+            "vulnerabilityReason": "The contract transfers ether to the owner using owner.transfer(msg.value) before decrementing the owner's balance. This allows for a potential reentrancy attack where the recipient can call back into the contract before the state is updated, allowing for multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to recursively call autoDistribute() while the transfer is in process, resulting in draining the contract's funds. By re-entering the function before the owner's balance is decremented, they could withdraw more funds than intended.",
+            "fixedCode": "if(msg.value > 0) { require(balanceOf[owner] >= distributeAmount, \"Insufficient balance to distribute\"); balanceOf[owner] = balanceOf[owner].sub(distributeAmount); owner.transfer(msg.value); }"
+        }
+    ]
+}

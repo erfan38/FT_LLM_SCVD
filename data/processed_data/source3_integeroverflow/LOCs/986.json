@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "votesReceived[candidate] += votes;"
+            ],
+            "vulnerabilityReason": "The contract performs an addition operation on `votesReceived[candidate]` without any checks to prevent overflow. If the total votes for a candidate exceeds the maximum value of the uint type, it will wrap around to zero, leading to incorrect voting results.",
+            "potentialSecurityRisk": "An attacker could exploit this by casting a large number of votes for a candidate, causing the total votes to overflow and reset to zero. This manipulation could grant the candidate an unfair advantage or invalidate the voting process entirely.",
+            "fixedCode": "require(votesReceived[candidate] + votes >= votesReceived[candidate], \"Overflow detected\");\nvotesReceived[candidate] += votes; // Safe addition after overflow check."
+        }
+    ]
+}

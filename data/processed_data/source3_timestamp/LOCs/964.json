@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "require(block.timestamp < auctionEndTime, \"Auction has ended\");"
-        ]
-    },
-    {
-        "start_line": 14,
-        "end_line": 14,
-        "code": [
-            "require(block.timestamp >= auctionEndTime, \"Auction not yet ended\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "require(block.timestamp < auctionEndTime, \"Auction has ended\");"
+            ],
+            "vulnerabilityReason": "The bid function relies on block.timestamp to check if the auction is still ongoing, making it susceptible to manipulation by miners who can adjust the block's timestamp.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to extend the auction duration, allowing them to place last-minute bids, which undermines the fairness of the auction process.",
+            "fixedCode": "require(block.timestamp < auctionEndTime + TIME_TOLERANCE, \"Auction has ended\"); // Adding a buffer TIME_TOLERANCE for safety"
+        },
+        {
+            "vulnerableLines": "14-14",
+            "vulnerableCode": [
+                "require(block.timestamp >= auctionEndTime, \"Auction not yet ended\");"
+            ],
+            "vulnerabilityReason": "The endAuction function checks if the auction has ended using block.timestamp, creating a vulnerability where miners could end the auction prematurely by setting an earlier timestamp.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to end the auction before the intended time, potentially depriving legitimate bidders of their bids and leading to unfair outcomes.",
+            "fixedCode": "require(block.timestamp >= auctionEndTime - TIME_TOLERANCE, \"Auction not yet ended\"); // Adding a buffer TIME_TOLERANCE for safety"
+        }
+    ]
+}

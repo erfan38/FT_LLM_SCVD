@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "totalSupply = totalSupply - burnAmount;"
+            ],
+            "vulnerabilityReason": "The subtraction operation in 'totalSupply = totalSupply - burnAmount;' does not check if 'burnAmount' is greater than 'totalSupply'. If 'burnAmount' exceeds 'totalSupply', this will result in an integer underflow, producing a very large total supply value due to the wraparound effect of unsigned integers.",
+            "potentialSecurityRisk": "This vulnerability can disrupt the token's economic model, allowing an attacker to effectively create an unlimited number of tokens by manipulating the 'burnTokens' function, leading to potential fraud, manipulation, and loss of trust in the token's value.",
+            "fixedCode": "require(burnAmount <= totalSupply, \"Burn amount exceeds total supply\");\ntotalSupply = totalSupply - burnAmount;"
+        }
+    ]
+}

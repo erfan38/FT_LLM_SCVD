@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 234,
+        "end_line": 234,
+        "code": [
+            "txn.executed = true;"
+        ]
+    },
+    {
+        "start_line": 234,
+        "end_line": 235,
+        "code": [
+            "if (txn.destination.call.value(txn.value)(txn.data))"
+        ]
+    }
+]

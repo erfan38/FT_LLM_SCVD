@@ -14,11 +14,12 @@
         "vulnerabilityReason": "The contract performs arithmetic operations (`++`, `+`, and `-`) on `markId`, `marked[msg.sender]`, and `balances[msg.sender]` without checking for overflow or underflow. In Solidity versions prior to 0.8.0, increasing `markId` or `marked[msg.sender]` without validation could cause an overflow, and subtracting `_value` from `balances[msg.sender]` could cause an underflow if `_value` is greater than the available balance.",
         "potentialSecurityRisk": "An attacker could exploit this by setting `markId` to a very high value, causing an overflow. Additionally, they could attempt to transfer more tokens than available, triggering an underflow, which could lead to unintended large balances or unauthorized transfers.",
         "fixedCode": [
-            "require(markId < type(uint256).max, \"markId overflow\");",
-            "markId++;",
-            "require(marked[msg.sender] < type(uint256).max, \"marked[msg.sender] overflow\");",
-            "marked[msg.sender]++;",
-            "// Using Solidity 0.8+ built-in overflow protection (or SafeMath for older versions)"
+                "require(markId + 1 > markId, \"markId overflow detected\"); // Prevents overflow before incrementing",
+                "markId++; //  Safe increment",
+                "require(marked[msg.sender] + 1 > marked[msg.sender], \"marked[msg.sender] overflow detected\"); // ✅ Prevents overflow before incrementing",
+                "marked[msg.sender]++; // Safe increment",
+                "require(1 + marked[msg.sender] <= balances[msg.sender], \"Insufficient balance\"); //  Prevents underflow before updating marked[msg.sender]",
+                "// Using Solidity 0.8+ built-in overflow protection (or SafeMath for older versions)"            
         ]
     },
     {
@@ -31,11 +32,11 @@
         "vulnerabilityReason": "The contract performs arithmetic operations (`+=` and `-=`) on `balances` without checking for overflow or underflow. If `_value` is greater than `balances[msg.sender]`, it can cause an underflow. Similarly, adding `_value` to `balances[_to]` could overflow, resulting in an incorrect state.",
         "potentialSecurityRisk": "An attacker could attempt to transfer more tokens than they own, triggering an underflow on `balances[msg.sender]`. Alternatively, `balances[_to]` could exceed the maximum `uint256` limit, leading to an overflow, potentially giving an attacker extra tokens.",
         "fixedCode": [
-            "require(balances[msg.sender] >= _value, \"Insufficient balance\");",
-            "balances[msg.sender] -= _value;",
-            "require(balances[_to] + _value >= balances[_to], \"Overflow detected\");",
-            "balances[_to] += _value;",
-            "// Using Solidity 0.8+ built-in overflow/underflow protection (or SafeMath for older versions)"
+                "require(balances[msg.sender] >= _value, \"Insufficient balance\"); //  Prevents underflow",
+                "balances[msg.sender] -= _value; //  Safe subtraction",
+                "require(balances[_to] <= type(uint256).max - _value, \"Overflow detected\"); //  Correct overflow check",
+                "balances[_to] += _value; //  Safe addition",
+                "// Using Solidity 0.8+ built-in overflow/underflow protection (or SafeMath for older versions)"            
         ]
     }
 ]

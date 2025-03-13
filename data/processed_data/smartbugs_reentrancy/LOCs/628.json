@@ -1,23 +1,13 @@
-[
-    {
-        "start_line": 413,
-        "end_line": 413,
-        "code": [
-            "if (msg.sender.call.value(withdrawAmount)()) {"
-        ]
-    },
-    {
-        "start_line": 248,
-        "end_line": 248,
-        "code": [
-            "if(!playerRolls[key].playerAddr.send(playerRolls[key].stake)){"
-        ]
-    },
-    {
-        "start_line": 288,
-        "end_line": 288,
-        "code": [
-            "if(!playerRolls[key].playerAddr.send(_totalWin)){"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "413-413",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {"
+            ],
+            "vulnerabilityReason": "The use of `msg.sender.call.value()` allows the recipient to execute fallback functions, which can re-invoke `player_withdrawPendingTransactions` before the pending withdrawal is reset, leading to multiple withdrawals being processed without updating the state correctly.",
+            "potentialSecurityRisk": "An attacker controlling `msg.sender` can re-enter the `player_withdrawPendingTransactions` function multiple times, allowing them to withdraw more funds than they are entitled to before the contract updates the `playerPendingWithdrawals` mapping, leading to potential loss of funds.",
+            "fixedCode": "uint withdrawAmount = playerPendingWithdrawals[msg.sender];\nrequire(withdrawAmount > 0, \"No funds to withdraw\");\nplayerPendingWithdrawals[msg.sender] = 0;\n(bool success, ) = msg.sender.call.value(withdrawAmount)();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

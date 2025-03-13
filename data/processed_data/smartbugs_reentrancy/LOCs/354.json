@@ -1,23 +1,13 @@
-[
-    {
-        "start_line": 415,
-        "end_line": 415,
-        "code": [
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1255,
-        "end_line": 1255,
-        "code": [
-            "        if (!address(admin).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 1287,
-        "end_line": 1287,
-        "code": [
-            "            admin.transfer(_p3d.sub(_potAmount));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "415-415",
+            "vulnerableCode": [
+                "            plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The Ether transfer happens before updating any state variables, leaving the contract vulnerable to reentrancy attacks. If the recipient is a smart contract with a fallback function that calls back into the withdraw function, it can withdraw multiple times before the state reflects the changed balance.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability to repeatedly withdraw funds from the contract, depleting its balance without the withdrawal being stored or updated accurately in the state variables.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID);\nif (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n    // Immediately set the balance to zero after transfer, preventing reentrancy\n}"
+        }
+    ]
+}

@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 79,
-        "end_line": 79,
-        "code": [
-            "require(_to.call.value(_value)(_data), \"MSW: External call failed\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "79-79",
+            "vulnerableCode": [
+                "require(_to.call.value(_value)(_data), \"MSW: External call failed\");"
+            ],
+            "vulnerabilityReason": "The external call to `_to` using `call.value()` occurs before the state variable `nonce` is updated and the required number of valid signatures is checked. This order allows a potential attacker to execute a reentrancy attack by making a recursive call before the state is updated in subsequent lines, leading to possible manipulation during the execution of the function.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by calling a malicious contract that could re-enter the `execute` function, causing it to perform multiple transfers of Ether or manipulate contract state unexpectedly before the function completes. This could result in unexpected fund loss or contract state corruption.",
+            "fixedCode": "uint256 valid;\naddress lastSigner = 0;\nfor(uint256 i = 0; i < count; i++) {\n    (v,r,s) = splitSignature(_signatures, i);\n    address recovered = ecrecover(keccak256(abi.encodePacked(\"\\x19Ethereum Signed Message:\\n32\",txHash)), v, r, s);\n    require(recovered > lastSigner, \"MSW: Badly ordered signatures\");\n    lastSigner = recovered;\n    if(isOwner[recovered]) {\n        valid += 1;\n        if(valid >= threshold) {\n            // Update state before making an external call\n            emit Executed(_to, _value, _data);\n            nonce += 1;\n            require(_to.call.value(_value)(_data), \"MSW: External call failed\");\n            return;\n        }\n    }\n}"
+        }
+    ]
+}

@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 10,
-        "end_line": 10,
-        "code": [
-            "if(msg.sender.call.value(_am)()) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)()) {"
+            ],
+            "vulnerabilityReason": "The use of `call.value(_am)()` allows for an external call to `msg.sender` before the state (balance) of the contract is updated. If `msg.sender` is a contract, it can execute arbitrary code and re-enter the `Collect` function before the balance is deducted, potentially allowing the attacker to drain funds from the contract by repeatedly invoking the function.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that re-enters the `Collect` function, enabling them to withdraw more funds than they deposited. This could possibly result in draining the entire balance of the contract.",
+            "fixedCode": "if (Accounts[msg.sender] >= MinSum && _am <= Accounts[msg.sender]) {\n    Accounts[msg.sender] -= _am;  // Update state first\n    require(msg.sender.call.value(_am)());  // External call after state update\n}"
+        }
+    ]
+}

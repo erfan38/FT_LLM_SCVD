@@ -1,0 +1,76 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "185-185",
+            "vulnerableCode": [
+                "emit Deposit(msg.sender, msg.value, horse, now);"
+            ],
+            "vulnerabilityReason": "The use of `now` for logging deposits makes this vulnerable to manipulation by miners who can alter the timestamp of the mined blocks. This could allow miners to gain advantages in betting positions without detection.",
+            "potentialSecurityRisk": "Miners could manipulate timestamps to falsely log transactions, which may distort betting outcomes or exploit deposit logging to gain an unfair advantage in the betting system.",
+            "fixedCode": "emit Deposit(msg.sender, msg.value, horse, block.timestamp); // use block.timestamp instead of now"
+        },
+        {
+            "vulnerableLines": "198-198",
+            "vulnerableCode": [
+                "chronus.starting_time = uint32(block.timestamp);"
+            ],
+            "vulnerabilityReason": "Setting the starting time of the race based on `block.timestamp` opens up the possibility for miners to manipulate the perceived starting time, compromising the race fairness and integrity.",
+            "potentialSecurityRisk": "If miners alter the timestamp, they can set the starting time to an advantage, allowing for manipulative tactics or unfair betting outcomes. It can disrupt the users' experience with untrustworthy timings.",
+            "fixedCode": "chronus.starting_time = uint32(block.timestamp + TIME_TOLERANCE); // add a buffer for manipulation tolerance"
+        },
+        {
+            "vulnerableLines": "203-203",
+            "vulnerableCode": [
+                "chronus.betting_duration = uint32(delay);"
+            ],
+            "vulnerabilityReason": "Assigning the betting duration directly based on parameters can cause issues related to the actual timing of the betting window as it can be exploited with manipulated timestamps from miners.",
+            "potentialSecurityRisk": "If a miner manipulates the block timestamp, they could alter the perceived duration of the betting period. This could lead to unfair advantages in placing and processing bets at opportune times for them.",
+            "fixedCode": "chronus.betting_duration = uint32(delay + TIME_TOLERANCE); // buffer added for insurance against timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "211-211",
+            "vulnerableCode": [
+                "chronus.race_duration = uint32(delay);"
+            ],
+            "vulnerabilityReason": "As with betting duration, using manipulated timestamps affects how the race duration is perceived, leaving it open to exploitation.",
+            "potentialSecurityRisk": "Manipulation by miners can influence the race's operational duration, potentially allowing for late entries or changes to participant conditions, undermining the integrity of betting.",
+            "fixedCode": "chronus.race_duration = uint32(delay + TIME_TOLERANCE); // protect against timestamp manipulation by leveraging a buffer"
+        },
+        {
+            "vulnerableLines": "334-334",
+            "vulnerableCode": [
+                "chronus.voided_timestamp=uint32(now);"
+            ],
+            "vulnerabilityReason": "Using `now` directly for failure conditions can be problematic due to miner control over the timestamp. Hence, it might allow for potential manipulation to void races at advantageous times.",
+            "potentialSecurityRisk": "Miners could manipulate conditions surrounding a race's voiding and potentially exploit the logic surrounding refunds or voided bets unfairly.",
+            "fixedCode": "chronus.voided_timestamp=uint32(block.timestamp); // use block.timestamp to record the voided time"
+        },
+        {
+            "vulnerableLines": "375-375",
+            "vulnerableCode": [
+                "chronus.voided_timestamp=uint32(now);"
+            ],
+            "vulnerabilityReason": "Again, setting the voided timestamp based on `now` risks manipulation by miners, leading to consequences in timing in contract logic related to race voiding.",
+            "potentialSecurityRisk": "The timestamp could be altered by miners to impact the voiding period, influencing outcomes of racing and betting, potentially leading to monetary losses or exploits.",
+            "fixedCode": "chronus.voided_timestamp=uint32(block.timestamp); // use block.timestamp for accurate void timing"
+        },
+        {
+            "vulnerableLines": "381-381",
+            "vulnerableCode": [
+                "require((chronus.race_end && now > chronus.starting_time + chronus.race_duration + (30 days))"
+            ],
+            "vulnerabilityReason": "This condition checks for race end times using `now`, leaving it subject to manipulation, potentially allowing a race to falsely end or continue unfairly.",
+            "potentialSecurityRisk": "Manipulation here could make a race appear to have not ended when it officially has, allowing ongoing betting or other exploitation of the race status.",
+            "fixedCode": "require((chronus.race_end && block.timestamp > chronus.starting_time + chronus.race_duration + (30 days))); // replace now with block.timestamp"
+        },
+        {
+            "vulnerableLines": "382-382",
+            "vulnerableCode": [
+                "|| (chronus.voided_bet && now > chronus.voided_timestamp + (30 days)));"
+            ],
+            "vulnerabilityReason": "Like the previous point, checking for voided bets using `now` can allow miners to influence the logic surrounding recoveries, leading to exploitable scenarios.",
+            "potentialSecurityRisk": "It enables scenarios where miners could disrupt the integrity of the betting on voided bets, influencing refunds or unfair advantages.",
+            "fixedCode": "|| (chronus.voided_bet && block.timestamp > chronus.voided_timestamp + (30 days)); // utilize block.timestamp for accuracy."
+        }
+    ]
+}

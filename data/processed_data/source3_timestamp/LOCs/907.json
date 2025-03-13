@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 104,
-        "end_line": 104,
-        "code": [
-            "        lockedAt = block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 140,
-        "end_line": 140,
-        "code": [
-            "        require(block.timestamp > timeLocks[reserveWallet]);"
-        ]
-    },
-    {
-        "start_line": 182,
-        "end_line": 182,
-        "code": [
-            "        uint256 stage = (block.timestamp.sub(lockedAt)).div(vestingMonths);"
-        ]
-    },
-    {
-        "start_line": 196,
-        "end_line": 196,
-        "code": [
-            "        return block.timestamp > timeLocks[msg.sender] && claimed[msg.sender] == 0;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "104-104",
+            "vulnerableCode": [
+                "lockedAt = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp introduces a dependency that can be manipulated by miners. They may adjust the timestamp slightly, affecting the locking mechanism for the funds.",
+            "potentialSecurityRisk": "Miners could unlock funds prematurely by adjusting the block timestamp, allowing access to funds that should be locked until a certain time period has passed.",
+            "fixedCode": "lockedAt = block.timestamp + TIME_TOLERANCE; // Using a buffer to cope with miner manipulation."
+        },
+        {
+            "vulnerableLines": "140-140",
+            "vulnerableCode": [
+                "require(block.timestamp > timeLocks[reserveWallet]);"
+            ],
+            "vulnerabilityReason": "This requirement is heavily dependent on the accuracy of block.timestamp, allowing miners to manipulate the unlocking of funds by adjusting the block timestamp.",
+            "potentialSecurityRisk": "An attacker could manipulate the timestamp to grant themselves access to tokens linked to the reserve wallet earlier than intended.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > timeLocks[reserveWallet]); // Adding a safety buffer."
+        },
+        {
+            "vulnerableLines": "182-182",
+            "vulnerableCode": [
+                "uint256 stage = (block.timestamp.sub(lockedAt)).div(vestingMonths);"
+            ],
+            "vulnerabilityReason": "This vesting stage calculation uses block.timestamp, introducing the risk that miners can manipulate it to gain access to funds sooner than intended.",
+            "potentialSecurityRisk": "Miners may alter the block timestamp to advance their vesting stage, allowing them to collect tokens or funds that should not have been available yet.",
+            "fixedCode": "uint256 stage = (block.timestamp + TIME_TOLERANCE).sub(lockedAt).div(vestingMonths); // Using a buffer to protect against manipulation."
+        },
+        {
+            "vulnerableLines": "196-196",
+            "vulnerableCode": [
+                "return block.timestamp > timeLocks[msg.sender] && claimed[msg.sender] == 0;"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp means miners can manipulate the return value of canCollect, thus affecting access to collective funds.",
+            "potentialSecurityRisk": "Miners may modify the block timestamp to allow accessing funds sooner than intended or mislead users regarding their ability to collect.",
+            "fixedCode": "return (block.timestamp + TIME_TOLERANCE > timeLocks[msg.sender]) && (claimed[msg.sender] == 0); // Using a buffer to prevent manipulation."
+        }
+    ]
+}

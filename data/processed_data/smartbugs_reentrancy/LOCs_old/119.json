@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 216,
+        "end_line": 216,
+        "code": [
+            "require(msg.sender.call.value(msg.value)());"
+        ]
+    },
+    {
+        "start_line": 223,
+        "end_line": 223,
+        "code": [
+            "require(msg.sender.call.value(msg.value)());"
+        ]
+    },
+    {
+        "start_line": 246,
+        "end_line": 246,
+        "code": [
+            "_game.sendPrize(2300);"
+        ]
+    }
+]

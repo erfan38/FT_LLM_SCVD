@@ -1,37 +1,49 @@
-[
-    {
-        "start_line": 163,
-        "end_line": 163,
-        "code": [
-            "require(block.timestamp >= START_TIME && block.timestamp < END_TIME);"
-        ]
-    },
-    {
-        "start_line": 169,
-        "end_line": 169,
-        "code": [
-            "require(didOwnerEndCrowdsale || block.timestamp > end || capReached);"
-        ]
-    },
-    {
-        "start_line": 188,
-        "end_line": 188,
-        "code": [
-            "if (block.timestamp >= start) {"
-        ]
-    },
-    {
-        "start_line": 197,
-        "end_line": 197,
-        "code": [
-            "if (block.timestamp >= end) {"
-        ]
-    },
-    {
-        "start_line": 267,
-        "end_line": 267,
-        "code": [
-            "require(block.timestamp >= start && block.timestamp <= end);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "163-163",
+            "vulnerableCode": [
+                "require(block.timestamp >= START_TIME && block.timestamp < END_TIME);"
+            ],
+            "vulnerabilityReason": "The 'closeCrowdsale' function uses block.timestamp to verify that the crowdsale is being closed within the correct time frame defined by START_TIME and END_TIME. Miners can manipulate the block timestamp, allowing for exploitation by postponing or preemptively closing the crowdsale.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to influence the ability to close the crowdsale at an unintended time, potentially leading to financial loss or unfair advantages in token acquisition.",
+            "fixedCode": "require(block.timestamp >= START_TIME + TIME_TOLERANCE && block.timestamp < END_TIME - TIME_TOLERANCE); // Utilize a buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "169-169",
+            "vulnerableCode": [
+                "require(didOwnerEndCrowdsale || block.timestamp > end || capReached);"
+            ],
+            "vulnerabilityReason": "This check relies on block.timestamp to determine if the crowdsale can be finalized or closed. Manipulation by miners can lead to conditions being met or not met based on a falsified timestamp.",
+            "potentialSecurityRisk": "If the end timestamp is manipulated, it may allow the crowdsale to remain open longer than intended, thereby allowing further token purchases beyond the cap limit or extending the crowdsale unfairly.",
+            "fixedCode": "require(didOwnerEndCrowdsale || block.timestamp > end + TIME_TOLERANCE || capReached); // Use a buffer to further protect against manipulation."
+        },
+        {
+            "vulnerableLines": "188-188",
+            "vulnerableCode": [
+                "if (block.timestamp >= start) {"
+            ],
+            "vulnerabilityReason": "The 'started()' function checks if the crowdsale has started based on block.timestamp. Analytics based on a manipulable timestamp can lead to inaccurate state information about the crowdsale's status.",
+            "potentialSecurityRisk": "Manipulation could allow a miner to falsely identify the crowdsale as having started or not, potentially leading to unfair advantages to those who exploit this information.",
+            "fixedCode": "if (block.timestamp >= start + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "197-197",
+            "vulnerableCode": [
+                "if (block.timestamp >= end) {"
+            ],
+            "vulnerabilityReason": "The 'ended()' function relies on block.timestamp to determine if the crowdsale has ended. Similar to the previous state checks, reliance on block.timestamp makes this logic susceptible to manipulations.",
+            "potentialSecurityRisk": "Manipulation of the timestamp could allow users to exploit the crowdsale by acting as if it is still active, further undermining the cap and intended time frame of the sale.",
+            "fixedCode": "if (block.timestamp >= end + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "267-267",
+            "vulnerableCode": [
+                "require(block.timestamp >= start && block.timestamp <= end);"
+            ],
+            "vulnerabilityReason": "The 'validPurchase()' function is also dependent on block.timestamp for its logic regarding whether purchases can occur. This creates areas where miner manipulation can significantly affect the outcome of the function.",
+            "potentialSecurityRisk": "Misuse of block.timestamp could allow transactions to be processed that should be invalid, leading to potential cap breach and financial loss.",
+            "fixedCode": "require(block.timestamp >= start + TIME_TOLERANCE && block.timestamp <= end - TIME_TOLERANCE); // Using a tolerance to protect against manipulation."
+        }
+    ]
+}

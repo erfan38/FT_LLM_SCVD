@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 421,
+        "end_line": 421,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 450,
+        "end_line": 450,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1283,
+        "end_line": 1283,
+        "code": [
+            "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 1294,
+        "end_line": 1294,
+        "code": [
+            "if(!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    }
+]

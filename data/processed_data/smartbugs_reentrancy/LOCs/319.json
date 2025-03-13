@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 103,
-        "end_line": 103,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 163,
-        "end_line": 163,
-        "code": [
-            "receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "103-103",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The function calls a low-level `call` while transferring Ethereum without updating the state variables beforehand. As a result, if the `_to` address is a contract with malicious code, it can invoke the custom fallback function before the sender's balance is adjusted, leading to a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability by repeatedly calling the fallback function during execution of the transfer, draining funds from the smart contract.",
+            "fixedCode": "// Update the state before making an external call.\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nrequire(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data), 'Fallback call failed');"
+        },
+        {
+            "vulnerableLines": "163-163",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "This line calls the `tokenFallback` function of the contract without updating the sender's balance beforehand. This allows the `receiver` contract to execute code, potentially allowing an attacker to withdraw funds before the state variables are updated, creating a reentrancy risk.",
+            "potentialSecurityRisk": "Similar to the previous case, an attacker could re-enter the transfer logic during the execution of `tokenFallback`, allowing repeated withdrawals before the state update takes place, risking the loss of funds in the contract.",
+            "fixedCode": "// Ensure balance is updated before any external call.\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nreceiver.tokenFallback(msg.sender, _value, _data);"
+        }
+    ]
+}

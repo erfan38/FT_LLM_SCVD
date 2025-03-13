@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 194,
-        "end_line": 194,
-        "code": [
-            "balances[investor] = balances[investor].add(toGive);"
-        ]
-    },
-    {
-        "start_line": 272,
-        "end_line": 272,
-        "code": [
-            "balances[_to] = balances[_to].add(_amount);"
-        ]
-    },
-    {
-        "start_line": 329,
-        "end_line": 329,
-        "code": [
-            "owner.transfer(etherBalance);"
-        ]
-    },
-    {
-        "start_line": 336,
-        "end_line": 336,
-        "code": [
-            "require(_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))), msg.sender, _value, this, _extraData));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "194-194",
+            "vulnerableCode": [
+                "balances[investor] = balances[investor].add(toGive);"
+            ],
+            "vulnerabilityReason": "The state-changing operation (updating the balance) is executed before the external call, allowing an attacker to make a recursive call to 'getTokens()' before the contract state is updated, potentially withdrawing more tokens than they are entitled to.",
+            "potentialSecurityRisk": "An attacker could exploit this by repeatedly calling 'getTokens' during the external call, leading to excessive withdrawals and draining the contract's balance.",
+            "fixedCode": "balances[investor] = 0; // Reset investor's balance before external call\nrequire(investor.call.value(toGive)()); // External call happens after state update."
+        },
+        {
+            "vulnerableLines": "272-272",
+            "vulnerableCode": [
+                "balances[_to] = balances[_to].add(_amount);"
+            ],
+            "vulnerabilityReason": "The balance update precedes the external call to the contract receiving the transfer, allowing an attacker to exploit this by making recursive calls before the state change is finalized.",
+            "potentialSecurityRisk": "An attacker could potentially drain funds from the contract by recursively invoking 'transferFrom()' before the balance is correctly updated.",
+            "fixedCode": "uint256 previousBalance = balances[_to];\nbalances[_to] = previousBalance.add(_amount); // First update the state\nrequire(_to.call(bytes4(keccak256(\"someFunction(uint256)\")), _amount)); // External call after state update."
+        },
+        {
+            "vulnerableLines": "329-329",
+            "vulnerableCode": [
+                "owner.transfer(etherBalance);"
+            ],
+            "vulnerabilityReason": "The contract sends Ether to the owner without first resetting the Ether balance, which can be vulnerable to reentrancy, allowing an attacker to exploit potential recursive calls.",
+            "potentialSecurityRisk": "Malicious actors could exploit this to withdraw funds repeatedly before the contract updates its state, leading to significant losses.",
+            "fixedCode": "uint256 withdrawAmount = etherBalance;\netherBalance = 0; // Reset the balance before the call\nowner.transfer(withdrawAmount); // Transfer happens after state reset."
+        },
+        {
+            "vulnerableLines": "336-336",
+            "vulnerableCode": [
+                "require(_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\")), msg.sender, _value, this, _extraData));"
+            ],
+            "vulnerabilityReason": "This external call is made after updating state variables, allowing the recipient to re-enter and call other functions in the contract before the state is fully established, which could lead to vulnerabilities.",
+            "potentialSecurityRisk": "An attacker could recursively call the approveAndCall function, compromising usual fund management and potentially leading to fund theft.",
+            "fixedCode": "allowed[msg.sender][_spender] = _value;\nApproval(msg.sender, _spender, _value);\nrequire(_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\")), msg.sender, _value, this, _extraData)));\n"
+        }
+    ]
+}

@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 503,
-        "end_line": 503,
-        "code": [
-            "if (!address(comBankAddr_).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 272,
-        "end_line": 272,
-        "code": [
-            "uint256 _eth = withdrawEarnings(_pID);"
-        ]
-    },
-    {
-        "start_line": 215,
-        "end_line": 215,
-        "code": [
-            "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "503-503",
+            "vulnerableCode": [
+                "if (!address(comBankAddr_).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows for an external call to be made to `comBankAddr_` without changing the contract state beforehand. If the call fails, the external contract can execute arbitrary code, allowing a reentrant call before any internal state has been updated in this contract.",
+            "potentialSecurityRisk": "An attacker could exploit the situation by forcing the contract to call back into itself, allowing for manipulation of state variables for multiple withdrawals or other unintended operations, potentially draining funds.",
+            "fixedCode": "(bool success, ) = address(comBankAddr_).call.value(_com)(); require(success, \"Transfer to comBankAddr_ failed\"); // Ensure the external call is successful."
+        },
+        {
+            "vulnerableLines": "272-272",
+            "vulnerableCode": [
+                "uint256 _eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "In the `withdraw` function, the earnings are withdrawn before resetting the relevant player state variables. This allows an attacker to call into `withdrawEarnings` again and manipulate the earnings before the state is updated.",
+            "potentialSecurityRisk": "An attacker can repeatedly invoke the `withdraw` function during the external call to `withdrawEarnings`, potentially draining the contract's funds by executing multiple withdrawals before the state reflects the changes.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); require(earnings > 0, \"No earnings available\"); // Only proceed if there are earnings to withdraw."
+        },
+        {
+            "vulnerableLines": "215-215",
+            "vulnerableCode": [
+                "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
+            ],
+            "vulnerabilityReason": "The `buyCore` function is called before any internal bookkeeping is updated (e.g., modifying the player's state or the round state). This could allow external contracts to re-enter and exploit the state of the contract before it's settled.",
+            "potentialSecurityRisk": "Similar to others, a malicious actor could execute a reentrant call in `buyCore`, potentially leading to excessive spending or manipulation of the contract's state affecting other players.",
+            "fixedCode": "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_); // Consider implementing state updates before this line."
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "551-551",
+            "vulnerableCode": [
+                "uint64 tmNow = uint64(block.timestamp);"
+            ],
+            "vulnerabilityReason": "The `createWinner()` function uses `block.timestamp` to determine the current time, allowing miners to manipulate the relevant timestamp. This manipulation could result in unintended winner selections based on altered timing.",
+            "potentialSecurityRisk": "Miners could influence the timing of when a winner is selected. For instance, they could delay the process or select a time that allows them to benefit from the jackpot selection, thus impacting fairness in the lottery system.",
+            "fixedCode": "uint64 tmNow = uint64(block.timestamp + TIME_TOLERANCE); // using a tolerance to mitigate manipulation"
+        },
+        {
+            "vulnerableLines": "1355-1356",
+            "vulnerableCode": [
+                "uint64 tmNow = uint64(block.timestamp);",
+                "require(tmNow >= nextJackpotTime);"
+            ],
+            "vulnerabilityReason": "Using `block.timestamp` to impose conditions around jackpot timings makes the contract susceptible to miners manipulating the selection moment and gaining an undue advantage.",
+            "potentialSecurityRisk": "If an attacker or miner can influence the jackpot time, they might pick a winner sooner than intended, affecting the payouts and the overall gaming fairness.",
+            "fixedCode": "uint64 tmNow = uint64(block.timestamp + TIME_TOLERANCE); require(tmNow >= nextJackpotTime); // using a tolerance to smooth timestamp differences"
+        },
+        {
+            "vulnerableLines": "1366-1366",
+            "vulnerableCode": [
+                "nextJackpotTime = uint64(block.timestamp) + 72000;"
+            ],
+            "vulnerabilityReason": "The adjustment of `nextJackpotTime` directly based on `block.timestamp` can lead to exploitation by miners who modify block times.",
+            "potentialSecurityRisk": "By adjusting `nextJackpotTime`, miners could exploit the jackpot window to either create superior advantages or timing-related benefits for their own transactions.",
+            "fixedCode": "nextJackpotTime = uint64(block.timestamp + TIME_TOLERANCE + 72000); // apply tolerance when defining future timings"
+        },
+        {
+            "vulnerableLines": "1388-1388",
+            "vulnerableCode": [
+                "seed = uint256(keccak256(seed, block.blockhash(block.number - 1), block.coinbase, block.difficulty));"
+            ],
+            "vulnerabilityReason": "This approach uses `block.blockhash` and thereby incorporates state-changing values reliant on block properties that miners can influence, which could undermine the randomness needed for fairness in outcomes.",
+            "potentialSecurityRisk": "If an attacker can modify the block properties affecting the randomness outcome, they could influence game outcomes favorably towards themselves, undermining the integrity of the contract.",
+            "fixedCode": "seed = uint256(keccak256(seed, block.blockhash(block.number - 1), block.coinbase, block.difficulty, uint256(block.timestamp + TIME_TOLERANCE)); // integrate timestamp adjustment while maintaining randomness."
+        }
+    ]
+}

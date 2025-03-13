@@ -1,14 +1,18 @@
-[
-    {
-        "start_line": 237,
-        "end_line": 247,
-        "code": [
-            "balances[_from] = safeSub(balances[_from] , _value);",
-            "balances[_to] = safeAdd(balances[_to] , _value);",
-            "bytes memory empty;",
-            "if ( isContract(_to) ) {",
-            "ContractReceiver receiver = ContractReceiver(_to);",
-            "receiver.tokenFallback(_from, _value, empty);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "237-247",
+            "vulnerableCode": [
+                "balances[_from] = safeSub(balances[_from] , _value);",
+                "balances[_to] = safeAdd(balances[_to] , _value);",
+                "bytes memory empty;",
+                "if ( isContract(_to) ) {",
+                "ContractReceiver receiver = ContractReceiver(_to);",
+                "receiver.tokenFallback(_from, _value, empty);"
+            ],
+            "vulnerabilityReason": "The order of operations in the transferFrom function poses a reentrancy risk. The function updates the balances before making an external call to 'tokenFallback'. If an attacker controls the '_to' address and can invoke 'tokenFallback', they can reenter the 'transferFrom' function before the balances are updated, potentially allowing them to withdraw more than they should.",
+            "potentialSecurityRisk": "An attacker could exploit this by implementing a malicious 'tokenFallback' function that calls back into 'transferFrom', which could allow them to withdraw more tokens multiple times before the allowance is expired, draining the contract's funds.",
+            "fixedCode": "// 1. Update the allowance before the state changes\nallowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);\n// 2. Then update the balances\nbalances[_from] = safeSub(balances[_from] , _value);\nbalances[_to] = safeAdd(balances[_to] , _value);\n// 3. Make the external call after balance updates\nif (isContract(_to)) {\n    ContractReceiver receiver = ContractReceiver(_to);\n    bytes memory empty;\n    receiver.tokenFallback(_from, _value, empty);\n}"
+        }
+    ]
+}

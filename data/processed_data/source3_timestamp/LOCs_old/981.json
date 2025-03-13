@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 7,
+        "end_line": 9,
+        "code": [
+            "if (block.timestamp >= lastWithdrawal + 1 days) {",
+            "lastWithdrawal = block.timestamp;"
+        ]
+    }
+]

@@ -1,28 +1,16 @@
-[
-    {
-        "start_line": 391,
-        "end_line": 395,
-        "code": [
-            "uint256 _now = now;",
-            "uint256 _pID = pIDxAddr_[msg.sender];",
-            "uint256 _eth;",
-            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
-        ]
-    },
-    {
-        "start_line": 438,
-        "end_line": 441,
-        "code": [
-            "_eth = withdrawEarnings(_pID);",
-            "if (_eth > 0)",
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1255,
-        "end_line": 1255,
-        "code": [
-            "if (!address(admin).call.value(_com)())"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "391-395",
+            "vulnerableCode": [
+                "uint256 _now = now;",
+                "uint256 _pID = pIDxAddr_[msg.sender];",
+                "uint256 _eth;",
+                "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+            ],
+            "vulnerabilityReason": "The contract attempts to execute external calls to a player’s address without proper state checks and updates. The `_eth` amount may be transferred using `transfer` without confirming that the state has reflected the necessary changes beforehand, leading to potential reentrancy exploits.",
+            "potentialSecurityRisk": "An attacker could exploit the reentrancy vulnerability by repeatedly calling the withdraw function to drain funds before the player's earnings are correctly updated and reset.",
+            "fixedCode": "uint256 _now = now; uint256 _pID = pIDxAddr_[msg.sender]; uint256 _eth; if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0) { round_[_rID].ended = true; _eventData_ = endRound(_eventData_); _eth = withdrawEarnings(_pID); if (_eth > 0) { plyr_[_pID].addr.transfer(_eth); } } else { _eth = withdrawEarnings(_pID); if (_eth > 0) { plyr_[_pID].addr.transfer(_eth); } } emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, _now);"
+        }
+    ]
+}

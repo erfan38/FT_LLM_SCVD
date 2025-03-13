@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 5,
-        "end_line": 5,
-        "code": [
-            "lockTime[msg.sender] = block.timestamp + 1 weeks;"
-        ]
-    },
-    {
-        "start_line": 9,
-        "end_line": 9,
-        "code": [
-            "require(block.timestamp > lockTime[msg.sender], \"Lock time not expired\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "lockTime[msg.sender] = block.timestamp + 1 weeks;"
+            ],
+            "vulnerabilityReason": "The 'lock' function uses 'block.timestamp' to set the lock time for the sender. This reliance on block.timestamp can allow miners to manipulate the block time, potentially leading to a shorter lock period than intended.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamp to a value earlier than expected, allowing users to withdraw funds before the actual lock period has expired. This undermines the primary purpose of the lock function, leading to potential financial losses and exploitation of the contract.",
+            "fixedCode": "lockTime[msg.sender] = block.timestamp + 1 weeks; // Consider using block.number for less manipulability in certain contexts."
+        },
+        {
+            "vulnerableLines": "9-9",
+            "vulnerableCode": [
+                "require(block.timestamp > lockTime[msg.sender], \"Lock time not expired\");"
+            ],
+            "vulnerabilityReason": "The 'withdraw' function checks if the current time exceeds the locked time using 'block.timestamp', which is susceptible to miner manipulation.",
+            "potentialSecurityRisk": "If the timestamp is adjusted by miners to a value less than 'lockTime[msg.sender]', it could allow users to withdraw funds prematurely, violating the intended lock period.",
+            "fixedCode": "require(block.timestamp > lockTime[msg.sender] + TIME_TOLERANCE, \"Lock time not expired\"); // Add a TIME_TOLERANCE to the check to reduce the risk of premature withdrawals."
+        }
+    ]
+}

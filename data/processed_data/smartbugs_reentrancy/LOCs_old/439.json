@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 207,
+        "end_line": 220,
+        "code": [
+            "delete balances[investor];",
+            "if(!(investor.call.value(amount)())) throw;"
+        ]
+    }
+]

@@ -1,29 +1,37 @@
-[
-    {
-        "start_line": 1022,
-        "end_line": 1026,
-        "code": [
-            "if (!address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "{",
-            "    _gen = _gen.add(_com);",
-            "    _com = 0;"
-        ]
-    },
-    {
-        "start_line": 1111,
-        "end_line": 1131,
-        "code": [
-            "if (!address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "{",
-            "    // Vulnerable code here",
-            "}"
-        ]
-    },
-    {
-        "start_line": 359,
-        "end_line": 359,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1022-1026",
+            "vulnerableCode": [
+                "if (!address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "{",
+                "    _gen = _gen.add(_com);",
+                "    _com = 0;"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to send Ether to a potentially malicious contract (MonkeyKingCorp). If the recipient contract has a fallback function that calls back into this contract before the state updates, it can exploit the reentrancy vulnerability to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could recursively call this function before the `_com` is deducted, allowing them to drain funds by executing multiple withdrawals within a single transaction.",
+            "fixedCode": "(bool success, ) = address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))); require(success, \"Transfer failed\"); if(success) { _gen = _gen.add(_com); _com = 0; }"
+        },
+        {
+            "vulnerableLines": "1111-1131",
+            "vulnerableCode": [
+                "if (!address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "{",
+                "    // Vulnerable code here",
+                "}"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, the `call.value()` function is used here without proper handling, allowing a malicious contract to re-enter this function and exploit it before completion and before state updates are made.",
+            "potentialSecurityRisk": "This can lead to potential financial losses if the state isn't checked or updated appropriately before further execution of this function, allowing repeated withdrawals.",
+            "fixedCode": "(bool success, ) = address(MonkeyKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))); require(success, \"Transfer failed\"); // Other logic follows as required."
+        },
+        {
+            "vulnerableLines": "359-359",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract uses `.transfer()` which attempts to send Ether to the player's address, but does so before updating the player's balances, leading to a reentrancy vulnerability.",
+            "potentialSecurityRisk": "This can allow an attacker to exploit the reentrancy by invoking this withdrawal function repeatedly before the player's balance is set to zero, draining the contract of funds.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); if (earnings > 0) { plyr_[_pID].addr.transfer(earnings); }"
+        }
+    ]
+}

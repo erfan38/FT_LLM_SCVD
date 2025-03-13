@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "4-5",
+            "vulnerableCode": [
+                "balances[msg.sender] -= amount;",
+                "balances[to] += amount;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations on the 'balances' mapping that uses uint8 type, which has a limited range (0 to 255). The subtraction 'balances[msg.sender] -= amount' can cause an underflow if the sender's balance is less than 'amount', resulting in unexpected large values. Similarly, the addition 'balances[to] += amount' can cause an overflow if the recipient's balance plus 'amount' exceeds 255, leading to incorrect balance representation.",
+            "potentialSecurityRisk": "This vulnerability could allow users to exploit the underflow and overflow, potentially manipulating their balances. Users could transfer more tokens than they own or even generate additional tokens, leading to a situation where tokens are created out of thin air or existing balances become invalid, threatening the integrity of the contract and the token ecosystem.",
+            "fixedCode": "require(balances[msg.sender] >= amount, 'Insufficient balance');\nbalances[msg.sender] -= amount;\nrequire(balances[to] + amount >= balances[to], 'Overflow detected');\nbalances[to] += amount;"
+        }
+    ]
+}

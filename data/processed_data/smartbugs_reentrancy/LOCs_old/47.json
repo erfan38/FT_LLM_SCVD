@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 280,
+        "end_line": 283,
+        "code": [
+            "if (msg.sender.call.value(_amount)()) {",
+            "    _useFromDailyLimit(_amount);",
+            "    totalRewarded += _amount;"
+        ]
+    }
+]

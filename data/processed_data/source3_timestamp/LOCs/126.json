@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 50,
-        "end_line": 51,
-        "code": [
-            "uint public openingTime = 1535990400;",
-            "uint public closingTime = openingTime.add(7 days);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "50-51",
+            "vulnerableCode": [
+                "uint public openingTime = 1535990400;",
+                "uint public closingTime = openingTime.add(7 days);"
+            ],
+            "vulnerabilityReason": "The use of a hardcoded timestamp for openingTime and calculation of closingTime means the contract relies on a fixed time rather than the actual block timestamp, creating a risk if those times need to be adjusted or affected by external conditions. Nevertheless, miners can exploit this time-based logic by manipulating their mined block timestamp during the token sale period, allowing them to participate in ways not intended by the contract's design.",
+            "potentialSecurityRisk": "Miners could manipulate block.timestamp around critical operations to start or end the token sale at unintended times, which could lead to unfair pricing or access during the sale. For instance, a miner might create their transaction with subtler timestamp shifts, effectively leading to unauthorized sale openings or manipulated token pricing, undermining the integrity of the sale process.",
+            "fixedCode": "uint public openingTime = block.timestamp + 1 days; // or use some calculation to dynamically set this based on deployment time\nuint public closingTime = openingTime.add(7 days); // This maintains the logic for duration but shifts it based on actual block time."
+        }
+    ]
+}

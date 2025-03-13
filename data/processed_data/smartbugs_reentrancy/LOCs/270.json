@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 230,
-        "end_line": 230,
-        "code": [
-            "if (tx.destination.call.value(tx.value)(tx.data))"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "230-230",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The contract uses a low-level call to transfer Ether without performing checks to ensure the transaction was successful and without updating the contract's state before making the call. This allows a malicious contract to re-enter the `executeTransaction` function before the transaction state variable `tx.executed` is updated, causing potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that calls back into the `executeTransaction` function before the state is updated, allowing them to execute the transaction multiple times and drain funds from the wallet.",
+            "fixedCode": "require(tx.value <= address(this).balance, 'Insufficient contract balance');\ntx.executed = true;\n(bool success, ) = tx.destination.call.value(tx.value)(tx.data);\nrequire(success, 'Transaction execution failed'); // Ensure the transaction was successful"
+        }
+    ]
+}

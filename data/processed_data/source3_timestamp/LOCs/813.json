@@ -1,37 +1,42 @@
-[
-    {
-        "start_line": 126,
-        "end_line": 126,
-        "code": [
-            "            appExpiry: now.add(get(\"pApplyStageLen\")),"
-        ]
-    },
-    {
-        "start_line": 131,
-        "end_line": 131,
-        "code": [
-            "                processBy: now.add(get(\"pApplyStageLen\"))"
-        ]
-    },
-    {
-        "start_line": 196,
-        "end_line": 196,
-        "code": [
-            "        } else if (now > prop.processBy) {"
-        ]
-    },
-    {
-        "start_line": 268,
-        "end_line": 268,
-        "code": [
-            "        return (now > prop.appExpiry && now < prop.processBy && prop.challengeID == 0);"
-        ]
-    },
-    {
-        "start_line": 320,
-        "end_line": 320,
-        "code": [
-            "            if(prop.processBy > now) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "126-131",
+            "vulnerableCode": [
+                "appExpiry: now.add(get(\"pApplyStageLen\"))",
+                "processBy: now.add(get(\"pApplyStageLen\"))"
+            ],
+            "vulnerabilityReason": "The use of 'now' to calculate both app expiry and processing time exposes these functions to timestamp manipulation by miners, as 'now' can be adjusted within a small range by the miners controlling the block.",
+            "potentialSecurityRisk": "Miners could manipulate the 'now' value to set proposals that expire prematurely or delay processes by altering the timings, affecting contract logic and fairness.",
+            "fixedCode": "appExpiry: block.timestamp.add(get(\"pApplyStageLen\")), processBy: block.timestamp.add(get(\"pApplyStageLen\").add(get(\"pCommitStageLen\")).add(get(\"pRevealStageLen\")).add(PROCESSBY))"
+        },
+        {
+            "vulnerableLines": "196-196",
+            "vulnerableCode": [
+                "} else if (now > prop.processBy {",
+                "require(token.transfer(propOwner, propDeposit));"
+            ],
+            "vulnerabilityReason": "The condition relies on 'now' to check if a proposal has expired, allowing miners to possibly manipulate the expiration timeframe by adjusting the mining timestamp.",
+            "potentialSecurityRisk": "This could allow proposals to be marked as expired prematurely, enabling unfair advantages or disputes during proposal processing.",
+            "fixedCode": "} else if (block.timestamp > prop.processBy { require(token.transfer(propOwner, propDeposit));"
+        },
+        {
+            "vulnerableLines": "268-268",
+            "vulnerableCode": [
+                "return (now > prop.appExpiry && now < prop.processBy && prop.challengeID == 0);"
+            ],
+            "vulnerabilityReason": "This line checks the status of a proposal based on 'now', which can be altered. Manipulating 'now' can lead to non-expired proposals being incorrectly assessed as expired.",
+            "potentialSecurityRisk": "If miners manipulate timestamps, legitimate proposals may fail to be processed correctly, leading to invalid outcomes in the contract.",
+            "fixedCode": "return (block.timestamp > prop.appExpiry && block.timestamp < prop.processBy && prop.challengeID == 0);"
+        },
+        {
+            "vulnerableLines": "320-320",
+            "vulnerableCode": [
+                "if(prop.processBy > now) {"
+            ],
+            "vulnerabilityReason": "This line checks whether a proposal can still be processed using 'now'. If 'now' is manipulated, it can lead to proposals being incorrectly processed after they should have expired.",
+            "potentialSecurityRisk": "Miners modifying 'now' could create loopholes, allowing proposals to be processed after the designated timing.",
+            "fixedCode": "if(prop.processBy > block.timestamp) {"
+        }
+    ]
+}

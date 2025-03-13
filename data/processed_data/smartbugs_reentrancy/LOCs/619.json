@@ -1,22 +1,40 @@
-[
-    {
-        "start_line": 88,
-        "end_line": 92,
-        "code": [
-            "totalDeposited[token] -= value;",
-            "require((token != 0)?",
-            "ERC20(token).transfer(msg.sender, value):",
-            "msg.sender.call.value(value)()"
-        ]
-    },
-    {
-        "start_line": 104,
-        "end_line": 116,
-        "code": [
-            "function withdraw(uint amount) public {",
-            "commonWithdraw(0, amount);",
-            "function withdrawToken(address token, uint amount) public {",
-            "commonWithdraw(token, amount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "88-92",
+            "vulnerableCode": [
+                "totalDeposited[token] -= value;",
+                "require((token != 0)?",
+                "ERC20(token).transfer(msg.sender, value):",
+                "msg.sender.call.value(value)()"
+            ],
+            "vulnerabilityReason": "The contract decreases the user's token balance and total deposits before making an external call to transfer Ether. This allows an attacker to exploit reentrancy by making a call back into the contract before the state change is finalized, potentially allowing multiple withdrawals before the balance is accurately reflected.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that re-invokes the withdraw method before the original withdrawal is completed, allowing them to drain funds from the contract by repeatedly withdrawing more than they actually have deposited.",
+            "fixedCode": "function commonWithdraw(address token, uint value) internal {\\n    require (tokens[token][msg.sender] >= value);\\n    require((token != 0)? ERC20(token).transfer(msg.sender, value) : value <= address(this).balance); // Ensure sufficient balance\\n    tokens[token][msg.sender] -= value;\\n    totalDeposited[token] -= value;\\n    emit Withdraw(token, msg.sender, value, tokens[token][msg.sender]);}  "
+        },
+        {
+            "vulnerableLines": "104-116",
+            "vulnerableCode": [
+                "function withdraw(uint amount) public {",
+                "commonWithdraw(0, amount);",
+                "function withdrawToken(address token, uint amount) public {",
+                "commonWithdraw(token, amount);"
+            ],
+            "vulnerabilityReason": "The withdraw and withdrawToken functions directly call commonWithdraw and do not incorporate access control to restrict withdrawals. This allows any user to invoke the function, raising security concerns, especially combined with the reentrancy vulnerability.",
+            "potentialSecurityRisk": "Without access control, any user can execute these functions arbitrarily leading to potential exploits where non-eligible users could withdraw any amount, especially when combined with the reentrancy vulnerability.",
+            "fixedCode": "function withdraw(uint amount) public onlyOwner {\\n    commonWithdraw(0, amount);\\n} \\nfunction withdrawToken(address token, uint amount) public onlyOwner {\\n    commonWithdraw(token, amount);\\n}"
+        },
+        {
+            "vulnerableLines": "88-92",
+            "vulnerableCode": [
+                "totalDeposited[token] -= value;",
+                "require((token != 0)?",
+                "ERC20(token).transfer(msg.sender, value):",
+                "msg.sender.call.value(value)()"
+            ],
+            "vulnerabilityReason": "The balance is decremented before the external call to transfer funds is made. If an external contract calls this function, it can execute another withdraw before the first call has completed, resulting in inconsistent state updates and potential fund drainage.",
+            "potentialSecurityRisk": "An attacker could exploit this by recursively calling the withdraw method, draining funds before the internal state updates reflect that the funds have been withdrawn, resulting in loss of funds from the contract.",
+            "fixedCode": "function commonWithdraw(address token, uint value) internal {\\n    require (tokens[token][msg.sender] >= value);\\n    require((token != 0)? ERC20(token).transfer(msg.sender, value) : (address(this).balance >= value));\\n    tokens[token][msg.sender] -= value;\\n    totalDeposited[token] -= value;\\n    emit Withdraw(token, msg.sender, value, tokens[token][msg.sender]);} "
+        }
+    ]
+}

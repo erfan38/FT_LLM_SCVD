@@ -1,0 +1,19 @@
+[
+    {
+        "start_line": 179,
+        "end_line": 182,
+        "code": [
+            "delete balances[investor];",
+            "if(!(investor.call.value(amount)())) throw;"
+        ]
+    },
+    {
+        "start_line": 146,
+        "end_line": 156,
+        "code": [
+            "claimed[investor] = claimed[investor].add(amount);",
+            "totalClaimed = totalClaimed.add(amount);",
+            "getToken().transfer(investor, amount);"
+        ]
+    }
+]

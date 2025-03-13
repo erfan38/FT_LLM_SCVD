@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 378,
-        "end_line": 378,
-        "code": [
-            "bool isTransferDone = wallet.call.value(msg.value).gas(gasAmount)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "378-378",
+            "vulnerableCode": [
+                "bool isTransferDone = wallet.call.value(msg.value).gas(gasAmount)();"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` in the `_forwardFunds()` function, which allows an attacker to potentially execute malicious code before the function completes. This can result in a reentrancy attack where the attacker can enter the function again before the state is updated, leading to potential fund theft.",
+            "potentialSecurityRisk": "An attacker could drain the contract of funds by making multiple recursive calls to `_forwardFunds()` before the state changes take effect, effectively allowing them to withdraw more funds than intended.",
+            "fixedCode": "// Ensure the contract balance is sufficient before making the external call. require(msg.value <= address(this).balance, \"Insufficient contract balance\");\n\n// Update the emitted event only after confirming the transfer success.\n(bool isTransferDone = wallet.call.value(msg.value).gas(gasAmount)();\n\nrequire(isTransferDone, \"Transfer failed\"); // Ensure the transfer succeeded.\n\nemit TokensTransfer(\n     msg.sender,\n     wallet,\n     msg.value,\n     isTransferDone\n);"
+        }
+    ]
+}

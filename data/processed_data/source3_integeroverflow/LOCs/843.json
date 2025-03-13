@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "lockTime[msg.sender] += _secondsToIncrease;"
+            ],
+            "vulnerabilityReason": "The `increaseLockTime` function adds `_secondsToIncrease` to the existing `lockTime` for the sender without checking if this addition will exceed the maximum value of uint256. In Solidity versions prior to 0.8.0, this could result in an overflow that wraps around to a smaller number, potentially leading to a decrease in lock time instead of an increase. Even in Solidity 0.8.0 or later, while the transaction would revert, this does not handle the error gracefully or provide meaningful feedback to the user.",
+            "potentialSecurityRisk": "An attacker or a malicious actor could exploit this by providing a large enough `_secondsToIncrease` value that would cause the transaction to fail. In certain situations, this can lead to denial of service, preventing users from increasing their lock time successfully or causing unintended behavior if other parts of the system assume a valid state.",
+            "fixedCode": "require(lockTime[msg.sender] + _secondsToIncrease >= lockTime[msg.sender], \"Addition overflow\");\nlockTime[msg.sender] += _secondsToIncrease; // Ensure that we check for overflow in a safe manner."
+        }
+    ]
+}

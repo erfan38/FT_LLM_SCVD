@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "287-288",
+            "vulnerableCode": [
+                "CustomerService[cs] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The function 'addCustomerService' uses block.timestamp to update the timestamp of customer services, which can be manipulated by miners to favor certain addresses or affect the timing of service eligibility.",
+            "potentialSecurityRisk": "A malicious miner could adjust the timestamp to allow their account to access services more frequently than intended, thus gaining an unfair advantage in service usage.",
+            "fixedCode": "CustomerService[cs] = now; // Use 'now' as an alias for block.timestamp to maintain consistency and clarity."
+        },
+        {
+            "vulnerableLines": "324-324",
+            "vulnerableCode": [
+                "require((block.timestamp-CustomerService[msg.sender])>exchangeInterval);"
+            ],
+            "vulnerabilityReason": "The 'exchange' function checks the time since the last service call very strictly through block.timestamp, making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp such that it appears the time since the last exchange is less than it is, allowing them to exploit the exchange functionality and possibly cause imbalance in token economy.",
+            "fixedCode": "require((now-CustomerService[msg.sender])>exchangeInterval); // replace block.timestamp with now to avoid inconsistencies."
+        },
+        {
+            "vulnerableLines": "332-332",
+            "vulnerableCode": [
+                "CustomerService[msg.sender] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The function updates CustomerService using block.timestamp, which is subject to miner manipulation.",
+            "potentialSecurityRisk": "This could allow users who can manipulate the timestamp to reset their service eligibility improperly, affecting the fairness of the service access.",
+            "fixedCode": "CustomerService[msg.sender] = now; // Use 'now' to indicate the current timestamp more clearly."
+        },
+        {
+            "vulnerableLines": "342-344",
+            "vulnerableCode": [
+                "function destory(uint256 _amount) external {",
+                "require(balances[msg.sender]>=_amount && _amount>destroyThreshold && circulatingSupply>=_amount);"
+            ],
+            "vulnerabilityReason": "The destory function does not inherently use block.timestamp, yet the business logic relies on accurate, timely executions that could be indirectly affected by miners manipulating block.timestamp.",
+            "potentialSecurityRisk": "If the timing of calls can be affected, it may lead to excessive destruction of tokens or unfair destruction limits being imposed on users.",
+            "fixedCode": "function destroy(uint256 _amount) external { require(balances[msg.sender]>=_amount && _amount>destroyThreshold && circulatingSupply>=_amount); // Ensure proper function naming (correct 'destory' to 'destroy')"
+        }
+    ]
+}

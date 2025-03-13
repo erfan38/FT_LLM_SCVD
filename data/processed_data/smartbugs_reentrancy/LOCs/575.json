@@ -1,26 +1,34 @@
-[
-    {
-        "start_line": 271,
-        "end_line": 272,
-        "code": [
-            "if (!p.recipient.call.value(p.amount)(_transactionData))",
-            "                throw;"
-        ]
-    },
-    {
-        "start_line": 347,
-        "end_line": 348,
-        "code": [
-            "if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)",
-            "             throw;"
-        ]
-    },
-    {
-        "start_line": 381,
-        "end_line": 382,
-        "code": [
-            "if (!_newContract.call.value(address(this).balance)()) {",
-            "             throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "271-272",
+            "vulnerableCode": [
+                "if (!p.recipient.call.value(p.amount)(_transactionData))",
+                "                throw;"
+            ],
+            "vulnerabilityReason": "The contract sends Ether to the recipient using call.value() before updating the proposal's state, which can allow a malicious recipient to re-enter the proposal function and withdraw funds again before the contract's state is updated.",
+            "potentialSecurityRisk": "An attacker could repeatedly invoke the call back into the contract before the state changes to empty the contract's funds, resulting in a financial loss to the contract.",
+            "fixedCode": "if (!p.recipient.call.value(p.amount)(_transactionData)) { throw; } p.proposalPassed = true; _success = true;"
+        },
+        {
+            "vulnerableLines": "347-348",
+            "vulnerableCode": [
+                "if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)",
+                "             throw;"
+            ],
+            "vulnerabilityReason": "The function sends funds to a new DAO's createTokenProxy method via call.value(), with the state change regarding the new DAO only happening after the call. This can allow reentrancy attacks from the DAO protocol during the token creation period.",
+            "potentialSecurityRisk": "By allowing reentrant calls upon receiving Ether, an attacker could manipulate the state of the contract or attempt to drain it of funds through recursive withdrawals.",
+            "fixedCode": "// First set state variables to prevent reentrancy, then call the function to create token proxy and check success.\nif (fundsToBeMoved > 0 && address(p.splitData[0].newDAO) != address(0)) {\n    bool success = p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender);\n    require(success, \"Token proxy creation failed\");\n} else { throw; }"
+        },
+        {
+            "vulnerableLines": "381-382",
+            "vulnerableCode": [
+                "if (!_newContract.call.value(address(this).balance)()) {",
+                "             throw;"
+            ],
+            "vulnerabilityReason": "This line sends all the contract's Ether balance to a _newContract without any state updates, leaving the contract vulnerable if the _newContract is malicious. They could call back into the contract before the state is updated, allowing for potential loss of funds.",
+            "potentialSecurityRisk": "An attacker controlling the new contract could siphon off all funds by re-invoking the contract before the balance is zeroed out, leading to total fund loss.",
+            "fixedCode": "// Ensure a secure transfer: update internal state before making the transfer to avoid reentrancy\nuint256 balanceToTransfer = address(this).balance;\nif (balanceToTransfer > 0) {\n    (bool success, ) = _newContract.call.value(balanceToTransfer)();\n    require(success, \"Transfer failed\");\n}"
+        }
+    ]
+}

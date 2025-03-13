@@ -1,18 +1,22 @@
-[
-    {
-        "start_line": 221,
-        "end_line": 234,
-        "code": [
-            "function executeTransaction(uint transactionId)",
-            "public",
-            "ownerExists(msg.sender)",
-            "confirmed(transactionId, msg.sender)",
-            "notExecuted(transactionId)",
-            "{",
-            "if (isConfirmed(transactionId)) {",
-            "Transaction storage txn = transactions[transactionId];",
-            "txn.executed = true;",
-            "if (txn.destination.call.value(txn.value)(txn.data))"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "221-234",
+            "vulnerableCode": [
+                "function executeTransaction(uint transactionId)",
+                "public",
+                "ownerExists(msg.sender)",
+                "confirmed(transactionId, msg.sender)",
+                "notExecuted(transactionId)",
+                "{",
+                "if (isConfirmed(transactionId)) {",
+                "Transaction storage txn = transactions[transactionId];",
+                "txn.executed = true;",
+                "if (txn.destination.call.value(txn.value)(txn.data))"
+            ],
+            "vulnerabilityReason": "The transaction's executed status is marked as true only after the external call is made to the destination contract, which allows an attacker to call back into this contract before the transaction is officially marked as executed.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability by executing a transaction that calls back into `executeTransaction`, allowing them to perform unauthorized actions or withdraw funds multiple times before the transaction status updates.\n",
+            "fixedCode": "function executeTransaction(uint transactionId)\n    public\n    ownerExists(msg.sender)\n    confirmed(transactionId, msg.sender)\n    notExecuted(transactionId)\n  {\n      if (isConfirmed(transactionId)) {\n          Transaction storage txn = transactions[transactionId];\n          // first, set the executed flag\n          txn.executed = true;\n          // then, safely perform the external call\n          require(txn.destination.call.value(txn.value)(txn.data));\n          // only after confirming the call was successful do we log the execution\n          Execution(transactionId);\n      }\n  }"
+        }
+    ]
+}

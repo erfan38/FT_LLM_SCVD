@@ -1,18 +1,24 @@
-[
-    {
-        "start_line": 18,
-        "end_line": 19,
-        "code": [
-            "if (block.timestamp < releaseTime)",
-            "            throw;"
-        ]
-    },
-    {
-        "start_line": 38,
-        "end_line": 39,
-        "code": [
-            "if (block.timestamp < releaseTime)",
-            "            return releaseTime - block.timestamp;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "18-19",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)",
+                "    throw;"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' to compare with 'releaseTime' makes the release of tokens dependent on the block timestamp, which can be manipulated by miners.",
+            "potentialSecurityRisk": "A miner can manipulate the block timestamp to delay the token release, preventing beneficiaries from receiving tokens when expected, or expedite it, potentially causing unauthorized releases or exploitation of the contract.",
+            "fixedCode": "if (now < releaseTime) { revert(); } // Using 'now' with appropriate checks (or a buffer) can help mitigate risks."
+        },
+        {
+            "vulnerableLines": "38-39",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)",
+                "    return releaseTime - block.timestamp;"
+            ],
+            "vulnerabilityReason": "Similar to the 'release' function, this check on 'block.timestamp' makes the function vulnerable to timing manipulation by miners, impacting how much time is reported until the tokens become available.",
+            "potentialSecurityRisk": "Manipulated timestamps can lead to incorrect calculations of how long until the release occurs, potentially providing unfair advantages or confusion to stakeholders involved.",
+            "fixedCode": "if (now < releaseTime) { return releaseTime - now; } else { return 0; } // Adjust to use 'now' or introduce a buffer."
+        }
+    ]
+}

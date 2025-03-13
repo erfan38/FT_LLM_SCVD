@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 73,
-        "end_line": 73,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "73-73",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of .call() allows an external contract to execute code before the state of the contract is updated. If the external contract has a callback that calls back into the transfer function before the balances are updated, this can lead to reentrancy, allowing the attacker to withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that receives Ether and then re-invokes the transfer function to withdraw more funds than they are entitled to, which can drain the contract's balance.",
+            "fixedCode": "(bool success, ) = _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data); require(success, \"Fallback call failed\");"
+        }
+    ]
+}

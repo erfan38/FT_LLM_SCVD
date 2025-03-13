@@ -1,17 +1,23 @@
-[
-    {
-        "start_line": 209,
-        "end_line": 209,
-        "code": [
-            "require(_endTime > block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 249,
-        "end_line": 250,
-        "code": [
-            "require(block.timestamp > starttime[_address]);",
-            "require(block.timestamp < endtime[_address]);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "209-209",
+            "vulnerableCode": [
+                "require(_endTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to check if the end time is in the future can lead to manipulation by miners, allowing them to adjust the block timestamp and possibly set an incorrect end time for token additions.",
+            "potentialSecurityRisk": "Miners could exploit this timestamp dependency to lead to unfair advantages in token sales, potentially allowing them to set conditions favorable to themselves or to manipulate the buying window.",
+            "fixedCode": "require(_endTime > block.timestamp + TIME_TOLERANCE); // Adding a buffer to the timestamp check."
+        },
+        {
+            "vulnerableLines": "249-250",
+            "vulnerableCode": [
+                "require(block.timestamp > starttime[_address]);",
+                "require(block.timestamp < endtime[_address]);"
+            ],
+            "vulnerabilityReason": "The canBuy modifier relies on block.timestamp to verify if the current time is within the supported token's buying period, making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Miners can change the block timestamp to extend or shorten the buying window for supported tokens, allowing unintended advantages or unfavorable conditions for buyers.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > starttime[_address]); require(block.timestamp + TIME_TOLERANCE < endtime[_address]); // Using a buffer for additional security."
+        }
+    ]
+}

@@ -1,25 +1,33 @@
-[
-    {
-        "start_line": 65,
-        "end_line": 66,
-        "code": [
-            "bool isPresale = block.timestamp >= PRESALE_OPENING_TIME && block.timestamp <= PRESALE_CLOSING_TIME;",
-            "bool isCrowdsale = block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME;"
-        ]
-    },
-    {
-        "start_line": 106,
-        "end_line": 108,
-        "code": [
-            "require(block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME);",
-            "uint256 elapsedTime = block.timestamp.sub(CROWDSALE_OPENING_TIME);"
-        ]
-    },
-    {
-        "start_line": 191,
-        "end_line": 191,
-        "code": [
-            "require(block.timestamp > CROWDSALE_CLOSING_TIME || (block.timestamp > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "65-66",
+            "vulnerableCode": [
+                "bool isPresale = block.timestamp >= PRESALE_OPENING_TIME && block.timestamp <= PRESALE_CLOSING_TIME;",
+                "bool isCrowdsale = block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME;"
+            ],
+            "vulnerabilityReason": "The checks for presale and crowdsale participation are dependent on 'block.timestamp', which can be influenced by miners manipulating the mining time.",
+            "potentialSecurityRisk": "Miners could manipulate block timestamps within their control to force favorable outcomes, allowing purchases at discounted rates when they should not be available.",
+            "fixedCode": "bool isPresale = (block.timestamp + TIME_TOLERANCE >= PRESALE_OPENING_TIME) && (block.timestamp + TIME_TOLERANCE <= PRESALE_CLOSING_TIME);\nbool isCrowdsale = (block.timestamp + TIME_TOLERANCE >= CROWDSALE_OPENING_TIME) && (block.timestamp + TIME_TOLERANCE <= CROWDSALE_CLOSING_TIME);"
+        },
+        {
+            "vulnerableLines": "106-108",
+            "vulnerableCode": [
+                "require(block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME);",
+                "uint256 elapsedTime = block.timestamp.sub(CROWDSALE_OPENING_TIME);"
+            ],
+            "vulnerabilityReason": "Relying on 'block.timestamp' to validate the crowd sale window, exposes the contract to time manipulation vulnerabilities since miners can influence the timestamp.",
+            "potentialSecurityRisk": "This may result in improper caps being set based on manipulated elapsed time, allowing users to exceed their intended purchase limits or invalidating proper sale timing.",
+            "fixedCode": "require((block.timestamp + TIME_TOLERANCE) >= CROWDSALE_OPENING_TIME && (block.timestamp + TIME_TOLERANCE) <= CROWDSALE_CLOSING_TIME);\nuint256 elapsedTime = (block.timestamp + TIME_TOLERANCE).sub(CROWDSALE_OPENING_TIME);"
+        },
+        {
+            "vulnerableLines": "191-191",
+            "vulnerableCode": [
+                "require(block.timestamp > CROWDSALE_CLOSING_TIME || (block.timestamp > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
+            ],
+            "vulnerabilityReason": "Using 'block.timestamp' to assess whether the crowdsale has closed or conditions for refunds is also vulnerable, allowing miners to influence this decision.",
+            "potentialSecurityRisk": "Manipulation here gives a chance for unfair advantage in refunds or post-sale actions that are dependent upon exact timing methods, potentially harming investor trust or capital.",
+            "fixedCode": "require((block.timestamp + TIME_TOLERANCE) > CROWDSALE_CLOSING_TIME || ((block.timestamp + TIME_TOLERANCE) > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
+        }
+    ]
+}

@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 240,
-        "end_line": 240,
-        "code": [
-            "if (tx.destination.call.value(tx.value)(tx.data))"
-        ]
-    },
-    {
-        "start_line": 214,
-        "end_line": 214,
-        "code": [
-            "executeTransaction(transactionId);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "240-240",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The external call to `tx.destination.call.value(tx.value)(tx.data)` occurs before updating the `executed` state variable to true. This allows an attacker to re-enter the `executeTransaction()` function before the state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by making a reentrant call before the state is updated, allowing them to execute the transaction multiple times and potentially drain the contract's funds.",
+            "fixedCode": "if (isConfirmed(transactionId)) {\n    Transaction tx = transactions[transactionId];\n    if (tx.destination.call.value(tx.value)(tx.data)) {\n        tx.executed = true;\n        Execution(transactionId);\n    } else {\n        ExecutionFailure(transactionId);\n        // Only reset if execution failed.\n        tx.executed = false;\n    }  \n}\n// Move executed state update after the external call to prevent re-entrancy."
+        },
+        {
+            "vulnerableLines": "214-214",
+            "vulnerableCode": [
+                "executeTransaction(transactionId);"
+            ],
+            "vulnerabilityReason": "Calling `executeTransaction(transactionId)` immediately risks executing a transaction before the confirmation of the transaction is verified in the current context. This could permit an attacker to gain control before execution is stopped or confirmed.",
+            "potentialSecurityRisk": "This can allow an attacker to confirm a transaction and execute it multiple times, leading to unauthorized access and control over funds.",
+            "fixedCode": "// Ensure all confirmations are properly checked before calling executeTransaction, adding necessary access controls.\nif (isConfirmed(transactionId)) {\n    executeTransaction(transactionId);\n} else {\n    throw; // Or return an error appropriately\n}"
+        }
+    ]
+}

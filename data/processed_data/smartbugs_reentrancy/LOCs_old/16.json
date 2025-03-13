@@ -1,0 +1,24 @@
+[
+    {
+        "start_line": 148,
+        "end_line": 148,
+        "code": [
+            "pay();"
+        ]
+    },
+    {
+        "start_line": 228,
+        "end_line": 230,
+        "code": [
+            "TECH.send(support);",
+            "PROMO.send(adv);"
+        ]
+    },
+    {
+        "start_line": 272,
+        "end_line": 272,
+        "code": [
+            "FATHER.call.value(donation).gas(250000)();"
+        ]
+    }
+]

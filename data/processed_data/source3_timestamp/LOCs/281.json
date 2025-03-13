@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 17,
-        "end_line": 17,
-        "code": [
-            "require (block.timestamp > partyTime && hodlers[msg.sender] > 0);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "17-17",
+            "vulnerableCode": [
+                "require (block.timestamp > partyTime && hodlers[msg.sender] > 0);"
+            ],
+            "vulnerabilityReason": "The 'party' function relies on block.timestamp to check if the current time is past the partyTime, making it vulnerable to miner manipulation since miners can adjust the timestamp when their block is mined.",
+            "potentialSecurityRisk": "Miners could manipulate the block.timestamp to delay or hasten the execution of the 'party' function, potentially allowing them to get payouts without actually meeting the intended conditions, leading to financial exploitation of the contract.",
+            "fixedCode": "require (block.timestamp + TIME_TOLERANCE > partyTime && hodlers[msg.sender] > 0); // Use a reasonable buffer like TIME_TOLERANCE to offset potential manipulations."
+        }
+    ]
+}

@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 64,
-        "end_line": 64,
-        "code": [
-            "require(block.timestamp < games[_gameId].gameDate);"
-        ]
-    },
-    {
-        "start_line": 236,
-        "end_line": 236,
-        "code": [
-            "require(block.timestamp > games[_gameId].gameDate);"
-        ]
-    },
-    {
-        "start_line": 205,
-        "end_line": 205,
-        "code": [
-            "block.timestamp > games[forecasts[_forecasts[_index]].gameId].gameDate"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "64-64",
+            "vulnerableCode": [
+                "require(block.timestamp < games[_gameId].gameDate);"
+            ],
+            "vulnerabilityReason": "This line requires that the current block timestamp is less than the game's scheduled date, which can be manipulated by miners by adjusting the block timestamp.",
+            "potentialSecurityRisk": "Miners could influence the ability to create a forecast by setting the block timestamp close to or after the game date, potentially allowing them to either benefit from or hinder forecast creations.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < games[_gameId].gameDate); // Using a buffer to mitigate manipulation risks."
+        },
+        {
+            "vulnerableLines": "236-236",
+            "vulnerableCode": [
+                "require(block.timestamp > games[_gameId].gameDate);"
+            ],
+            "vulnerabilityReason": "This line checks that the current time is greater than the game's date, which could be manipulated via block.timestamp as well.",
+            "potentialSecurityRisk": "By manipulating the block timestamp, miners could affect how the forecast scores are processed, allowing them to exploit the logic that depends on this timing check.",
+            "fixedCode": "require(block.timestamp - TIME_TOLERANCE > games[_gameId].gameDate); // Using a buffer to mitigate manipulation risks."
+        },
+        {
+            "vulnerableLines": "205-205",
+            "vulnerableCode": [
+                "block.timestamp > games[forecasts[_forecasts[_index]].gameId].gameDate"
+            ],
+            "vulnerabilityReason": "This expression checks if the current block timestamp is after the game's date, relying on the potentially manipulable block.timestamp.",
+            "potentialSecurityRisk": "If the timestamp is manipulated, miners might influence whether certain forecasts are counted in scoring or whether they are deemed expired, affecting the game logic substantially.",
+            "fixedCode": "require(block.timestamp - TIME_TOLERANCE > games[forecasts[_forecasts[_index]].gameId].gameDate); // Using a buffer to mitigate manipulation risks."
+        }
+    ]
+}

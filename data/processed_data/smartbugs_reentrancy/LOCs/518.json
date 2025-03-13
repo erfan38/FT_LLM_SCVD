@@ -1,17 +1,13 @@
-[
-    {
-        "start_line": 60,
-        "end_line": 60,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 140,
-        "end_line": 141,
-        "code": [
-            "balances[_to] = balanceOf(_to).add(_value);",
-            "balances[_from] = balanceOf(_from).sub(_value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "60-60",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value(0)` which allows for external calls to the `_to` address before the state is updated. If `_to` is a malicious contract, it can execute arbitrary code, potentially re-entering the function before the balance is updated.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by re-entering the contract during the execution of the `call`, allowing them to withdraw more funds than intended or manipulate the contract's state in an unexpected way.",
+            "fixedCode": "if (isContract(_to)) {\n    require(balanceOf(msg.sender) >= _value, \"Insufficient Balance\");\n    balances[msg.sender] = balanceOf(msg.sender).sub(_value);\n    // Update balance before calling external contract\n    balances[_to] = balanceOf(_to).add(_value);\n    require(_to.call(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)); // Call after state is updated\n    Transfer(msg.sender, _to, _value);\n    return true;\n} else { \n    return transferToAddress(_to, _value);\n}"
+        }
+    ]
+}

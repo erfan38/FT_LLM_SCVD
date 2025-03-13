@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 74,
-        "end_line": 74,
-        "code": [
-            "if (!msg.sender.call.value(amount)()) throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to send Ether makes this line vulnerable to reentrancy attacks, as the external contract (msg.sender) can execute code that interacts with the state of the contract before the withdraw function completes. The balance of the sender is already altered before this call, allowing an exploit to withdraw more funds than available.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by crafting a malicious contract that re-invokes the withdraw function before the initial execution context has fully completed, which can result in draining funds from the contract.",
+            "fixedCode": "bool success = msg.sender.call.value(amount)(); require(success, \"Transfer failed\");"
+        }
+    ]
+}

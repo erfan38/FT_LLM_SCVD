@@ -1,92 +1,107 @@
-[
-    {
-        "start_line": 106,
-        "end_line": 106,
-        "code": [
-            "require(_startTime >= now && _feeOwner != address(0));"
-        ]
-    },
-    {
-        "start_line": 117,
-        "end_line": 117,
-        "code": [
-            "require(now >= startTime);"
-        ]
-    },
-    {
-        "start_line": 162,
-        "end_line": 162,
-        "code": [
-            "_now = now;"
-        ]
-    },
-    {
-        "start_line": 164,
-        "end_line": 165,
-        "code": [
-            "if (now < finishTime) {",
-            "_timeLeft = finishTime - now;"
-        ]
-    },
-    {
-        "start_line": 227,
-        "end_line": 227,
-        "code": [
-            "require(_to == address(this));"
-        ]
-    },
-    {
-        "start_line": 277,
-        "end_line": 277,
-        "code": [
-            "require(now < finishTime);"
-        ]
-    },
-    {
-        "start_line": 312,
-        "end_line": 312,
-        "code": [
-            "require(now < finishTime && _amount >= BUY_AMOUNT_MIN && _amount <= BUY_AMOUNT_MAX);"
-        ]
-    },
-    {
-        "start_line": 374,
-        "end_line": 381,
-        "code": [
-            "uint256 _seed = uint256(keccak256(abi.encodePacked(",
-            "(block.timestamp).add",
-            "(block.difficulty).add",
-            "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
-            "(block.gaslimit).add",
-            "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add",
-            "(block.number)"
-        ]
-    },
-    {
-        "start_line": 420,
-        "end_line": 425,
-        "code": [
-            "uint256 _seed = uint256(keccak256(abi.encodePacked(",
-            "(block.timestamp).add",
-            "(block.difficulty).add",
-            "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
-            "(block.gaslimit).add",
-            "(block.number)"
-        ]
-    },
-    {
-        "start_line": 481,
-        "end_line": 481,
-        "code": [
-            "time: uint64(now)"
-        ]
-    },
-    {
-        "start_line": 572,
-        "end_line": 573,
-        "code": [
-            "uint256 _maxTime = now.add(TIME_DURATION_MAX);",
-            "finishTime = _finishTime <= _maxTime ? _finishTime : _maxTime;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "106-106",
+            "vulnerableCode": [
+                "require(_startTime >= now && _feeOwner != address(0));"
+            ],
+            "vulnerabilityReason": "The line uses 'now' (block.timestamp) in a require statement to ensure that the start time is not in the past. This introduces a risk as miners can manipulate block timestamps.",
+            "potentialSecurityRisk": "If miners adjust the timestamp, it may affect the ability to start the sale, creating unfair conditions that could be exploited.",
+            "fixedCode": "require(_startTime >= block.timestamp + TIME_TOLERANCE && _feeOwner != address(0));"
+        },
+        {
+            "vulnerableLines": "117-117",
+            "vulnerableCode": [
+                "require(now >= startTime);"
+            ],
+            "vulnerabilityReason": "Here, 'now' is checked to ensure that the contract is activated after startTime, allowing miners to potentially manipulate the start conditions.",
+            "potentialSecurityRisk": "Miners could set a timestamp to make it seem like the contract is activated or not, affecting the project's integrity.",
+            "fixedCode": "require(block.timestamp >= startTime + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "162-162",
+            "vulnerableCode": [
+                "_now = now;"
+            ],
+            "vulnerabilityReason": "Assigning the current block timestamp ('now') to _now makes subsequent calculations dependent on a potentially manipulable value.",
+            "potentialSecurityRisk": "This allows miners to affect the outcome of time-dependent operations in the game, potentially leading to unfair advantages.",
+            "fixedCode": "_now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "164-165",
+            "vulnerableCode": [
+                "if (now < finishTime) {",
+                "_timeLeft = finishTime - now;"
+            ],
+            "vulnerabilityReason": "This check and calculation depend directly on the current block timestamp, allowing miners to influence how much time is left.",
+            "potentialSecurityRisk": "Manipulation could allow a miner to extend or contract the perceived time left, disrupting fair gameplay.",
+            "fixedCode": "if (block.timestamp < finishTime) { _timeLeft = finishTime - block.timestamp; };"
+        },
+        {
+            "vulnerableLines": "277-277",
+            "vulnerableCode": [
+                "require(now < finishTime);"
+            ],
+            "vulnerabilityReason": "The code checks if the current time is before finishTime, which is manipulable due to miner control over block timestamps.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to bypass game rules or exploit time-sensitive mechanics.",
+            "fixedCode": "require(block.timestamp < finishTime);"
+        },
+        {
+            "vulnerableLines": "312-312",
+            "vulnerableCode": [
+                "require(now < finishTime && _amount >= BUY_AMOUNT_MIN && _amount <= BUY_AMOUNT_MAX);"
+            ],
+            "vulnerabilityReason": "This check for purchase conditions directly utilizes 'now', making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Miners could exploit this to make purchases even when the sale has ended, which undermines the contract's integrity.",
+            "fixedCode": "require(block.timestamp < finishTime && _amount >= BUY_AMOUNT_MIN && _amount <= BUY_AMOUNT_MAX);"
+        },
+        {
+            "vulnerableLines": "374-380",
+            "vulnerableCode": [
+                "uint256 _seed = uint256(keccak256(abi.encodePacked(",
+                "(block.timestamp).add",
+                "(block.difficulty).add",
+                "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
+                "(block.gaslimit).add",
+                "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add",
+                "(block.number)"
+            ],
+            "vulnerabilityReason": "Using block.timestamp for generating the random seed creates the potential for manipulation of game outcomes, as miners can influence the timestamp.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to affect the lucky draw outcome, benefiting a particular player or set of players.",
+            "fixedCode": "uint256 _seed = uint256(keccak256(abi.encodePacked(block.timestamp.add(block.difficulty).add((uint256(keccak256(abi.encodePacked(block.coinbase))) / block.number).add(block.gaslimit).add((uint256(keccak256(abi.encodePacked(msg.sender))) / block.number).add(block.number)));"
+        },
+        {
+            "vulnerableLines": "420-425",
+            "vulnerableCode": [
+                "uint256 _seed = uint256(keccak256(abi.encodePacked(",
+                "(block.timestamp).add",
+                "(block.difficulty).add",
+                "((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (now)).add",
+                "(block.gaslimit).add",
+                "(block.number)"
+            ],
+            "vulnerabilityReason": "This code for handling pending bonuses also relies on block.timestamp, thus remains susceptible to miner exploitation.",
+            "potentialSecurityRisk": "Similar to the previous case, this manipulation could allow some players to gain an unfair advantage in winning bonuses.",
+            "fixedCode": "uint256 _seed = uint256(keccak256(abi.encodePacked(block.timestamp.add(block.difficulty).add((uint256(keccak256(abi.encodePacked(block.coinbase))) / block.number).add(block.gaslimit).add((uint256(keccak256(abi.encodePacked(msg.sender))) / block.number).add(block.number)));"
+        },
+        {
+            "vulnerableLines": "481-481",
+            "vulnerableCode": [
+                "time: uint64(now)"
+            ],
+            "vulnerabilityReason": "'now' is used directly in storing time, making it exploitable by miners.",
+            "potentialSecurityRisk": "The stored time could be manipulated, leading to incorrect tracking of time-related features in other contract functions.",
+            "fixedCode": "time: uint64(block.timestamp);"
+        },
+        {
+            "vulnerableLines": "572-573",
+            "vulnerableCode": [
+                "uint256 _maxTime = now.add(TIME_DURATION_MAX);",
+                "finishTime = _finishTime <= _maxTime ? _finishTime : _maxTime;"
+            ],
+            "vulnerabilityReason": "Calculating maximum time using 'now' opens vulnerabilities to timestamp manipulation, which could extend the game duration unfairly.",
+            "potentialSecurityRisk": "Miners can create extended game durations by adjusting block timestamps, impacting game balances and player experiences.",
+            "fixedCode": "uint256 _maxTime = block.timestamp.add(TIME_DURATION_MAX); finishTime = _finishTime <= _maxTime ? _finishTime : _maxTime;"
+        }
+    ]
+}

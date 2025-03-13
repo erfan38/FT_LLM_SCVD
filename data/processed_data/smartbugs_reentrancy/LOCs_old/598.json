@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 75,
+        "end_line": 77,
+        "code": [
+            "soldToken += token;",
+            "tokenReward.transfer(msg.sender, token);"
+        ]
+    },
+    {
+        "start_line": 162,
+        "end_line": 162,
+        "code": [
+            "bool ok = msg.sender.call.value(amount)();"
+        ]
+    }
+]

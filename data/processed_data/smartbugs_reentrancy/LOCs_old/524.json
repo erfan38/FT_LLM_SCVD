@@ -1,0 +1,44 @@
+[ {
+        "vulnerableLines": "167-176",
+        "vulnerableCode": [
+            "        if (isConfirmed(transactionId)) {",
+            "            Transaction storage txn = transactions[transactionId];",
+            "            txn.executed = true;",
+            "            (bool exec, bytes memory _) = txn.destination.call.value(txn.value)(\"\");",
+            "            if (exec)",
+            "                emit Execution(transactionId);",
+            "            else {",
+            "                emit ExecutionFailure(transactionId);",
+            "                txn.executed = false;",
+            "            }",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "126-132",
+        "vulnerableCode": [
+            "    function submitTransaction(address destination, uint value)",
+            "        public",
+            "        returns (uint transactionId)",
+            "    {",
+            "        transactionId = addTransaction(destination, value);",
+            "        confirmTransaction(transactionId);",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "136-145",
+        "vulnerableCode": [
+            "    function confirmTransaction(uint transactionId)",
+            "        public",
+            "        ownerExists(msg.sender)",
+            "        transactionExists(transactionId)",
+            "        notConfirmed(transactionId, msg.sender)",
+            "    {",
+            "        confirmations[transactionId][msg.sender] = true;",
+            "        emit Confirmation(msg.sender, transactionId);",
+            "        executeTransaction(transactionId);",
+            "    }"
+        ]
+    }
+]

@@ -1,40 +1,52 @@
-[
-    {
-        "start_line": 77,
-        "end_line": 87,
-        "code": [
-            "require(now < chronus.starting_time + chronus.betting_duration);"
-        ]
-    },
-    {
-        "start_line": 109,
-        "end_line": 159,
-        "code": [
-            "chronus.starting_time = uint32(block.timestamp);",
-            "chronus.betting_open = true;"
-        ]
-    },
-    {
-        "start_line": 227,
-        "end_line": 271,
-        "code": [
-            "chronus.voided_timestamp=uint32(now);"
-        ]
-    },
-    {
-        "start_line": 293,
-        "end_line": 299,
-        "code": [
-            "require(now > chronus.starting_time + chronus.race_duration);",
-            "chronus.voided_timestamp=uint32(now);"
-        ]
-    },
-    {
-        "start_line": 303,
-        "end_line": 304,
-        "code": [
-            "require((chronus.race_end && now > chronus.starting_time + chronus.race_duration + (30 days))",
-            "chronus.voided_timestamp=uint32(now);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "77-87",
+            "vulnerableCode": [
+                "require(now < chronus.starting_time + chronus.betting_duration);"
+            ],
+            "vulnerabilityReason": "The placeBet function checks if the time is within a betting duration based on now, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners can adjust timestamps to manipulate betting windows, allowing them to exploit token prices or accessibility to betting after the allowed period has lapsed.",
+            "fixedCode": "require(block.timestamp < chronus.starting_time + chronus.betting_duration); // Using block.timestamp for accurate timing."
+        },
+        {
+            "vulnerableLines": "109-159",
+            "vulnerableCode": [
+                "chronus.starting_time = uint32(block.timestamp);",
+                "chronus.betting_open = true;"
+            ],
+            "vulnerabilityReason": "The setupRace function sets the starting time based on the current block timestamp, making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Miner manipulation of timestamps can affect the race's starting time, impacting all subsequent events such as betting and payouts.",
+            "fixedCode": "chronus.starting_time = uint32(block.timestamp + TIME_TOLERANCE); // Adding a buffer to safeguard against minor timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "227-271",
+            "vulnerableCode": [
+                "chronus.voided_timestamp=uint32(now);"
+            ],
+            "vulnerabilityReason": "The forceVoidRace function assigns the voided timestamp based on now, allowing potential manipulation by miners to trigger race voiding.",
+            "potentialSecurityRisk": "Attackers could force a race to be voided based on manipulated timestamps, leading to unfair conditions for other participants.",
+            "fixedCode": "chronus.voided_timestamp=uint32(block.timestamp); // Using block.timestamp for accurate timing."
+        },
+        {
+            "vulnerableLines": "293-299",
+            "vulnerableCode": [
+                "require(now > chronus.starting_time + chronus.race_duration);",
+                "chronus.voided_timestamp=uint32(now);"
+            ],
+            "vulnerabilityReason": "The refund function relies on now to check if the race duration has elapsed, making it susceptible to timestamp manipulation.",
+            "potentialSecurityRisk": "Malicious miners could manipulate timestamps to avoid fulfilling refund conditions, leading to exploitation in race management.",
+            "fixedCode": "require(block.timestamp > chronus.starting_time + chronus.race_duration); // Using block.timestamp for accurate timing."
+        },
+        {
+            "vulnerableLines": "303-304",
+            "vulnerableCode": [
+                "require((chronus.race_end && now > chronus.starting_time + chronus.race_duration + (30 days))",
+                "   || (chronus.voided_bet && now > chronus.voided_timestamp + (30 days)));"
+            ],
+            "vulnerabilityReason": "The recovery function checks if the current time exceeds certain durations related to the race or voicing period using now, exposing it to miner manipulation.",
+            "potentialSecurityRisk": "Miners may adjust timestamps to wrongfully postpone the execution of the recovery function, impacting financial distributions.",
+            "fixedCode": "require((chronus.race_end && block.timestamp > chronus.starting_time + chronus.race_duration + (30 days)) || (chronus.voided_bet && block.timestamp > chronus.voided_timestamp + (30 days))); // Using block.timestamp for accurate timing."
+        }
+    ]
+}

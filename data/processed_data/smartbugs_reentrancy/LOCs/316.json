@@ -1,22 +1,28 @@
-[
-    {
-        "start_line": 138,
-        "end_line": 142,
-        "code": [
-            "require(balanceOf[msg.sender] >= _value);",
-            "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
-            "balanceOf[_to] = balanceOf[_to].add(_value);",
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 206,
-        "end_line": 210,
-        "code": [
-            "require(balanceOf[msg.sender] >= _value);",
-            "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
-            "balanceOf[_to] = balanceOf[_to].add(_value);",
-            "ContractReceiver receiver = ContractReceiver(_to);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "138-142",
+            "vulnerableCode": [
+                "require(balanceOf[msg.sender] >= _value);",
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The function updates the sender and receiver balances before making an external call to `_to` using a low-level call. If the recipient is a contract with fallback functions, it can recursively call back into this function before the state changes are complete, allowing for potential manipulation of the contract's state.",
+            "potentialSecurityRisk": "An attacker could interfere with the state change, repeatedly withdrawing funds or manipulating balances before the contract effectively updates them, leading to a potential loss of funds from the contract.",
+            "fixedCode": "require(balanceOf[msg.sender] >= _value); \n// 1. Update sending balance first \nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n// 2. Update receiving balance next \nbalanceOf[_to] = balanceOf[_to].add(_value);\n// 3. Call to recipient after balances are updated \nif(isContract(_to)) {\n    require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n} "
+        },
+        {
+            "vulnerableLines": "206-210",
+            "vulnerableCode": [
+                "require(balanceOf[msg.sender] >= _value);",
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "ContractReceiver receiver = ContractReceiver(_to);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case, the function updates the sender and receiver balances before making an external call to the tokenFallback function of the receiver. This exposes the contract to the same potential reentrancy issue, allowing for malicious manipulation of contract state before it's fully updated.",
+            "potentialSecurityRisk": "An attacker could exploit this sequence to drain the contract of funds or manipulate balances before the contract accurately reflects the completed transfer, risking financial loss.",
+            "fixedCode": "require(balanceOf[msg.sender] >= _value); \n// 1. Update sender balance first \nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n// 2. Update receiver balance next \nbalanceOf[_to] = balanceOf[_to].add(_value);\n// 3. Interacting with the receiver after balances updates \nContractReceiver receiver = ContractReceiver(_to);\nif(isContract(_to)) {\n    receiver.tokenFallback(msg.sender, _value, _data);\n} "
+        }
+    ]
+}

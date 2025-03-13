@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 46,
-        "end_line": 46,
-        "code": [
-            "require(block.timestamp >= startTime && block.timestamp < endTime);"
-        ]
-    },
-    {
-        "start_line": 51,
-        "end_line": 51,
-        "code": [
-            "require(block.timestamp >= endTime);"
-        ]
-    },
-    {
-        "start_line": 165,
-        "end_line": 165,
-        "code": [
-            "require(block.timestamp >= endTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "require(block.timestamp >= startTime && block.timestamp < endTime);"
+            ],
+            "vulnerabilityReason": "Utilizing block.timestamp directly to check if the current time is within the presale period exposes the contract to potential manipulation. Miners could adjust the timestamp to either prematurely trigger the end of the presale or extend it, which could allow for undeserved access to benefits during sales.",
+            "potentialSecurityRisk": "Malicious miners may exploit this weakness to trigger conditions that might allow them to purchase tokens at a discount or interfere with the intended sale conditions, fundamentally altering the economics and fairness of the token sale process.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= startTime && block.timestamp < endTime); // Introduce a buffer using TIME_TOLERANCE to mitigate manipulation risks."
+        },
+        {
+            "vulnerableLines": "51-51",
+            "vulnerableCode": [
+                "require(block.timestamp >= endTime);"
+            ],
+            "vulnerabilityReason": "Checking if the current time has reached or exceeded the end of the presale using block.timestamp makes this condition manipulable. Miners can adjust timestamps to achieve desired results, potentially allowing them to manipulate the end of the presale period unfairly.",
+            "potentialSecurityRisk": "A miner could extend or shorten the presale period using timestamp manipulation and control whether funds can still be accepted or require contributions, leading to potential financial loss or unfair advantage during the presale.",
+            "fixedCode": "require(block.timestamp >= endTime + TIME_TOLERANCE); // Introduce tolerance to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "165-165",
+            "vulnerableCode": [
+                "require(block.timestamp >= endTime);"
+            ],
+            "vulnerabilityReason": "The withdrawal function uses block.timestamp to check if the presale has ended, introducing a risk where miners can claim to have completed transactions just before the presale end, allowing them to exploit the withdrawal for funds after they have ended the sale.",
+            "potentialSecurityRisk": "Miners potentially benefit from manipulating the blockchain timestamp to withdraw funds even when it would technically be disallowed, hampering the fairness of the funding process and misappropriating tokens.",
+            "fixedCode": "require(block.timestamp >= endTime + TIME_TOLERANCE); // Introduce a tolerance to prevent manipulation of end time."
+        }
+    ]
+}

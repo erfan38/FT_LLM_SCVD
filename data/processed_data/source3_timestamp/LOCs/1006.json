@@ -1,11 +1,15 @@
-[
-    {
-        "start_line": 5,
-        "end_line": 7,
-        "code": [
-            "require(block.timestamp >= lastDrawTime + 1 days, \"It's not time for the draw yet\");",
-            "lastDrawTime = block.timestamp;",
-            "uint256 winningNumber = uint256(keccak256(abi.encodePacked(block.timestamp))) % 100;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-7",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastDrawTime + 1 days, \"It's not time for the draw yet\");",
+                "lastDrawTime = block.timestamp;",
+                "uint256 winningNumber = uint256(keccak256(abi.encodePacked(block.timestamp))) % 100;"
+            ],
+            "vulnerabilityReason": "The draw function relies on block.timestamp to control the frequency of draws and to generate a random winning number. This creates a timestamp dependency vulnerability, as miners can manipulate the timestamp to influence both when draws occur and the outcomes of those draws.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to execute draws at favorable times or to influence the random number generation, potentially allowing them to predict winning numbers or impose a pattern on draw outcomes, undermining the fairness of the lottery.",
+            "fixedCode": "require(block.timestamp >= lastDrawTime + 1 days, \"It's not time for the draw yet\");\nlastDrawTime = block.timestamp;\nuint256 winningSeed = uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, block.number))) % 100; // Use additional sources for randomness"
+        }
+    ]
+}

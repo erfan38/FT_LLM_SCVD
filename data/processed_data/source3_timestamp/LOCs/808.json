@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 24,
-        "end_line": 24,
-        "code": [
-            "require(timestamp <= block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "24-24",
+            "vulnerableCode": [
+                "require(timestamp <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "The requirement in the unfreeze function checks if the provided timestamp is less than or equal to the current block timestamp. This creates a vulnerability because miners can manipulate the block timestamp within a reasonable range, potentially extending their ability to unfreeze funds or bypass freeze logic.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability by manipulating the block timestamp to bypass freezing constraints, allowing them to unfreeze funds earlier than intended. This could lead to severe financial losses and undermine trust in the contract's integrity.",
+            "fixedCode": "require(timestamp <= block.timestamp + TIME_TOLERANCE); // Adding a buffer to account for miner manipulation in timestamps."
+        }
+    ]
+}

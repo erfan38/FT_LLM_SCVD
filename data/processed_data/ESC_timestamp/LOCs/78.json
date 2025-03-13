@@ -1,0 +1,112 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "498-500",
+            "vulnerableCode": [
+                "function time() constant returns (uint) {",
+                "    return block.timestamp;",
+                "}"
+            ],
+            "vulnerabilityReason": "The 'time()' function references block.timestamp directly, which can be modified by miners. This creates uncertainty in any operations that depend on the current time, potentially permitting miners to manipulate time-sensitive logic.",
+            "potentialSecurityRisk": "Miners could adjust the timestamps of blocks they mine to affect decision-making in the contract, leading to premature or delayed executions of critical functions dependent on time, such as buying limits or claims.",
+            "fixedCode": "function time() constant returns (uint) { return block.timestamp + TIME_TOLERANCE; } // add a buffer to reduce manipulation risk."
+        },
+        {
+            "vulnerableLines": "502-504",
+            "vulnerableCode": [
+                "function today() constant returns (uint) {",
+                "    return dayFor(time());",
+                "}"
+            ],
+            "vulnerabilityReason": "The 'today()' function relies on the time() function which pulls the block.timestamp, thus inheriting the same vulnerabilities regarding miner manipulation. Any decision based on the output of this function is also at risk.",
+            "potentialSecurityRisk": "Manipulation of the calculated 'today()' can lead to incorrect eligibility for buying tokens and claiming rewards, enabling miners to undermine sale mechanics.",
+            "fixedCode": "function today() constant returns (uint) { return dayFor(time() + TIME_TOLERANCE); } // using time with a buffer."
+        },
+        {
+            "vulnerableLines": "508-518",
+            "vulnerableCode": [
+                "function dayFor(uint timestamp) constant returns (uint) {",
+                "    if (timestamp < startTime) {",
+                "        return 0;",
+                "    }",
+                "    if (timestamp >= startTime && timestamp < finalWindowTime) {",
+                "        return sub(timestamp, startTime) / 5 minutes + 1;",
+                "    }",
+                "    if (timestamp >= finalWindowTime && timestamp < finishTime) {",
+                "        return 176;",
+                "    }",
+                "    return 999;",
+                "}"
+            ],
+            "vulnerabilityReason": "The dayFor() function uses a timestamp to determine the current day in the sale process. Dependence on block.timestamp increases the chance of manipulation affecting day calculations.",
+            "potentialSecurityRisk": "If a miner adjusts the block timestamp, they could publish transactions that impact the day calculation, enabling them to bypass limits for buying tokens or claims.",
+            "fixedCode": "function dayFor(uint timestamp) constant returns (uint) { if (timestamp + TIME_TOLERANCE < startTime) { return 0; } ... // adjusting timestamp with a buffer."
+        },
+        {
+            "vulnerableLines": "529-531",
+            "vulnerableCode": [
+                "function buyWithLimit(uint day, uint limit) payable {",
+                "    assert(today() > 0 && today() <= numberOfDays + 1);",
+                "    assert(msg.value >= 0.01 ether);"
+            ],
+            "vulnerabilityReason": "The buyWithLimit function utilizes today() for validation, making it prone to the same vulnerabilities as previously mentioned, allowing miners to manipulate purchase eligibility.",
+            "potentialSecurityRisk": "An attacker may exploit timestamp manipulation to make purchases even if they are technically ineligible by the current sale status, undermining trust and fairness in the sale process.",
+            "fixedCode": "function buyWithLimit(uint day, uint limit) payable { assert(today() + TIME_TOLERANCE > 0 && today() + TIME_TOLERANCE <= numberOfDays + 1); ... } // adding the TIME_TOLERANCE."
+        },
+        {
+            "vulnerableLines": "546-548",
+            "vulnerableCode": [
+                "function buy() payable {",
+                "    buyWithLimit(today(), 0);",
+                "}"
+            ],
+            "vulnerabilityReason": "The buy function calls buyWithLimit and therefore is inherently affected by the timestamp manipulation vulnerability through the 'today()' function.",
+            "potentialSecurityRisk": "If miners manipulate the timestamp, it could lead to unauthorized participation in the token sale processes, affecting the overall integrity of the contract.",
+            "fixedCode": "function buy() payable { buyWithLimit(today() + TIME_TOLERANCE, 0); } // ensure a time correction."
+        },
+        {
+            "vulnerableLines": "554-556",
+            "vulnerableCode": [
+                "function claim(uint day) {",
+                "    assert(today() > day);",
+                "}"
+            ],
+            "vulnerabilityReason": "The claim function relies on 'today()' for validation, hence it is subject to risks stemming from the timestamp manipulation by miners.",
+            "potentialSecurityRisk": "Manipulation could allow attackers to claim tokens they do not rightfully own based on incorrect 'today()' calculations due to adjusted timestamps.",
+            "fixedCode": "function claim(uint day) { assert(today() + TIME_TOLERANCE > day); } // adjusting with TIME_TOLERANCE."
+        },
+        {
+            "vulnerableLines": "578-580",
+            "vulnerableCode": [
+                "function claimAll() {",
+                "    for (uint i = 0; i < today(); i++) {",
+                "        claim(i);"
+            ],
+            "vulnerabilityReason": "This looping function relies on 'today()' to determine how many claims to process, which is affected by the timestamp manipulation vulnerability.",
+            "potentialSecurityRisk": "If manipulated timestamps incorrectly inflate the 'today()' value, the contract could execute multiple claims wrongly, leading to over-distribution of rewards.",
+            "fixedCode": "function claimAll() { for (uint i = 0; i < today() + TIME_TOLERANCE; i++) { claim(i); } } // correcting with TIME_TOLERANCE."
+        },
+        {
+            "vulnerableLines": "596-598",
+            "vulnerableCode": [
+                "function collect() auth {",
+                "    assert(today() > 0);",
+                "    exec(msg.sender, this.balance);"
+            ],
+            "vulnerabilityReason": "The collect function uses 'today()' to ensure that a claim is valid before execution, exposing it to the risks of timestamp manipulation, undermining the claim checks.",
+            "potentialSecurityRisk": "An attacker could exploit this to collect funds erroneously by manipulating the timestamp in a way to pass the checks falsely.",
+            "fixedCode": "function collect() auth { assert(today() + TIME_TOLERANCE > 0); exec(msg.sender, this.balance); } // adjust with TIME_TOLERANCE."
+        },
+        {
+            "vulnerableLines": "603-605",
+            "vulnerableCode": [
+                "function freeze() {",
+                "    assert(time() > finishTime);",
+                "}"
+            ],
+            "vulnerabilityReason": "Freezing functionality checks the current time against finishTime and relies on the 'time()' function which in turn depends on block.timestamp, thus introducing vulnerability.",
+            "potentialSecurityRisk": "Manipulation by miners could delay freezing actions or allow earlier actions, potentially leading to unauthorized control over token operations.",
+            "fixedCode": "function freeze() { assert(time() + TIME_TOLERANCE > finishTime); } // adding buffer to checks."
+        }
+    ]
+}

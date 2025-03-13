@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "require(block.timestamp < drawTime, \"Lottery closed\");"
-        ]
-    },
-    {
-        "start_line": 12,
-        "end_line": 12,
-        "code": [
-            "require(block.timestamp >= drawTime, \"Too early to draw\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "require(block.timestamp < drawTime, \"Lottery closed\");"
+            ],
+            "vulnerabilityReason": "The buyTicket function uses block.timestamp to check if the lottery is still open. Since miners can manipulate the timestamp, this check can be circumvented, allowing purchases just before the drawing.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to prolong or shorten the purchase window, leading to unfair advantages for themselves or colluding parties by enabling last-minute ticket purchases.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < drawTime, \"Lottery closed\"); // Adding a tolerance buffer helps mitigate this risk, where TIME_TOLERANCE is a defined constant."
+        },
+        {
+            "vulnerableLines": "12-12",
+            "vulnerableCode": [
+                "require(block.timestamp >= drawTime, \"Too early to draw\");"
+            ],
+            "vulnerabilityReason": "The drawWinner function checks if the current time has reached or passed the drawTime using block.timestamp, which is also manipulable by miners.",
+            "potentialSecurityRisk": "This could lead to a situation where miners could manipulate the timestamp to draw a winner too early, disrupting the lottery's integrity by ending the lottery before all tickets have been sold.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= drawTime, \"Too early to draw\"); // Implementing a TIME_TOLERANCE ensures that the draw can only occur after a slight buffer period after the designated draw time."
+        }
+    ]
+}

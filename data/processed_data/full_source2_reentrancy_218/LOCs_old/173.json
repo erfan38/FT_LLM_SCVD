@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 8,
+        "end_line": 8,
+        "code": [
+            "if (msg.sender.call.value(balances[msg.sender])()) {"
+        ]
+    },
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "totalSupply -= balances[msg.sender];"
+        ]
+    }
+]

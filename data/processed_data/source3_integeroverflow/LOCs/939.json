@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "saleEndTime = saleStartTime + saleDuration;"
+            ],
+            "vulnerabilityReason": "The code adds 'saleDuration' to 'saleStartTime' without checking if the sum exceeds the maximum value of uint256. If 'saleStartTime' and 'saleDuration' are set such that their sum exceeds uint256's maximum value, it will cause an overflow and result in a significantly lower 'saleEndTime'.",
+            "potentialSecurityRisk": "This can lead to miscalculation of 'saleEndTime', causing the token sale to either end prematurely or run indefinitely, which can affect the revenue model and investor trust.",
+            "fixedCode": "require(saleStartTime + saleDuration > saleStartTime, \"Overflow detected\");\nsaleEndTime = saleStartTime + saleDuration;"
+        }
+    ]
+}

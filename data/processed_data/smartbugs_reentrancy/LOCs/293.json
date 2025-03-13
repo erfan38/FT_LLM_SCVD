@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 73,
-        "end_line": 73,
-        "code": [
-            "            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 135,
-        "end_line": 135,
-        "code": [
-            "        receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "73-73",
+            "vulnerableCode": [
+                "            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of _to.call.value(0) introduces the possibility for the recipient to execute a fallback function before the state is updated. This allows reentrant calls back into the contract during the state transition, potentially enabling an attacker to manipulate the state of the contract before the token transfer is finalized.",
+            "potentialSecurityRisk": "An attacker controlling the recipient contract can invoke methods like transfer or transferFrom again, which could lead to repeated withdrawals of funds, circumventing intended restrictions.",
+            "fixedCode": "// Replace the external call with a safer approach to ensure state is updated first\n// E.g., removing the unnecessary call or ensuring proper safeguards are in place."
+        },
+        {
+            "vulnerableLines": "135-135",
+            "vulnerableCode": [
+                "        receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "Invoking an external contract method can lead to reentrancy attacks if the external contract's fallback function can call back into the original contract. Although the balance is updated first here, the trustworthiness of the external contract is not guaranteed.",
+            "potentialSecurityRisk": "If the receiver contract is malicious, it can exploit this to conduct unauthorized actions or invoke further transactions, eventually draining assets or causing unintended behavior within the contract.",
+            "fixedCode": "// Consider implementing a fallback function or checks to ensure reentrancy cannot occur, or switch to a pull payment method where the external contract accepts callbacks after the funds have been securely handled."
+        }
+    ]
+}

@@ -8,15 +8,6 @@ A game pays out the very first player at midnight today.
 A malicious miner includes his or her attempt to win the game and sets the timestamp to midnight.
 A bit before midnight the miner ends up mining the block. The real current time is "close enough" to midnight (the currently set timestamp for the block), other nodes on the network decide to accept the block.
 
-## Examples
-The following function only accepts calls that come after a specific date. Since miners can influence their block's timestamp (to a certain extent), they can attempt to mine a block containing their transaction with a block timestamp set in the future. If it is close enough, it will be accepted on the network and the transaction will give the miner ether before any other player could have attempted to win the game:
-```
-function play() public {
-	require(now > 1521763200 && neverPlayed == true);
-	neverPlayed = false;
-	msg.sender.transfer(1500 ether);
-}
-```
 # Instruction
 
 ## 1 Timestamp Dependence
@@ -128,3 +119,63 @@ Case 3: When the body of the conditional statement is not related to the return 
     
 
 As can be seen, when the conditional statement _if_ satisfies _block.timestamp < birthday_ (line 6), the function _Take_ throws an exception. Thus, we label the function _Take_ to have no timestamp dependency vulnerability, i.e., label = 0.
+
+#### How to fix the vulnerable code?
+Using block.timestamp with a TIME_TOLERANCE is a straightforward way to mitigate minor manipulations by adding a small buffer to your time checks. It keeps the logic time-based, which is intuitive if your deadlines are meant to represent actual time. On the other hand, switching to block.number (and using an endDiscountBlock instead of endDiscountTime) reduces the risk of manipulation further because block numbers are less directly controllable by miners. However, this approach requires you to accurately map time to block numbers, which can add complexity. If your system can reliably convert expected times to block numbers, the block.number approach is more robust against timestamp manipulation. Otherwise, a properly calibrated TIME_TOLERANCE with block.timestamp offers a simpler fix.
+
+Examples of fixed code: this is an example of how to fix vulnerable lines to have a safe code:
+ 
+# **1- fixing with buffer TIME_TOLERANCE:**
+ 
+### **Vulnerable Code:**
+
+if ((block.timestamp >= ENDDATE && state == State.Running) || (block.timestamp >= ENDDATE && weiRaised < MINSALESCAP))
+
+### **fixed Code:** 
+ if ((block.timestamp + TIME_TOLERANCE >= ENDDATE && state == State.Running) || (block.timestamp + TIME_TOLERANCE >= ENDDATE && weiRaised < MINSALESCAP))
+
+# **2- fixing with block.number**
+
+### **Vulnerable Code:**
+if (block.timestamp < cliff) {
+               return 0;
+            } else if (block.timestamp >= start.add(duration) || revoked[token]) {
+                return totalBalance;
+            } else {
+                return totalBalance.mul(block.timestamp.sub(start)).div(duration);}
+
+### **fixed Code:**
+ if (block.number < cliffBlock) {
+                return 0;
+            } else if (block.number  >= start.add(duration) || revoked[token]) {
+                return totalBalance;"
+            } else {
+                uint256 blocksElapsed = block.number.sub(startBlock);
+                return totalBalance.mul(blocksElapsed).div(durationBlocks)}
+
+# **3- fixing with assigning block.timestamp to a local variable**
+
+### **Vulnerable Code:**
+
+  function updateEventData() public {
+        _eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1e18) + (team * 1e30);
+    }
+
+### **fixed Code:**
+function updateEventData() public {
+        uint256 currentTime = block.timestamp;  // Assign block.timestamp to a local variable
+        _eventData_.compressedData = _eventData_.compressedData + (currentTime * 1e18) + (team * 1e30);
+    }
+
+# **4- fixing with blockhash**
+
+### **Vulnerable Code:**:
+    function updateEventData() public {
+        _eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1e18) + (team * 1e30);
+    }
+
+### **fixed Code:**
+ function updateEventData() public {
+        uint256 blockTimeEstimate = uint256(blockhash(block.number - 1)) % 10000000000; // Get pseudo-random time
+        _eventData_.compressedData = _eventData_.compressedData + (blockTimeEstimate * 1e18) + (team * 1e30);
+    }

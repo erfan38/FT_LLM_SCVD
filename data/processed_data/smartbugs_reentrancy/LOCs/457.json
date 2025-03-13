@@ -1,17 +1,23 @@
-[
-    {
-        "start_line": 248,
-        "end_line": 250,
-        "code": [
-            "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
-            "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
-        ]
-    },
-    {
-        "start_line": 312,
-        "end_line": 312,
-        "code": [
-            "_customerAddress.transfer(_dividends);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "248-250",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "The `call.value()` operation is used to send Ether to an address before updating the state variable `totalEthFundRecieved`. This allows a malicious contract to re-enter during the execution of this external call, leading to a reentrancy attack that can manipulate the state of the contract after funds have been sent.",
+            "potentialSecurityRisk": "An attacker could exploit this by deploying a malicious contract that re-invokes the `payFund` function before the contract state is updated, allowing them to drain funds repeatedly by manipulating the total received.",
+            "fixedCode": "if (ethToPay > 1) { totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay); require(giveEthFundAddress.call.value(ethToPay).gas(400000)()); } else { revert(); }"
+        },
+        {
+            "vulnerableLines": "312-312",
+            "vulnerableCode": [
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "Using `transfer()` to send Ether before updating the internal state can be exploited. If the recipient is a malicious contract, they can call back into `withdraw()` or similar functions, leading to reentrant withdrawals before the state reflecting the withdrawal is updated.",
+            "potentialSecurityRisk": "This opens up the potential for an attacker to recursively withdraw more than they are entitled to, which could empty the contract's balance.",
+            "fixedCode": "uint256 _totalDividends = myDividends(false); payoutsTo[_customerAddress] += (int256)(_dividends * magnitude); _dividends += referralBalance[_customerAddress]; referralBalance[_customerAddress] = 0; if (_dividends > 0) { _customerAddress.transfer(_dividends); } onWithdraw(_customerAddress, _dividends);"
+        }
+    ]
+}

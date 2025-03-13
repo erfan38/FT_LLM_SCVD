@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "drawTime = block.timestamp + _duration;"
+        ]
+    },
+    {
+        "start_line": 10,
+        "end_line": 10,
+        "code": [
+            "require(block.timestamp < drawTime, \"Lottery closed\");"
+        ]
+    },
+    {
+        "start_line": 16,
+        "end_line": 16,
+        "code": [
+            "require(block.timestamp >= drawTime, \"Too early to draw\");"
+        ]
+    }
+]

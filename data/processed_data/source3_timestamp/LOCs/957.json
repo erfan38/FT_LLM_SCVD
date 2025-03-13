@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 6,
-        "end_line": 6,
-        "code": [
-            "require(block.timestamp >= lastDrawTime + drawInterval, \"Too early for next draw\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastDrawTime + drawInterval, \"Too early for next draw\");"
+            ],
+            "vulnerabilityReason": "The drawWinner function uses block.timestamp to check if enough time has passed since the last draw, making it dependent on the block's timestamp. Miners can manipulate this timestamp, potentially triggering draws more frequently than intended.",
+            "potentialSecurityRisk": "Malicious miners may adjust the block timestamp to bypass the time restriction, allowing them to trigger the draw process prematurely and exploit the lottery mechanism for personal gain.",
+            "fixedCode": "require(block.timestamp >= lastDrawTime + drawInterval + TIME_TOLERANCE, \"Too early for next draw\"); // Adding a buffer time to mitigate manipulation."
+        }
+    ]
+}

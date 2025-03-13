@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 7,
+        "end_line": 7,
+        "code": [
+            "if(msg.sender.call.value(_amount).gas(2000)()) {"
+        ]
+    }
+]

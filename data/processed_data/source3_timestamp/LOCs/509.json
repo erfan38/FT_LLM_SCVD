@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 68,
-        "end_line": 68,
-        "code": [
-            "require(uint64(block.timestamp) > head);"
-        ]
-    },
-    {
-        "start_line": 94,
-        "end_line": 94,
-        "code": [
-            "while (release != 0 && block.timestamp > release) {"
-        ]
-    },
-    {
-        "start_line": 111,
-        "end_line": 111,
-        "code": [
-            "require(_until > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "68-68",
+            "vulnerableCode": [
+                "require(uint64(block.timestamp) > head);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp here to check if the current time is greater than the release time makes this line vulnerable to timestamp manipulation by miners, who could potentially delay or advance the release of tokens by slightly modifying the timestamp during block creation.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to prevent the release of tokens, effectively freezing funds for indefinite periods or releasing them prematurely, which disrupts the expected behavior of the token management process.",
+            "fixedCode": "require(uint64(block.timestamp + TIME_TOLERANCE) > head); // Introduces a buffer to mitigate the timestamp manipulation risk."
+        },
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "while (release != 0 && block.timestamp > release) {"
+            ],
+            "vulnerabilityReason": "This line relies on block.timestamp to decide whether to continue releasing tokens, making it vulnerable to miners adjusting the timestamp to affect the state of released tokens.",
+            "potentialSecurityRisk": "Miners could leverage this vulnerability to manipulate token release operations, potentially leading to an unfair advantage in accessing tokens or disrupting the stability of the token system.",
+            "fixedCode": "while (release != 0 && (block.timestamp + TIME_TOLERANCE) > release) { // Adds a safeguard against timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "111-111",
+            "vulnerableCode": [
+                "require(_until > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the freezing period has elapsed using block.timestamp, creating vulnerability by making the contract logic dependent on an easily affected mining parameter.",
+            "potentialSecurityRisk": "Miners could influence the result of this condition and extend the freezing period indefinitely or circumvent it altogether, leading to unfair allocation of tokens.",
+            "fixedCode": "require(_until > (block.timestamp + TIME_TOLERANCE)); // Adds a tolerance to this check to mitigate manipulation risks."
+        }
+    ]
+}

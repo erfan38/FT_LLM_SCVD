@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "latestTimestamp = block.timestamp + _seconds;"
+            ],
+            "vulnerabilityReason": "The addition of 'block.timestamp' and '_seconds' in the line does not check for overflow. If 'block.timestamp' is close to the maximum uint256 value, adding '_seconds' could cause it to wrap around and produce a lower timestamp, potentially leading to unexpected behavior.",
+            "potentialSecurityRisk": "An attacker could exploit this by providing a large value for '_seconds', setting 'latestTimestamp' to a time in the past, which could disrupt any time-dependent functionality in the contract, leading to incorrect logic or the ability to bypass time-based restrictions.",
+            "fixedCode": "require(block.timestamp + _seconds > block.timestamp, 'Timestamp overflow');\nlatestTimestamp = block.timestamp + _seconds; // This ensures the addition won't overflow."
+        }
+    ]
+}

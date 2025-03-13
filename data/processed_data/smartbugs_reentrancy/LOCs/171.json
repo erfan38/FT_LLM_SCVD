@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 250,
-        "end_line": 250,
-        "code": [
-            "if(ADDRESS_MAIN_FUND.call.value(advTax)())"
-        ]
-    },
-    {
-        "start_line": 255,
-        "end_line": 255,
-        "code": [
-            "addr.transfer(interestPure);"
-        ]
-    },
-    {
-        "start_line": 168,
-        "end_line": 168,
-        "code": [
-            "_delete(msg.sender);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "250-250",
+            "vulnerableCode": [
+                "if(ADDRESS_MAIN_FUND.call.value(advTax)()) "
+            ],
+            "vulnerabilityReason": "The contract uses a low-level `call` to send Ether to `ADDRESS_MAIN_FUND` before updating the investor's withdrawn amounts. This allows an attacker to take advantage of a reentrant call before the withdrawal state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by re-entering the contract through the fallback function before the state variables are updated, allowing them to withdraw more funds than they are entitled to.",
+            "fixedCode": "uint advTax = amount - interestPure;\ninv.withdrawn += amount;\nif(ADDRESS_MAIN_FUND.call.value(advTax)()) {\n    countOfAdvTax += advTax;\n} else {\n    inv.withdrawn -= advTax;\n} // Check success and revert changes if not successful. "
+        },
+        {
+            "vulnerableLines": "255-255",
+            "vulnerableCode": [
+                "addr.transfer(interestPure);"
+            ],
+            "vulnerabilityReason": "Using `addr.transfer` to send Ether does not update the state before sending funds. If a malicious address is passed, it could potentially re-enter and withdraw funds again before the state updates are completed.",
+            "potentialSecurityRisk": "Similar to the previous vulnerability, an attacker could manipulate the contract to perform multiple withdrawals before the contract state reflects the withdrawn amounts.",
+            "fixedCode": "(bool success, ) = addr.call.value(interestPure)();\nrequire(success, \"Transfer failed\"); // Ensure the transfer is successful before continuing with state updates."
+        },
+        {
+            "vulnerableLines": "168-168",
+            "vulnerableCode": [
+                "_delete(msg.sender);"
+            ],
+            "vulnerabilityReason": "The `_delete` function is called after Ether has already been transferred to the investor. This order of operations allows an attacker to exploit the contract state after making a withdrawal, potentially manipulating how states are reset.",
+            "potentialSecurityRisk": "An attacker could exploit the timing of the deletion and subsequent withdrawal, allowing them to manipulate state after Ether is transferred, thereby draining the contract of funds.",
+            "fixedCode": "_delete(msg.sender);\nrequire(success, \"Transfer failed\"); // Ensure any deletion or state updates correctly reflect the desired state before allowing further actions."
+        }
+    ]
+}

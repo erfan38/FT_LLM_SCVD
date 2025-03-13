@@ -1,0 +1,72 @@
+[
+    {
+        "start_line": 399,
+        "end_line": 399,
+        "code": [
+            "if (!address(coin_base).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 415,
+        "end_line": 415,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 444,
+        "end_line": 444,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 129,
+        "end_line": 129,
+        "code": [
+            "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 172,
+        "end_line": 172,
+        "code": [
+            "buyCore(_pID, _affCode, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 213,
+        "end_line": 213,
+        "code": [
+            "buyCore(_pID, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 296,
+        "end_line": 296,
+        "code": [
+            "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 336,
+        "end_line": 336,
+        "code": [
+            "reLoadCore(_pID, _affID, _team, _eth, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 412,
+        "end_line": 412,
+        "code": [
+            "_eth = withdrawEarnings(_pID);"
+        ]
+    },
+    {
+        "start_line": 440,
+        "end_line": 440,
+        "code": [
+            "_eth = withdrawEarnings(_pID);"
+        ]
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "start_line": 40,
+        "end_line": 40,
+        "code": [
+            "require(block.timestamp < endTime);"
+        ]
+    },
+    {
+        "start_line": 59,
+        "end_line": 59,
+        "code": [
+            "require(raffleEndTime >= block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 88,
+        "end_line": 88,
+        "code": [
+            "require(raffleEndTime < block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 133,
+        "end_line": 133,
+        "code": [
+            "require(raffleEndTime < block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 136,
+        "end_line": 136,
+        "code": [
+            "uint256 seed = raffleTicketsBought + block.timestamp;"
+        ]
+    }
+]

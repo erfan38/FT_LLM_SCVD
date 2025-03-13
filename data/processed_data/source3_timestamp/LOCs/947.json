@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 11,
-        "code": [
-            "lockTime[msg.sender] = block.timestamp + 1 weeks;",
-            "require(block.timestamp > lockTime[msg.sender], \"Lock time not expired\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-11",
+            "vulnerableCode": [
+                "lockTime[msg.sender] = block.timestamp + 1 weeks;",
+                "require(block.timestamp > lockTime[msg.sender], \"Lock time not expired\");"
+            ],
+            "vulnerabilityReason": "The contract uses block.timestamp to set a lock time on deposits and to check if the lock time has expired for withdrawals. This gives miners the ability to influence the timing of withdrawals by manipulating the block timestamp, allowing them to withdraw prematurely before the intended lock period has expired.",
+            "potentialSecurityRisk": "An attacker who mines a block could set a timestamp that is earlier than the actual time, allowing them to withdraw funds before the lock time they agreed to expires. This undermines the fundamental time-lock feature of the contract, leading to potential financial losses for users.",
+            "fixedCode": "lockTime[msg.sender] = block.timestamp + 1 weeks; // Keep this but ensure checks are robust.\n\nrequire(block.timestamp + 60 seconds > lockTime[msg.sender], \"Lock time not expired\"); // Adding a margin to reduce manipulation risk."
+        }
+    ]
+}

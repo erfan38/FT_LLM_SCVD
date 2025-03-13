@@ -1,32 +1,14 @@
-[
-    {
-        "start_line": 440,
-        "end_line": 442,
-        "code": [
-            "            if (_eth > 0)",
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1040,
-        "end_line": 1043,
-        "code": [
-            "        admin.transfer(_com);",
-            "        admin.transfer(_p3d.sub(_p3d / 2));"
-        ]
-    },
-    {
-        "start_line": 1140,
-        "end_line": 1140,
-        "code": [
-            "        if (!address(admin).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 1046,
-        "end_line": 1046,
-        "code": [
-            "        _eventData_.compressedData = _eventData_.compressedData + (round_[_rID].end * 1000000);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "440-442",
+            "vulnerableCode": [
+                "            if (_eth > 0)",
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The external call to send Ether using `transfer` is made before updating the player's state, allowing a reentrant call to happen. If a malicious contract is in control of `plyr_[_pID].addr`, it can call the `withdraw` function again before the player's balance is updated, resulting in multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by recursively calling the `withdraw` function before the state is updated, allowing them to drain the contract funds by withdrawing more than they are entitled to.",
+            "fixedCode": "if (_eth > 0) {\n    require(address(this).balance >= _eth, \"Insufficient balance\");\n    plyr_[_pID].addr.transfer(_eth);\n}"
+        }
+    ]
+}

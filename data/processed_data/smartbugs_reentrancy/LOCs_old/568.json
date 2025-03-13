@@ -1,0 +1,12 @@
+[
+    {
+        "start_line": 342,
+        "end_line": 348,
+        "code": [
+            "if (address(admin).call.value((_com / 2))() == false)",
+            "if (address(shareCom).call.value((_com / 2))() == false)",
+            "shareCom.transfer((_amount / 2));",
+            "admin.transfer((_amount / 2));"
+        ]
+    }
+]

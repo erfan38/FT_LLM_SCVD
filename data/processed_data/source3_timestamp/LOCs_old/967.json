@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 5,
+        "end_line": 5,
+        "code": [
+            "lockdownEnd = block.timestamp + _duration;"
+        ]
+    },
+    {
+        "start_line": 9,
+        "end_line": 9,
+        "code": [
+            "return block.timestamp < lockdownEnd;"
+        ]
+    }
+]

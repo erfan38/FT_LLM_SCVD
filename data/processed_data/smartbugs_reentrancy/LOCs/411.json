@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 220,
-        "end_line": 220,
-        "code": [
-            "uint256 tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender);"
-        ]
-    },
-    {
-        "start_line": 238,
-        "end_line": 238,
-        "code": [
-            "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
-        ]
-    },
-    {
-        "start_line": 289,
-        "end_line": 289,
-        "code": [
-            "weak_hands.withdraw.gas(1000000)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "220-220",
+            "vulnerableCode": [
+                "uint256 tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender);"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to transfer Ether to the `weak_hands` address without checking for successful execution. This is vulnerable to reentrancy as an attacker could manipulate the call during the fund transfer, potentially leading to multiple withdrawals before the internal state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain funds from the contract by re-entering during the execution of the `buy()` function, causing double spending of the investment amount.",
+            "fixedCode": "uint256 tokens; (bool success, tokens) = weak_hands.buy.value(investment).gas(1000000)(msg.sender); require(success, 'Purchase failed');"
+        },
+        {
+            "vulnerableLines": "238-238",
+            "vulnerableCode": [
+                "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+            ],
+            "vulnerabilityReason": "This line calls `call.value()` to send Ether to the participant's address before updating the contract state. If an attacker controls the `etherAddress`, they can recursively call back into this function while it is still vulnerable.",
+            "potentialSecurityRisk": "This could allow an attacker to withdraw funds multiple times before the state variable `payout` is adjusted, potentially draining the contract's funds completely.",
+            "fixedCode": "(bool success) = participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)(); require(success, 'Payout failed');"
+        },
+        {
+            "vulnerableLines": "289-289",
+            "vulnerableCode": [
+                "weak_hands.withdraw.gas(1000000)();"
+            ],
+            "vulnerabilityReason": "The `withdraw()` call also uses `gas()` to send Ether without ensuring that the call is successful or checking the return value. This places the function at risk of reentrancy attacks by allowing malicious contracts to call back into this function.",
+            "potentialSecurityRisk": "If the `weak_hands` contract is malicious, it could allow repeated withdrawals and interfere with the state of the current contract, potentially leading to financial losses.",
+            "fixedCode": "(bool success) = weak_hands.withdraw.gas(1000000)(); require(success, 'Withdraw failed');"
+        }
+    ]
+}

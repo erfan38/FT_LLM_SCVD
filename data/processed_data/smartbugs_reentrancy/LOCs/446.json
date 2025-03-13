@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 310,
-        "end_line": 311,
-        "code": [
-            "if (!p.recipient.call.value(p.amount)(transactionBytecode))",
-            "throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "310-311",
+            "vulnerableCode": [
+                "if (!p.recipient.call.value(p.amount)(transactionBytecode))",
+                "throw;"
+            ],
+            "vulnerabilityReason": "The contract performs an external call using `call.value()` to transfer Ether before updating the state variable `p.executed`. This allows a potential attacker to re-enter the function during the Ether transfer process, leading to multiple withdrawals and potential fund loss.",
+            "potentialSecurityRisk": "An attacker could exploit the reentrancy vulnerability by calling back into the `executeProposal` function before the external call is concluded, allowing them to withdraw funds multiple times and potentially drain the contract's Ether balance.",
+            "fixedCode": "// Update the state before making an external call\np.executed = true;\nif (!p.recipient.call.value(p.amount)(transactionBytecode)) throw;"
+        }
+    ]
+}

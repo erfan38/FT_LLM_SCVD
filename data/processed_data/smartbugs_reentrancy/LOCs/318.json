@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 42,
-        "end_line": 42,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 103,
-        "end_line": 103,
-        "code": [
-            "receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "42-42",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "This line performs an external call to a contract without first updating the state of the sender's balance. If the recipient is a malicious contract, it can call back into the `transfer` function before the balance is updated, allowing for multiple withdrawals from the same user balance.",
+            "potentialSecurityRisk": "An attacker can exploit this by recursively calling the `transfer` function to withdraw excessive amounts of funds before the initial request is completed, potentially draining the contract of its tokens.",
+            "fixedCode": "// Check the necessary conditions before performing external calls\nif (balanceOf(msg.sender) < _value) revert();\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\n// Perform the external call after updating state\nif (!_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)) revert();\nTransfer(msg.sender, _to, _value, _data);"
+        },
+        {
+            "vulnerableLines": "103-103",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "This line also performs an external call to a potentially untrusted contract's method without updating the state variables. If the `tokenFallback` method contains malicious logic, it could lead to reentrant calls into the `transferToContract` function before the balance state reflects the new withdrawal.",
+            "potentialSecurityRisk": "Similar to the previous vulnerability, an attacker can exploit this by triggering multiple calls to this function, leading to repeated withdrawals and an eventual drain of the contract’s tokens.",
+            "fixedCode": "// Check the necessary conditions before performing external calls\nif (balanceOf(msg.sender) < _value) revert();\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\nContractReceiver receiver = ContractReceiver(_to);\n// Perform the external call after updating state\nreceiver.tokenFallback(msg.sender, _value, _data);\nTransfer(msg.sender, _to, _value, _data);"
+        }
+    ]
+}

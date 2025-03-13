@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 132,
+        "end_line": 132,
+        "code": [
+            "require(_expirationRequest > block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 226,
+        "end_line": 226,
+        "code": [
+            "require(block.timestamp <= loan.expirationRequest);"
+        ]
+    },
+    {
+        "start_line": 416,
+        "end_line": 416,
+        "code": [
+            "internalAddInterest(loan, block.timestamp);"
+        ]
+    },
+    {
+        "start_line": 277,
+        "end_line": 277,
+        "code": [
+            "require(loan.cosigner != address(0));"
+        ]
+    }
+]

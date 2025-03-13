@@ -1,23 +1,30 @@
-[
-    {
-        "start_line": 256,
-        "end_line": 258,
-        "code": [
-            "function setDailyTokenLimit(uint limit)",
-            "public",
-            "isAnOwner {"
-        ]
-    },
-    {
-        "start_line": 360,
-        "end_line": 366,
-        "code": [
-            "function executeTransaction(uint transactionId)",
-            "public",
-            "notExecuted(transactionId) {",
-            "if (isConfirmed(transactionId)) {",
-            "Transaction storage txToExecute = transactions[transactionId];",
-            "txToExecute.executed = true;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "256-258",
+            "vulnerableCode": [
+                "function setDailyTokenLimit(uint limit)",
+                "public",
+                "isAnOwner {"
+            ],
+            "vulnerabilityReason": "The function uses the external call mechanism to set a daily token limit after modifying sensitive state variables. This allows malicious actors to exploit the state before it is finalized, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can manipulate the contract and reset the state multiple times before it updates, resulting in unintended or excessive token distributions, draining the contract's funds.",
+            "fixedCode": "function setDailyTokenLimit(uint limit) public isAnOwner { dailyTknLimit = limit; }"
+        },
+        {
+            "vulnerableLines": "360-366",
+            "vulnerableCode": [
+                "function executeTransaction(uint transactionId)",
+                "public",
+                "notExecuted(transactionId) {",
+                "if (isConfirmed(transactionId)) {",
+                "Transaction storage txToExecute = transactions[transactionId];",
+                "txToExecute.executed = true;",
+                "if (txToExecute.destination.call.value(txToExecute.value)(txToExecute.data))"
+            ],
+            "vulnerabilityReason": "The state change marking the transaction as executed occurs before the external call using call.value(). An attacker can call back into this function and execute the same transaction multiple times before the state change is processed, leading to funds being drained.",
+            "potentialSecurityRisk": "An attacker may re-enter the executeTransaction function, leading to the possibility of executing the transaction multiple times and unauthorized withdrawals from the contract.",
+            "fixedCode": "function executeTransaction(uint transactionId) public notExecuted(transactionId) { if (isConfirmed(transactionId)) { Transaction storage txToExecute = transactions[transactionId]; if (txToExecute.destination.call.value(txToExecute.value)(txToExecute.data)) { emit Execution(transactionId); txToExecute.executed = true; } else { emit ExecutionFailure(transactionId); }}}"
+        }
+    ]
+}

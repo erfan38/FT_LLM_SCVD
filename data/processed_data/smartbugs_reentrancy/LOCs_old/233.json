@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 93,
+        "end_line": 93,
+        "code": [
+            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+        ]
+    },
+    {
+        "start_line": 157,
+        "end_line": 157,
+        "code": [
+            "receiver.tokenFallback(msg.sender, _value, _data);"
+        ]
+    },
+    {
+        "start_line": 316,
+        "end_line": 316,
+        "code": [
+            "if(msg.value > 0) depositAddress.transfer(msg.value);"
+        ]
+    },
+    {
+        "start_line": 327,
+        "end_line": 327,
+        "code": [
+            "autoDistribute();"
+        ]
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+        "start_line": 501,
+        "end_line": 505,
+        "code": [
+            "(bool success, bytes memory result) = destination.call.value(value)(data);",
+            "if (success) {",
+            "    emit Execution(true, msg.sender, destination, value, data, result);",
+            "} else {",
+            "    revert();"
+        ]
+    },
+    {
+        "start_line": 371,
+        "end_line": 379,
+        "code": [
+            "if (now - auctionStart > 24 hours) {",
+            "    return AuctionState.AUCTION_EXPIRED;",
+            "}",
+            "",
+            "uint auctionIndex = dx.getAuctionIndex(sellToken, buyToken);",
+            "uint closingPriceDen;",
+            "(, closingPriceDen) = dx.closingPrices(sellToken, buyToken, auctionIndex);",
+            "if (closingPriceDen == 0) {",
+            "    return AuctionState.AUCTION_IN_PROGRESS;"
+        ]
+    }
+]

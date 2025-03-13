@@ -1,10 +1,24 @@
-[
-    {
-        "start_line": 32,
-        "end_line": 33,
-        "code": [
-            "if (tx.destination.call.value(tx.value)(tx.data)) {",
-            "    tx.executed = true;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "32-33",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data)) {",
+                "    tx.executed = true;"
+            ],
+            "vulnerabilityReason": "The contract executes an external call using `call.value()` before updating the state variable `tx.executed`. This allows an attacker to re-enter the function before the state transition occurs, potentially executing the transaction multiple times.",
+            "potentialSecurityRisk": "An attacker could use a malicious contract to re-enter `executeTransaction`, withdrawing funds multiple times before the transaction is marked as executed. This could lead to an unexpected loss of funds from the wallet, draining it entirely.",
+            "fixedCode": "// Implement a Reentrancy Guard\nbool private locked;\n\nfunction executeTransaction(uint transactionId) public notExecuted(transactionId) {\n    require(!locked, \"Reentrant call\");\n    locked = true; // Lock before external call\n    if (isConfirmed(transactionId)) {\n        Transaction tx = transactions[transactionId];\n        if (tx.destination.call.value(tx.value)(tx.data)) {\n            tx.executed = true;\n            Execution(transactionId);\n        } else {\n            ExecutionFailure(transactionId);\n            tx.executed = false;\n        }\n    }\n    locked = false; // Unlock after execution\n}"
+        },
+        {
+            "vulnerableLines": "l1-l2",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data)) {",
+                "    tx.executed = true;"
+            ],
+            "vulnerabilityReason": "The `tx.executed` state variable is updated only after the call completes, which can lead to reentrancy vulnerabilities if an attacker can call this function before the state is set, thus exploiting the contract's balance.",
+            "potentialSecurityRisk": "An attacker can create a malicious contract to exploit this vulnerability, leading to repeated calls to the `executeTransaction` function and multiple fund withdrawals before the state is updated, resulting in potential complete funds drain from the wallet.",
+            "fixedCode": "// Implement a Checks-Effects-Interactions pattern\nfunction executeTransaction(uint transactionId) public notExecuted(transactionId) {\n    require(!locked, \"Reentrant call\");\n    locked = true;\n    if (isConfirmed(transactionId)) {\n        Transaction tx = transactions[transactionId];\n        require(tx.destination.call.value(tx.value)(tx.data), \"External call failed\");\n        tx.executed = true;\n        Execution(transactionId);\n    }\n    locked = false;\n}"
+        }
+    ]
+}

@@ -1,17 +1,34 @@
-[
-    {
-        "start_line": 66,
-        "end_line": 67,
-        "code": [
-            "    startTime = block.timestamp;",
-            "    endTime = startTime + 365 days;"
-        ]
-    },
-    {
-        "start_line": 110,
-        "end_line": 110,
-        "code": [
-            "    if (block.timestamp > endTime) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "66-67",
+            "vulnerableCode": [
+                "startTime = block.timestamp;",
+                "endTime = startTime + 365 days;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to set startTime and endTime introduces a risk as miners can manipulate the block timestamp slightly, which can affect the times set in the contract, leading to potentially unintended durations for token eligibility and airdrops.",
+            "potentialSecurityRisk": "Miners can manipulate the contract's airdrop eligibility and burning times by adjusting the timestamp, potentially allowing them or others to claim airdropped tokens or burn tokens after the intended deadline, undermining the contract's integrity.",
+            "fixedCode": "// Adding a constant buffer to mitigate manipulation risk \nstartTime = block.timestamp + 1;  // Start time must be in the future\nendTime = startTime + 365 days;"
+        },
+        {
+            "vulnerableLines": "110-110",
+            "vulnerableCode": [
+                "if (block.timestamp > endTime) {"
+            ],
+            "vulnerabilityReason": "The conditional check using block.timestamp directly impacts the state of airdrop activity based on whether the current time exceeds endTime. This reliance creates an avenue for miner manipulation which can lead to inconsistencies in token burning and airdrop claim eligibility.",
+            "potentialSecurityRisk": "An attacker could exploit the ability to manipulate the timestamp to incorrectly control the airdrop state or burning of tokens, allowing unauthorized actions or denial of legitimate claims after the expected end time.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE > endTime) { // Use TIME_TOLERANCE to mitigate manipulation risk"
+        },
+        {
+            "vulnerableLines": "96-98",
+            "vulnerableCode": [
+                "require(block.timestamp < endTime);",
+                "claimed[msg.sender] = true;",
+                "return balances[msg.sender];"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp in the claim function exposes the contract to timestamp manipulation risks, affecting claims eligibility based on perceived time.",
+            "potentialSecurityRisk": "Manipulated timestamps could allow a malicious actor to claim airdrops beyond the intended timeframe or prevent others from claiming timely if they adjust the timestamp.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < endTime); // Use TIME_TOLERANCE to ensure true eligibility conditions for claims."
+        }
+    ]
+}

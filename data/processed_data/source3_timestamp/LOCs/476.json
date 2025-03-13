@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 30,
-        "end_line": 30,
-        "code": [
-            "require(_startTime >= now);"
-        ]
-    },
-    {
-        "start_line": 31,
-        "end_line": 31,
-        "code": [
-            "require(_endTime >= _startTime);"
-        ]
-    },
-    {
-        "start_line": 46,
-        "end_line": 46,
-        "code": [
-            "return now > endTime;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "require(_startTime >= now);"
+            ],
+            "vulnerabilityReason": "The constructor of the contract uses 'now' to ensure the start time is greater than or equal to the current timestamp. This introduces a reliance on block.timestamp that can be manipulated by miners.",
+            "potentialSecurityRisk": "Manipulating the block timestamp might allow a miner to set the start time of the crowdsale to a future point in time, allowing themselves an unfair trading advantage or disrupt the intended operation of the crowdsale.",
+            "fixedCode": "require(_startTime >= block.timestamp); //replace 'now' with 'block.timestamp'"
+        },
+        {
+            "vulnerableLines": "31-31",
+            "vulnerableCode": [
+                "require(_endTime >= _startTime);"
+            ],
+            "vulnerabilityReason": "Though this line ensures that the end time is after the start time, it relies on the correctness of _startTime, which was set based on a potentially manipulated value from block.timestamp.",
+            "potentialSecurityRisk": "If the start time can be manipulated due to miner influence on block.timestamp, it could eventually lead to scenarios where the end time does not correctly define the boundaries of the crowdsale.",
+            "fixedCode": "require(_endTime >= _startTime); // Logic remains intact, relying on the previous point."
+        },
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "return now > endTime;"
+            ],
+            "vulnerabilityReason": "This function checks if the current timestamp using 'now' is greater than the end time. It directly relies on block.timestamp, which is subject to miner manipulation and can produce faulty end conditions.",
+            "potentialSecurityRisk": "Miners could artificially manipulate the end time by altering the block timestamp, which might allow them to conclude the crowdsale prematurely or post-pone it at will, affecting all token holders unjustly.",
+            "fixedCode": "return block.timestamp > endTime; //use 'block.timestamp' instead of 'now' for clarity and intent."
+        }
+    ]
+}

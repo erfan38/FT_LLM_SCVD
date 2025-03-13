@@ -1,0 +1,59 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "52-54",
+            "vulnerableCode": [
+                "_CurrentDistribPublicSupply += _amount;",
+                "balances[msg.sender] += _amount;",
+                "_totalSupply += _amount;"
+            ],
+            "vulnerabilityReason": "The code performs addition operations on the variables `_CurrentDistribPublicSupply`, `balances[msg.sender]`, and `_totalSupply` without any checks for overflow. If `_amount` is very large, adding it to these variables could exceed the maximum limit of `uint256`, resulting in an overflow.",
+            "potentialSecurityRisk": "An attacker could input a large `_amount`, causing an overflow, which can lead to incorrect balances and potentially allow for unauthorized token creation or denial of service if conditions depend on these values.",
+            "fixedCode": "require(_CurrentDistribPublicSupply + _amount <= _MaxDistribPublicSupply);  // To check the max limit before addition\nrequire(balances[msg.sender] + _amount >= balances[msg.sender]);  // To prevent overflow on recipient's balance\nrequire(_totalSupply + _amount >= _totalSupply);  // Ensure total supply is valid after addition."
+        },
+        {
+            "vulnerableLines": "100-102",
+            "vulnerableCode": [
+                "_totalSupply = _OwnerDistribSupply;",
+                "balances[owner] = _totalSupply;",
+                "_CurrentDistribPublicSupply += _totalSupply;"
+            ],
+            "vulnerabilityReason": "Assigning `_OwnerDistribSupply` to `_totalSupply` and subsequently using it for balance assignments carries a risk of overflow if `_OwnerDistribSupply` is very large. This could incorrectly set the total supply and owner balance.",
+            "potentialSecurityRisk": "Large values assigned could lead to mishandled supply figures, causing incorrect total supply, allowing for potentially unauthorized minting of tokens or loss of state integrity.",
+            "fixedCode": "require(_OwnerDistribSupply * 1e18 <= MAX_UINT256);  // Check max before assignment\nbalances[owner] = _OwnerDistribSupply * 1e18; // Align with unit multiplication for accurate calculations"
+        },
+        {
+            "vulnerableLines": "166-168",
+            "vulnerableCode": [
+                "_CurrentDistribPublicSupply += _amount;",
+                "balances[addresses[i]] += _amount;",
+                "_totalSupply += _amount;"
+            ],
+            "vulnerabilityReason": "This block of code also faces overflow risks similar to the ones discussed previously when adding `_amount` to `_CurrentDistribPublicSupply`, `balances[addresses[i]]`, and `_totalSupply` without proper checks.",
+            "potentialSecurityRisk": "Again, if `_amount` is exceedingly large, the overflow could result in erroneous distributions and balances leading to allowance of unauthorized token creation or denial of service incidents.",
+            "fixedCode": "require(_CurrentDistribPublicSupply + _amount <= MAX_UINT256);  // Validate before addition\nrequire(balances[addresses[i]] + _amount > balances[addresses[i]]);  // Ensure no overflow on recipient's balance\nrequire(_totalSupply + _amount <= MAX_UINT256);  // Check total supply limit"
+        },
+        {
+            "vulnerableLines": "190-192",
+            "vulnerableCode": [
+                "_CurrentDistribPublicSupply += _amount;",
+                "balances[addresses[i]] += _amount;",
+                "_totalSupply += _amount;"
+            ],
+            "vulnerabilityReason": "Identical to earlier scenarios, these lines can also cause overflow due to unverified addition involving `_amount`, `balances[addresses[i]]`, and `_totalSupply`.",
+            "potentialSecurityRisk": "An improperly controlled addition might allow balances to exceed allowable limits, potentially corrupting the token distribution logic leading to various exploitation opportunities.",
+            "fixedCode": "require(_CurrentDistribPublicSupply + _amount <= MAX_UINT256);  // Protect against overflow\nrequire(balances[addresses[i]] + _amount > balances[addresses[i]]);  // Ensure receiving balance does not overflow\nrequire(_totalSupply + _amount <= MAX_UINT256);  // Ensure total supply remains valid before addition."
+        },
+        {
+            "vulnerableLines": "206-208",
+            "vulnerableCode": [
+                "balances[msg.sender] -= _amount;",
+                "_totalSupply -= _amount;",
+                "Burn(msg.sender, _amount);"
+            ],
+            "vulnerabilityReason": "In this function, the code decreases `balances[msg.sender]` and `_totalSupply`. If `_amount` is greater than the current balance or total supply, this will cause an underflow, as the values cannot become negative under `uint256` type.",
+            "potentialSecurityRisk": "An underflow here can lead to token supply being mismanaged, allowing users to 'burn' or remove tokens from their balances incorrectly, potentially generating excessive supply numbers.",
+            "fixedCode": "require(balances[msg.sender] >= _amount, 'Insufficient balance for burn.');  // Ensure balance before reduction\nrequire(_totalSupply >= _amount, 'Burn exceeds total supply.');  // Validate before underflow."
+        }
+    ]
+}

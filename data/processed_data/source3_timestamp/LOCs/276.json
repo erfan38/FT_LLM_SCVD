@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 21,
-        "end_line": 21,
-        "code": [
-            "require(_releaseTime > block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 30,
-        "end_line": 30,
-        "code": [
-            "require(block.timestamp >= releaseTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "require(_releaseTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The constructor uses block.timestamp to validate that the release time set is in the future. This creates a dependency on miner-controlled timestamps, which could allow a malicious miner to slightly adjust the time to create a valid deployment with a release time that is not truly intended by the contract deployer.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp just before deployment, potentially allowing them to set an advantageous release time that might not be intended. This can lead to unexpected behaviors or premature access to tokens when release calculations are inaccurate.",
+            "fixedCode": "require(_releaseTime > now); // Using `now` instead of block.timestamp simply as an alias."
+        },
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "The release function checks the current timestamp against releaseTime to determine whether to release tokens. Relying on block.timestamp for critical logic exposes the function to potential manipulations, where miners could artificially delay or hasten the allowance to release tokens.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to prevent or allow the release of tokens earlier or later than intended, granting unfair advantages in scenarios where timely access to tokens is crucial.",
+            "fixedCode": "require(now >= releaseTime); // Use now for clarity and modify timestamp handling accordingly."
+        }
+    ]
+}

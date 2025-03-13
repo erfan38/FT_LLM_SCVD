@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "gasSpent[msg.sender] += gasleft();"
+            ],
+            "vulnerabilityReason": "The addition operation modifies the 'gasSpent' mapping for the sender by adding the value returned from 'gasleft()'. If this addition causes the resulting value to exceed the maximum limit for uint256, it will wrap around and start from zero, leading to an inaccurate record of gas usage without any warning in Solidity versions prior to 0.8.0. In newer versions, if this maximum is breached, the transaction reverts, but this does not resolve the underlying management of gas usage records.",
+            "potentialSecurityRisk": "If an overflow occurs, the 'gasSpent' value could reset to a lower number or zero, resulting in lost records of gas expenditure. This manipulation could enable an attacker to exploit gas refunds or cause denial of service through erroneous gas calculations, negatively impacting user interactions with the contract.",
+            "fixedCode": "require(gasSpent[msg.sender] + gasleft() >= gasSpent[msg.sender], 'Gas overflow detected');\ngasSpent[msg.sender] += gasleft();"
+        }
+    ]
+}

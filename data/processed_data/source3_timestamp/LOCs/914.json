@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 30,
-        "end_line": 30,
-        "code": [
-            "require(_startTime >= now);"
-        ]
-    },
-    {
-        "start_line": 37,
-        "end_line": 37,
-        "code": [
-            "endTime = _endTime;"
-        ]
-    },
-    {
-        "start_line": 45,
-        "end_line": 45,
-        "code": [
-            "return now > endTime;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "require(_startTime >= now);"
+            ],
+            "vulnerabilityReason": "This line ensures that the start time is set to a future time based on the current block timestamp. However, using 'now' exposes the contract to manipulation by miners, who can adjust timestamps within a certain range.",
+            "potentialSecurityRisk": "Miners may manipulate block.timestamp to set the startTime earlier, allowing them to circumvent timing restrictions, potentially resulting in unfair advantages during the crowdsale.",
+            "fixedCode": "require(_startTime >= block.timestamp); // Replacing 'now' with 'block.timestamp' for clarity and consistency."
+        },
+        {
+            "vulnerableLines": "37-37",
+            "vulnerableCode": [
+                "endTime = _endTime;"
+            ],
+            "vulnerabilityReason": "Assigning endTime based directly on an input value without validation against the current block timestamp means that if miners manipulate the timestamp, the end of the crowdsale can be set inappropriately, which might lead to premature closure or extended operations.",
+            "potentialSecurityRisk": "Improper manipulation of endTime due to miner influence might allow certain addresses to purchase tokens at prices altered by this manipulation.",
+            "fixedCode": "endTime = _endTime; // ensure _endTime validates against current time before assignment."
+        },
+        {
+            "vulnerableLines": "45-45",
+            "vulnerableCode": [
+                "return now > endTime;"
+            ],
+            "vulnerabilityReason": "The hasEnded function relies on comparing block.timestamp to endTime. If endTime has been set incorrectly due to earlier timestamp manipulation, the outcome of this check could be exploited.",
+            "potentialSecurityRisk": "An attacker could time their purchase based on manipulated end times, leading to potential financial losses for the token sale operators and unfair modifications of the crowdsale state.",
+            "fixedCode": "return block.timestamp > endTime; // Replacing 'now' with 'block.timestamp' for consistent usage and clarity."
+        }
+    ]
+}

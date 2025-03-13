@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 10,
-        "end_line": 10,
-        "code": [
-            "if (msg.sender.call.value(balance)()) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(balance)()) {"
+            ],
+            "vulnerabilityReason": "The use of `call.value(balance)()` allows the called contract to execute arbitrary code before the state changes in this contract occur. If the sender is a malicious contract, it can call back into this function and withdraw funds multiple times before the state is updated.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that re-enters this function (via the fallback function) before the caller's balance is set to 0. This could lead to multiple withdrawals of the same bounty amount, draining the contract's balance.",
+            "fixedCode": "uint balance = bountyAmount[msg.sender];\nrequire(balance > 0, 'No bounty to claim');\n// Update the state before calling external contract\nbountyAmount[msg.sender] = 0;\ntotalBountyAmount -= balance;\n(bool success, ) = msg.sender.call{value: balance}('');\nrequire(success, 'Transfer failed');"
+        }
+    ]
+}

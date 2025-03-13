@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 9,
-        "end_line": 10,
-        "code": [
-            "require(_contract.call.value(_amount)());",
-            "balances[_contract] -= _amount;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "9-10",
+            "vulnerableCode": [
+                "require(_contract.call.value(_amount)());",
+                "balances[_contract] -= _amount;"
+            ],
+            "vulnerabilityReason": "The use of `call.value(_amount)()` means that the external contract can execute code upon receiving Ether before ensuring that the current contract state is updated. This permits a malicious contract to re-enter the `mintETHRewards` function repeatedly, draining funds before the balance is updated.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability to withdraw multiple times within a single call, leading to loss of funds from the `A2ACrowdsale` contract.",
+            "fixedCode": "require(_amount <= wingsETHRewards);\nbalances[_contract] -= _amount; // Update balance before external call\n(bool success,) = _contract.call.value(_amount)();\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful."
+        }
+    ]
+}

@@ -6,9 +6,9 @@
                 "if(_to.call.value(_am)()==false)throw;",
                 "investors[_to] -= _am;"
             ],
-            "vulnerabilityReason": "The contract makes an external call to `_to` using `call.value(_am)`, which can potentially invoke a fallback function in a malicious contract. This external call happens before updating the state variable `investors[_to]`. An attacker could exploit this by recursively calling the `FundTransfer` function before the state is updated, allowing them to drain the contract's funds before their original balance is deducted.",
-            "potentialSecurityRisk": "An attacker could deploy a malicious contract that repeatedly invokes the `FundTransfer` function through the fallback mechanism, resulting in the contract being drained of funds. The lack of access control also allows any address to execute this function, compounding the risk of exploitation.",
-            "fixedCode": "require(investors[_to] >= _am, 'Insufficient balance');\ninvestors[_to] -= _am;\n(bool success, ) = _to.call{value: _am}('');\nrequire(success, 'Transfer failed');"
+            "vulnerabilityReason": "The contract uses 'call.value(_am)' to send Ether to the recipient `_to` before updating the state variable `investors[_to]`. This allows a malicious contract to re-enter the `FundTransfer` function before the balance is updated, potentially allowing the attacker to withdraw funds multiple times without having their balance decremented first.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract that makes a recursive call to `FundTransfer` before the state changes are applied. Thus, they can drain the contract of its funds by executing repeated withdrawals without any actual investment, leading to financial loss for the contract.",
+            "fixedCode": "require(investors[_to] >= _am, 'Insufficient balance for transfer');\ninvestors[_to] -= _am; // Deduct the amount from the investor's balance first\n(bool sent, ) = _to.call{value: _am}(''); // Safely send Ether to the recipient\nrequire(sent, 'Transfer failed'); // Ensure that the transfer was successful\nFundsMove(_am, 'Out', _to); // Log the funds movement after the state update."
         }
     ]
 }

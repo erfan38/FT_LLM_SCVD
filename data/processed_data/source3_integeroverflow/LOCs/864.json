@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalScore = totalScore + score;"
+            ],
+            "vulnerabilityReason": "The function performs an arithmetic addition of 'score' to 'totalScore' without checking for overflow conditions. In Solidity versions prior to 0.8.0, this could result in an overflow where 'totalScore' wraps around to a lower number if 'score' is sufficiently large, compromising the integrity of the score data.",
+            "potentialSecurityRisk": "An attacker could manipulate 'totalScore' by passing an excessively large value for 'score', potentially allowing them to alter outcomes in the contract or reduce the score unexpectedly, which could undermine the intended functionality of the contract.",
+            "fixedCode": "require(totalScore <= type(uint).max - score, 'Addition would overflow'); totalScore = totalScore + score; // This check ensures that the addition will not result in overflow."
+        }
+    ]
+}

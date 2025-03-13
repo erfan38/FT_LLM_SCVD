@@ -1,52 +1,66 @@
-[
-    {
-        "start_line": 357,
-        "end_line": 357,
-        "code": [
-            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
-        ]
-    },
-    {
-        "start_line": 363,
-        "end_line": 369,
-        "code": [
-            "if (level == 0 || level >= contributionCaps.length) return;",
-            "c.cap = level;",
-            "c.authorized = true;"
-        ]
-    },
-    {
-        "start_line": 372,
-        "end_line": 378,
-        "code": [
-            "remaining = contributionCaps[0].sub(this.balance);",
-            "return (contributionCaps[0],this.balance,remaining);"
-        ]
-    },
-    {
-        "start_line": 191,
-        "end_line": 192,
-        "code": [
-            "c.balance = 0;",
-            "msg.sender.transfer(amountToTransfer);"
-        ]
-    },
-    {
-        "start_line": 222,
-        "end_line": 225,
-        "code": [
-            "c.ethRefund = ethRefundAmount.length;",
-            "receiver.transfer(ethAmount);",
-            "EthRefunded(receiver,ethAmount);"
-        ]
-    },
-    {
-        "start_line": 233,
-        "end_line": 235,
-        "code": [
-            "c.tokensClaimed[tokenAddr] = d.pct.length;",
-            "require(d.token.transfer(receiver,tokenAmount));",
-            "TokensWithdrawn(receiver,tokenAmount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "357-357",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The usage of call.value to transfer funds without ensuring the success of the transaction can lead to reentrancy. If the called contract triggers a callback (a function call to this contract) before the internal state is updated, it can exploit the function and manipulate the contract's state.",
+            "potentialSecurityRisk": "An attacker could create a contract that reenters this function, potentially leading to multiple withdrawals before the new state is recorded, draining funds from the contract.",
+            "fixedCode": "(bool success, ) = receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))();\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "363-369",
+            "vulnerableCode": [
+                "if (level == 0 || level >= contributionCaps.length) return;",
+                "c.cap = level;",
+                "c.authorized = true;"
+            ],
+            "vulnerabilityReason": "The update of the contributor’s cap and authorization occurs after the funds have potentially been sent. An external call made from this function could lead to reentrancy while the state updates for the contributor occur after the fund transfer.",
+            "potentialSecurityRisk": "A malicious actor might exploit the order of operations to reenter the function and gain unauthorized privileges or withdraw more funds than intended before the internal state is updated.",
+            "fixedCode": "if (level == 0 || level >= contributionCaps.length) return;\nrequire(c.cap < contributionCaps.length, \"Invalid cap value\");\nc.cap = level;\nc.authorized = true; // Update state after ensuring there’s no external call before state update."
+        },
+        {
+            "vulnerableLines": "372-378",
+            "vulnerableCode": [
+                "remaining = contributionCaps[0].sub(this.balance);",
+                "return (contributionCaps[0],this.balance,remaining);"
+            ],
+            "vulnerabilityReason": "This function calculates remaining contributions based on current balance before the internal state has been locked. Any external call within this function can lead to reentrancy.",
+            "potentialSecurityRisk": "An attacker could manipulate the return value through reentrancy by returning an incorrect remaining amount, making it possible to bypass contract limits on contributions.",
+            "fixedCode": "remaining = contributionCaps[0].sub(address(this).balance);\nreturn (contributionCaps[0], this.balance, remaining);"
+        },
+        {
+            "vulnerableLines": "191-192",
+            "vulnerableCode": [
+                "c.balance = 0;",
+                "msg.sender.transfer(amountToTransfer);"
+            ],
+            "vulnerabilityReason": "The balance is set to zero after calling transfer(), which may allow for a reentrant call at the transfer stage, allowing multiple fund retrievals before the balance is recorded as updated.",
+            "potentialSecurityRisk": "A malicious user might exploit this to withdraw funds multiple times before the balance reflects a zero state, affecting the security of user funds within the contract.",
+            "fixedCode": "uint amountToTransfer = c.balance;\nrequire(amountToTransfer <= address(this).balance, \"Insufficient funds\");\nc.balance = 0;\nmsg.sender.transfer(amountToTransfer);"
+        },
+        {
+            "vulnerableLines": "222-225",
+            "vulnerableCode": [
+                "c.ethRefund = ethRefundAmount.length;",
+                "receiver.transfer(ethAmount);",
+                "EthRefunded(receiver,ethAmount);"
+            ],
+            "vulnerabilityReason": "Updating the contributor's refund state after the transfer can allow for a reentrant call if the receiving contract is malicious, allowing it to claim more than it should.",
+            "potentialSecurityRisk": "The inconsistency in state updates could allow an attacker to trigger a reentrant call and withdraw funds multiple times, effectively draining the contract’s funds.",
+            "fixedCode": "uint ethAmount = calculateRefundAmount(receiver);\nc.ethRefund = ethRefundAmount.length;\nrequire(ethAmount > 0, \"No funds to transfer\");\nreceiver.transfer(ethAmount);\nEthRefunded(receiver, ethAmount);"
+        },
+        {
+            "vulnerableLines": "233-235",
+            "vulnerableCode": [
+                "c.tokensClaimed[tokenAddr] = d.pct.length;",
+                "require(d.token.transfer(receiver,tokenAmount));",
+                "TokensWithdrawn(receiver,tokenAmount);"
+            ],
+            "vulnerabilityReason": "The state of claimed tokens is updated before the transfer is confirmed, allowing for a reentrant call that could exploit the function by withdrawing funds multiple times through a malicious contract.",
+            "potentialSecurityRisk": "An attacker could exploit this to withdraw multiple times beyond the claimed tokens via reentrancy, resulting in the contract not correctly tracking the number of tokens issued.",
+            "fixedCode": "uint tokenAmount = calculateTokenAmount(c, tokenAddr);\nc.tokensClaimed[tokenAddr] = d.pct.length;\nrequire(tokenAmount > 0, \"No tokens to transfer\");\nrequire(d.token.transfer(receiver, tokenAmount), \"Transfer failed\");\nTokensWithdrawn(receiver, tokenAmount);"
+        }
+    ]
+}

@@ -1,12 +1,16 @@
-[
-    {
-        "start_line": 37,
-        "end_line": 44,
-        "code": [
-            "if (now < cliff) {",
-            "return 0;",
-            "}",
-            "uint256 timeSinceStart = now.sub(start);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "37-44",
+            "vulnerableCode": [
+                "if (now < cliff) {",
+                "return 0;",
+                "}",
+                "uint256 timeSinceStart = now.sub(start);"
+            ],
+            "vulnerabilityReason": "The code relies on 'now' (a shorthand for block.timestamp) to determine if the vesting cliff has been reached and how much time has elapsed since the start. This dependency on block.timestamp makes the contract vulnerable to miner manipulation, as miners can adjust the reported timestamp when mining blocks.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to avoid triggering the vesting cliff, thereby delaying token release or enabling premature access to tokens. This could lead to undesired distributions and potential exploitation of the vesting schedule, impacting the integrity of the token vesting mechanism.",
+            "fixedCode": "if (block.timestamp < cliff) { return 0; }\nuint256 timeSinceStart = block.timestamp.sub(start);"
+        }
+    ]
+}

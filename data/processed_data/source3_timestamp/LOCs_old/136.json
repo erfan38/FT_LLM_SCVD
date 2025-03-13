@@ -1,0 +1,32 @@
+[
+    {
+        "start_line": 20,
+        "end_line": 21,
+        "code": [
+            "startTime = block.timestamp;",
+            "endTime = startTime + maxTime;"
+        ]
+    },
+    {
+        "start_line": 69,
+        "end_line": 70,
+        "code": [
+            "endTime = endTime.add(goldenTickets.mul(addedTime)) > block.timestamp.add(maxTime) ?",
+            "  block.timestamp.add(maxTime) : endTime.add(goldenTickets.mul(addedTime));"
+        ]
+    },
+    {
+        "start_line": 115,
+        "end_line": 115,
+        "code": [
+            "require(block.timestamp > (endTime + 10 minutes));"
+        ]
+    },
+    {
+        "start_line": 114,
+        "end_line": 114,
+        "code": [
+            "require(startTime > 0);"
+        ]
+    }
+]

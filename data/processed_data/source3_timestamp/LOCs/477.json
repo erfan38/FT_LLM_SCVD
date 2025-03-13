@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 15,
-        "end_line": 15,
-        "code": [
-            "previousRelease = now;"
-        ]
-    },
-    {
-        "start_line": 20,
-        "end_line": 20,
-        "code": [
-            "require(now >= previousRelease.add(period));"
-        ]
-    },
-    {
-        "start_line": 30,
-        "end_line": 30,
-        "code": [
-            "previousRelease = now;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "15-15",
+            "vulnerableCode": [
+                "previousRelease = now;"
+            ],
+            "vulnerabilityReason": "The constructor initializes 'previousRelease' with 'now', which is an alias for block.timestamp. This reliance on block.timestamp introduces the possibility of manipulation by miners, who can skew this timestamp.",
+            "potentialSecurityRisk": "An attacker could manipulate the block timestamp when deploying the contract, potentially allowing them to influence the initial 'previousRelease' value, thus changing the vesting release periods.",
+            "fixedCode": "previousRelease = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "20-20",
+            "vulnerableCode": [
+                "require(now >= previousRelease.add(period));"
+            ],
+            "vulnerabilityReason": "This line checks if the current time is equal to or greater than 'previousRelease' plus 'period'. This check relies on 'now', making it dependent on a potentially manipulable value provided by miners.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to allow or prevent the release function from executing at opportune times, affecting token vesting distributions unfavorably.",
+            "fixedCode": "require(block.timestamp >= previousRelease.add(period));"
+        },
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "previousRelease = now;"
+            ],
+            "vulnerabilityReason": "Similar to the constructor, 'now' is used to update 'previousRelease' within the 'release' function, introducing a vulnerability to timestamp manipulation.",
+            "potentialSecurityRisk": "Miners may exploit their ability to adjust timestamps, thus controlling future calls to the 'release' function to their benefit.",
+            "fixedCode": "previousRelease = block.timestamp;"
+        }
+    ]
+}

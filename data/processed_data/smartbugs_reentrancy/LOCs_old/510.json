@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 225,
+        "end_line": 227,
+        "code": [
+            "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
+            "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
+        ]
+    },
+    {
+        "start_line": 289,
+        "end_line": 289,
+        "code": [
+            "_customerAddress.transfer(_dividends);"
+        ]
+    }
+]

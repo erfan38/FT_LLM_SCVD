@@ -1,11 +1,15 @@
-[
-    {
-        "start_line": 472,
-        "end_line": 474,
-        "code": [
-            "if(!fundAddress_.call.value(ethToPay).gas(400000)()) {",
-            "totalEthFundReceived = SafeMath.sub(totalEthFundReceived, ethToPay);",
-            "}"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "472-474",
+            "vulnerableCode": [
+                "if(!fundAddress_.call.value(ethToPay).gas(400000) {",
+                "totalEthFundReceived = SafeMath.sub(totalEthFundReceived, ethToPay);",
+                "}"
+            ],
+            "vulnerabilityReason": "The usage of the low-level call method to send ether occurs before updating the state variable totalEthFundReceived, allowing an attacker to call back into the contract before the state change is completed, potentially leading to a reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could recursively call this function before the totalEthFundReceived variable is updated, allowing multiple withdrawals of funds without the contract's state being properly reflected, effectively draining the contract's funds.",
+            "fixedCode": "require(ethToPay > 0, 'No funds to pay'); \ntotalEthFundReceived = SafeMath.add(totalEthFundReceived, ethToPay);\n(bool success,) = fundAddress_.call.value(ethToPay).gas(400000)(); \nrequire(success, 'Funds transfer failed');"
+        }
+    ]
+}

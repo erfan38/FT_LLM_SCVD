@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "302-336",
+            "vulnerableCode": [
+                "if(window0StartTime != 0 && window0EndTime != 0 && time() >= window0StartTime && time() <= window0EndTime){",
+                "if(preICOLimit > 0){",
+                "require(msg.value >= preICOLimit);",
+                "tokens = safeMult(msg.value, window0TokenExchangeRate);",
+                "checkedSupply = safeAdd(window0TotalSupply, tokens);",
+                "require(window0TokenCreationCap >= checkedSupply);",
+                "assignLockedBalance(msg.sender, tokens);",
+                "window0TotalSupply = checkedSupply;",
+                "if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);",
+                "CreateGameIco(msg.sender, tokens);",
+                "}else if(window1StartTime != 0 && window1EndTime!= 0 && time() >= window1StartTime && time() <= window1EndTime){",
+                "tokens = safeMult(msg.value, window1TokenExchangeRate);",
+                "checkedSupply = safeAdd(window1TotalSupply, tokens);",
+                "require(window1TokenCreationCap >= checkedSupply);",
+                "balances[msg.sender] += tokens;",
+                "window1TotalSupply = checkedSupply;",
+                "if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);",
+                "CreateGameIco(msg.sender, tokens);",
+                "}else if(window2StartTime != 0 && window2EndTime != 0 && time() >= window2StartTime && time() <= window2EndTime){",
+                "tokens = safeMult(msg.value, window2TokenExchangeRate);",
+                "checkedSupply = safeAdd(window2TotalSupply, tokens);",
+                "require(window2TokenCreationCap >= checkedSupply);",
+                "balances[msg.sender] += tokens;",
+                "window2TotalSupply = checkedSupply;",
+                "if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);",
+                "CreateGameIco(msg.sender, tokens);",
+                "}else{",
+                "require(false);"
+            ],
+            "vulnerabilityReason": "The function 'create()' relies on block.timestamp to determine the active funding window and the number of tokens to issue. This reliance makes it vulnerable to manipulation by miners who can control the timestamp of the blocks they mine, directly affecting the token distribution and financial implications for buyers.",
+            "potentialSecurityRisk": "If a miner can manipulate the block time, they could open or extend funding windows at will, allowing them to purchase tokens at preferential rates, thereby causing financial harm to other participants and disrupting the intended operation of the contract.",
+            "fixedCode": "if(window0StartTime != 0 && window0EndTime != 0 && block.timestamp + TIME_TOLERANCE >= window0StartTime && block.timestamp <= window0EndTime){\n    if(preICOLimit > 0){\n        require(msg.value >= preICOLimit);\n    }\n    tokens = safeMult(msg.value, window0TokenExchangeRate);\n    checkedSupply = safeAdd(window0TotalSupply, tokens);\n    require(window0TokenCreationCap >= checkedSupply);\n    assignLockedBalance(msg.sender, tokens);\n    window0TotalSupply = checkedSupply;\n    if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);\n    CreateGameIco(msg.sender, tokens);\n}else if(window1StartTime != 0 && window1EndTime!= 0 && block.timestamp + TIME_TOLERANCE >= window1StartTime && block.timestamp <= window1EndTime){\n    tokens = safeMult(msg.value, window1TokenExchangeRate);\n    checkedSupply = safeAdd(window1TotalSupply, tokens);\n    require(window1TokenCreationCap >= checkedSupply);\n    balances[msg.sender] += tokens;\n    window1TotalSupply = checkedSupply;\n    if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);\n    CreateGameIco(msg.sender, tokens);\n}else if(window2StartTime != 0 && window2EndTime != 0 && block.timestamp + TIME_TOLERANCE >= window2StartTime && block.timestamp <= window2EndTime){\n    tokens = safeMult(msg.value, window2TokenExchangeRate);\n    checkedSupply = safeAdd(window2TotalSupply, tokens);\n    require(window2TokenCreationCap >= checkedSupply);\n    balances[msg.sender] += tokens;\n    window2TotalSupply = checkedSupply;\n    if(multiWallet != 0x0 && instantTransfer) multiWallet.transfer(msg.value);\n    CreateGameIco(msg.sender, tokens);\n}else{\n    require(false);\n}"
+        },
+        {
+            "vulnerableLines": "336-336",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "The 'time()' function directly returns block.timestamp, which is used for all funding window evaluations in the 'create()' function, reinforcing the contract's reliance on miner-controlled timestamps.",
+            "potentialSecurityRisk": "As mentioned previously, miners could use this to manipulate when funding windows are considered open or closed, allowing them to exploit pricing or access to tokens.",
+            "fixedCode": "function time() internal view returns (uint) {\n    return block.timestamp + TIME_TOLERANCE; // Adding a buffer for more security\n}"
+        }
+    ]
+}

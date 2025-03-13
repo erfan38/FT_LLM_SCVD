@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 105,
-        "end_line": 105,
-        "code": [
-            "wallet.call.value(amount)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "105-105",
+            "vulnerableCode": [
+                "wallet.call.value(amount)();"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` sends Ether to the wallet after the `weiRaised` state has been updated and tokens have been transferred. This sequence allows an attacker to execute a reentrant call before the state change is finalized, which could result in unintended behavior or multiple withdrawals before the contract’s state reflects the actual changes.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by recursively calling `buyTokens`, enabling them to withdraw funds repeatedly before the contract can properly manage its balances. This could lead to financial losses for the contract and affect the intended fund distribution.",
+            "fixedCode": "if (goalReached()) {\n    (bool success, ) = wallet.call.value(amount)();\n    require(success, \"Transfer failed\");\n}"
+        }
+    ]
+}

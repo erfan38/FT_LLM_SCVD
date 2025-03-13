@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "totalPower = totalPower + _powerChange;",
+                "totalPower = totalPower - block.number;"
+            ],
+            "vulnerabilityReason": "The function performs arithmetic operations on `totalPower` without overflow or underflow checks. Adding `_powerChange` to `totalPower` can overflow if the result exceeds the maximum value of `uint256`. Conversely, subtracting `block.number` from `totalPower` can cause an underflow if `block.number` is greater than `totalPower`.",
+            "potentialSecurityRisk": "These vulnerabilities may lead to incorrect calculations of `totalPower`, which can compromise the integrity of the voting system, allowing for manipulation of voting power or denial of service if voting power is calculated inaccurately.",
+            "fixedCode": "require(totalPower + _powerChange >= totalPower, \"Overflow detected\");\ntotalPower = totalPower + _powerChange;\nrequire(totalPower >= block.number, \"Underflow detected\");\ntotalPower = totalPower - block.number; // Safe subtraction"
+        }
+    ]
+}

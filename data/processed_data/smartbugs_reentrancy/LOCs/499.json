@@ -1,11 +1,15 @@
-[
-    {
-        "start_line": 16,
-        "end_line": 18,
-        "code": [
-            "balances[msg.sender] = safeSub(balances[msg.sender], _tkA);",
-            "balances[_pd] = safeAdd(balances[_pd], _tkA);",
-            "if (!_pd.call.value(_etA)()) revert();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "16-18",
+            "vulnerableCode": [
+                "balances[msg.sender] = safeSub(balances[msg.sender], _tkA);",
+                "balances[_pd] = safeAdd(balances[_pd], _tkA);",
+                "if (!_pd.call.value(_etA)()) revert();"
+            ],
+            "vulnerabilityReason": "The contract uses call.value() to send Ether before updating the state variables completely. This allows external contracts to re-enter the eT function before the state changes are finalized, which can lead to multiple withdrawals and fund drainage.",
+            "potentialSecurityRisk": "An attacker can exploit the reentrancy vulnerability by creating a malicious contract that calls the eT function multiple times, draining the contract's balance without updating the state correctly after each withdrawal.",
+            "fixedCode": "function eT(address _pd, uint _tkA, uint _etA) returns (bool success) {\n    // Ensure the contract has enough balance before proceeding\n    require(balances[msg.sender] >= _tkA, \"Insufficient balance.\");\n    require(balances[_pd] + _tkA >= balances[_pd], \"Overflow error.\"); // Check for overflow\n\n    // Update balances first to prevent reentrancy\n    balances[msg.sender] = safeSub(balances[msg.sender], _tkA);\n    balances[_pd] = safeAdd(balances[_pd], _tkA);\n\n    // Perform external call after state change\n    require(_pd.call.value(_etA)(), \"Transfer failed.\");\n\n    emit ET(_pd, _tkA, _etA);\n    return true;\n}"
+        }
+    ]
+}

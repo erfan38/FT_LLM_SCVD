@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalVotes = totalVotes + votes;"
+            ],
+            "vulnerabilityReason": "The `castVote` function performs an arithmetic addition on `totalVotes` without any checks for overflow. If the `votes` variable contains a sufficiently large value such that when added to `totalVotes` exceeds the maximum value for a uint (2^256 - 1), it will result in an overflow, causing `totalVotes` to wrap around to a lower value.",
+            "potentialSecurityRisk": "An attacker could exploit this overflow by passing a large value for `votes`, allowing them to bypass the expected total number of votes, leading to incorrect voting results or unexpected contract behavior.",
+            "fixedCode": "require(totalVotes + votes >= totalVotes, \"Overflow detected\");\ntotalVotes = totalVotes + votes;"
+        }
+    ]
+}

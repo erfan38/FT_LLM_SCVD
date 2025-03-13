@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 216,
-        "end_line": 218,
-        "code": [
-            "if (txn.destination.call.value(txn.value)(txn.data))"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "216-218",
+            "vulnerableCode": [
+                "if (txn.destination.call.value(txn.value)(txn.data)){"
+            ],
+            "vulnerabilityReason": "The function executeTransaction uses call.value to transfer Ether and allow execution of potentially malicious contracts. Since the state update (txn.executed = true) occurs after the external call, it opens the opportunity for a reentrant call before this state change is completed.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that invokes this method and calls back into the executeTransaction method before the current transaction is marked as executed. This would allow the attacker to withdraw funds multiple times from the wallet without proper accounting, leading to financial loss.",
+            "fixedCode": "function executeTransaction(uint transactionId) public notExecuted(transactionId) { if (isConfirmed(transactionId)) { Transaction storage txn = transactions[transactionId]; txn.executed = true; require(txn.destination.call.value(txn.value)(txn.data)); Execution(transactionId); } }"
+        }
+    ]
+}

@@ -1,16 +1,13 @@
-[
-    {
-        "start_line": 1004,
-        "end_line": 1008,
-        "code": [
-            "admin.transfer(_com);"
-        ]
-    },
-    {
-        "start_line": 772,
-        "end_line": 772,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1004-1008",
+            "vulnerableCode": [
+                "admin.transfer(_com);"
+            ],
+            "vulnerabilityReason": "The external call to transfer commissions to the admin occurs before updating the internal state, allowing a potential attacker to re-enter the contract and withdraw more funds during this external call.",
+            "potentialSecurityRisk": "An attacker could manipulate the flow by invoking a recursive call during the fund transfer, allowing unauthorized withdrawals and potentially draining the contract's ETH balance.",
+            "fixedCode": "// Ensure internal state is updated before external calls\nuint256 _p3d = _com;  // save commission for processing later\nround_[_rID].pot = round_[_rID].pot.add(_p3d);\nuint256 adminCommission = _com;\nif (adminCommission > 0) {\n    require(admin.call.value(adminCommission)(), \"Transfer failed\");\n}"
+        }
+    ]
+}

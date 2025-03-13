@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 1245,
-        "end_line": 1245,
-        "code": [
-            "admin.transfer(_com.add(_p3d.sub(_p3d / 2)));"
-        ]
-    },
-    {
-        "start_line": 1380,
-        "end_line": 1380,
-        "code": [
-            "if (!address(admin).call.value(_com)()) {"
-        ]
-    },
-    {
-        "start_line": 1408,
-        "end_line": 1408,
-        "code": [
-            "admin.transfer(_p3d.sub(_p3d / 2));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1245-1245",
+            "vulnerableCode": [
+                "admin.transfer(_com.add(_p3d.sub(_p3d / 2)));"
+            ],
+            "vulnerabilityReason": "An external transfer is made to 'admin' without updating the state first. This allows for a reentrant call if 'admin' is a contract that can execute further calls back into this contract's functions, leading to potential withdrawal of funds repeatedly before the state is updated.",
+            "potentialSecurityRisk": "A malicious admin could invoke this function in a way that exploits the order of operations, causing the contract to improperly handle Ether transfers, potentially leading to loss of funds if the admin withdraws more than allocated.",
+            "fixedCode": "uint256 _comAmount = _com.add(_p3d.sub(_p3d / 2));\nrequire(address(admin).send(_comAmount), \"Transfer to admin failed\");"
+        },
+        {
+            "vulnerableLines": "1380-1380",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)()) {"
+            ],
+            "vulnerabilityReason": "This external call to 'admin' does not check to ensure that the previous state changes have been committed, allowing a malicious contract could invoke this function to manipulate balances during the execution of the call.",
+            "potentialSecurityRisk": "If 'admin' is a contract, it could re-enter the function before state changes are complete, allowing the admin to withdraw funds or create discrepancies in expected balances.",
+            "fixedCode": "require(address(admin).send(_com), \"Transfer to admin failed\");"
+        },
+        {
+            "vulnerableLines": "1408-1408",
+            "vulnerableCode": [
+                "admin.transfer(_p3d.sub(_p3d / 2));"
+            ],
+            "vulnerabilityReason": "Similar to prior concerns, this line executes a fund transfer before fully processing any state changes, risking funds if called by a contract that manipulates state through a fallback function.",
+            "potentialSecurityRisk": "A malicious contract that is set as 'admin' could drain funds repeatedly during these transfers, leaving the state inconsistent with expected balances.",
+            "fixedCode": "require(address(admin).send(_p3d.sub(_p3d / 2)), \"Transfer to admin failed\");"
+        }
+    ]
+}

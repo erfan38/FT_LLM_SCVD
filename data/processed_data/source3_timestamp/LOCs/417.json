@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 206,
-        "end_line": 206,
-        "code": [
-            "require(block.timestamp >= tokenLock.releaseTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "206-206",
+            "vulnerableCode": [
+                "require(block.timestamp >= tokenLock.releaseTime);"
+            ],
+            "vulnerabilityReason": "This line relies on block.timestamp to determine if the tokens can be released. Miners can manipulate block timestamps within a small range, which can affect the logic of the release and potentially allow for early or delayed token distributions.",
+            "potentialSecurityRisk": "If a miner manipulates the block timestamp, they might trigger the release condition prematurely, allowing unauthorized access to tokens. This compromises the intended lock periods (e.g., INVESTOR_LOCK_DURATION, TEAM_LOCK_DURATION) and endangers the trust in the token distribution model.",
+            "fixedCode": "require(block.timestamp >= tokenLock.releaseTime + TIME_TOLERANCE); // where TIME_TOLERANCE is a defined constant, e.g., 15 minutes to prevent minor manipulations."
+        }
+    ]
+}

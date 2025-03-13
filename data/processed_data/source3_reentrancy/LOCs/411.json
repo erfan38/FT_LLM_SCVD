@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "33-36",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "{",
+                "balances[msg.sender]-=_am;"
+            ],
+            "vulnerabilityReason": "The contract sends Ether to the user using `call.value(_am)()`, which can allow for reentrancy attacks. Since the balance is updated after the funds have been sent, a malicious contract could call back into the `CashOut` function before the balance deduction occurs, resulting in multiple withdrawals for the same initial amount.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by deploying a malicious contract that manipulates the flow of control through reentrant calls, potentially draining the entire balance from the contract by repeatedly calling `CashOut` before the contract updates the user's balance.",
+            "fixedCode": "require(balances[msg.sender] >= _am, \"Insufficient balance\");\nrequire(msg.sender != address(0), \"Invalid address\"); // Prevent sending to zero address\nbalances[msg.sender] -= _am; // Update balance first\n(bool success, ) = msg.sender.call{value: _am}(\"{}\"); // Use call with value safely\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful\nTransferLog.AddMessage(msg.sender, _am, \"CashOut\"); // Log the transfer"
+        }
+    ]
+}

@@ -24,7 +24,7 @@
             "} else {",
                 "uint256 blocksElapsed = block.number.sub(startBlock); ",
                 "return totalBalance.mul(blocksElapsed).div(durationBlocks)",
-            "}"
+            "} //using block.number to reduce time manipulation vulnerability"
         ]
     }
 ]

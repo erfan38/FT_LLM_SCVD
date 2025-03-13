@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 37,
-        "end_line": 37,
-        "code": [
-            "require(block.timestamp < _timestamp);"
-        ]
-    },
-    {
-        "start_line": 53,
-        "end_line": 53,
-        "code": [
-            "require(disbursement.timestamp < now && disbursement.value > 0);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "37-37",
+            "vulnerableCode": [
+                "require(block.timestamp < _timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the current timestamp is less than a specified future timestamp, allowing further actions only if true. This check is susceptible to manipulation since miners can influence block timestamps by a small margin.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp, causing the disbursements to allow withdrawals or setups unconditionally, bypassing intended logic and potentially creating unfair advantages.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < _timestamp); // Use a buffer to mitigate timestamp dependency."
+        },
+        {
+            "vulnerableLines": "53-53",
+            "vulnerableCode": [
+                "require(disbursement.timestamp < now && disbursement.value > 0);"
+            ],
+            "vulnerabilityReason": "This line relies on 'now' (block.timestamp) to determine if enough time has passed for a disbursement to be eligible for withdrawal, making it susceptible to the same manipulation as before.",
+            "potentialSecurityRisk": "An attacker may adjust the block timestamp to create scenarios where funds can be withdrawn earlier than intended or even under invalid conditions, leading to financial loss or exploitation.",
+            "fixedCode": "require(disbursement.timestamp < block.timestamp + TIME_TOLERANCE && disbursement.value > 0); // Use a tolerance buffer."
+        }
+    ]
+}

@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 134,
-        "end_line": 134,
-        "code": [
-            "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-134",
+            "vulnerableCode": [
+                "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
+            ],
+            "vulnerabilityReason": "The use of call.value() to send Ether allows for reentrancy attacks because it executes the external call before updating the state or emitting the related event. A malicious contract could exploit this vulnerability by calling back into the invoke() function before the contract's state reflects the intended behavior, potentially facilitating repeated withdrawals or other unintended behaviors.",
+            "potentialSecurityRisk": "If a malicious contract is supplied as the target, it could re-enter the invoking function during the execution of `call.value`, leading to unauthorized access and withdrawal of funds before the state is updated or validated. This could drain the contract's Ether balance.",
+            "fixedCode": "uint238 valueToSend = _value;<br>require(valueToSend <= address(this).balance, \"Insufficient funds in contract\");<br>_target.call.value(valueToSend)(_data); // Call is now made after attending to necessary checks and state updates<br>emit Invoked(msg.sender, _target, valueToSend, _data); // Event is emitted after the state change."
+        }
+    ]
+}

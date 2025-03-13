@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 53,
-        "end_line": 53,
-        "code": [
-            "require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "53-53",
+            "vulnerableCode": [
+                "require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "This line performs an external call to an untrusted contract after adjusting the internal balances, allowing for a possible reentrancy attack before the contract's state is fully finalized.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by making a reentrant call within their fallback function, manipulating the contract state, causing unexpected behavior, or draining funds during the transfer process.",
+            "fixedCode": "if (isContract(_to)) { require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)); } // Check if the transfer was successful before modifying state."
+        }
+    ]
+}

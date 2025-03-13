@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 94,
+        "end_line": 99,
+        "code": [
+            "var operationHash = sha3(\"ETHER\", toAddress, value, data, expireTime, sequenceId);",
+            "var otherSigner = verifyMultiSig(toAddress, operationHash, signature, expireTime, sequenceId);",
+            "if (!(toAddress.call.value(value)(data))) {"
+        ]
+    }
+]

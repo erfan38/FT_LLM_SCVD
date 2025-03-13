@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 10,
-        "end_line": 10,
-        "code": [
-            "require(futr.call.value(msg.value)());"
-        ]
-    },
-    {
-        "start_line": 20,
-        "end_line": 20,
-        "code": [
-            "require(futx.call.value(msg.value)());"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "require(futr.call.value(msg.value)());"
+            ],
+            "vulnerabilityReason": "The function uses 'call.value()' to send ether to the 'futr' address before updating the state of the contract. This allows a malicious actor to exploit the contract by recursively calling 'futrMiner()' before the contract deducts the corresponding ether, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "A malicious contract could withdraw funds multiple times during the execution of 'futrMiner()', draining the contract balance before the state update reflecting the withdrawal occurs, ultimately leading to financial losses.",
+            "fixedCode": "uint256 balanceBefore = address(this).balance; require(futr.call.value(msg.value)()); uint256 mined = ERC20(futr).balanceOf(address(this)); ERC20(futr).approve(mny, mined); MNY(mny).mine(futr, mined); uint256 amount = ERC20(mny).balanceOf(address(this)); ERC20(mny).transfer(msg.sender, amount); require(address(this).balance == balanceBefore - msg.value, \"Incorrect balance after transfer\");"
+        },
+        {
+            "vulnerableLines": "20-20",
+            "vulnerableCode": [
+                "require(futx.call.value(msg.value)());"
+            ],
+            "vulnerabilityReason": "The 'futxMiner()' function commits an external call with 'call.value()' before it updates the contract's state. This can enable a similar exploit as in 'futrMiner()', where an attacker could perform recursive calls manipulating the state to their advantage.",
+            "potentialSecurityRisk": "As with 'futrMiner()', this vulnerability allows an attacker to invoke 'futxMiner()' recursively before the contract can properly reflect the amount deducted, resulting in potential fund theft from the contract.",
+            "fixedCode": "uint256 balanceBefore = address(this).balance; require(futx.call.value(msg.value)()); uint256 mined = ERC20(futx).balanceOf(address(this)); ERC20(futx).approve(mny, mined); MNY(mny).mine(futx, mined); uint256 amount = ERC20(mny).balanceOf(address(this)); ERC20(mny).transfer(msg.sender, amount); require(address(this).balance == balanceBefore - msg.value, \"Incorrect balance after transfer\");"
+        }
+    ]
+}

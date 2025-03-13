@@ -1,16 +1,20 @@
-[
-    {
-        "start_line": 227,
-        "end_line": 240,
-        "code": [
-            "function refund() stopInEmergency {",
-            "if(getState() != State.Refunding) throw;",
-            "address investor = msg.sender;",
-            "if(balances[investor] == 0) throw;",
-            "uint amount = balances[investor];",
-            "delete balances[investor];",
-            "if(!(investor.call.value(amount)())) throw;",
-            "Refunded(investor, amount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "227-240",
+            "vulnerableCode": [
+                "function refund() stopInEmergency {",
+                "    if(getState() != State.Refunding) throw;",
+                "    address investor = msg.sender;",
+                "    if(balances[investor] == 0) throw;",
+                "    uint amount = balances[investor];",
+                "    delete balances[investor];",
+                "    if(!(investor.call.value(amount)())) throw;",
+                "    Refunded(investor, amount);"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to send ether occurs *after* the balance for the investor is set to zero. This allows an attacker to potentially call the `refund()` function again before the state is properly updated, thus making it possible to drain funds repeatedly from the contract.",
+            "potentialSecurityRisk": "A malicious contract could exploit this by invoking the refund mechanism multiple times in quick succession, withdrawing more than the entitled refund amount, leading to the loss of ether from the contract.",
+            "fixedCode": "function refund() stopInEmergency {\n    if(getState() != State.Refunding) throw;\n    address investor = msg.sender;\n    if(balances[investor] == 0) throw;\n    uint amount = balances[investor];\n    // Update balance to zero before sending ether to prevent reentry.\n    delete balances[investor];\n    \n    // Perform the external call after state update.\n    if(!(investor.call.value(amount)())) throw;\n    Refunded(investor, amount);\n}"
+        }
+    ]
+}

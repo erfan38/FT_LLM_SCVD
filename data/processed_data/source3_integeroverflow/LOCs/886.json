@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 reward = block.timestamp - miningStart;"
+            ],
+            "vulnerabilityReason": "If 'miningStart' is set to a future timestamp relative to 'block.timestamp', the result of the subtraction will be negative in an unsigned integer context, which leads to underflow. Consequently, the value of 'reward' could become a very large number, potentially creating an unfairly high reward value.",
+            "potentialSecurityRisk": "An attacker could set 'miningStart' to a future timestamp, thus manipulating the reward calculation to produce arbitrarily high rewards. This could lead to a situation where users receive excessive rewards without meeting actual mining criteria, undermining the fairness and integrity of the liquidity mining program.",
+            "fixedCode": "require(miningStart <= block.timestamp, 'miningStart must be in the past or present');\nuint256 reward = block.timestamp - miningStart;"
+        }
+    ]
+}

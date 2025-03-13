@@ -1,0 +1,25 @@
+[
+    {
+        "start_line": 23,
+        "end_line": 24,
+        "code": [
+            "uint public preIcoPhaseCountdown;",
+            "uint public icoPhaseCountdown;"
+        ]
+    },
+    {
+        "start_line": 32,
+        "end_line": 33,
+        "code": [
+            "uint public openingTime = 1535385600;",
+            "uint public closingTime = openingTime.add(7 days);"
+        ]
+    },
+    {
+        "start_line": 98,
+        "end_line": 98,
+        "code": [
+            "postIcoPhaseCountdown = closingTime.add(14 days);"
+        ]
+    }
+]

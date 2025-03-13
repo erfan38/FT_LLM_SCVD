@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 99,
+        "end_line": 99,
+        "code": [
+            "if (!founder.call.value(msg.value)()) throw;"
+        ]
+    }
+]

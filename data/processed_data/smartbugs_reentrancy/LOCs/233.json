@@ -1,30 +1,49 @@
-[
-    {
-        "start_line": 93,
-        "end_line": 93,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 157,
-        "end_line": 157,
-        "code": [
-            "receiver.tokenFallback(msg.sender, _value, _data);"
-        ]
-    },
-    {
-        "start_line": 316,
-        "end_line": 316,
-        "code": [
-            "if(msg.value > 0) depositAddress.transfer(msg.value);"
-        ]
-    },
-    {
-        "start_line": 327,
-        "end_line": 327,
-        "code": [
-            "autoDistribute();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "93-93",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The `call.value` sends Ether to the `_to` address before updating the state after a transfer. If `_to` is a smart contract, it can call back into the `transfer` function before the balance is updated, allowing repeated withdrawals of funds",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a malicious contract that calls back into the `transfer` function, draining the contract's balance because the state change has not yet occurred for the previous transaction.",
+            "fixedCode": "// Perform state updates before external calls\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n// Check if the call was successful\nbool success = _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data);\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "157-157",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "Similar to the first case, this line makes a call to a contract and allows for reentry into the `transferToContract` function before the balances are updated.",
+            "potentialSecurityRisk": "By exploiting this line, the contract can be drained by calling back into `transferToContract` and withdrawing tokens before the previous transaction updates the state properly.",
+            "fixedCode": "// Update balances before external calls\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nreceiver.tokenFallback(msg.sender, _value, _data); // Call after state updates"
+        },
+        {
+            "vulnerableLines": "316-316",
+            "vulnerableCode": [
+                "if(msg.value > 0) depositAddress.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "This external call allows the user to send Ether to the `depositAddress`, but does not update the state before exiting the function. A malicious participant could call back during this transaction and drain funds.",
+            "potentialSecurityRisk": "A reentrancy attack could occur here whereby an attacker repeatedly calls `autoDistribute`, leading to the loss of funds as balances are not updated prior to the transfer.",
+            "fixedCode": "// Ensure that state is updated before sending Ether\nif(msg.value > 0) {\n    require(depositAddress.send(msg.value), \"Transfer failed\"); // Use require to prevent reentrancy\n}"
+        },
+        {
+            "vulnerableLines": "327-327",
+            "vulnerableCode": [
+                "autoDistribute();"
+            ],
+            "vulnerabilityReason": "Calling `autoDistribute` directly in the fallback function enables an external contract to make recursive calls before states are updated properly, which is a classic reentrancy vulnerability scenario.",
+            "potentialSecurityRisk": "An attacker could create a contract that repeatedly calls this fallback function as long as they can keep it accessible, draining funds from the contract in rapid succession before proper state management twikles in.",
+            "fixedCode": "/// Modify the fallback function with checks\nfunction() public payable {\n    require(msg.value > 0, \"Must send Ether\"); // Check for funds\n    autoDistribute();\n}"
+        },
+        {
+            "vulnerableLines": "327-327",
+            "vulnerableCode": [
+                "autoDistribute();"
+            ],
+            "vulnerabilityReason": "Calling `autoDistribute` directly in the fallback function exposes the contract to reentrancy attacks if it involves multiple transfers before updating state variables",
+            "potentialSecurityRisk": "An attacker could exploit this by crafting their contract to continuously call the fallback, repeatedly transferring funds before the contract state is updated, leading to major losses in funds.",
+            "fixedCode": "function() external payable {\n    require(msg.value > 0, \"Must send Ether\"); // Ensure the function is called with Ether\n    autoDistribute();\n}"
+        }
+    ]
+}

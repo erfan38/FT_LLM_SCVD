@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 56,
-        "end_line": 56,
-        "code": [
-            "require(status == 0 && price > 0 && gameTime > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "56-56",
+            "vulnerableCode": [
+                "require(status == 0 && price > 0 && gameTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The function uses block.timestamp to ensure that the current time is less than gameTime, allowing miners to influence transaction validity by manipulating the timestamp when they mine a block.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to execute transactions at a time that is beneficial to them, potentially allowing them to circumvent rules intended to prevent certain actions until gameTime has passed. This could lead to unfair advantages and manipulation of the token sale mechanics.",
+            "fixedCode": "require(status == 0 && price > 0 && gameTime > block.timestamp + TIME_TOLERANCE); // Adding buffer to provide some tolerance against manipulation."
+        }
+    ]
+}

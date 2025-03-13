@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "endTime = startTime + durationInDays * 1 days;"
+            ],
+            "vulnerabilityReason": "The calculation of `durationInDays * 1 days` can overflow if `durationInDays` is set to a large enough value, exceeding the maximum limit of the uint type. This would result in an incorrect `endTime`, which could end the crowdsale earlier than intended.",
+            "potentialSecurityRisk": "If the `endTime` is incorrectly calculated due to overflow, the crowdsale might end prematurely, allowing participants to lose their opportunity to contribute. This could be exploited by malicious users and lead to a loss of trust in the platform, ultimately affecting funding and project success.",
+            "fixedCode": "require(durationInDays < (type(uint).max / 1 days), 'Duration too long');\nendTime = startTime + durationInDays * 1 days;"
+        }
+    ]
+}

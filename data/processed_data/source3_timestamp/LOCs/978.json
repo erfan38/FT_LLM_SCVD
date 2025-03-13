@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "require(block.timestamp >= saleStart && block.timestamp <= saleEnd, \"Sale not active\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "require(block.timestamp >= saleStart && block.timestamp <= saleEnd, \"Sale not active\");"
+            ],
+            "vulnerabilityReason": "The buyTokens function relies on block.timestamp to enforce the sale period, which can be influenced by miners, allowing them to manipulate the sale window.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp to create an advantage, either by extending the sales period to buy tokens at lower prices or shortening it to push through their own transactions before others can act.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= saleStart && block.timestamp <= saleEnd, \"Sale not active\"); // Use a small buffer (TIME_TOLERANCE) to reduce manipulation risk."
+        }
+    ]
+}

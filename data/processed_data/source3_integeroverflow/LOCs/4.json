@@ -6,28 +6,40 @@
                 "balances[msg.sender] -= _value;",
                 "balances[_to] += _value;"
             ],
-            "vulnerabilityReason": "The subtraction operation on balances[msg.sender] and the addition operation on balances[_to] are performed without checks for underflow or overflow. If the sender attempts to withdraw more than their current balance, this will lead to an integer underflow, causing unexpected behavior such as allowing withdrawal of an excessively large amount due to the wraparound effect of underflow in unsigned integers.",
-            "potentialSecurityRisk": "An attacker could exploit this by transferring more tokens than they own, leading to an underflow, making their balance effectively large. This can be used to manipulate balances and execute unauthorized transfers, thus compromising funds.",
-            "fixedCode": "require(balances[msg.sender] >= _value, 'Invalid transfer amount'); balances[msg.sender] -= _value; require(balances[_to] + _value >= balances[_to], 'Balance overflow'); balances[_to] += _value; // Using SafeMath or equivalent protections if necessary."
-        },
+            "vulnerabilityReason": "The operations do not include checks for underflow and overflow. If 'balances[msg.sender]' is less than '_value', then 'balances[msg.sender] -= _value;' will underflow, and if 'balances[_to]' plus '_value' exceeds the maximum value for uint256, it will overflow.",
+            "potentialSecurityRisk": "An attacker can manipulate the contract state by causing an underflow in the sender's balance, which may lead to unauthorized transfers and incorrect balance records, resulting in the loss of funds.",
+            "fixedCode": [
+                "require(balances[msg.sender] >= _value, \"Insufficient balance\"); // Prevents underflow",
+                "balances[msg.sender] -= _value; // Safe subtraction",
+                "require(balances[_to] <= type(uint256).max - _value, \"Overflow detected\"); // Correct overflow check",
+                "balances[_to] += _value; // Safe addition"
+            ]
+                    },
         {
             "vulnerableLines": "32-33",
             "vulnerableCode": [
                 "balances[_to] += _value;",
                 "balances[_from] -= _value;"
             ],
-            "vulnerabilityReason": "The addition operation on balances[_to] and the subtraction operation on balances[_from] are performed without checks for overflow or underflow. If _value is greater than balances[_from], this can cause an underflow, and if the addition exceeds the maximum permissible value for balances[_to], it results in an overflow.",
-            "potentialSecurityRisk": "An attacker could withdraw more than they are allowed by manipulating the _from and _to addresses along with the _value parameter, leading to unauthorized transfers and incorrect balances.",
-            "fixedCode": "require(balances[_from] >= _value, 'Insufficient balance'); uint256 previousBalanceTo = balances[_to]; require(previousBalanceTo + _value >= previousBalanceTo, 'Balance overflow'); balances[_to] += _value; balances[_from] -= _value; // Using SafeMath or similar library."
-        },
+            "vulnerabilityReason": "Similar to the previous vulnerability, these operations do not employ checks for underflow and overflow. Adding '_value' to 'balances[_to]' could overflow if it exceeds the max uint256 value, and subtracting '_value' from 'balances[_from]' could underflow, if '_from' has a balance less than '_value'.",
+            "potentialSecurityRisk": "An attacker could use a manipulated transferFrom call to create a situation where they could withdraw more than allowed, affecting the integrity of the balance records and allowing for excess fund access.",
+            "fixedCode": [
+                "require(balances[_from] >= _value, \"Insufficient balance\"); // Prevents underflow",
+                "balances[_from] -= _value; //  Safe subtraction",
+                "require(balances[_to] <= type(uint256).max - _value, \"Overflow detected\"); // Correct overflow check",
+                "balances[_to] += _value; //  Safe addition"
+            ]
+                    },
         {
             "vulnerableLines": "35-35",
             "vulnerableCode": [
                 "allowed[_from][msg.sender] -= _value;"
             ],
-            "vulnerabilityReason": "The operation on allowed[_from][msg.sender] without checks can lead to underflow if the allowance is less than the amount being deducted. Hence, subtracting _value without a proper check could lead to a situation where the allowance becomes a very large number due to underflow.",
-            "potentialSecurityRisk": "An attacker could increase their allowance limit to unauthorized amounts or bypass checks entirely by manipulating the allowances, leading to potential fund theft or overrides of spending limits.",
-            "fixedCode": "require(allowed[_from][msg.sender] >= _value, 'Allowance exceeded'); allowed[_from][msg.sender] -= _value; // Using a safe operation to ensure adequate allowance checks."
-        }
+            "vulnerabilityReason": "This operation doesn't check for underflow, meaning if 'allowed[_from][msg.sender]' is less than '_value', it will underflow, potentially allowing an unauthorized increase in allowance.",
+            "potentialSecurityRisk": "An attacker could exploit this weakness to modify allowances improperly, allowing them to spend more than permitted, leading to unauthorized actions within the contract.",
+            "fixedCode": [
+                "require(allowed[_from][msg.sender] >= _value, \"Allowance exceeded\"); // Prevents underflow",
+                "allowed[_from][msg.sender] -= _value; //  Safe subtraction"
+            ]                    }
     ]
 }

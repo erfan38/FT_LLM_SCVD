@@ -1,0 +1,86 @@
+[
+    {
+        "start_line": 126,
+        "end_line": 126,
+        "code": [
+            "        return multiAsset.transferFromWithReference(_feeFrom, feeAddress, _value, symbol, _reference);"
+        ]
+    },
+    {
+        "start_line": 133,
+        "end_line": 133,
+        "code": [
+            "        if (!multiAsset.transferFromWithReference(feeAddress, _to, _value, symbol, \"Fee return\")) {"
+        ]
+    },
+    {
+        "start_line": 126,
+        "end_line": 126,
+        "code": [
+            "        return multiAsset.transferFromWithReference(_feeFrom, feeAddress, _value, symbol, _reference);"
+        ]
+    },
+    {
+        "start_line": 220,
+        "end_line": 220,
+        "code": [
+            "        if (!_transferFee(msg.sender, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 234,
+        "end_line": 234,
+        "code": [
+            "        if (!_transferFee(_from, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 250,
+        "end_line": 250,
+        "code": [
+            "        if (!_transferFee(msg.sender, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 266,
+        "end_line": 266,
+        "code": [
+            "        if (!_transferFee(_from, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 282,
+        "end_line": 282,
+        "code": [
+            "        if (!_transferFee(msg.sender, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 298,
+        "end_line": 298,
+        "code": [
+            "        if (!_transferFee(_from, fee, \"Transfer fee\")) {"
+        ]
+    },
+    {
+        "start_line": 318,
+        "end_line": 318,
+        "code": [
+            "        uint fee = calculateFee(0);"
+        ]
+    },
+    {
+        "start_line": 334,
+        "end_line": 334,
+        "code": [
+            "        if (!_transferFee(msg.sender, fee, \"Cosigner fee\")) {"
+        ]
+    },
+    {
+        "start_line": 453,
+        "end_line": 453,
+        "code": [
+            "        if (!_transferFee(msg.sender, fee, \"Forward fee\")) {"
+        ]
+    }
+]

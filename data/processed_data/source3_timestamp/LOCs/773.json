@@ -1,33 +1,43 @@
-[
-    {
-        "start_line": 19,
-        "end_line": 20,
-        "code": [
-            "if (block.timestamp < releaseTime)",
-            "            throw;"
-        ]
-    },
-    {
-        "start_line": 29,
-        "end_line": 30,
-        "code": [
-            "if (block.timestamp < releaseTime)",
-            "            throw;"
-        ]
-    },
-    {
-        "start_line": 50,
-        "end_line": 51,
-        "code": [
-            "if (block.timestamp < releaseTime)",
-            "            return releaseTime - block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 46,
-        "end_line": 46,
-        "code": [
-            "return block.timestamp;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "19-20",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)",
+                "            throw;"
+            ],
+            "vulnerabilityReason": "The 'release' function checks if the current block timestamp is less than the defined releaseTime, allowing miners to possibly induce delays, as they can manipulate the timestamp to execute this function prematurely or reject token releases.",
+            "potentialSecurityRisk": "If miners manipulate the block.timestamp to before releaseTime, they could control token release, which could result in potential financial gains or losses. This vulnerability risks delaying the release of funds, which can be crucial for liquidity or planned investments by the beneficiary.",
+            "fixedCode": "if (block.timestamp < releaseTime + TIME_TOLERANCE) { throw; } // Adding TIME_TOLERANCE to mitigate miner manipulation"
+        },
+        {
+            "vulnerableLines": "29-30",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)",
+                "            throw;"
+            ],
+            "vulnerabilityReason": "In the '_buyDiscountTTW' function, like in the 'release' function, the check against block.timestamp introduces the potential for miners to exploit the token release mechanism by manipulating the timestamp, leading to improper functionality.",
+            "potentialSecurityRisk": "Undue manipulation can lead to circumstances where funds are locked longer than intended or wrong timing in token distribution could be exploited, allowing access to the beneficiary's tokens earlier or later than planned.",
+            "fixedCode": "if (block.timestamp < releaseTime + TIME_TOLERANCE) { throw; } // Implementing a TIME_TOLERANCE to reduce vulnerability to miners"
+        },
+        {
+            "vulnerableLines": "50-51",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)",
+                "            return releaseTime - block.timestamp;"
+            ],
+            "vulnerabilityReason": "This part of the code also relies on block.timestamp to determine how much longer until the tokens can be released. Miners might be able to change the balance to push the available time to longer than intended, causing issues for the contracts that rely on this timing logic.",
+            "potentialSecurityRisk": "Miners could alter block timestamps to extract unnecessary advantages in timing relations, leading to token manipulation scenarios where release conditions become unreliable and potentially exploitative, affecting the intended liquidity.",
+            "fixedCode": "if (block.timestamp < releaseTime + TIME_TOLERANCE) { return releaseTime - (block.timestamp + TIME_TOLERANCE); } //This maintains the intention but incorporates a tolerable buffer against timestamp manipulations"
+        },
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp directly can lead to excessive reliance on a manipulatable source of time without an additional validation layer, which can facilitate unexpected behaviors in contract execution related to timestamp-based logic.",
+            "potentialSecurityRisk": "Using block.timestamp without adequate handling could expose the contract to manipulation, where expected outcomes can be unpredictable based on miner behavior, potentially leading to a deviation from intended contract functionality.",
+            "fixedCode": "return now; // it's advised to use block.number or another stable parameter that isn't directly influenced by miners."
+        }
+    ]
+}

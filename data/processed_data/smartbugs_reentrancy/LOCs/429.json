@@ -1,23 +1,28 @@
-[
-    {
-        "start_line": 236,
-        "end_line": 238,
-        "code": [
-            "if(!giveEthBankrollAddress.call.value(ethToPay).gas(400000)()) {",
-            "totalEthBankrollRecieved = SafeMath.sub(totalEthBankrollRecieved, ethToPay);",
-            "}"
-        ]
-    },
-    {
-        "start_line": 221,
-        "end_line": 226,
-        "code": [
-            "function()",
-            "payable",
-            "public",
-            "{",
-            "purchaseInternal(msg.value, 0x0);",
-            "}"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "236-238",
+            "vulnerableCode": [
+                "if(!giveEthBankrollAddress.call.value(ethToPay).gas(400000) {",
+                "totalEthBankrollRecieved = SafeMath.sub(totalEthBankrollRecieved, ethToPay);",
+                "}"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows an external contract to be invoked and does not check for success. If the external call fails, the state is updated incorrectly, leading to potential loss of funds. Furthermore, if the called contract is malicious, it can re-enter this function before the state has been properly updated.",
+            "potentialSecurityRisk": "An attacker can craft a malicious contract that calls back into the `payBankroll` function before the balance has been updated, leading to repeated withdrawals of funds from the contract. This can result in the contract losing ETH and potentially being drained entirely.",
+            "fixedCode": "totalEthBankrollRecieved = SafeMath.add(totalEthBankrollRecieved, ethToPay);\n(bool success,) = giveEthBankrollAddress.call.value(ethToPay).gas(400000)();\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "221-226",
+            "vulnerableCode": [
+                "function()",
+                "payable",
+                "public",
+                "{",
+                "purchaseInternal(msg.value, 0x0);"
+            ],
+            "vulnerabilityReason": "The fallback function is publicly accessible and does not implement any protection against reentrancy. This means that while the function `purchaseInternal` may be executing, a reentrant call can occur, allowing an attacker to manipulate state during its execution.",
+            "potentialSecurityRisk": "A malicious actor could repeatedly call this contract during the execution of the fallback function to drain funds, especially if they are able to exploit other calls like `purchaseInternal` that manipulate contract state.",
+            "fixedCode": "function() payable public {\n    purchaseInternal(msg.value, 0x0);\n} // Consider implementing a reentrancy guard or pattern to prevent this type of attack."
+        }
+    ]
+}

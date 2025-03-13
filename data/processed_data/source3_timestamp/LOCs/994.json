@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 14,
-        "end_line": 14,
-        "code": [
-            "require(block.timestamp >= votingStart && block.timestamp <= votingEnd, \"Voting is not active\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "14-14",
+            "vulnerableCode": [
+                "require(block.timestamp >= votingStart && block.timestamp <= votingEnd, \"Voting is not active\");"
+            ],
+            "vulnerabilityReason": "The 'vote' function relies on block.timestamp to determine if the voting period is active. This dependency allows miners to manipulate the timestamp, potentially allowing votes to be cast outside of the intended voting window.",
+            "potentialSecurityRisk": "If a miner manipulates the block timestamp, they could extend or shorten the voting period. This manipulation could allow unwanted votes to be cast or deny valid votes during the voting phase, undermining the integrity of the voting process.",
+            "fixedCode": "require(block.timestamp >= votingStart + TIME_TOLERANCE && block.timestamp <= votingEnd - TIME_TOLERANCE, \"Voting is not active\"); // Using a TIME_TOLERANCE to mitigate timestamp manipulation."
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+[
+    {
+        "start_line": 74,
+        "end_line": 74,
+        "code": [
+            "if (!msg.sender.call.value(amount)()) throw;"
+        ]
+    },
+    {
+        "start_line": 71,
+        "end_line": 72,
+        "code": [
+            "function withdraw(uint amount) {",
+            "if (tokens[0][msg.sender] < amount) throw;"
+        ]
+    }
+]

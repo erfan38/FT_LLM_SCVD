@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 53,
-        "end_line": 53,
-        "code": [
-            "_to.call.value(_value)(_data);"
-        ]
-    },
-    {
-        "start_line": 70,
-        "end_line": 70,
-        "code": [
-            "m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "53-53",
+            "vulnerableCode": [
+                "_to.call.value(_value)(_data);"
+            ],
+            "vulnerabilityReason": "The external call to `_to.call.value(_value)(_data)` occurs before any state updates or confirmations, allowing an attacker to perform a reentrancy attack by recursively calling this function before the contract's state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by recursively invoking the function, withdrawing more Ether than intended, and draining the contract's balance before the state reflects that the transaction was confirmed.",
+            "fixedCode": "require(address(this).balance >= _value, 'Insufficient balance'); // Ensure there are sufficient funds\n\n// Update state before making the external call\nSingleTransact(msg.sender, _value, _to, _data);\n\n(bool success, ) = _to.call.value(_value)(_data); // Perform the external call after update\nrequire(success, 'Transfer failed'); // Check successful transfer."
+        },
+        {
+            "vulnerableLines": "70-70",
+            "vulnerableCode": [
+                "m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
+            ],
+            "vulnerabilityReason": "The external call to `m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data)` is executed before the transaction record is deleted. This means that an attacker can make recursive calls before the transaction state is cleared, leading to potential fund draining.",
+            "potentialSecurityRisk": "An attacker can take advantage of the stored transaction details to drain the contract of funds by calling this function multiple times before the entry in `m_txs` is deleted, thus allowing for repeated withdrawals.",
+            "fixedCode": "// Check that the transaction exists before executing\nrequire(m_txs[_h].to != 0, 'Transaction does not exist');\n\n(bool success, ) = m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data); // Call externally finally\nrequire(success, 'Transfer failed');\n\n// Ensure the transaction record is deleted after the transfer\ndelete m_txs[_h];"
+        }
+    ]
+}

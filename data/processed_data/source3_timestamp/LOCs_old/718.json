@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 60,
+        "end_line": 60,
+        "code": [
+            "        return (block.timestamp < ALLOCATION_LOCK_END_TIMESTAMP);"
+        ]
+    }
+]

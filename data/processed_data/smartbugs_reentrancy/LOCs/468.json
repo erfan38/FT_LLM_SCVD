@@ -1,27 +1,35 @@
-[
-    {
-        "start_line": 203,
-        "end_line": 204,
-        "code": [
-            "c.balance = 0;",
-            "msg.sender.transfer(amountToTransfer);"
-        ]
-    },
-    {
-        "start_line": 350,
-        "end_line": 350,
-        "code": [
-            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
-        ]
-    },
-    {
-        "start_line": 244,
-        "end_line": 248,
-        "code": [
-            "tokenAmount = tokenAmount.add(_applyPct(c.balance,d.pct[i]));",
-            "c.tokensClaimed[tokenAddr] = d.pct.length;",
-            "require(d.token.transfer(receiver,tokenAmount));",
-            "d.balanceRemaining = d.balanceRemaining.sub(tokenAmount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "203-204",
+            "vulnerableCode": [
+                "c.balance = 0;",
+                "msg.sender.transfer(amountToTransfer);"
+            ],
+            "vulnerabilityReason": "The balance is set to zero after the external transfer call. If the `msg.sender` is a contract and it calls back into the withdraw function during or after the external transfer, it can withdraw funds without restrictions, potentially draining the contract.",
+            "potentialSecurityRisk": "An attacker could exploit this by recursively calling the withdraw function, withdrawing more ETH than they are entitled to, before the contract state reflects the balance change.",
+            "fixedCode": "uint amountToTransfer = c.balance;  \nc.balance = 0;  \nmsg.sender.transfer(amountToTransfer); // This must ensure balance is set to zero before transfer."
+        },
+        {
+            "vulnerableLines": "350-350",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows for a low-level call to be made without directly handling the success of the call. If the called contract reverts during execution, it could leave the contract in an inconsistent state as there's no guarantee of success for the external call, which may also be targeted in a reentrancy attack.",
+            "potentialSecurityRisk": "If `receiverAddress` is a malicious contract, it could exploit the lack of proper result checking and potentially manipulate the funds, leading to loss or misuse of Ether.",
+            "fixedCode": "(bool success, ) = receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))(); \nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful."
+        },
+        {
+            "vulnerableLines": "244-248",
+            "vulnerableCode": [
+                "tokenAmount = tokenAmount.add(_applyPct(c.balance,d.pct[i]));",
+                "c.tokensClaimed[tokenAddr] = d.pct.length;",
+                "require(d.token.transfer(receiver,tokenAmount));",
+                "d.balanceRemaining = d.balanceRemaining.sub(tokenAmount);"
+            ],
+            "vulnerabilityReason": "The token balance is updated and the transfer is executed after calculating the `tokenAmount`. This allows an attacker to manipulate the contract state if it reentrants during the transfer process.",
+            "potentialSecurityRisk": "An attacker could use a reentrancy attack to exploit the function, gaining more tokens than expected by re-entering before the balance adjustment is finalized, ultimately draining the contract's tokens.",
+            "fixedCode": "tokenAmount = tokenAmount.add(_applyPct(c.balance, d.pct[i]));  \nc.tokensClaimed[tokenAddr] = d.pct.length;  \nrequire(d.token.transfer(receiver, tokenAmount), \"Token transfer failed\");  \nd.balanceRemaining = d.balanceRemaining.sub(tokenAmount); // State updates occur after all calculations and transfers."
+        }
+    ]
+}

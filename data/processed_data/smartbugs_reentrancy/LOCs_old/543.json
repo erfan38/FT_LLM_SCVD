@@ -1,0 +1,58 @@
+[
+    {
+        "start_line": 237,
+        "end_line": 242,
+        "code": [
+            "playerTempReward[myid] = playerProfit[myid];",
+            "playerProfit[myid] = 0;",
+            "maxPendingPayouts = safeSub(maxPendingPayouts, playerTempReward[myid]);",
+            "playerTempBetValue[myid] = playerBetValue[myid];"
+        ]
+    },
+    {
+        "start_line": 253,
+        "end_line": 256,
+        "code": [
+            "totalBets += 1;",
+            "totalWeiWagered += playerTempBetValue[myid];"
+        ]
+    },
+    {
+        "start_line": 275,
+        "end_line": 278,
+        "code": [
+            "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
+            "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);"
+        ]
+    },
+    {
+        "start_line": 322,
+        "end_line": 325,
+        "code": [
+            "if(!playerTempAddress[myid].send(playerTempReward[myid])){",
+            "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);"
+        ]
+    },
+    {
+        "start_line": 355,
+        "end_line": 358,
+        "code": [
+            "if(!playerTempAddress[myid].send(1)){",
+            "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], 1);"
+        ]
+    },
+    {
+        "start_line": 377,
+        "end_line": 378,
+        "code": [
+            "if (msg.sender.call.value(withdrawAmount)()) {"
+        ]
+    },
+    {
+        "start_line": 496,
+        "end_line": 496,
+        "code": [
+            "if(!sendTo.send(originalPlayerBetValue)) throw;"
+        ]
+    }
+]

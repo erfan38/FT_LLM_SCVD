@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 12,
+        "code": [
+            "uint256 timePassed = block.timestamp - investmentTimes[msg.sender];",
+            "uint256 interest = (investments[msg.sender] * timePassed * 5) / (100 * 365 days);"
+        ]
+    }
+]

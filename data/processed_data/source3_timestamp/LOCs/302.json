@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 21,
-        "end_line": 21,
-        "code": [
-            "require(_releaseTime > block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 30,
-        "end_line": 30,
-        "code": [
-            "require(block.timestamp >= releaseTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "require(_releaseTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the proposed release time is in the future relative to the current block timestamp. However, since block.timestamp can be manipulated by miners, they can introduce slight delays or advancements that could impact the release of funds.",
+            "potentialSecurityRisk": "A miner could set a timestamp that allows them to manipulate the contract's release timing, potentially delaying or expediting the release of funds to the beneficiary, affecting the expected functionality or fairness of the contract.",
+            "fixedCode": "require(_releaseTime > block.timestamp + TIME_TOLERANCE); // Adding a buffer to reduce timestamp manipulation concerns."
+        },
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "In the release function, block.timestamp is checked against the releaseTime to determine if funds can be released. Such dependency on block.timestamp creates a vulnerability as miners could manipulate the timestamp to affect the timing of the release.",
+            "potentialSecurityRisk": "Manipulation of block.timestamp could allow a miner to create conditions that either prevent the beneficiary from receiving their funds when they should, or allow them to circumvent expected checks regarding the funds' release timing.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Use a buffer like TIME_TOLERANCE to mitigate the effects of timestamp manipulation."
+        }
+    ]
+}

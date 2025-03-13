@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 77,
+        "end_line": 80,
+        "code": [
+            "stages[0].date = vestingStartUnixTimestamp + halfOfYear;",
+            "stages[1].date = vestingStartUnixTimestamp + year;",
+            "stages[2].date = vestingStartUnixTimestamp + year + halfOfYear;",
+            "stages[3].date = vestingStartUnixTimestamp + (year * 2);"
+        ]
+    },
+    {
+        "start_line": 121,
+        "end_line": 121,
+        "code": [
+            "if (now >= stages[i].date) {"
+        ]
+    },
+    {
+        "start_line": 105,
+        "end_line": 105,
+        "code": [
+            "emit Withdraw(tokensToSend, now);"
+        ]
+    }
+]

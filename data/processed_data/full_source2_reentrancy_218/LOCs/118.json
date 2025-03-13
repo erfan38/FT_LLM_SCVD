@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 12,
-        "end_line": 12,
-        "code": [
-            "if (!tokenCreateContract.call.value(amount)(tokenCreateFunctionHash)) throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "12-12",
+            "vulnerableCode": [
+                "if (!tokenCreateContract.call.value(amount)(tokenCreateFunctionHash)) throw;"
+            ],
+            "vulnerabilityReason": "The use of `call.value(amount)(tokenCreateFunctionHash)` allows an external contract to execute arbitrary code before the state is updated. This can lead to reentrancy attacks where the external contract calls back into the `CreateTokens` function before the contract state is changed.",
+            "potentialSecurityRisk": "An attacker may create a malicious contract as `tokenCreateContract` that can re-enter the `CreateTokens` function, which could allow them to repeatedly withdraw funds before the state is updated, draining the contract's balance.",
+            "fixedCode": "// Ensure the contract has enough balance before proceeding. \nrequire(amount <= balances[tokenCreateContract], \"Insufficient balance\");\n\n// Update the balance before making the external call to prevent reentrancy. \nbalances[tokenCreateContract] -= amount;\n\n// Perform the external call AFTER updating the contract state.\n(bool success, ) = tokenCreateContract.call.value(amount)(tokenCreateFunctionHash);\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

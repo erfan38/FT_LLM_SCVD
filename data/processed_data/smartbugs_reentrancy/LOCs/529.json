@@ -1,34 +1,44 @@
-[
-    {
-        "start_line": 118,
-        "end_line": 120,
-        "code": [
-            "        balances[msg.sender] = balances[msg.sender].sub(_value);",
-            "        balances[_to] = balances[_to].add(_value);",
-            "        assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 170,
-        "end_line": 171,
-        "code": [
-            "        balances[msg.sender] = balances[msg.sender].sub(_value);",
-            "        balances[_to] = balances[_to].add(_value);"
-        ]
-    },
-    {
-        "start_line": 180,
-        "end_line": 181,
-        "code": [
-            "        balances[msg.sender] = balances[msg.sender].sub(_value);",
-            "        balances[_to] = balances[_to].add(_value);"
-        ]
-    },
-    {
-        "start_line": 323,
-        "end_line": 323,
-        "code": [
-            "            if(!owner.send(etherValue))revert();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "118-120",
+            "vulnerableCode": [
+                "        balances[msg.sender] = balances[msg.sender].sub(_value);",
+                "        balances[_to] = balances[_to].add(_value);",
+                "        assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The state changes (adjusting balances) are performed before the external call to `_to.call`, which can allow an attacker to exploit reentrancy by calling back into the contract before the state is updated. This can allow the attacker to withdraw more than intended by manipulating the balance state.",
+            "potentialSecurityRisk": "An attacker could initiate a recursive call to the `transfer` function during the external call, withdrawing funds multiple times before the balance of the caller is updated, leading to a potential loss of funds for the contract.",
+            "fixedCode": "// First, update the recipient's balance then perform the external call\nrequire(balances[msg.sender] >= _value, 'Insufficient balance');\nbalances[_to] = balances[_to].add(_value);\nbalances[msg.sender] = balances[msg.sender].sub(_value);\n(bool success,) = _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data);\nrequire(success, 'Call to fallback failed');"
+        },
+        {
+            "vulnerableLines": "170-171",
+            "vulnerableCode": [
+                "        balances[msg.sender] = balances[msg.sender].sub(_value);",
+                "        balances[_to] = balances[_to].add(_value);"
+            ],
+            "vulnerabilityReason": "The sender's balance is decreased before updating the recipient's balance, which can be exploited if an external call is made after these state changes, allowing for amounts to be withdrawn multiple times via reentrancy.",
+            "potentialSecurityRisk": "As with other instances, an attacker could exploit this to withdraw funds repeatedly by calling the function recursively before the state reflects these changes, thereby draining contract funds.",
+            "fixedCode": "require(balances[msg.sender] >= _value, 'Insufficient balance');\nbalances[_to] = balances[_to].add(_value);\nbalances[msg.sender] = balances[msg.sender].sub(_value);"
+        },
+        {
+            "vulnerableLines": "180-181",
+            "vulnerableCode": [
+                "        balances[msg.sender] = balances[msg.sender].sub(_value);",
+                "        balances[_to] = balances[_to].add(_value);"
+            ],
+            "vulnerabilityReason": "The sender's balance is updated and then the recipient's balance is updated, with potential calls made afterwards, which can lead to reentrancy.",
+            "potentialSecurityRisk": "If an external contract is called after these operations, reentrant calls could cause an attacker to withdraw more than they are entitled to.",
+            "fixedCode": "require(balances[msg.sender] >= _value, 'Insufficient balance');\nbalances[_to] = balances[_to].add(_value);\nbalances[msg.sender] = balances[msg.sender].sub(_value);"
+        },
+        {
+            "vulnerableLines": "323-323",
+            "vulnerableCode": [
+                "            if(!owner.send(etherValue))revert();"
+            ],
+            "vulnerabilityReason": "The contract uses `.send()` to transfer Ether without checking if there are any potential state changes that should occur before the transfer. This could be exploited by a reentrant call.",
+            "potentialSecurityRisk": "An attacker could invoke a malicious contract to exploit this transfer, allowing them to withdraw funds repeatedly before the contract checks updating its own state.",
+            "fixedCode": "// Check that the contract has sufficient balance to make the transfer\nrequire(etherValue <= address(this).balance, 'Insufficient contract funds');\n(bool success,) = owner.send(etherValue);\nrequire(success, 'Transfer failed');"
+        }
+    ]
+}

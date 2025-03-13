@@ -1,0 +1,11 @@
+[
+    {
+        "start_line": 31,
+        "end_line": 33,
+        "code": [
+            "modifier notTimeLocked() {",
+            "if (now < timelockEndTime && msg.sender != addressSCICO && msg.sender != addressSCEscrow) {",
+            "error('notTimeLocked: Timelock still active. Function is yet unavailable.');"
+        ]
+    }
+]

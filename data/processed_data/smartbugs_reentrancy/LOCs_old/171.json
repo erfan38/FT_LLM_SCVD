@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 250,
+        "end_line": 250,
+        "code": [
+            "if(ADDRESS_MAIN_FUND.call.value(advTax)())"
+        ]
+    },
+    {
+        "start_line": 255,
+        "end_line": 255,
+        "code": [
+            "addr.transfer(interestPure);"
+        ]
+    },
+    {
+        "start_line": 168,
+        "end_line": 168,
+        "code": [
+            "_delete(msg.sender);"
+        ]
+    }
+]

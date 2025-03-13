@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 46,
+        "end_line": 48,
+        "code": [
+            "if (destination.call.value(value)(data)) {",
+            "      Execution(destination, value, data);"
+        ]
+    }
+]

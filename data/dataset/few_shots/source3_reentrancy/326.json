@@ -13,10 +13,13 @@
         "vulnerabilityReason": "The contract sends funds to the user using `call.value(_am)`, which does not impose a gas limit. Additionally, the balance is updated *after* the transfer. This allows a malicious contract to recursively re-enter the function before the balance is deducted, repeatedly draining funds.",
         "potentialSecurityRisk": "An attacker could deploy a malicious contract that exploits this function by re-entering before the balance update. By calling this function repeatedly within the fallback function of their contract, they can withdraw more funds than they initially deposited, leading to a complete depletion of the contract's balance.",
         "fixedCode": [
+            "require(Bal[msg.sender] >= MinSum, \"Balance below minimum required\");",
             "require(Bal[msg.sender] >= _am, \"Insufficient balance\");",
-            "Bal[msg.sender] -= _am;",
+            "Bal[msg.sender] -= _am; // Update the user's balance before making the external call. This reduces the balance before the Ether transfer, preventing reentrancy",  
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",
-            "require(success, \"Transfer failed\");"
+            "require(success, \"Transfer failed\"); // Ensuring safe external call",
+            "emit Withdrawal(msg.sender, _am); // Logging the transaction"
         ]
+
     }
 ]

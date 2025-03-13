@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 50,
-        "end_line": 51,
-        "code": [
-            "function random() view returns (uint8) {",
-            "    return uint8(uint256(keccak256(block.timestamp, block.difficulty))%256);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "50-51",
+            "vulnerableCode": [
+                "function random() view returns (uint8) {",
+                "    return uint8(uint256(keccak256(block.timestamp, block.difficulty))%256);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' in the random() function introduces a vulnerability due to miner manipulability. Miners can adjust the block timestamp when mining to influence the output of the random function.",
+            "potentialSecurityRisk": "This manipulation can lead to predictable outcomes in the bet() function, compromising the fairness and integrity of the betting process. A miner could potentially set the timestamp to achieve favorable results, undermining the game's unpredictability.",
+            "fixedCode": "function random() view returns (uint8) { uint256 randomHash = uint256(keccak256(abi.encodePacked(block.difficulty, block.number, msg.sender))); return uint8(randomHash % 256); } //Improved randomness by including non-manipulable values like block number and the sender's address to mitigate timing attacks."
+        }
+    ]
+}

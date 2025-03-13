@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 128,
-        "end_line": 128,
-        "code": [
-            "require(block.timestamp < sigExp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "128-128",
+            "vulnerableCode": [
+                "require(block.timestamp < sigExp);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' allows miners to manipulate the redemption eligibility based on the current block time. This creates a scenario where miners can adjust the block timestamp slightly to redeem karma even if the signature has expired.",
+            "potentialSecurityRisk": "Miners can take advantage of this manipulation by mining a block with a timestamp just before sigExp, allowing them to redeem tokens fraudulently outside of the intended expiration logic, compromising the integrity of the redemption process in the contract.",
+            "fixedCode": "require(block.timestamp <= sigExp + TIME_TOLERANCE); // Implement a time tolerance to account for minor timestamp manipulations."
+        }
+    ]
+}

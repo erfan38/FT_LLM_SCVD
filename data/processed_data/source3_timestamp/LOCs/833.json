@@ -1,88 +1,112 @@
-[
-    {
-        "start_line": 52,
-        "end_line": 52,
-        "code": [
-            "        return block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 56,
-        "end_line": 56,
-        "code": [
-            "        return dayFor(time());"
-        ]
-    },
-    {
-        "start_line": 62,
-        "end_line": 72,
-        "code": [
-            "        if (timestamp < startTime) {",
-            "            return 0;",
-            "        }",
-            "        if (timestamp >= startTime && timestamp < finalWindowTime) {",
-            "            return sub(timestamp, startTime) / 5 minutes + 1;",
-            "        }",
-            "        if (timestamp >= finalWindowTime && timestamp < finishTime) {",
-            "            return 176;",
-            "        }",
-            "        return 999;"
-        ]
-    },
-    {
-        "start_line": 83,
-        "end_line": 83,
-        "code": [
-            "        assert(today() > 0 && today() <= numberOfDays + 1);"
-        ]
-    },
-    {
-        "start_line": 86,
-        "end_line": 86,
-        "code": [
-            "        assert(day >= today());"
-        ]
-    },
-    {
-        "start_line": 100,
-        "end_line": 100,
-        "code": [
-            "        buyWithLimit(today(), 0);"
-        ]
-    },
-    {
-        "start_line": 109,
-        "end_line": 109,
-        "code": [
-            "        assert(today() > day);"
-        ]
-    },
-    {
-        "start_line": 130,
-        "end_line": 130,
-        "code": [
-            "        for (uint i = 0; i < today(); i++) {"
-        ]
-    },
-    {
-        "start_line": 140,
-        "end_line": 140,
-        "code": [
-            "        assert(today() <=  numberOfDays + 1);"
-        ]
-    },
-    {
-        "start_line": 150,
-        "end_line": 150,
-        "code": [
-            "        assert(today() > 0);"
-        ]
-    },
-    {
-        "start_line": 157,
-        "end_line": 157,
-        "code": [
-            "        assert(time() > finishTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "52-52",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "The `time()` function returns `block.timestamp`, which can be manipulated by miners, allowing them to influence the behavior of time-dependent logic in the contract.",
+            "potentialSecurityRisk": "Miner manipulation of timestamps can lead to unfair advantages, such as buying tokens at discounted prices, thus undermining the fairness of the contract operations.",
+            "fixedCode": "return block.timestamp + TIME_TOLERANCE; // Define a constant TIME_TOLERANCE to add a buffer against manipulation."
+        },
+        {
+            "vulnerableLines": "56-56",
+            "vulnerableCode": [
+                "return dayFor(time());"
+            ],
+            "vulnerabilityReason": "This function relies on `time()`, which retrieves `block.timestamp`. Any manipulation of the timestamp affects the calculation of the current day, impacting subsequent logic.",
+            "potentialSecurityRisk": "As timestamps can be artificially modified, the computed `today()` value may not be reliable, resulting in unintended consequences for day-based calculations in purchase limits or eligibility.",
+            "fixedCode": "return dayFor(block.timestamp + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "62-72",
+            "vulnerableCode": [
+                "if (timestamp < startTime) {",
+                "return 0;",
+                "}",
+                "if (timestamp >= startTime && timestamp < finalWindowTime) {",
+                "return sub(timestamp, startTime) / 5 minutes + 1;",
+                "}",
+                "if (timestamp >= finalWindowTime && timestamp < finishTime) {",
+                "return 176;",
+                "}",
+                "return 999;"
+            ],
+            "vulnerabilityReason": "This section uses `timestamp`, which is derived from `block.timestamp`, making the contract susceptible to manipulations affecting the logic for returning the day number based on time milestones.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to access earlier days or correct an erroneous day number in critical functions such as purchasing or claiming, impacting financial distributions.",
+            "fixedCode": "if (timestamp + TIME_TOLERANCE < startTime) { ... // Ensure that conditions account for added tolerance against timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "assert(today() > 0 && today() <= numberOfDays + 1);"
+            ],
+            "vulnerabilityReason": "The `today()` function, which is dependent on potentially manipulable timestamps, is used here to enforce conditions that could be exploited by modifying the time.",
+            "potentialSecurityRisk": "Manipulation could allow a user to incorrectly assess or bypass day-based limitations, leading to excessive purchases beyond intended limits.",
+            "fixedCode": "assert(today() + TIME_TOLERANCE > 0 && today() <= numberOfDays + 1);"
+        },
+        {
+            "vulnerableLines": "86-86",
+            "vulnerableCode": [
+                "assert(day >= today());"
+            ],
+            "vulnerabilityReason": "This logic directly relies on the `today()` function, which can give unreliable results due to `block.timestamp` manipulation.",
+            "potentialSecurityRisk": "Attackers may exploit timestamp manipulations to claim earlier dates than they should, bypassing restrictions or gaining benefits intended only for future dates.",
+            "fixedCode": "assert(day >= today() + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "100-100",
+            "vulnerableCode": [
+                "buyWithLimit(today(), 0);"
+            ],
+            "vulnerabilityReason": "Calling `today()` to establish purchase limits makes the contract vulnerable to timestamp manipulation affecting available purchases.",
+            "potentialSecurityRisk": "Miners could alter their purchase times, enabling them to unfairly capitalize on token sales at disproportionate prices, leading to losses for legitimate buyers.",
+            "fixedCode": "buyWithLimit(today() + TIME_TOLERANCE, 0);"
+        },
+        {
+            "vulnerableLines": "109-109",
+            "vulnerableCode": [
+                "assert(today() > day);"
+            ],
+            "vulnerabilityReason": "Timestamp-based evaluation allows issues where miners may manipulate to claim tokens for dates where they should not be eligible, as calculated by the `today()` function.",
+            "potentialSecurityRisk": "This could allow miners to manipulate claim eligibility using incorrect day calculations, leading to token accumulation beyond fair means.",
+            "fixedCode": "assert(today() + TIME_TOLERANCE > day);"
+        },
+        {
+            "vulnerableLines": "130-130",
+            "vulnerableCode": [
+                "for (uint i = 0; i < today(); i++) {"
+            ],
+            "vulnerabilityReason": "The for-loop relies on a potentially manipulable result from `today()`, allowing miners to adjust loop iterations erroneously.",
+            "potentialSecurityRisk": "Miners could manipulate this logic to perform excessive claims or manipulate data based on incorrectly calculated iterations using block timestamps.",
+            "fixedCode": "for (uint i = 0; i < today() + TIME_TOLERANCE; i++) {"
+        },
+        {
+            "vulnerableLines": "140-140",
+            "vulnerableCode": [
+                "assert(today() <= numberOfDays + 1);"
+            ],
+            "vulnerabilityReason": "This statement checks the results of `today()`, which depends on `block.timestamp` and thus opens the potential for miner exploitation.",
+            "potentialSecurityRisk": "Miners could use timestamp manipulation to bypass checks, accessing bonuses or claims intended only for valid days, undermining the system's integrity.",
+            "fixedCode": "assert(today() + TIME_TOLERANCE <= numberOfDays + 1);"
+        },
+        {
+            "vulnerableLines": "150-150",
+            "vulnerableCode": [
+                "assert(today() > 0);"
+            ],
+            "vulnerabilityReason": "Relying on `today()`, which is derived from the potentially manipulated `block.timestamp`, creates opportunity for exploitation.",
+            "potentialSecurityRisk": "Users may exploit the timestamp to claim benefits erroneously, often bypassing intended eligibility constraints.",
+            "fixedCode": "assert(today() + TIME_TOLERANCE > 0);"
+        },
+        {
+            "vulnerableLines": "157-157",
+            "vulnerableCode": [
+                "assert(time() > finishTime);"
+            ],
+            "vulnerabilityReason": "Using `time()` results from `block.timestamp` impairs the accuracy of checks against critical contract time limits, exposing vulnerabilities.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp, allowing for bypassing conditions that should enforce time-bound constraints, altering contract behavior.",
+            "fixedCode": "assert(time() + TIME_TOLERANCE > finishTime);"
+        }
+    ]
+}

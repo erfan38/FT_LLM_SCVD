@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 270,
-        "end_line": 272,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 278,
-        "end_line": 280,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1217,
-        "end_line": 1217,
-        "code": [
-            "if (!address(admin).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 1251,
-        "end_line": 1251,
-        "code": [
-            "_eth = _eth.sub(((_eth.mul(25)) / 100).add((_eth.mul(fees_[_team].p3d)) / 100));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "270-272",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The Ether is transferred to the player's address before updating their state balance, allowing for reentrant calls from the player's address during the Ether transfer.",
+            "potentialSecurityRisk": "An attacker can trick the contract into executing a reentrant call, withdrawing funds multiple times before the state is updated, leading to drained funds.",
+            "fixedCode": "uint256 amountToTransfer = _eth; _eth = 0; plyr_[_pID].addr.transfer(amountToTransfer);"
+        },
+        {
+            "vulnerableLines": "278-280",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case, Ether is sent before updating the state, allowing for vulnerability to reentrancy attacks that could drain funds from the contract.",
+            "potentialSecurityRisk": "An attacker could exploit this to withdraw funds multiple times before the state variables are successfully updated, resulting in a potential loss of funds for the contract.",
+            "fixedCode": "uint256 amountToTransfer = _eth; _eth = 0; plyr_[_pID].addr.transfer(amountToTransfer);"
+        },
+        {
+            "vulnerableLines": "1217-1217",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "Using call.value() to send Ether without checking the success immediately increases the risk of reentrancy, as an external contract may call back into the contract before state changes are finalized.",
+            "potentialSecurityRisk": "The admin could call back and modify the state in ways that exploit this order, exposing the contract to potential loss of funds or corrupted state.",
+            "fixedCode": "require(address(admin).call.value(_com)(), \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "1251-1251",
+            "vulnerableCode": [
+                "_eth = _eth.sub(((_eth.mul(25)) / 100).add((_eth.mul(fees_[_team].p3d)) / 100));"
+            ],
+            "vulnerabilityReason": "This line adjusts the _eth variable after the potential Ether transfer, which can expose the contract to reentrancy attacks, especially when combined with transfer logic elsewhere.",
+            "potentialSecurityRisk": "An attacker could exploit the state changes made prior to this calculation to manipulate the values and drain funds before the proper state is reached.",
+            "fixedCode": "uint256 feeAmount = (_eth.mul(25)) / 100; uint256 p3dAmount = (_eth.mul(fees_[_team].p3d)) / 100; _eth = _eth.sub(feeAmount.add(p3dAmount));"
+        }
+    ]
+}

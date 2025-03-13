@@ -1,30 +1,41 @@
-[
-    {
-        "start_line": 249,
-        "end_line": 249,
-        "code": [
-            "if(!giveEthJackpotAddress.call.value(ethToPay).gas(400000)()) {"
-        ]
-    },
-    {
-        "start_line": 313,
-        "end_line": 313,
-        "code": [
-            "_customerAddress.transfer(_dividends);"
-        ]
-    },
-    {
-        "start_line": 222,
-        "end_line": 222,
-        "code": [
-            "function buy(address _referredBy)"
-        ]
-    },
-    {
-        "start_line": 668,
-        "end_line": 668,
-        "code": [
-            "msg.sender.transfer(excess);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "249-249",
+            "vulnerableCode": [
+                "if(!giveEthJackpotAddress.call.value(ethToPay).gas(400000) {",
+                "   totalEthJackpotRecieved = SafeMath.sub(totalEthJackpotRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "Using call.value() allows the target address (giveEthJackpotAddress) to execute fallback functions, possibly leading to reentrancy attacks before the state gets updated after the payment attempt.",
+            "potentialSecurityRisk": "An attacker controlling giveEthJackpotAddress could re-enter the contract during this external call, enabling them to manipulate contract state or withdraw funds repeatedly before state updates are applied.",
+            "fixedCode": "// Check that the contract has sufficient balance before sending funds\nrequire(ethToPay <= address(this).balance, \"Insufficient contract balance\");\nif(!giveEthJackpotAddress.call.value(ethToPay)()) { totalEthJackpotRecieved = SafeMath.sub(totalEthJackpotRecieved, ethToPay); }"
+        },
+        {
+            "vulnerableLines": "313-313",
+            "vulnerableCode": [
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "The transfer to _customerAddress is made before updating the state variables related to payouts, allowing a malicious user to re-enter the function and potentially withdraw more funds than intended before the balance is updated.",
+            "potentialSecurityRisk": "An attacker could repeatedly call withdraw, potentially draining the contract's funds if they manage to re-enter before state updates on _dividends are effective.",
+            "fixedCode": "// Ensure contract has enough balance for withdrawals\nrequire(_dividends <= address(this).balance, \"Insufficient contract balance\");\n_customerAddress.transfer(_dividends);\npayoutsTo_[_customerAddress] += int256(_dividends * magnitude);"
+        },
+        {
+            "vulnerableLines": "222-222",
+            "vulnerableCode": [
+                "function buy(address _referredBy)"
+            ],
+            "vulnerabilityReason": "The _referredBy parameter lacks proper validation or access control, potentially allowing an attacker to manipulate referral bonuses through malicious contracts that could also introduce reentrancy vulnerabilities.",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a malicious contract to influence the referral structure and create recursive calls when funds are distributed or locked, allowing for unexpected behaviors and fund exploitation.",
+            "fixedCode": "// Validate the referredBy parameter to ensure it’s a legitimate user\nrequire(_referredBy == address(0) || (tokenBalanceLedger_[_referredBy] >= stakingRequirement), \"Invalid referral\");\n_customerAddress.transfer(dividends);"
+        },
+        {
+            "vulnerableLines": "668-668",
+            "vulnerableCode": [
+                "msg.sender.transfer(excess);"
+            ],
+            "vulnerabilityReason": "The use of transfer() sends funds to the msg.sender without updating any state balances beforehand, allowing reentrancy attacks by malicious contracts that could exploit this order to withdraw more than their intended share.",
+            "potentialSecurityRisk": "This can lead to situations where an attacker manipulates the contract by taking advantage of the lack of state updates before the transfer, allowing them to siphon more funds than they should be able to withdraw.",
+            "fixedCode": "// Ensure enough balance exists to prevent over-withdrawal\nrequire(excess <= address(this).balance, \"Insufficient contract balance\");\nmsg.sender.transfer(excess);\n// Update state information here before allowing any reentry into the function."
+        }
+    ]
+}

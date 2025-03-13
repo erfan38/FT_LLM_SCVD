@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 215,
-        "end_line": 215,
-        "code": [
-            "destAddress.transfer(destAmount);"
-        ]
-    },
-    {
-        "start_line": 334,
-        "end_line": 334,
-        "code": [
-            "if (destination.call.value(value)(data)) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "215-215",
+            "vulnerableCode": [
+                "destAddress.transfer(destAmount);"
+            ],
+            "vulnerabilityReason": "The line uses transfer to send Ether to the destAddress without ensuring that the contract state has been updated first. If destAddress is a contract, it could call back into this contract before the state reflects the change.",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a malicious contract that makes a recursive call in response to receiving Ether, enabling repeated withdrawals before the contract's state is updated, potentially draining funds.",
+            "fixedCode": "// Ensure we withdraw or update state before sending Ether\ndestAddress.call.value(destAmount)(); // Use call instead of transfer for better handling of Ether transfers."
+        },
+        {
+            "vulnerableLines": "334-334",
+            "vulnerableCode": [
+                "if (destination.call.value(value)(data)) {"
+            ],
+            "vulnerabilityReason": "The function uses call with a low-level call to send Ether along with data, without confirming prior state updates. This could allow reentrancy into the contract before it has finalized state changes.",
+            "potentialSecurityRisk": "An attacker could re-enter the contract during the execution of this low-level call, allowing them to manipulate state and potentially withdraw more funds than intended or execute undesired state changes.",
+            "fixedCode": "// Perform checks before making calls to ensure state integrity.\nrequire(destination.call.value(value)(data), \"Transaction failed\"); // Add require to check for success."
+        }
+    ]
+}

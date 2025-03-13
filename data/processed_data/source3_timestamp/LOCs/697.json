@@ -1,55 +1,63 @@
-[
-    {
-        "start_line": 191,
-        "end_line": 213,
-        "code": [
-            "if (block.timestamp < startsAt)",
-            "return maxEthPerAddress;",
-            "uint timeSinceStart = block.timestamp.sub(startsAt);",
-            "uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1);",
-            "if (currentPeriod < 2) {",
-            "return 5000 * 10**token.decimals();",
-            "}",
-            "if (currentPeriod > 2 && currentPeriod < 5) {",
-            "return 1000 * 10**token.decimals();",
-            "}",
-            "if (currentPeriod > 4 && currentPeriod < 6) {",
-            "return 500 * 10**token.decimals();",
-            "}",
-            "if (currentPeriod > 5 && currentPeriod < 9) {",
-            "return 200 * 10**token.decimals();",
-            "}",
-            "if (currentPeriod > 8 && currentPeriod < 11) {",
-            "return 100 * 10**token.decimals();",
-            "}",
-            "return maxEthPerAddress;"
-        ]
-    },
-    {
-        "start_line": 408,
-        "end_line": 417,
-        "code": [
-            "else if (block.timestamp < startsAt)",
-            "return State.PreFunding;",
-            "else if (block.timestamp <= endsAt && !isCrowdsaleFull())",
-            "return State.Funding;",
-            "else if (isMinimumGoalReached())",
-            "return State.Success;",
-            "else if (!isMinimumGoalReached() && weiRaised > 0 && loadedRefund >= weiRaised)",
-            "return State.Refunding;",
-            "else",
-            "return State.Failure;"
-        ]
-    },
-    {
-        "start_line": 335,
-        "end_line": 340,
-        "code": [
-            "if (now > time) {",
-            "revert();",
-            "}",
-            "endsAt = time;",
-            "EndsAtChanged(endsAt);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "191-213",
+            "vulnerableCode": [
+                "if (block.timestamp < startsAt)",
+                "return maxEthPerAddress;",
+                "uint timeSinceStart = block.timestamp.sub(startsAt);",
+                "uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1);",
+                "if (currentPeriod < 2) {",
+                "return 5000 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 2 && currentPeriod < 5) {",
+                "return 1000 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 4 && currentPeriod < 6) {",
+                "return 500 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 5 && currentPeriod < 9) {",
+                "return 200 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 8 && currentPeriod < 11) {",
+                "return 100 * 10**token.decimals();",
+                "}",
+                "return maxEthPerAddress;"
+            ],
+            "vulnerabilityReason": "The getCurrentFgcCap function uses block.timestamp to calculate the current investment period and cap limits, making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Miners can slightly alter the block.timestamp to gain access to increased caps, enabling them to purchase more tokens at favorable rates, which could lead to financial losses for other investors.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE < startsAt) { return maxEthPerAddress; } uint timeSinceStart = block.timestamp.sub(startsAt); uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1); if (currentPeriod < 2) { return 5000 * 10**token.decimals(); } if (currentPeriod > 2 && currentPeriod < 5) { return 1000 * 10**token.decimals(); } if (currentPeriod > 4 && currentPeriod < 6) { return 500 * 10**token.decimals(); } if (currentPeriod > 5 && currentPeriod < 9) { return 200 * 10**token.decimals(); } if (currentPeriod > 8 && currentPeriod < 11) { return 100 * 10**token.decimals(); } return maxEthPerAddress;"
+        },
+        {
+            "vulnerableLines": "408-417",
+            "vulnerableCode": [
+                "else if (block.timestamp < startsAt)",
+                "return State.PreFunding;",
+                "else if (block.timestamp <= endsAt && !isCrowdsaleFull())",
+                "return State.Funding;",
+                "else if (isMinimumGoalReached())",
+                "return State.Success;",
+                "else if (!isMinimumGoalReached() && weiRaised > 0 && loadedRefund >= weiRaised)",
+                "return State.Refunding;",
+                "else",
+                "return State.Failure;"
+            ],
+            "vulnerabilityReason": "The getState function relies heavily on block.timestamp for determining the current state of the crowdsale, which opens it up to exploitation through timestamp manipulation by miners.",
+            "potentialSecurityRisk": "Miners can change the block.timestamp to access different states of the contract, potentially allowing them to manipulate the funding phase or trigger refunds when not intended, leading to significant financial repercussions.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE < startsAt) return State.PreFunding; else if (block.timestamp + TIME_TOLERANCE <= endsAt && !isCrowdsaleFull()) return State.Funding; else if (isMinimumGoalReached()) return State.Success; else if (!isMinimumGoalReached() && weiRaised > 0 && loadedRefund >= weiRaised) return State.Refunding; else return State.Failure;"
+        },
+        {
+            "vulnerableLines": "335-340",
+            "vulnerableCode": [
+                "if (now > time) {",
+                "revert();",
+                "}",
+                "endsAt = time;",
+                "EndsAtChanged(endsAt);"
+            ],
+            "vulnerabilityReason": "Using 'now' (an alias for block.timestamp) exposes the contract to potential manipulation when checking new endsAt values.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to allow for setting an undesirable endsAt value that benefits them or confuses the expected funding period, undermining trust in the crowdsale process.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE > time) { revert(); } endsAt = time; EndsAtChanged(endsAt);"
+        }
+    ]
+}

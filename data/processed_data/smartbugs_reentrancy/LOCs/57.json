@@ -1,19 +1,14 @@
-[
-    {
-        "start_line": 179,
-        "end_line": 182,
-        "code": [
-            "delete balances[investor];",
-            "if(!(investor.call.value(amount)())) throw;"
-        ]
-    },
-    {
-        "start_line": 146,
-        "end_line": 156,
-        "code": [
-            "claimed[investor] = claimed[investor].add(amount);",
-            "totalClaimed = totalClaimed.add(amount);",
-            "getToken().transfer(investor, amount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "179-182",
+            "vulnerableCode": [
+                "delete balances[investor];",
+                "if(!(investor.call.value(amount)())) throw;"
+            ],
+            "vulnerabilityReason": "The contract deletes the investor's balance before sending Ether. This allows a malicious contract to re-enter the `refund()` function before the Ether is sent, potentially draining the contract's funds by repeatedly invoking the refund process.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract to call the refund function multiple times before the balance is updated, leading to the potential loss of all funds held in the contract.",
+            "fixedCode": "uint amount = balances[investor];\nrequire(amount > 0, \"Insufficient balance to refund.\");\ndelete balances[investor];\n(bool success, ) = investor.call.value(amount)();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

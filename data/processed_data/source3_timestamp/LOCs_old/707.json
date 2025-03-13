@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 62,
+        "end_line": 62,
+        "code": [
+            "releaseTime = block.timestamp + interval;"
+        ]
+    },
+    {
+        "start_line": 72,
+        "end_line": 72,
+        "code": [
+            "require(block.timestamp >= releaseTime);"
+        ]
+    },
+    {
+        "start_line": 83,
+        "end_line": 83,
+        "code": [
+            "require(block.timestamp >= releaseTime);"
+        ]
+    }
+]

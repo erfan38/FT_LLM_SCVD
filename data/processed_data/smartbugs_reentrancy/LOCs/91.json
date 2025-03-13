@@ -1,22 +1,28 @@
-[
-    {
-        "start_line": 134,
-        "end_line": 139,
-        "code": [
-            "if(randReuslt < rollUnder){",
-            "    uint playerProfit = ((((msg.value * (maxNumber-(safeSub(rollUnder,1)))) / (safeSub(rollUnder,1))+msg.value))*houseEdge/houseEdgeDivisor)-msg.value;",
-            "    contractBalance = safeSub(contractBalance, playerProfit);",
-            "    uint reward = safeAdd(playerProfit, msg.value);"
-        ]
-    },
-    {
-        "start_line": 193,
-        "end_line": 198,
-        "code": [
-            "if (msg.sender.call.value(withdrawAmount)()) {",
-            "    return true;",
-            "} else {",
-            "    playerPendingWithdrawals[msg.sender] = withdrawAmount;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-139",
+            "vulnerableCode": [
+                "if(randReuslt < rollUnder){",
+                "    uint playerProfit = ((((msg.value * (maxNumber-(safeSub(rollUnder,1)))) / (safeSub(rollUnder,1))+msg.value))*houseEdge/houseEdgeDivisor)-msg.value;",
+                "    contractBalance = safeSub(contractBalance, playerProfit);",
+                "    uint reward = safeAdd(playerProfit, msg.value);"
+            ],
+            "vulnerabilityReason": "The contract calculates `playerProfit` based on the bet value and then tries to send a reward to the player without updating the player's pending withdrawals. If the external call (msg.sender.send(reward)) fails, the player's pending withdrawals are not adjusted, allowing for a scenario where an attacker could re-enter the contract before the state change occurs.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability to repeatedly call the function, withdraw more than the intended rewards, and drain the contract's funds before proper state management occurs.",
+            "fixedCode": "if(randReuslt < rollUnder){\n    uint playerProfit = ((((msg.value * (maxNumber-(safeSub(rollUnder,1)))) / (safeSub(rollUnder,1))+msg.value))*houseEdge/houseEdgeDivisor)-msg.value;\n    contractBalance = safeSub(contractBalance, playerProfit);\n    uint reward = safeAdd(playerProfit, msg.value);\n    totalUserProfit = safeAdd(totalUserProfit, playerProfit);\n    LogResult(totalBets, msg.sender, underNumber, randReuslt, reward, 1, msg.value, underNumber);\n    setMaxProfit();\n\n    // Update state before sending the reward\n    playerPendingWithdrawals[msg.sender] = safeAdd(playerPendingWithdrawals[msg.sender], reward);\n    if(msg.sender.send(reward)) {\n        playerPendingWithdrawals[msg.sender] = safeSub(playerPendingWithdrawals[msg.sender], reward);\n    }\n    return;\n}"
+        },
+        {
+            "vulnerableLines": "193-198",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {",
+                "    return true;",
+                "} else {",
+                "    playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+            ],
+            "vulnerabilityReason": "The function attempts to withdraw pending funds using a low-level call before resetting the player's pending withdrawal balance. If the call fails, the withdrawal amount is re-added to the pending withdrawals, but the player could have already interacted with the function multiple times, leading to potential over-withdrawals from reentrant calls.",
+            "potentialSecurityRisk": "An attacker could re-enter this function during the execution of the external call, allowing them to manipulate their withdrawal amounts and drain the contract balance by withdrawing multiple times before the state is updated.",
+            "fixedCode": "if (msg.sender.call.value(withdrawAmount)()) {\n    // Successful withdrawal\n    playerPendingWithdrawals[msg.sender] = 0; // Reset pending withdrawal after successful transfer\n    return true;\n} else {\n    // If failed, keep the pending withdrawal amount in case of re-entry\n    playerPendingWithdrawals[msg.sender] = withdrawAmount;\n    return false;\n}"
+        }
+    ]
+}

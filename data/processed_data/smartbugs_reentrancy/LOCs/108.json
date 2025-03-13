@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 252,
-        "end_line": 252,
-        "code": [
-            "if(!(investor.call.value(amount)())) throw;"
-        ]
-    },
-    {
-        "start_line": 235,
-        "end_line": 235,
-        "code": [
-            "getToken().transfer(investor, amount);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "252-252",
+            "vulnerableCode": [
+                "if(!(investor.call.value(amount)())) throw;"
+            ],
+            "vulnerabilityReason": "The function `refund()` uses `call.value()` to send Ether to the investor without ensuring state changes are made beforehand. This allows an attacker to recursively call `refund()` and withdraw multiple times before the state is updated, leading to potential fund drainage.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that calls `refund()` while simultaneously performing actions to drain funds repeatedly before the contract's state reflects the true balance.",
+            "fixedCode": "uint amount = balances[investor]; delete balances[investor]; require(investor.call.value(amount)(), \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "235-235",
+            "vulnerableCode": [
+                "getToken().transfer(investor, amount);"
+            ],
+            "vulnerabilityReason": "In the `claim()` function, the transfer of tokens occurs after the claimed balance is updated. This can allow reentrancy attacks, where an attacker could call `claim()` again during or after the transfer operation, manipulating the claimed balance.",
+            "potentialSecurityRisk": "If an attacker manages to call back into the contract while executing `getToken().transfer()`, they could claim more tokens than allowed by manipulating their balance, leading to excess token distribution.",
+            "fixedCode": "getToken().transfer(investor, amount); claimed[investor] = safeAdd(claimed[investor], amount); totalClaimed = safeAdd(totalClaimed, amount);"
+        }
+    ]
+}

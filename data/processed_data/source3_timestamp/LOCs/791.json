@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 67,
-        "end_line": 67,
-        "code": [
-            "require(uint64(block.timestamp) > head);"
-        ]
-    },
-    {
-        "start_line": 93,
-        "end_line": 93,
-        "code": [
-            "while (release != 0 && block.timestamp > release) {"
-        ]
-    },
-    {
-        "start_line": 109,
-        "end_line": 109,
-        "code": [
-            "require(_until > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "67-67",
+            "vulnerableCode": [
+                "require(uint64(block.timestamp) > head);"
+            ],
+            "vulnerabilityReason": "Using 'block.timestamp' for the 'releaseOnce' function exposes this logic to miner manipulation. If a miner adjusts the timestamp, they could trigger a release at an inappropriate time.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to trigger the release of tokens earlier than intended, negating the purpose of time locks and disrupting the intended functionality of the contract.",
+            "fixedCode": "require(uint64(block.timestamp + TIME_TOLERANCE) > head); // Use a time tolerance buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "93-93",
+            "vulnerableCode": [
+                "while (release != 0 && block.timestamp > release) {"
+            ],
+            "vulnerabilityReason": "The while loop in the 'releaseAll' function depends heavily on 'block.timestamp' to check if tokens can be released. This can lead to situations where miners can manipulate the release conditions.",
+            "potentialSecurityRisk": "Manipulation of the block timestamp could allow miners to control when tokens are released, potentially leading to unfair advantages and exploitation of the token release logic.",
+            "fixedCode": "while (release != 0 && (block.timestamp + TIME_TOLERANCE) > release) { // Use a time tolerance buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "109-109",
+            "vulnerableCode": [
+                "require(_until > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The 'freeze' function depends on 'block.timestamp' to verify if a freeze until time is valid. This reliance exposes it to risks from timestamp manipulations by miners.",
+            "potentialSecurityRisk": "Miners could manipulate their reported timestamps to bypass freezes or improperly trigger token releases, undermining the token locking mechanism.",
+            "fixedCode": "require(_until > block.timestamp + TIME_TOLERANCE); // Use a time tolerance buffer to mitigate timestamp manipulation."
+        }
+    ]
+}

@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 33,
-        "end_line": 33,
-        "code": [
-            "require(block.timestamp >= releaseTime);"
-        ]
-    },
-    {
-        "start_line": 58,
-        "end_line": 58,
-        "code": [
-            "if(_value > block.timestamp){"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "33-33",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "The 'lock' modifier relies on block.timestamp to check if the current time is greater than or equal to the release time. This creates a potential for manipulation since miners can influence the block timestamp to evade the locking mechanism.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to exploit the lock mechanism, allowing them to perform restricted operations prematurely, undermining the security of the contract.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= releaseTime); // Adding a MINIMUM tolerance threshold to consider minor timestamp manipulations."
+        },
+        {
+            "vulnerableLines": "58-58",
+            "vulnerableCode": [
+                "if(_value > block.timestamp){"
+            ],
+            "vulnerabilityReason": "Using block.timestamp in the 'lockTime' function to compare with _value exposes the contract to timestamp manipulation, as miners could adjust the timestamp to set locking conditions that favor them.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp to allow themselves to set or adjust lock times inappropriately, gaining unfair advantages or causing unintended contract behavior.",
+            "fixedCode": "if(_value > block.timestamp + TIME_TOLERANCE){"
+        }
+    ]
+}

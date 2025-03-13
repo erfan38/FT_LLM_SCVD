@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 11,
+        "end_line": 11,
+        "code": [
+            "if (currentBankroll <= initialBankroll) throw;"
+        ]
+    },
+    {
+        "start_line": 13,
+        "end_line": 13,
+        "code": [
+            "if (!ADMIN_CONTRACT.call.value(profit)()) throw;"
+        ]
+    }
+]

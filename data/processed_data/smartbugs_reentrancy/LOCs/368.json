@@ -1,44 +1,58 @@
-[
-    {
-        "start_line": 1154,
-        "end_line": 1154,
-        "code": [
-            "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    },
-    {
-        "start_line": 1166,
-        "end_line": 1166,
-        "code": [
-            "if (!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\")))){"
-        ]
-    },
-    {
-        "start_line": 1271,
-        "end_line": 1271,
-        "code": [
-            "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    },
-    {
-        "start_line": 1296,
-        "end_line": 1296,
-        "code": [
-            "if(!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    },
-    {
-        "start_line": 421,
-        "end_line": 421,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 450,
-        "end_line": 450,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1154-1154",
+            "vulnerableCode": [
+                "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to transfer funds to the Team_Forwarder's `deposit()` function without updating the contract state beforehand, which opens up a reentrancy risk if the called contract is malicious and invokes the fallback function to call back into this contract.",
+            "potentialSecurityRisk": "A malicious contract could exploit this by performing reentrant calls to withdraw more funds than intended, potentially draining the contract's balance.",
+            "fixedCode": "require(address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Transfer to Team_Forwarder failed\");"
+        },
+        {
+            "vulnerableLines": "1166-1166",
+            "vulnerableCode": [
+                "if (!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\")))){"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, calling `call.value()` here transfers funds without ensuring the contract state is updated first, which can allow reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability to perform recursive withdrawals, draining funds from this contract.",
+            "fixedCode": "require(address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))), \"Transfer to Team_Forwarder failed\");"
+        },
+        {
+            "vulnerableLines": "1271-1271",
+            "vulnerableCode": [
+                "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Calling `call.value()` without properly safeguarding against state changes increases susceptibility to reentrancy, especially if the called contract has untrusted or unverified logic.",
+            "potentialSecurityRisk": "A reentrant call could be made to withdraw additional funds before the contract updates its state, resulting in a financial drain.",
+            "fixedCode": "require(address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Transfer to Team_Forwarder failed\");"
+        },
+        {
+            "vulnerableLines": "1296-1296",
+            "vulnerableCode": [
+                "if(!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "This low-level call to transfer funds is made before state updates, creating a reentrancy risk if the called function can trigger a fallback back into this contract.",
+            "potentialSecurityRisk": "This can result in multiple withdrawals being processed, draining the contract's funds.",
+            "fixedCode": "require(address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))), \"Transfer to Team_Forwarder failed\");"
+        },
+        {
+            "vulnerableLines": "421-421",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The funds are transferred to the player's address without updating the user's pending balances first, allowing for a potential reentrancy exploit.",
+            "potentialSecurityRisk": "An attacker could create a cascading withdraw effect, draining funds through recursive calls before the balance resets.",
+            "fixedCode": "uint256 amount = _eth;\nplyr_[_pID].win = 0;\nplyr_[_pID].gen = 0;\nplyr_[_pID].aff = 0;\nrequire(plyr_[_pID].addr.send(amount), \"Withdrawal failed\");"
+        },
+        {
+            "vulnerableLines": "450-450",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This transfer operation could also result in reentrancy by allowing callbacks to the contract before state changes proceed.",
+            "potentialSecurityRisk": "An attacker could exploit it to withdraw more than intended by repeatedly calling the withdraw function during the external transfer.",
+            "fixedCode": "uint256 amount = _eth;\nplyr_[_pID].win = 0;\nplyr_[_pID].gen = 0;\nplyr_[_pID].aff = 0;\nrequire(plyr_[_pID].addr.send(amount), \"Withdrawal failed\");"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint remainingSupply = _totalSupply - _burnAmount;"
+            ],
+            "vulnerabilityReason": "The contract directly subtracts _burnAmount from _totalSupply without checking if _burnAmount is greater than _totalSupply. If _burnAmount exceeds _totalSupply, it will cause an integer underflow, resulting in a negative value being assigned to remainingSupply, which underflows back to a high positive number due to how unsigned integers work in Solidity.",
+            "potentialSecurityRisk": "This vulnerability can lead to incorrect calculations of the remaining token supply, potentially allowing the total supply of tokens to be artificially increased instead of decreased, which could enable further exploits or unauthorized token minting.",
+            "fixedCode": "require(_burnAmount <= _totalSupply, \"Burn amount exceeds total supply.\");\nuint remainingSupply = _totalSupply - _burnAmount;"
+        }
+    ]
+}

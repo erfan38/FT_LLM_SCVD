@@ -13,7 +13,7 @@
         "vulnerabilityReason": "The contract relies on `block.timestamp` to enforce conditions, which makes it vulnerable to timestamp manipulation by miners. Since miners can control timestamps within a small margin, they could alter the contract's logic in their favor.",
         "potentialSecurityRisk": "A malicious miner could adjust the timestamp slightly to meet or avoid certain conditions. For example, they could extend the sale period, unlock additional benefits, or manipulate discount rates by choosing favorable block timestamps.",
         "fixedCode": [
-          "require(block.timestamp + TIME_TOLERANCE >= STARTDATE, 'Sale has not started yet');"
+          "require(block.timestamp + TIME_TOLERANCE >= STARTDATE, 'Sale has not started yet'); //use a buffer like TIME_TOLERANCE to reduce timestamp dependency"
          ]
     },
     {
@@ -25,7 +25,7 @@
         "vulnerabilityReason": "The condition relies on block.timestamp to enforce the ENDDATE, which makes it susceptible to miner manipulation. Miners can adjust the block.timestamp slightly, potentially triggering the condition earlier than intended.",
         "potentialSecurityRisk": "If exploited, an attacker or colluding miner could manipulate the sale timing, causing the contract to transition to the Funded state prematurely. This may result in unfair token distribution, incorrect finalization of the crowdsale, or financial loss for contributors.",
         "fixedCode": [
-            "if (weiRaised >= MAXSALESCAP || (weiRaised >= MINSALESCAP && block.timestamp + TIME_TOLERANCE >= ENDDATE)) {"
+            "if (weiRaised >= MAXSALESCAP || (weiRaised >= MINSALESCAP && block.timestamp + TIME_TOLERANCE >= ENDDATE)) { //use a buffer like TIME_TOLERANCE to reduce timestamp dependency"
         ]
     },
     {
@@ -39,7 +39,7 @@
         "fixedCode": [
             "if ((block.timestamp + TIME_TOLERANCE >= ENDDATE && state == State.Running)",
             "    || (block.timestamp + TIME_TOLERANCE >= ENDDATE && weiRaised < MINSALESCAP)) {",
-            "   state = State.Expired;"
+            "   state = State.Expired; //use a buffer like TIME_TOLERANCE to reduce timestamp dependency"
         ]
     },
     {
@@ -73,7 +73,7 @@
             "    discount = 10;",
             "} else if (block.timestamp <= 1543536060 + TIME_TOLERANCE) {",
             "    discount = 5;",
-            "}"
+            "} //use a buffer like TIME_TOLERANCE to reduce timestamp dependency"
         ]
     }
 ]

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "42-42",
+            "vulnerableCode": [
+                "return int256(uint256(keccak256(nonce + block.number + block.timestamp + uint256(block.coinbase))) % uint256((max - min))) + min;"
+            ],
+            "vulnerabilityReason": "The function uses block.timestamp within a random number generation process. This makes the outcome predictable and manipulatable by miners, who can adjust the timestamps of the blocks they mine, leading to potential unfair advantages in the game's outcome.",
+            "potentialSecurityRisk": "Miners could manipulate the generated numbers by adjusting the timestamp, allowing them to influence the game results to their favor, which could lead to exploitation and unfair gameplay scenarios.",
+            "fixedCode": "return int256(uint256(keccak256(nonce + block.number + uint256(block.coinbase))) % uint256((max - min))) + min; // removing block.timestamp from randomness generation to mitigate miner manipulation."
+        }
+    ]
+}

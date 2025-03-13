@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "114-114",
+            "vulnerableCode": [
+                "uint lockedAmount = lockInfo[receiver] + tokens;"
+            ],
+            "vulnerabilityReason": "The line calculates the `lockedAmount` by adding `lockInfo[receiver]` and `tokens` without checking if their sum exceeds the maximum uint256 value. This can lead to an integer overflow if the result exceeds the maximum allowable value for uint256.",
+            "potentialSecurityRisk": "An integer overflow could lead to incorrect values being stored in `lockedAmount`, allowing for manipulation of token locks that can lead to unauthorized access to tokens or incorrect token states.",
+            "fixedCode": "require(lockInfo[receiver] + tokens >= lockInfo[receiver], \"Overflow detected\");\nuint lockedAmount = lockInfo[receiver].add(tokens);"
+        },
+        {
+            "vulnerableLines": "84-84",
+            "vulnerableCode": [
+                "for (uint i = 0; i < accounts.length; i++) {"
+            ],
+            "vulnerabilityReason": "The loop does not check if `accounts.length` is a valid value, which can lead to an underflow if it were to have a negative value, or an unintended overflow if it exceeds the maximum value that uint can hold.",
+            "potentialSecurityRisk": "Improper loop handling could allow for excessive iterations, leading to out-of-gas exceptions or incorrect indexing, which could result in unintentional behavior, such as accessing uninitialized memory or array overflows.",
+            "fixedCode": "require(accounts.length > 0, \"No accounts provided\");\nfor (uint i = 0; i < accounts.length; i++) {"
+        },
+        {
+            "vulnerableLines": "91-91",
+            "vulnerableCode": [
+                "for (uint i = 0; i < accounts.length; i++) {"
+            ],
+            "vulnerabilityReason": "Similar to the previous loop, this loop does not validate `accounts.length`, which might cause potential underflow or overflow issues under certain edge cases.",
+            "potentialSecurityRisk": "This could lead to either accessing invalid data or running into gas exhaustion, affecting contract functionality especially when dealing with dynamic arrays.",
+            "fixedCode": "require(accounts.length > 0, \"No accounts provided\");\nfor (uint i = 0; i < accounts.length; i++) {"
+        },
+        {
+            "vulnerableLines": "98-98",
+            "vulnerableCode": [
+                "for (uint i = 0; i < receivers.length; i++) {"
+            ],
+            "vulnerabilityReason": "The loop's condition checks `receivers.length` without bounds checking, risking underflow or overflow issues that may arise based on receiver array manipulation.",
+            "potentialSecurityRisk": "If this array is maliciously tampered with, it could create unintended behavior or large execution gas costs, potentially locking the contract if it doesn't handle scenarios correctly.",
+            "fixedCode": "require(receivers.length > 0, \"No receivers provided\");\nfor (uint i = 0; i < receivers.length; i++) {"
+        },
+        {
+            "vulnerableLines": "105-105",
+            "vulnerableCode": [
+                "for (uint i = 0; i < receivers.length; i++) {"
+            ],
+            "vulnerabilityReason": "The loop iterates through `receivers.length` without ensuring that it is a safe value, leading potentially to underflow/overflow scenarios similar to the prior functions.",
+            "potentialSecurityRisk": "Could lead to malicious manipulation of indices if the receiver array is modified, or could result in breaking functions that depend on these transfers.",
+            "fixedCode": "require(receivers.length > 0, \"No receivers provided\");\nfor (uint i = 0; i < receivers.length; i++) {"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+[
+    {
+        "start_line": 312,
+        "end_line": 454,
+        "code": [
+            "uint256 _eth;",
+            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
+            "F3Ddatasets.EventReturns memory _eventData_;",
+            "round_[_rID].ended = true;",
+            "_eth = withdrawEarnings(_pID);",
+            "if (_eth > 0)",
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 186,
+        "end_line": 211,
+        "code": [
+            "buyCore(_pID, _affCode, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 217,
+        "end_line": 252,
+        "code": [
+            "buyCore(_pID, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 381,
+        "end_line": 335,
+        "code": [
+            "updateMasks(_rID, _pID, _gen, _keys);"
+        ]
+    }
+]

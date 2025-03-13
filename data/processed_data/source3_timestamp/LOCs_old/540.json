@@ -1,0 +1,26 @@
+[
+    {
+        "start_line": 85,
+        "end_line": 86,
+        "code": [
+            "if (block.timestamp <= startTime) { return ((rate / 100) * 120); }",
+            "if (block.timestamp <= startTime.add(1 days)) {return ((rate / 100) * 108);}"
+        ]
+    },
+    {
+        "start_line": 152,
+        "end_line": 170,
+        "code": [
+            "bool withinPeriod = now >= presaleStartTime && now <= endTime;",
+            "require(withinPeriod);"
+        ]
+    },
+    {
+        "start_line": 198,
+        "end_line": 200,
+        "code": [
+            "if(block.timestamp <= startTime) {",
+            "if(weiRaised.add(privateContribution) >= presaleFundingGoal) {"
+        ]
+    }
+]

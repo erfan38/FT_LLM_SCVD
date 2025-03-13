@@ -1,0 +1,33 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "23-24",
+            "vulnerableCode": [
+                "balances[msg.sender] -= _value;",
+                "balances[_to] += _value;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations (`-` and `+`) on `balances` without employing any checks for overflow or underflow. If `balances[msg.sender]` is less than `_value`, the operation `balances[msg.sender] -= _value` will underflow, wrapping around to a very large number. Conversely, if the resulting value of `balances[_to] + _value` exceeds the maximum uint256 value, it can induce an overflow, resulting in incorrect balances.",
+            "potentialSecurityRisk": "An attacker could exploit this by attempting to transfer more tokens than available, resulting in an underflow of `balances[msg.sender]`, possibly allowing them to claim an excessive balance. Additionally, they could cause an overflow in `balances[_to]`, leading to unintended token grants to the recipient.",
+            "fixedCode": "require(balances[msg.sender] >= _value, 'Insufficient balance');\nbalances[msg.sender] -= _value;\nbalances[_to] += _value; // Use SafeMath or require checks for overflow/underflow."
+        },
+        {
+            "vulnerableLines": "32-33",
+            "vulnerableCode": [
+                "balances[_to] += _value;",
+                "balances[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "The contract modifies `balances` using arithmetic operations that can lead to overflow and underflow. For instance, adding `_value` to `balances[_to]` can overflow if the total goes above the uint256 limit, and subtracting `_value` from `balances[_from]` can underflow if `_value` exceeds the current balance.",
+            "potentialSecurityRisk": "This could allow an attacker to exploit the system by manipulating the balances, possibly allowing them to withdraw more tokens than they are entitled to, leading to financial loss for the token holders.",
+            "fixedCode": "require(balances[_from] >= _value, 'Insufficient balance for transfer');\nrequire(balances[_to] + _value >= balances[_to], 'Overflow detected');\nbalances[_from] -= _value;\nbalances[_to] += _value; // Use SafeMath or equivalent checks."
+        },
+        {
+            "vulnerableLines": "35-35",
+            "vulnerableCode": [
+                "allowed[_from][msg.sender] -= _value;"
+            ],
+            "vulnerabilityReason": "This line decrements the `allowed` mapping without any checks for underflow, which can occur if `_value` is greater than the allowance set for the spender. If underflow occurs, it may allow the spender to draw more than they were permitted, leading to unauthorized transactions.",
+            "potentialSecurityRisk": "An underflow could allow a user to interact with approvals they should not have due to incorrect permissions, thus leading to potential loss of funds through unauthorized transfers.",
+            "fixedCode": "require(allowed[_from][msg.sender] >= _value, 'Allowance exceeded');\nallowed[_from][msg.sender] -= _value; // Use SafeMath or equivalent checks."
+        }
+    ]
+}

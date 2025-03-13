@@ -1,0 +1,34 @@
+[
+    {
+        "start_line": 52,
+        "end_line": 52,
+        "code": [
+            "require(block.timestamp > deliveryTime);"
+        ]
+    },
+    {
+        "start_line": 73,
+        "end_line": 73,
+        "code": [
+            "uint256 _bonus = getBonus(block.timestamp, _beneficiary, msg.value);"
+        ]
+    },
+    {
+        "start_line": 101,
+        "end_line": 110,
+        "code": [
+            "if ( (weiRaised.sub(_value) < goal) && earlyInvestors.whitelist(_beneficiary) ) {",
+            "  _bonus = 30;",
+            "} else {",
+            "  if (_time < openingTime.add(7 days)) {",
+            "    _bonus = 15;",
+            "  } else if (_time < openingTime.add(14 days)) {",
+            "    _bonus = 10;",
+            "  } else if (_time < openingTime.add(21 days)) {",
+            "    _bonus = 8;",
+            "  } else {",
+            "    _bonus = 6;",
+            "  }"
+        ]
+    }
+]

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "totalSupply = totalSupply + _mintAmount;",
+                "totalSupply = totalSupply - block.number;"
+            ],
+            "vulnerabilityReason": "The contract does not check for integer overflow when adding `_mintAmount` to `totalSupply`, potentially exceeding the maximum value of uint256. Subtracting `block.number` from `totalSupply` can also lead to underflow if `block.number` is greater than `totalSupply`.",
+            "potentialSecurityRisk": "These vulnerabilities could lead to incorrect calculations of total supply, allowing for the creation of an invalid or negative token supply, which affects the integrity of the token system and can potentially disrupt the functionality of the token contract.",
+            "fixedCode": "require(totalSupply + _mintAmount >= totalSupply, \"Overflow detected\");\ntotalSupply = totalSupply + _mintAmount;\nrequire(totalSupply >= block.number, \"Underflow detected\");\ntotalSupply = totalSupply - block.number;"
+        }
+    ]
+}

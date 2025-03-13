@@ -1,121 +1,141 @@
-[
-    {
-        "start_line": 142,
-        "end_line": 142,
-        "code": [
-            "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
-        ]
-    },
-    {
-        "start_line": 222,
-        "end_line": 222,
-        "code": [
-            "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
-        ]
-    },
-    {
-        "start_line": 290,
-        "end_line": 290,
-        "code": [
-            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
-        ]
-    },
-    {
-        "start_line": 454,
-        "end_line": 454,
-        "code": [
-            "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
-        ]
-    },
-    {
-        "start_line": 329,
-        "end_line": 329,
-        "code": [
-            "if (_now < round_[_rID].end)"
-        ]
-    },
-    {
-        "start_line": 377,
-        "end_line": 377,
-        "code": [
-            "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
-        ]
-    },
-    {
-        "start_line": 532,
-        "end_line": 532,
-        "code": [
-            "emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, _now);"
-        ]
-    },
-    {
-        "start_line": 278,
-        "end_line": 278,
-        "code": [
-            "uint256 _now = now;"
-        ]
-    },
-    {
-        "start_line": 331,
-        "end_line": 331,
-        "code": [
-            "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);"
-        ]
-    },
-    {
-        "start_line": 364,
-        "end_line": 364,
-        "code": [
-            "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);"
-        ]
-    },
-    {
-        "start_line": 1010,
-        "end_line": 1010,
-        "code": [
-            "round_[1].strt = now + rndExtra_ - rndGap_;"
-        ]
-    },
-    {
-        "start_line": 1011,
-        "end_line": 1011,
-        "code": [
-            "round_[1].end = now + rndInit_ + rndExtra_;"
-        ]
-    },
-    {
-        "start_line": 828,
-        "end_line": 828,
-        "code": [
-            "round_[_rID].strt = now;"
-        ]
-    },
-    {
-        "start_line": 829,
-        "end_line": 829,
-        "code": [
-            "round_[_rID].end = now.add(rndInit_).add(rndGap_);"
-        ]
-    },
-    {
-        "start_line": 851,
-        "end_line": 851,
-        "code": [
-            "uint256 _now = now;"
-        ]
-    },
-    {
-        "start_line": 678,
-        "end_line": 678,
-        "code": [
-            "uint256 _now = now;"
-        ]
-    },
-    {
-        "start_line": 692,
-        "end_line": 692,
-        "code": [
-            "uint256 _now = now;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "142-142",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)) )"
+            ],
+            "vulnerabilityReason": "The use of '_now', which is derived from 'now' (block.timestamp), allows for manipulation by miners to influence the timing of critical round transitions.",
+            "potentialSecurityRisk": "Miners could manipulate the block.timestamp to enable themselves or associated players to trigger conditions for favorable outcomes, such as gaining access to lower priced tokens or unfair advantages during purchases.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ + TIME_TOLERANCE && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))) "
+        },
+        {
+            "vulnerableLines": "222-222",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
+            ],
+            "vulnerabilityReason": "Reliance on block.timestamp here is similar to the previous function, making it susceptible to miner manipulation.",
+            "potentialSecurityRisk": "The same risks apply as in 'buyCore', with the potential for miners to bypass intended timing conditions affecting the contractual fairness.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ + TIME_TOLERANCE && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))) "
+        },
+        {
+            "vulnerableLines": "290-290",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+            ],
+            "vulnerabilityReason": "This check also leans on block.timestamp for critical decisions, which opens it up to potential manipulation risks.",
+            "potentialSecurityRisk": "A miner could change the block timestamp to manipulate the round's end conditions, allowing for exploitation where they could prematurely withdraw or gain unfair advantages.",
+            "fixedCode": "if (block.timestamp > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0) "
+        },
+        {
+            "vulnerableLines": "454-454",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
+            ],
+            "vulnerabilityReason": "Same dependency on block.timestamp for the function updateTimer creates a risk of price manipulation and round control by miners.",
+            "potentialSecurityRisk": "Miners can cause essential functions to trigger unexpectedly by adjusting the timestamp, allowing for strategic advantages in the game mechanics.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ + TIME_TOLERANCE && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0)))"
+        },
+        {
+            "vulnerableLines": "329-329",
+            "vulnerableCode": [
+                "if (_now < round_[_rID].end)"
+            ],
+            "vulnerabilityReason": "Checking if current time is less than round end time is critical for determining participation but can be influenced by miner timestamps.",
+            "potentialSecurityRisk": "Miners can manipulate the duration of a round by changing the perceived end time, potentially allowing them to block others from participating or to gain advantages.",
+            "fixedCode": "if (block.timestamp < round_[_rID].end) "
+        },
+        {
+            "vulnerableLines": "377-377",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
+            ],
+            "vulnerabilityReason": "Using 'now' inhibits secure control of round timings, making it vulnerable to shifts induced by miners.",
+            "potentialSecurityRisk": "The flexibility provided to miners could allow them to create an artificial advantage during round closures or transitions.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ + TIME_TOLERANCE && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))) "
+        },
+        {
+            "vulnerableLines": "532-532",
+            "vulnerableCode": [
+                "emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, _now);"
+            ],
+            "vulnerabilityReason": "The emission of an event contingent upon block.timestamp uses potentially manipulated data, thus affecting event accuracy and integrity.",
+            "potentialSecurityRisk": "This could mislead observers and stakeholders into assessing financial transactions inaccurately, influencing decisions across the network.",
+            "fixedCode": "emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, block.timestamp); "
+        },
+        {
+            "vulnerableLines": "278-278",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Declaring a local variable based on 'now' introduces uncertainty in subsequent calculations and checks.",
+            "potentialSecurityRisk": "Local reliance on sensitive timestamp can lead to cumulative inaccuracies throughout function logic, affecting crucial decisions.",
+            "fixedCode": "uint256 _now = block.timestamp; // Use block.timestamp to improve clarity but manage the implications."
+        },
+        {
+            "vulnerableLines": "331-331",
+            "vulnerableCode": [
+                "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);"
+            ],
+            "vulnerabilityReason": "Incorporating 'now' directly affects timestamp representations in events for new names, allowing possible manipulation risk.",
+            "potentialSecurityRisk": "Similar to earlier events, this can misrepresent timing in the system, leading to inaccurate perceptions of system activity.",
+            "fixedCode": "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, block.timestamp);"
+        },
+        {
+            "vulnerableLines": "364-364",
+            "vulnerableCode": [
+                "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, now);"
+            ],
+            "vulnerabilityReason": "This event emission relies on an insecure timestamp which is subject to manipulation by miners, changing the event context.",
+            "potentialSecurityRisk": "Miners could manipulate timestamps to show distorted information regarding timing of player registrations or transactions, impacting trust.",
+            "fixedCode": "emit F3Devents.onNewName(_pID, _addr, _name, _isNewPlayer, _affID, plyr_[_affID].addr, plyr_[_affID].name, _paid, block.timestamp);"
+        },
+        {
+            "vulnerableLines": "1010-1011",
+            "vulnerableCode": [
+                "round_[1].strt = now + rndExtra_ - rndGap_;",
+                "round_[1].end = now + rndInit_ + rndExtra_;"
+            ],
+            "vulnerabilityReason": "Setting start and end times based on 'now' allows for miner manipulation, altering the intended duration of rounds.",
+            "potentialSecurityRisk": "Miners could unduly influence round definitions, causing major shifts in the gameplay experience and financial opportunities.",
+            "fixedCode": "round_[1].strt = block.timestamp + rndExtra_ - rndGap_; round_[1].end = block.timestamp + rndInit_ + rndExtra_;"
+        },
+        {
+            "vulnerableLines": "828-829",
+            "vulnerableCode": [
+                "round_[_rID].strt = now;",
+                "round_[_rID].end = now.add(rndInit_).add(rndGap_);"
+            ],
+            "vulnerabilityReason": "Defining round start and end times from 'now' directly exposes the round configuration to manipulation.",
+            "potentialSecurityRisk": "Attacks leveraging timestamp adjustments could redefine round parameters, undermining the intended structure and fairness of gameplay.",
+            "fixedCode": "round_[_rID].strt = block.timestamp; round_[_rID].end = block.timestamp.add(rndInit_).add(rndGap_);"
+        },
+        {
+            "vulnerableLines": "851-851",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The dependence on 'now' reduces predictability of time-conditional logic and permits manipulation by miners.",
+            "potentialSecurityRisk": "The aggregated vulnerabilities could affect economic rewards and contract operations through unfair advantage exploitation.",
+            "fixedCode": "uint256 _now = block.timestamp; // Using block.timestamp instead of now."
+        },
+        {
+            "vulnerableLines": "678-678",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Defining a local variable using an easily manipulatable timestamp accumulates risk in logic paths using that variable.",
+            "potentialSecurityRisk": "The integrity of subsequent logic checks could be compromised due to exploitable timestamp manipulations.",
+            "fixedCode": "uint256 _now = block.timestamp; // opt for block.timestamp to manage risks relative to the variable."
+        },
+        {
+            "vulnerableLines": "692-692",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Using 'now' directly introduces potential manipulation that could affect operations reliant on timing.",
+            "potentialSecurityRisk": "The risk is consistent with potential use cases in the contract logic where timing is fundamental, leading to robustness issues.",
+            "fixedCode": "uint256 _now = block.timestamp; // this keeps logical use consistent."
+        }
+    ]
+}

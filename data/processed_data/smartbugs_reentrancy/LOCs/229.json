@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 149,
-        "end_line": 149,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 410,
-        "end_line": 410,
-        "code": [
-            "if(msg.value > 0) owner.transfer(msg.value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The function calls `_to.call.value(0)(...)`, which allows the recipient contract to execute its fallback function. If `_to` is a contract, this can lead to reentrant calls into the `transfer` function before the state changes (balance updates) are complete, effectively allowing the recipient to manipulate the contract state in an unintended manner.",
+            "potentialSecurityRisk": "An attacker can create a malicious contract that, upon receiving a call, re-invokes the `transfer` method again, leading to unintended state manipulations and repeated withdrawals before the initial transaction completes.",
+            "fixedCode": "// Removing unnecessary call to avoid reentrancy risks\n// No need to use call.value(0), directly update states if required.\n// Commenting this line or checking before calling.\n// Instead of calling fallback, just update balances."
+        },
+        {
+            "vulnerableLines": "410-410",
+            "vulnerableCode": [
+                "if(msg.value > 0) owner.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "This line transfers ethers to the owner before updating the balances. If the owner is a contract, it can initiate a recursive call back to `autoDistribute`, permitting the owner to repeatedly invoke this function and withdraw more funds than expected before balances are updated accordingly.",
+            "potentialSecurityRisk": "An attacker could exploit this by sending a transaction that triggers multiple calls to the `autoDistribute` function, draining the contract of its funds by allowing multiple withdrawals before the contract state is safely updated.",
+            "fixedCode": "// Ensure updates to the balances before transferring ether\n\nuint256 currentBalance = balanceOf[owner];\nrequire(currentBalance >= distributeAmount, 'Insufficient balance for distribution');\n\n// Update owner's balance after verifying sufficient funds\nbalanceOf[owner] = currentBalance.sub(distributeAmount);\n// Check msg.value before updating balance\nif (msg.value > 0) { owner.transfer(msg.value); }"
+        }
+    ]
+}

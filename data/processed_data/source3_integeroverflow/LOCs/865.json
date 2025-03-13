@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "totalItems = totalItems - items;"
+            ],
+            "vulnerabilityReason": "The function `removeItems` subtracts `items` from `totalItems` without any checks to ensure that `totalItems` is greater than or equal to `items`. If an attacker passes a value of `items` greater than `totalItems`, it will trigger an underflow, causing `totalItems` to wrap around to a very high value, leading to incorrect inventory counts.",
+            "potentialSecurityRisk": "This vulnerability can lead to the ability to manipulate the inventory system, allowing for the removal of more items than actually exist, resulting in inflated total items and potentially financial losses or unauthorized actions.",
+            "fixedCode": "require(totalItems >= items, 'Insufficient items available to remove.');\ntotalItems = totalItems - items;"
+        }
+    ]
+}

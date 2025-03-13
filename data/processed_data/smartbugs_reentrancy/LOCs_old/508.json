@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 287,
+        "end_line": 287,
+        "code": [
+            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+        ]
+    }
+]

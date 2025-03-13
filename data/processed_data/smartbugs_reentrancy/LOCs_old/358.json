@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 270,
+        "end_line": 272,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 278,
+        "end_line": 280,
+        "code": [
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1217,
+        "end_line": 1217,
+        "code": [
+            "if (!address(admin).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 1251,
+        "end_line": 1251,
+        "code": [
+            "_eth = _eth.sub(((_eth.mul(25)) / 100).add((_eth.mul(fees_[_team].p3d)) / 100));"
+        ]
+    }
+]

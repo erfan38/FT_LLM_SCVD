@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 382,
+        "end_line": 382,
+        "code": [
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 411,
+        "end_line": 411,
+        "code": [
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1151,
+        "end_line": 1151,
+        "code": [
+            "            POHToken.call.value(_PoH)(bytes4(keccak256(\"sendDividends()\")));"
+        ]
+    }
+]

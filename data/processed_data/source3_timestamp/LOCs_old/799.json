@@ -1,0 +1,81 @@
+[
+    {
+        "start_line": 108,
+        "end_line": 108,
+        "code": [
+            "nextPotDistributionTime = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 312,
+        "end_line": 312,
+        "code": [
+            "miners[msg.sender].lastUpdateTime = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 318,
+        "end_line": 318,
+        "code": [
+            "pvpMap[msg.sender].immunityTime = block.timestamp + 14400;"
+        ]
+    },
+    {
+        "start_line": 319,
+        "end_line": 319,
+        "code": [
+            "pvpMap[msg.sender].exhaustTime  = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 385,
+        "end_line": 388,
+        "code": [
+            "uint256 diff = block.timestamp - m.lastUpdateTime;",
+            "m.lastUpdateTime = block.timestamp;"
+        ]
+    },
+    {
+        "start_line": 400,
+        "end_line": 403,
+        "code": [
+            "require(block.timestamp >= miners[addr].lastUpdateTime);",
+            "uint256 diff = block.timestamp - m.lastUpdateTime;"
+        ]
+    },
+    {
+        "start_line": 511,
+        "end_line": 511,
+        "code": [
+            "require(block.timestamp > attacker.exhaustTime);"
+        ]
+    },
+    {
+        "start_line": 512,
+        "end_line": 512,
+        "code": [
+            "require(block.timestamp > defender.immunityTime);"
+        ]
+    },
+    {
+        "start_line": 600,
+        "end_line": 600,
+        "code": [
+            "nextPotDistributionTime = block.timestamp + 86400;"
+        ]
+    },
+    {
+        "start_line": 642,
+        "end_line": 642,
+        "code": [
+            "if((limit - i) > 30)"
+        ]
+    },
+    {
+        "start_line": 646,
+        "end_line": 646,
+        "code": [
+            "m.lastPotClaimIndex = limit;"
+        ]
+    }
+]

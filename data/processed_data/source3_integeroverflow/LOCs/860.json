@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "totalEnergy = totalEnergy - amount;"
+            ],
+            "vulnerabilityReason": "The function `consumeEnergy` performs a subtraction operation on `totalEnergy` without verifying if `totalEnergy` is greater than or equal to `amount`. This absence of a check can lead to an integer underflow if `amount` exceeds `totalEnergy`, causing `totalEnergy` to wrap around to a very large value instead of zero or a negative number as intended.",
+            "potentialSecurityRisk": "An attacker could exploit this by calling `consumeEnergy` with an amount greater than `totalEnergy`, resulting in `totalEnergy` becoming an arbitrarily large number. This could allow the attacker to manipulate the system to gain excessive amounts of energy without appropriate validation.",
+            "fixedCode": "require(totalEnergy >= amount, 'Insufficient energy');\ntotalEnergy = totalEnergy - amount;"
+        }
+    ]
+}

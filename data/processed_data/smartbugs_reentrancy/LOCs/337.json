@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 54,
-        "end_line": 54,
-        "code": [
-            "if (_recipient.call.value(_amount)()) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "54-54",
+            "vulnerableCode": [
+                "if (_recipient.call.value(_amount)()) {"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' allows the recipient address to execute code before the state is updated. This means that if `_recipient` is a malicious contract, it can call back into the `payOut` function before the state change occurs, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "A malicious contract could withdraw funds multiple times by re-entering the `payOut` function, draining the contract's balance before the state accurately reflects the deductions.",
+            "fixedCode": "// Use the Checks-Effects-Interactions pattern to prevent reentrancy risks.\nrequire(address(this).balance >= _amount, \"Insufficient balance for payout\"); // Ensure there are enough funds\nPayOut(_recipient, _amount); // Update state before external call\n(bool success, ) = _recipient.call.value(_amount)();\nrequire(success, \"Transfer failed\"); // Ensure successful transfer"
+        }
+    ]
+}

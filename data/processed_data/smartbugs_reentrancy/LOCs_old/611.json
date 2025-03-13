@@ -1,0 +1,32 @@
+[
+    {
+        "start_line": 349,
+        "end_line": 352,
+        "code": [
+            "            shareCom.transfer(_p1);",
+            "            admin.transfer(_p2);",
+            "            plyr_[_pID].addr.transfer(_eth.sub(_withdrawFee));"
+        ]
+    },
+    {
+        "start_line": 714,
+        "end_line": 714,
+        "code": [
+            "        if (address(admin).call.value((_com / 2))() == false)"
+        ]
+    },
+    {
+        "start_line": 720,
+        "end_line": 720,
+        "code": [
+            "        if (address(shareCom).call.value((_com / 2))() == false)"
+        ]
+    },
+    {
+        "start_line": 746,
+        "end_line": 746,
+        "code": [
+            "        groupCut.transfer(_aff1);"
+        ]
+    }
+]

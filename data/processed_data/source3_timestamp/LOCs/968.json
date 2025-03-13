@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 3,
-        "end_line": 3,
-        "code": [
-            "uint256 seed = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint256 seed = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));"
+            ],
+            "vulnerabilityReason": "The 'distributePrice' function uses block.timestamp as a part of the seed for the keccak256 hash, making it vulnerable to manipulation by miners who can control the block timestamp.",
+            "potentialSecurityRisk": "Miners can influence the output of the 'seed' value by adjusting the block timestamp, which can lead to predictable or manipulated prize distributions, ultimately compromising the fairness of the reward system.",
+            "fixedCode": "uint256 seed = uint256(keccak256(abi.encodePacked(block.number, block.difficulty))); // using block.number instead of block.timestamp to reduce manipulation risk."
+        }
+    ]
+}

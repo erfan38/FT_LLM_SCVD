@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 238,
-        "end_line": 240,
-        "code": [
-            "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
-            "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "238-240",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' allows for potential reentrancy since it transfers funds before performing a state update. If an attacker can trigger the fallback function of 'giveEthFundAddress', they can re-enter the function before 'totalEthFundRecieved' is updated, allowing them to exploit the contract by repeatedly withdrawing funds.",
+            "potentialSecurityRisk": "An attacker could drain the contract's funds by exploiting the reentrancy vulnerability, accessing more funds than they are entitled to by exploiting the external call and manipulating the state of the contract before it is updated.",
+            "fixedCode": "require(ethToPay > 0, 'No funds to execute.');\nuint256 initialTotalEthFundRecieved = totalEthFundRecieved;\ntotalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);\n(bool success, ) = giveEthFundAddress.call.value(ethToPay).gas(400000)();\nif(!success) {\n    totalEthFundRecieved = initialTotalEthFundRecieved; // revert to previous state\n}"
+        }
+    ]
+}

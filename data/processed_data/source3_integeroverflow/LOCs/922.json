@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "rewardPerToken = rewardPerToken + ((block.timestamp - lastUpdateTime) * 1e18);"
+            ],
+            "vulnerabilityReason": "The contract performs an arithmetic operation where it subtracts `lastUpdateTime` from `block.timestamp`, followed by multiplying the result by `1e18`. If this computation exceeds the maximum limit of a uint256 integer during the addition to `rewardPerToken`, it will wrap around, leading to an overflow. This situation can occur if `block.timestamp` is sufficiently large and/or if `lastUpdateTime` is set such that the difference significantly expands the total value.",
+            "potentialSecurityRisk": "The overflow can lead to incorrect calculations of rewards, potentially allowing users to claim excessively high rewards or causing the contract to revert due to exceeding the uint256 limits. This misrepresentation of the reward can lead to financial losses for the contract owners or other stakeholders, as the rewards are improperly calculated and distributed.",
+            "fixedCode": "require(block.timestamp > lastUpdateTime, 'Invalid update time');\nuint256 timeElapsed = block.timestamp - lastUpdateTime;\nrequire((rewardPerToken + (timeElapsed * 1e18)) >= rewardPerToken, 'Overflow detected');\nrewardPerToken = rewardPerToken + (timeElapsed * 1e18);"
+        }
+    ]
+}

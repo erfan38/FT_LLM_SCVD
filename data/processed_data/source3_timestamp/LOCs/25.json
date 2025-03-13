@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 89,
-        "end_line": 89,
-        "code": [
-            "return uint8(uint256(keccak256(block.timestamp, block.difficulty))%251);"
-        ]
-    },
-    {
-        "start_line": 93,
-        "end_line": 93,
-        "code": [
-            "return uint8(uint256(keccak256(blocks, block.difficulty))%251);"
-        ]
-    },
-    {
-        "start_line": 97,
-        "end_line": 97,
-        "code": [
-            "return uint8(uint256(keccak256(blocks, block.difficulty))%braggers.length);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "89-89",
+            "vulnerableCode": [
+                "return uint8(uint256(keccak256(block.timestamp, block.difficulty))%251);"
+            ],
+            "vulnerabilityReason": "The random() function relies on block.timestamp, which can be manipulated by miners, making the randomness predictable and susceptible to malicious actors.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to influence the output of this function, allowing them to foresee or alter the outcomes of financial transactions or game results that rely on random values, leading to unfair advantages.",
+            "fixedCode": "return uint8(uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)))%251); // Using abi.encodePacked reduces the risk of manipulation."
+        },
+        {
+            "vulnerableLines": "93-93",
+            "vulnerableCode": [
+                "return uint8(uint256(keccak256(blocks, block.difficulty))%251);"
+            ],
+            "vulnerabilityReason": "This function also relies on the blocks variable and block.difficulty for randomness, further exposing its logic to manipulation and predictability issues.",
+            "potentialSecurityRisk": "Just like with the random() function, attackers may exploit the predictability of this function to their benefit by manipulating its inputs, leading to unfair situations in applications dependent on its outputs.",
+            "fixedCode": "return uint8(uint256(keccak256(abi.encodePacked(blocks, block.difficulty)))%251); // Using abi.encodePacked to mitigate security issues."
+        },
+        {
+            "vulnerableLines": "97-97",
+            "vulnerableCode": [
+                "return uint8(uint256(keccak256(blocks, block.difficulty))%braggers.length);"
+            ],
+            "vulnerabilityReason": "The use of blocks and block.difficulty in generating randomness can lead to miner manipulation, as they can predict or influence the outcome based on their control over the block timestamp and difficulty.",
+            "potentialSecurityRisk": "If a miner manipulates the inputs to this function, they could influence which player benefits from the function, leading to unfair competition or gaming mechanics.",
+            "fixedCode": "return uint8(uint256(keccak256(abi.encodePacked(blocks, block.difficulty)))%braggers.length); // Using abi.encodePacked to improve security."
+        }
+    ]
+}

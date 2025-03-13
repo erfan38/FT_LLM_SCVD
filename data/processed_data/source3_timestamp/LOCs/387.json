@@ -1,37 +1,49 @@
-[
-    {
-        "start_line": 150,
-        "end_line": 150,
-        "code": [
-            "require(currentTimestamp >= openGroup.startTime && currentTimestamp <= openGroup.deadline);"
-        ]
-    },
-    {
-        "start_line": 157,
-        "end_line": 157,
-        "code": [
-            "if(currentTimestamp <= openGroup.phase1endTime){"
-        ]
-    },
-    {
-        "start_line": 159,
-        "end_line": 159,
-        "code": [
-            "else if (currentTimestamp <= openGroup.phase2endTime) {"
-        ]
-    },
-    {
-        "start_line": 253,
-        "end_line": 253,
-        "code": [
-            "return groups[openGroupNumber].cap - groups[openGroupNumber].ethTotal;"
-        ]
-    },
-    {
-        "start_line": 257,
-        "end_line": 257,
-        "code": [
-            "function getHowManyLeftToDistribute(uint256 groupNumber) public view returns(uint256 howManyLeftToDistribute {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "150-150",
+            "vulnerableCode": [
+                "require(currentTimestamp >= openGroup.startTime && currentTimestamp <= openGroup.deadline);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to validate if the purchase occurs within the designated time frame exposes the contract to miner manipulation.",
+            "potentialSecurityRisk": "Miners can influence the block timestamp to execute transactions outside the intended time frame, potentially allowing themselves or their networks to make purchases at favorable prices, compromising the fairness of the token sale.",
+            "fixedCode": "require(block.timestamp >= openGroup.startTime && block.timestamp <= openGroup.deadline + TIME_TOLERANCE); // include a tolerance buffer to reduce dependency on exact timestamp"
+        },
+        {
+            "vulnerableLines": "157-157",
+            "vulnerableCode": [
+                "if(currentTimestamp <= openGroup.phase1endTime){"
+            ],
+            "vulnerabilityReason": "This line checks current time against the end time for phase 1 using block.timestamp, which can be manipulated by miners.",
+            "potentialSecurityRisk": "An attacker can manipulate the timestamp, potentially allowing themselves or others to access phase 1 pricing after it should have ended, leading to undue advantages.",
+            "fixedCode": "if(block.timestamp <= openGroup.phase1endTime + TIME_TOLERANCE){"
+        },
+        {
+            "vulnerableLines": "159-159",
+            "vulnerableCode": [
+                "else if (currentTimestamp <= openGroup.phase2endTime) {"
+            ],
+            "vulnerabilityReason": "The reliance on block.timestamp to determine whether phase 2 pricing applies could be affected by miner timestamp manipulation.",
+            "potentialSecurityRisk": "Miners could alter the timestamp slightly to trigger conditions that allow for phase 2 pricing when it should have ended.",
+            "fixedCode": "else if (block.timestamp <= openGroup.phase2endTime + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "253-253",
+            "vulnerableCode": [
+                "return groups[openGroupNumber].cap - groups[openGroupNumber].ethTotal;"
+            ],
+            "vulnerabilityReason": "Although not directly dependent on timestamp checks, this function's output can be influenced by transactions that manipulate timing to tech a rapid cap increase or decrease based on temporal execution.",
+            "potentialSecurityRisk": "Miners could execute transactions at strategic times, affecting the funding cap calculations based on their previous timestamp manipulations.",
+            "fixedCode": "return groups[openGroupNumber].cap - groups[openGroupNumber].ethTotal; // The calculation is already safe but should include awareness of timestamp manipulations in related transactions."
+        },
+        {
+            "vulnerableLines": "257-257",
+            "vulnerableCode": [
+                "function getHowManyLeftToDistribute(uint256 groupNumber) public view returns(uint256 howManyLeftToDistribute {"
+            ],
+            "vulnerabilityReason": "This function accesses state variables that can be indirectly affected by block.timestamp based logic in previous function calls, potentially skewing the results based on when transactions were executed.",
+            "potentialSecurityRisk": "The risk here is less direct but still related to timing manipulation as it could yield inaccurate accounting of leftovers available for distribution during a sale when budgets can crisscross based on manipulated timestamps.",
+            "fixedCode": "function getHowManyLeftToDistribute(uint256 groupNumber) public view returns(uint256 howManyLeftToDistribute {// Not directly vulnerable, but ensure transaction timing is factored carefully."
+        }
+    ]
+}

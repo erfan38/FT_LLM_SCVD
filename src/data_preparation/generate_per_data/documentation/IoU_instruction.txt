@@ -135,3 +135,122 @@ Case 3: When the function does not satisfy case 1 and case 2, we label the corre
     ```
     
 It can be observed, there is an addition operation between the _sellerBalance_ and the _value_ (line 4), and no conditional statement used to constrain the two variables after the addition operation. Thus, we label the corresponding function _add_ to have the integer overflow/underflow vulnerability, i.e., label = 1.
+
+
+How to fix integeroverflow/underflow vulnerability code:
+
+# *1- Use SafeMath (or Solidity 0.8+ Built-in Overflow Protection)*
+Solidity prior to version 0.8 does not have built-in overflow/underflow protection. If you're using an older version, you must use SafeMath to safely handle arithmetic operations.
+
+### **Vulnerable Code:**
+function transfer(address _to, uint256 _value) public returns (bool) {
+    balances[msg.sender] -= _value; //  Can underflow!
+    balances[_to] += _value; //  Can overflow!
+    return true;
+}
+
+
+### **fixed Code (Using SafeMath):**
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+contract SecureContract {
+    using SafeMath for uint256; //  Enables SafeMath
+
+    mapping(address => uint256) balances;
+
+    function transfer(address _to, uint256 _value) public returns (bool) {
+        balances[msg.sender] = balances[msg.sender].sub(_value); //  Prevents underflow
+        balances[_to] = balances[_to].add(_value); //  Prevents overflow
+        return true;
+    }
+}
+
+
+
+# *2-  Use Require Statements to Prevent Underflow*
+Before subtracting values, always ensure that the subtraction will not result in an underflow by using a require condition.
+
+### **Vulnerable Code:**
+function withdraw(uint256 _amount) public {
+    balances[msg.sender] -= _amount; //  Can underflow if _amount > balance
+}
+
+### **fixed Code**
+function withdraw(uint256 _amount) public {
+    require(balances[msg.sender] >= _amount, "Insufficient balance"); // Prevents underflow
+    balances[msg.sender] -= _amount;
+}
+
+
+# *3- Use Checked Loops to Avoid Overflow*
+Be careful when iterating large numbers, especially with small integer types (uint8, uint16, etc.), as they may overflow when reaching their maximum value.
+
+### **Vulnerable Code:**
+function loopExample() public {
+    for (uint8 i = 0; i < 300; i++) { // i overflows after 255
+        // Some logic
+    }
+}
+
+### **fixed Code**
+function loopExample() public {
+    for (uint256 i = 0; i < 300; i++) { // Uses uint256, preventing overflow
+        // Some logic
+    }
+}
+
+
+# *4- Avoid Off-by-One Errors in Arrays*
+When modifying an array’s length, be cautious to avoid underflow and ensure that the operation makes logical sense.
+
+### **Vulnerable Code:**
+function popArray() public {
+    require(array.length >= 0); //  Condition is always true (uint can't be negative)
+    array.length--; // Underflow risk
+}
+
+### **fixed Code**
+function popArray() public {
+    require(array.length > 0, "Array is empty"); // Correct check
+    array.pop(); // Use pop() instead of manual decrement
+}
+
+## **5- Validate Multiplication to Prevent Overflow**
+Unchecked multiplication can cause **overflow**, leading to incorrect calculations for payments, rewards, or token transfers. Always validate the result before proceeding.
+
+### **Vulnerable Code (Unchecked Multiplication)**
+```solidity
+require(msg.value == numTokens * PRICE_PER_TOKEN); // Can overflow
+
+### **fixed Code**
+require(numTokens > 0, "Invalid number of tokens"); //  Prevents division by zero
+uint256 totalCost = numTokens * PRICE_PER_TOKEN;
+require(numTokens == 0 || totalCost / numTokens == PRICE_PER_TOKEN, "Multiplication overflow"); // Correct overflow check
+require(msg.value == totalCost, "Incorrect Ether sent"); //  Ensures correct payment
+
+## **6- Validate Addition Before Updating Balances**
+When increasing balances, ensure that the new value does not exceed the uint256 limit to prevent overflow.
+
+### **Vulnerable Code**
+function mintTokens(uint256 numTokens) public {
+    balanceOf[msg.sender] += numTokens; // Can overflow
+}
+
+### **fixed Code**
+require(balanceOf[msg.sender] + numTokens >= balanceOf[msg.sender], "Addition overflow detected"); //  Prevents overflow
+balanceOf[msg.sender] += numTokens; //  Safe addition
+
+## **7- Validate Ether Transfers to Avoid Overflow**
+When sending Ether based on a multiplication result, validate the calculation before transferring funds.
+
+### **Vulnerable Code**
+function sellTokens(uint256 numTokens) public {
+    msg.sender.transfer(numTokens * PRICE_PER_TOKEN); //  Can overflow
+}
+
+### **fixed Code**
+require(numTokens > 0, "Invalid number of tokens"); //  Prevents division by zero
+uint256 payout = numTokens * PRICE_PER_TOKEN;
+require(payout / numTokens == PRICE_PER_TOKEN, "Multiplication overflow"); //  Correct overflow check
+(bool success, ) = msg.sender.call{value: payout}(""); //  Secure transfer method
+require(success, "Transfer failed"); //  Ensures successful transfer

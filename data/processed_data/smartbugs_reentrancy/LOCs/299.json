@@ -1,20 +1,26 @@
-[
-    {
-        "start_line": 240,
-        "end_line": 240,
-        "code": [
-            "if (tx.destination.call.value(tx.value)(tx.data))"
-        ]
-    },
-    {
-        "start_line": 267,
-        "end_line": 272,
-        "code": [
-            "if (isConfirmed(transactionId)) {",
-            "Transaction tx = transactions[transactionId];",
-            "tx.executed = true;",
-            "if (tx.destination.call.value(tx.value)(tx.data))",
-            "Execution(transactionId);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "240-240",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The function utilizes call.value() to transfer Ether without ensuring that the transaction's executed status is initially updated. This allows an attacker to re-enter the wallet contract before the executed status is set, enabling them to withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker can exploit the reentrancy vulnerability by creating a malicious contract that calls back into the wallet contract during the external call, potentially draining the funds.",
+            "fixedCode": "// Before sending the Ether, ensure to set the transaction as executed and then perform safe transfers, for example:\n// Transaction tx = transactions[transactionId];\n// tx.executed = true;\n// (bool success, ) = tx.destination.call.value(tx.value)(tx.data);\n// require(success, \"Transaction execution failed\");"
+        },
+        {
+            "vulnerableLines": "267-272",
+            "vulnerableCode": [
+                "if (isConfirmed(transactionId)) {",
+                "Transaction tx = transactions[transactionId];",
+                "tx.executed = true;",
+                "if (tx.destination.call.value(tx.value)(tx.data))",
+                "Execution(transactionId);"
+            ],
+            "vulnerabilityReason": "The transaction is marked as executed after the call to the destination, which can be exploited. This improper order allows an attacker to invoke the contract again through fallback functions.",
+            "potentialSecurityRisk": "If the transaction fails, it becomes possible for an attacker to execute multiple withdrawals before the executed flag is reset, leading to loss of funds.",
+            "fixedCode": "// To protect against reentrancy, update the transaction state before calling the external function.\n// Check and update tx.executed after confirming execution success:\n// Transaction tx = transactions[transactionId];\n// require(!tx.executed, \"Transaction already executed\");\n// tx.executed = true;\n// (bool success, ) = tx.destination.call.value(tx.value)(tx.data);\n// require(success, \"Execution failed\");"
+        }
+    ]
+}

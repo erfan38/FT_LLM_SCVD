@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 38,
-        "end_line": 38,
-        "code": [
-            "require(block.timestamp >= startTime && block.timestamp < endTime);"
-        ]
-    },
-    {
-        "start_line": 43,
-        "end_line": 43,
-        "code": [
-            "require(block.timestamp >= endTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "38-38",
+            "vulnerableCode": [
+                "require(block.timestamp >= startTime && block.timestamp < endTime);"
+            ],
+            "vulnerabilityReason": "The 'preSaleActive' modifier uses block.timestamp to determine if the presale is active, which can be manipulated by miners. They can adjust the block timestamp during block creation, leading to unfair advantages regarding the presale's operation.",
+            "potentialSecurityRisk": "Miners could manipulate the start and end of the presale, allowing for potential abuses such as executing trades at favorable prices or disrupting regular operations, negatively impacting investor trust and fairness.",
+            "fixedCode": "require(block.timestamp >= startTime + TIME_TOLERANCE && block.timestamp < endTime); // Adding a buffer to the start time check"
+        },
+        {
+            "vulnerableLines": "43-43",
+            "vulnerableCode": [
+                "require(block.timestamp >= endTime);"
+            ],
+            "vulnerabilityReason": "The 'preSaleEnded' modifier checks if the current time is greater than or equal to endTime, which, if manipulated, could allow miners to trigger end-of-sale conditions improperly.",
+            "potentialSecurityRisk": "Similar to the 'preSaleActive' modifier, miners could manipulate block.timestamp to influence the presale's closing conditions, potentially allowing trades or price adjustments that should have been closed off, harming fairness.",
+            "fixedCode": "require(block.timestamp >= endTime + TIME_TOLERANCE); // Adding a buffer to allow for small miner adjustments"
+        }
+    ]
+}

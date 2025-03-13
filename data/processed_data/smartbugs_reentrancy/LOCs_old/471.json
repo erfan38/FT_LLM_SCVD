@@ -1,0 +1,35 @@
+[
+    {
+        "start_line": 357,
+        "end_line": 384,
+        "code": [
+            "uint256 _rID = rID_;",
+            "uint256 _now = now;",
+            "uint256 _pID = pIDxAddr_[msg.sender];",
+            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
+            "POOHMOXDatasets.EventReturns memory _eventData_;",
+            "round_[_rID].ended = true;",
+            "_eth = withdrawEarnings(_pID);",
+            "if (_eth > 0)",
+            "plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 1112,
+        "end_line": 1143,
+        "code": [
+            "function distributeExternal(uint256 _rID, uint256 _pID, uint256 _eth, uint256 _affID, uint256 _team, POOHMOXDatasets.EventReturns memory _eventData_)",
+            "uint256 _dev = _eth / 100;",
+            "if (!address(admin).call.value(_dev)()) {",
+            "flushDivs.call.value(_POOH)(bytes4(keccak256(\"donate()\")));"
+        ]
+    },
+    {
+        "start_line": 1152,
+        "end_line": 1157,
+        "code": [
+            "function potSwap()",
+            "admin.transfer(msg.value);"
+        ]
+    }
+]

@@ -1,31 +1,39 @@
-[
-    {
-        "start_line": 1385,
-        "end_line": 1402,
-        "code": [
-            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "{",
-            "_p3d = _p3d.add(_com);",
-            "_com = 0;",
-            "}"
-        ]
-    },
-    {
-        "start_line": 1517,
-        "end_line": 1550,
-        "code": [
-            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "{",
-            "_p3d = _com;",
-            "_com = 0;",
-            "}"
-        ]
-    },
-    {
-        "start_line": 1402,
-        "end_line": 1402,
-        "code": [
-            "Divies.deposit.value(_p3d)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1385-1402",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "{",
+                "_p3d = _p3d.add(_com);",
+                "_com = 0;",
+                "}"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to send Ether before updating the internal state variable. This allows a malicious callback to manipulate the state before it is properly updated, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could implement a malicious contract at the Jekyll_Island_Inc address that calls back into the contract during the execution of the external call. This may allow the attacker to withdraw more funds than they are entitled to before the state change is reflected.",
+            "fixedCode": "// Update the state before making the call\n_com = _com.sub(_amount); // Deducting the amount from _com before sending\n(bool success, ) = Jekyll_Island_Inc.call.value(_com)(bytes4(keccak256(\"deposit()\")));\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "1517-1550",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "{",
+                "_p3d = _com;",
+                "_com = 0;",
+                "}"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, this `call.value()` execution occurs before updating the internal state. If the `Jekyll_Island_Inc` contract is controlled by an attacker, they can manipulate the state before the internal variables are set correctly.",
+            "potentialSecurityRisk": "The same reentrancy exploit as described above could apply here, allowing an uncontrolled transfer of funds or manipulation of contract state through recursive entry.",
+            "fixedCode": "// Update the state before calling\nuint256 tempCom = _com;\n_com = 0; // Set _com to zero first to avoid reentrancy\n(bool success, ) = Jekyll_Island_Inc.call.value(tempCom)(bytes4(keccak256(\"deposit()\")));\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "1402-1402",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "Using `value()` to send Ether for the deposit before updating the state can also lead to reentrancy vulnerabilities, since attackers can exploit the timing of this external call to manipulate contract variables.",
+            "potentialSecurityRisk": "By calling `Divies.deposit()`, an attacker can re-enter the function before the deposit is fully processed, allowing them to exploit the contract's balance mechanisms.",
+            "fixedCode": "// Ensure to update state variables before making an external call to Divies\nuint256 amountToDeposit = _p3d;\n_p3d = 0; // Prevents further calls messing with _p3d\nDivies.deposit.value(amountToDeposit)();"
+        }
+    ]
+}

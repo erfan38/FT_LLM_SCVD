@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "msg.sender.call.value(balances[msg.sender])();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "msg.sender.call.value(balances[msg.sender])();"
+            ],
+            "vulnerabilityReason": "The function uses `call.value(balances[msg.sender])()` to transfer Ether to the caller before the user's balance is set to zero. This allows a malicious contract to re-enter the `withdraw` function before the balance is updated, potentially leading to multiple withdrawals in a single transaction.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that calls back into the `withdraw` function after receiving Ether, allowing them to repeatedly withdraw funds until the contract is drained.",
+            "fixedCode": ""
+        }
+    ]
+}

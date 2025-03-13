@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "12-12",
+            "vulnerableCode": [
+                "require (block.timestamp > partyTime && hodlers[msg.sender] > 0);"
+            ],
+            "vulnerabilityReason": "The use of `block.timestamp` to enforce the requirement that it is past the `partyTime` exposes the function to potential manipulation by miners, who can alter the timestamp of the block they mine. This could allow them to circumvent the function requirements if they choose an earlier timestamp.",
+            "potentialSecurityRisk": "This vulnerability allows a malicious miner, who has control over the block timestamp, to call the `party` function before the intended `partyTime`. Consequently, a miner could trigger the party event and transfer assets assigned to other hodlers, potentially leading to loss of funds for legitimate users.",
+            "fixedCode": "require (now > partyTime && hodlers[msg.sender] > 0); // Alternatively, use a safer method that allows for some leeway in time or use an alternative timing mechanism."
+        }
+    ]
+}

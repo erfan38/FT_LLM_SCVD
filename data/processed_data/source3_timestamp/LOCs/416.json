@@ -1,47 +1,61 @@
-[
-    {
-        "start_line": 131,
-        "end_line": 131,
-        "code": [
-            "return ICONIQ_SALE_OPENING_TIME <= now && now <= ICONIQ_SALE_CLOSING_TIME;"
-        ]
-    },
-    {
-        "start_line": 137,
-        "end_line": 137,
-        "code": [
-            "return VREO_SALE_OPENING_TIME <= now && now <= VREO_SALE_CLOSING_TIME;"
-        ]
-    },
-    {
-        "start_line": 167,
-        "end_line": 168,
-        "code": [
-            "if (now <= ICONIQ_SALE_CLOSING_TIME) {",
-            "return tokenAmount.mul(100 + BONUS_PCT_IN_ICONIQ_SALE).div(100);"
-        ]
-    },
-    {
-        "start_line": 171,
-        "end_line": 172,
-        "code": [
-            "if (now <= VREO_SALE_PHASE_1_END_TIME) {",
-            "return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_1).div(100);"
-        ]
-    },
-    {
-        "start_line": 175,
-        "end_line": 176,
-        "code": [
-            "if (now <= VREO_SALE_PHASE_2_END_TIME) {",
-            "return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_2).div(100);"
-        ]
-    },
-    {
-        "start_line": 194,
-        "end_line": 194,
-        "code": [
-            "require(now >= KYC_VERIFICATION_END_TIME);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "131-131",
+            "vulnerableCode": [
+                "return ICONIQ_SALE_OPENING_TIME <= now && now <= ICONIQ_SALE_CLOSING_TIME;"
+            ],
+            "vulnerabilityReason": "The iconiqSaleOngoing function checks if the current time falls within the established sale period using now (block.timestamp), which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners can subtly change the block timestamp to allow themselves or favored participants to benefit from a sale that should be closed, leading to unfair advantages.",
+            "fixedCode": "return ICONIQ_SALE_OPENING_TIME <= block.timestamp + TIME_TOLERANCE && block.timestamp + TIME_TOLERANCE <= ICONIQ_SALE_CLOSING_TIME;"
+        },
+        {
+            "vulnerableLines": "137-137",
+            "vulnerableCode": [
+                "return VREO_SALE_OPENING_TIME <= now && now <= VREO_SALE_CLOSING_TIME;"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, the vreoSaleOngoing function's reliance on now allows for timestamp manipulation.",
+            "potentialSecurityRisk": "A miner could alter the block timestamp to gain access to the VREO sale even when it has ended, leading to potential profit discrepancies.",
+            "fixedCode": "return VREO_SALE_OPENING_TIME <= block.timestamp + TIME_TOLERANCE && block.timestamp + TIME_TOLERANCE <= VREO_SALE_CLOSING_TIME;"
+        },
+        {
+            "vulnerableLines": "167-168",
+            "vulnerableCode": [
+                "if (now <= ICONIQ_SALE_CLOSING_TIME) {",
+                "return tokenAmount.mul(100 + BONUS_PCT_IN_ICONIQ_SALE).div(100);"
+            ],
+            "vulnerabilityReason": "The _getTokenAmount function applies a bonus if the current time is still within the ICONIQ sale. Using now opens up potential manipulations.",
+            "potentialSecurityRisk": "By manipulating the timestamp, miners could validate a purchase at a discounted token amount that shouldn't be available anymore.",
+            "fixedCode": "if (block.timestamp <= ICONIQ_SALE_CLOSING_TIME + TIME_TOLERANCE) { return tokenAmount.mul(100 + BONUS_PCT_IN_ICONIQ_SALE).div(100); }"
+        },
+        {
+            "vulnerableLines": "171-172",
+            "vulnerableCode": [
+                "if (now <= VREO_SALE_PHASE_1_END_TIME) {",
+                "return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_1).div(100);"
+            ],
+            "vulnerabilityReason": "The dependency on now in determining whether the sales phase is still active makes this section vulnerable to timestamp changes from miners.",
+            "potentialSecurityRisk": "An aggressive miner could manipulate the block timestamp to receive bonuses intended for earlier phases, undermining token sale integrity.",
+            "fixedCode": "if (block.timestamp <= VREO_SALE_PHASE_1_END_TIME + TIME_TOLERANCE) { return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_1).div(100); }"
+        },
+        {
+            "vulnerableLines": "175-176",
+            "vulnerableCode": [
+                "if (now <= VREO_SALE_PHASE_2_END_TIME) {",
+                "return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_2).div(100);"
+            ],
+            "vulnerabilityReason": "Again, using now to determine eligibility for bonuses based on the current sale phase is a risk due to manipulability by miners.",
+            "potentialSecurityRisk": "Manipulation of the block timestamp by miners could allow them to more easily access higher bonuses, defeating the purpose of the defined sale phases.",
+            "fixedCode": "if (block.timestamp <= VREO_SALE_PHASE_2_END_TIME + TIME_TOLERANCE) { return tokenAmount.mul(100 + BONUS_PCT_IN_VREO_SALE_PHASE_2).div(100); }"
+        },
+        {
+            "vulnerableLines": "194-194",
+            "vulnerableCode": [
+                "require(now >= KYC_VERIFICATION_END_TIME);"
+            ],
+            "vulnerabilityReason": "This check's reliance on now means that the KYC verification window could be unfairly influenced by block timestamp adjustments.",
+            "potentialSecurityRisk": "Miners could adjust timestamps to either bypass the KYC requirements or lower the verification threshold, affecting the sale's integrity.",
+            "fixedCode": "require(block.timestamp >= KYC_VERIFICATION_END_TIME - TIME_TOLERANCE);"
+        }
+    ]
+}

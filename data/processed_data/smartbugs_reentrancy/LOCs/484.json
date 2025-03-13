@@ -1,24 +1,32 @@
-[
-    {
-        "start_line": 1212,
-        "end_line": 1212,
-        "code": [
-            "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
-        ]
-    },
-    {
-        "start_line": 1229,
-        "end_line": 1229,
-        "code": [
-            "Divies.deposit.value(_p3d)();"
-        ]
-    },
-    {
-        "start_line": 476,
-        "end_line": 477,
-        "code": [
-            "if (_eth > 0)",
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1212-1212",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "The external call to `deposit()` happens before updating any state variables, allowing an attacker to re-enter this function via a fallback function, potentially executing `deposit()` multiple times before state updates take effect.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by recursively calling the contract, leading to excessive Ether being sent to the `Jekyll_Island_Inc` contract, which could drain contract funds or manipulate balances.",
+            "fixedCode": "uint256 _com = _eth / 50;\nif(_com > 0) {\n    require(address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Deposit failed\");\n}"
+        },
+        {
+            "vulnerableLines": "1229-1229",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "This line executes an external call to `deposit()` on the `Divies` contract before updating state variables that track balances or funds, which opens the door for reentrancy attacks.",
+            "potentialSecurityRisk": "If `Divies.deposit` allows a reentrancy, an attacker can manipulate the way funds are handled by repeatedly calling this function, which may allow them to gain unintended profits or drain funds from the contract.",
+            "fixedCode": "uint256 _newP3D = _p3d;\nif(_newP3D > 0) {\n    Divies.deposit.value(_newP3D)();\n}"
+        },
+        {
+            "vulnerableLines": "476-477",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract uses `.transfer()` to send Ether to `plyr_[_pID].addr` before updating `_eth` or other related state variables, which can be abused via reentrancy.",
+            "potentialSecurityRisk": "An attacker can recursively call the `withdraw` function before `_eth` is reset, resulting in multiple withdrawals from the same balance, draining Ether from the contract.",
+            "fixedCode": "if (_eth > 0) {\n    uint256 amountToWithdraw = _eth;\n    plyr_[_pID].addr.transfer(amountToWithdraw);\n    _eth = 0; // Resetting the amount after successfully sending\n}"
+        }
+    ]
+}

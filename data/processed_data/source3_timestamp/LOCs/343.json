@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 10,
-        "end_line": 10,
-        "code": [
-            "require(block.timestamp >= openingTime && block.timestamp <= closingTime);"
-        ]
-    },
-    {
-        "start_line": 17,
-        "end_line": 17,
-        "code": [
-            "require(_openingTime >= block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 27,
-        "end_line": 27,
-        "code": [
-            "return block.timestamp > closingTime;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "require(block.timestamp >= openingTime && block.timestamp <= closingTime);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the onlyWhileOpen modifier creates a dependency on the current block timestamp to validate if the crowdsale is open. This allows miners to manipulate the timestamp, potentially allowing them to make transactions during unintended times.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp slightly to keep the crowdsale open longer or close it sooner than intended, impacting financial outcomes for participants and the fairness of the crowdsale.",
+            "fixedCode": "require(block.timestamp >= openingTime + TIME_TOLERANCE && block.timestamp <= closingTime - TIME_TOLERANCE); // Utilizing a buffer time to reduce timestamp dependency."
+        },
+        {
+            "vulnerableLines": "17-17",
+            "vulnerableCode": [
+                "require(_openingTime >= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the proposed opening time is in the future using block.timestamp, which can be manipulated by miners. If they adjust the timestamp, it could allow for an invalid opening time to be set, leading to possible exploit scenarios.",
+            "potentialSecurityRisk": "This vulnerability could allow an attacker to bypass the intended opening time of the crowdsale, resulting in unauthorized purchases or manipulative actions against the intended constraints of the crowdsale.",
+            "fixedCode": "require(_openingTime >= block.timestamp + TIME_TOLERANCE); // Adding a buffer to ensure the opening time is valid."
+        },
+        {
+            "vulnerableLines": "27-27",
+            "vulnerableCode": [
+                "return block.timestamp > closingTime;"
+            ],
+            "vulnerabilityReason": "The hasClosed function uses block.timestamp to determine if the crowdsale has ended. This direct reliance on the timestamp opens up the potential for miner manipulation, which can inaccurately reflect the actual state of the crowdsale.",
+            "potentialSecurityRisk": "Miners could exploit this check by slightly modifying block timestamp, potentially allowing operations that should no longer be permissible under the crowdsale's intended timeframe.",
+            "fixedCode": "return (block.timestamp + TIME_TOLERANCE > closingTime); // Adjusting with a buffer to prevent premature closes due to timestamp changes."
+        }
+    ]
+}

@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 78,
-        "end_line": 78,
-        "code": [
-            "userDeals.cancelTime = block.timestamp.add(requestCancelationTime);"
-        ]
-    },
-    {
-        "start_line": 168,
-        "end_line": 168,
-        "code": [
-            "if (deal.cancelTime > block.timestamp)"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "78-78",
+            "vulnerableCode": [
+                "userDeals.cancelTime = block.timestamp.add(requestCancelationTime);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' in setting 'cancelTime' makes this value susceptible to miner manipulation, allowing miners to adjust the timestamp to influence the deal cancellation time.",
+            "potentialSecurityRisk": "Miners could tweak the block timestamp and effectively alter the cancellation time, allowing them to manipulate deal states in their favor, potentially leading to exploitation of the deal process.",
+            "fixedCode": "userDeals.cancelTime = block.timestamp.add(requestCancelationTime).add(TIME_TOLERANCE); // Using a buffer to mitigate risk."
+        },
+        {
+            "vulnerableLines": "168-168",
+            "vulnerableCode": [
+                "if (deal.cancelTime > block.timestamp)"
+            ],
+            "vulnerabilityReason": "This condition relies on 'block.timestamp' to determine if a deal can still be canceled, introducing a manipulation vector for miners to adjust cancellation parameters based on their own interests.",
+            "potentialSecurityRisk": "Adjusting the block timestamp could allow miners to maintain cancellation rights longer than intended or prevent them when they shouldn't, leading to unfair trades.",
+            "fixedCode": "if (deal.cancelTime > block.timestamp.add(TIME_TOLERANCE)) // Adjusted to add a buffer for protection."
+        }
+    ]
+}

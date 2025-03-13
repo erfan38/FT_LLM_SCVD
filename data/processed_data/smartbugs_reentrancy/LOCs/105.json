@@ -1,18 +1,24 @@
-[
-    {
-        "start_line": 68,
-        "end_line": 69,
-        "code": [
-            "if(!_to.call.value(_value)(_data))",
-            "return 0;"
-        ]
-    },
-    {
-        "start_line": 86,
-        "end_line": 87,
-        "code": [
-            "if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))",
-            "throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "68-69",
+            "vulnerableCode": [
+                "if(!_to.call.value(_value)(_data))",
+                "return 0;"
+            ],
+            "vulnerabilityReason": "The function executes an external call using `call.value()` to transfer ether before updating the state or validating the success of the transaction. This allows an attacker to re-enter the function before the state is updated.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that receives the ether and then calls back into the `execute()` function before the state update, allowing the attacker to withdraw more funds than intended, leading to potential loss of funds for the wallet.",
+            "fixedCode": "if (underLimit(_value)) {\n    SingleTransact(msg.sender, _value, _to, _data);\n    require(_to.call.value(_value)(_data), \"Transfer failed\"); // Check for success\n}"
+        },
+        {
+            "vulnerableLines": "86-87",
+            "vulnerableCode": [
+                "if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))",
+                "throw;"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this line executes an external call before ensuring the state is updated and does not check if the transaction was successful, making it vulnerable to reentrancy attacks.",
+            "potentialSecurityRisk": "If the `confirm()` function is called with a malicious target, it might allow an attacker to call back into the contract during the transaction and manipulate the state or withdraw more funds than allowed, leading to loss of funds.",
+            "fixedCode": "if (m_txs[_h].to != 0) {\n    require(m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data), \"Transfer failed\"); // Check for success\n    MultiTransact(msg.sender, _h, m_txs[_h].value, m_txs[_h].to, m_txs[_h].data);\n    delete m_txs[_h];\n    return true;\n}"
+        }
+    ]
+}

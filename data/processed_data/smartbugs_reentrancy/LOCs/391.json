@@ -1,28 +1,36 @@
-[
-    {
-        "start_line": 194,
-        "end_line": 194,
-        "code": [
-            "            _eth = withdrawEarnings(_pID);"
-        ]
-    },
-    {
-        "start_line": 339,
-        "end_line": 339,
-        "code": [
-            "        if (!address(coin_base).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 1298,
-        "end_line": 1304,
-        "code": [
-            "    function potSwap()",
-            "        external",
-            "        payable",
-            "    {",
-            "        uint256 _rID = rID_ + 1;",
-            "        round_[_rID].pot = round_[_rID].pot.add(msg.value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "194-194",
+            "vulnerableCode": [
+                "            _eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "The withdraw function sends Ether to the user after updating their state, allowing reentrant calls to withdraw more funds before the state reflects the withdrawal operation.",
+            "potentialSecurityRisk": "An attacker can exploit this by creating a callback in a malicious contract to withdraw multiple times before the contract updates the player's state, effectively draining its funds.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); // Store earnings before withdrawal\nif (earnings > 0) {\n   plyr_[_pID].addr.transfer(earnings); // Perform withdrawal after state update\n}"
+        },
+        {
+            "vulnerableLines": "339-339",
+            "vulnerableCode": [
+                "        if (!address(coin_base).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The distributeExternal function uses low-level call without checking for success. This could allow reentrant calls back into the contract before the state is finalized, resulting in potential loss of funds.",
+            "potentialSecurityRisk": "If the recipient of the Ether is a malicious smart contract, it can re-enter the distributeExternal function and manipulate or drain funds from the contract before the original transaction completes.",
+            "fixedCode": "require(address(coin_base).call.value(_com)(), \"Transfer failed\"); // Check for the successful transfer of Ether before proceeding with any state updates."
+        },
+        {
+            "vulnerableLines": "1298-1304",
+            "vulnerableCode": [
+                "    function potSwap()",
+                "        external",
+                "        payable",
+                "    {",
+                "        uint256 _rID = rID_ + 1;",
+                "        round_[_rID].pot = round_[_rID].pot.add(msg.value);"
+            ],
+            "vulnerabilityReason": "The potSwap function allows anyone to send Ether to the contract, increasing the pot without checks. This leads to potential exploitation, as malicious actors can manipulate the state by depositing at strategic times.",
+            "potentialSecurityRisk": "Without proper access control, attackers can exploit the contract's state by flooding it with Ether, potentially leading to further manipulation of other behaviors in the contract.",
+            "fixedCode": "function potSwap() external onlyAdmin payable { // Adding access control to restrict who can deposit\n    uint256 _rID = rID_ + 1;\n    round_[_rID].pot = round_[_rID].pot.add(msg.value);\n    emit F3Devents.onPotSwapDeposit(_rID, msg.value);\n}"
+        }
+    ]
+}

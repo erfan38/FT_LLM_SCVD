@@ -1,58 +1,13 @@
-[
-    {
-        "start_line": 414,
-        "end_line": 414,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 443,
-        "end_line": 443,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 738,
-        "end_line": 738,
-        "code": [
-            "core(_rID, _pID, msg.value, _affID, _team, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 797,
-        "end_line": 797,
-        "code": [
-            "core(_rID, _pID, _eth, _affID, _team, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 1100,
-        "end_line": 1100,
-        "code": [
-            "admin.transfer(_com);"
-        ]
-    },
-    {
-        "start_line": 1101,
-        "end_line": 1101,
-        "code": [
-            "admin.transfer(_p3d.sub(_p3d / 2));"
-        ]
-    },
-    {
-        "start_line": 1238,
-        "end_line": 1238,
-        "code": [
-            "admin.transfer(_p3d.sub(_potAmount));"
-        ]
-    },
-    {
-        "start_line": 1258,
-        "end_line": 1258,
-        "code": [
-            "emit F3Devents.onPotSwapDeposit(_rID, msg.value);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "414-414",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The external call to transfer Ether occurs before updating the player's state, allowing for potential reentrant calls if the receiver is a malicious contract.",
+            "potentialSecurityRisk": "An attacker could exploit this by causing a reentrant call back into the contract before the state has been updated, resulting in a possible loss of funds.",
+            "fixedCode": "if (_eth > 0) {\n    plyr_[_pID].gen = plyr_[_pID].gen.add(_eth);\n    plyr_[_pID].addr.transfer(_eth);\n}"
+        }
+    ]
+}

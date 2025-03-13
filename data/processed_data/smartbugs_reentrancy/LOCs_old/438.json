@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 392,
+        "end_line": 392,
+        "code": [
+            "adminBank.call.value(balance).gas(100000)();"
+        ]
+    },
+    {
+        "start_line": 402,
+        "end_line": 402,
+        "code": [
+            "foundationFund.call.value(balance).gas(100000)();"
+        ]
+    },
+    {
+        "start_line": 489,
+        "end_line": 489,
+        "code": [
+            "msg.sender.transfer(toTransfer);"
+        ]
+    }
+]

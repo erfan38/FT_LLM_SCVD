@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 375,
-        "end_line": 375,
-        "code": [
-            "if (txToExecute.destination.call.value(txToExecute.value)(txToExecute.data))"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "375-375",
+            "vulnerableCode": [
+                "if (txToExecute.destination.call.value(txToExecute.value)(txToExecute.data))"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` can lead to reentrancy attacks because it allows control to be transferred to an external contract before the state of the transaction is updated (i.e., `txToExecute.executed` is set to true after the call). This order of operation can be exploited, potentially allowing an attacker to recursively execute the transaction and withdraw funds unintendedly.",
+            "potentialSecurityRisk": "An attacker can trigger multiple successive calls to `executeTransaction` while the balance has not been properly updated, leading to significant losses by allowing repeated withdrawals before the state of the contract reflects these changes.",
+            "fixedCode": "require(txToExecute.destination.call.value(txToExecute.value)(txToExecute.data), \"Transaction execution failed\"); txToExecute.executed = true; // Ensures state is updated after the transfer and checks for success."
+        }
+    ]
+}

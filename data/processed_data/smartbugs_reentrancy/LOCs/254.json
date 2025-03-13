@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 42,
-        "end_line": 42,
-        "code": [
-            "require( _to.call.value(0)( bytes4( keccak256( abi.encodePacked( _custom_fallback ) ) ), msg.sender, _value, _data), \"_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)\" );"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "42-42",
+            "vulnerableCode": [
+                "require( _to.call.value(0)( bytes4( keccak256( abi.encodePacked( _custom_fallback ) ) ), msg.sender, _value, _data), \"_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)\" );"
+            ],
+            "vulnerabilityReason": "The vulnerable line contains a call to an external contract through `_to.call.value(0)`. This occurs after the state changes (`balances[msg.sender] = balances[msg.sender].sub(_value);` and `balances[_to] = balances[_to].add(_value);`). If the recipient contract (_to) is malicious, it can re-enter the `transfer` function before the state is updated, allowing it to withdraw more funds than it should.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability by re-entering the `transfer` function before the sender's balance is updated, allowing for the potential draining of the token balance from this contract through repeated withdrawals.",
+            "fixedCode": "// Update the state before calling the fallback function to prevent reentrancy\n\n// Step 1: Update balances first\nbalances[msg.sender] = balances[msg.sender].sub(_value);\nbalances[_to] = balances[_to].add(_value);\n\n// Step 2: Check if the recipient is a contract and call fallback\nif (isContract(_to)) {\n    require(_to.call.value(0)(bytes4(keccak256(abi.encodePacked(_custom_fallback))), msg.sender, _value, _data), \"_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data);\n}"
+        }
+    ]
+}

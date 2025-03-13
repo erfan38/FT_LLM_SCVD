@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 56,
+        "end_line": 58,
+        "code": [
+            "if(msg.sender.call.value(_am)())",
+            "acc.balance-=_am;"
+        ]
+    }
+]

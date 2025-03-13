@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 252,
+        "end_line": 252,
+        "code": [
+            "if(!(investor.call.value(amount)())) throw;"
+        ]
+    },
+    {
+        "start_line": 235,
+        "end_line": 235,
+        "code": [
+            "getToken().transfer(investor, amount);"
+        ]
+    }
+]

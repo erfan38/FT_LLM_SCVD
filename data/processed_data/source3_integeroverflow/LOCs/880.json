@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 bonds = block.timestamp - bondStart;"
+            ],
+            "vulnerabilityReason": "The calculation of `bonds` directly subtracts `bondStart` from `block.timestamp` without any checks to ensure that `bondStart` is not greater than `block.timestamp`. If `bondStart` is set to a future timestamp, this will lead to an underflow, resulting in an unexpectedly large value for `bonds`.",
+            "potentialSecurityRisk": "An attacker could manipulate the `bondStart` value to be greater than the current `block.timestamp`, causing a huge value of `bonds`, which could allow them to claim more benefits than they should, leading to potential loss of funds or unauthorized access to the bonding system.",
+            "fixedCode": "require(bondStart <= block.timestamp, \"bondStart cannot be in the future\");\nuint256 bonds = block.timestamp - bondStart;"
+        }
+    ]
+}

@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 28,
-        "end_line": 28,
-        "code": [
-            "if(!_to.call(bytes4(keccak256(\"tokenFallback(address,uint256)\")), _from, _amount))"
-        ]
-    },
-    {
-        "start_line": 108,
-        "end_line": 108,
-        "code": [
-            "receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), _from, _amount, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "28-28",
+            "vulnerableCode": [
+                "if(!_to.call(bytes4(keccak256(\"tokenFallback(address,uint256)\")), _from, _amount)) {"
+            ],
+            "vulnerabilityReason": "The contract uses a low-level call to `_to` to invoke `tokenFallback`, which can be called during a transaction that is not yet finalized. If the receiving contract is malicious, it can execute logic that could revert or cause unexpected behaviors, such as withdrawing funds before the state is updated, leading to a reentrancy attack.",
+            "potentialSecurityRisk": "An attacker controlling the recipient contract can orchestrate a reentrancy attack by calling `tokenFallback`, permitting them to withdraw excessive funds multiple times before the state reflects the actual balances, leading to potential financial exploitation.",
+            "fixedCode": "require(_to.call(bytes4(keccak256(\"tokenFallback(address,uint256)\")), _from, _amount), \"Token transfer failed\"); // Require success to ensure state is stable."
+        },
+        {
+            "vulnerableLines": "108-108",
+            "vulnerableCode": [
+                "receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), _from, _amount, _data);"
+            ],
+            "vulnerabilityReason": "The contract uses a low-level call to `receiver` without checking for successful execution. This call can execute arbitrary code in the context of the receiver contract, allowing it to revert or call back into the original contract before the state is updated, creating a vector for reentrancy attacks.",
+            "potentialSecurityRisk": "Similar to the previous case, a malicious contract can leverage this call to manipulate the state and withdraw more than they are entitled to. Reentrancy can occur because the state updates (e.g., balance adjustments) happen after the call, which can drain the contract's funds.",
+            "fixedCode": "(bool success, ) = receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), _from, _amount, _data); require(success, \"Custom fallback call failed\"); // Ensure the interaction is successful before proceeding."
+        }
+    ]
+}

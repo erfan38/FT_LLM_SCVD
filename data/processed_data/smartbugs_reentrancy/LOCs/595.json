@@ -1,54 +1,64 @@
-[
-    {
-        "start_line": 134,
-        "end_line": 137,
-        "code": [
-            "totalCoinSupply = SafeMath.add(totalCoinSupply, amount);",
-            "balances[owner] = SafeMath.add(balances[owner], amount);",
-            "setEditedFalse(owner);"
-        ]
-    },
-    {
-        "start_line": 160,
-        "end_line": 160,
-        "code": [
-            "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
-        ]
-    },
-    {
-        "start_line": 209,
-        "end_line": 220,
-        "code": [
-            "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);",
-            "require (balanceOf(msg.sender) >= _value);",
-            "setEditedTrue(_to);",
-            "setEditedTrue(msg.sender);",
-            "balances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);",
-            "balances[_to] = SafeMath.add(balanceOf(_to), _value);",
-            "emit Transfer(msg.sender, _to, _value, _data);",
-            "setEditedFalse(_to);",
-            "setEditedFalse(msg.sender);",
-            "updateAddresses(_to);",
-            "updateAddresses(msg.sender);"
-        ]
-    },
-    {
-        "start_line": 224,
-        "end_line": 238,
-        "code": [
-            "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);",
-            "require (balanceOf(msg.sender) >= _value);",
-            "setEditedTrue(_to);",
-            "setEditedTrue(msg.sender);",
-            "balances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);",
-            "balances[_to] = SafeMath.add(balanceOf(_to), _value);",
-            "ContractReceiver receiver = ContractReceiver(_to);",
-            "receiver.tokenFallback(msg.sender, _value, _data);",
-            "emit Transfer(msg.sender, _to, _value, _data);",
-            "setEditedFalse(_to);",
-            "setEditedFalse(msg.sender);",
-            "updateAddresses(_to);",
-            "updateAddresses(msg.sender);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-137",
+            "vulnerableCode": [
+                "totalCoinSupply = SafeMath.add(totalCoinSupply, amount);",
+                "balances[owner] = SafeMath.add(balances[owner], amount);",
+                "setEditedFalse(owner);"
+            ],
+            "vulnerabilityReason": "The external call made by `assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));` occurs after state changes (updating balances), allowing a reentrant call to execute before the state is updated, potentially leading to multiple withdrawals before the balance is properly accounted.",
+            "potentialSecurityRisk": "An attacker could exploit this by deploying a malicious contract that takes advantage of the reentrancy opportunity to withdraw funds multiple times, thereby draining the contract's balance.",
+            "fixedCode": "totalCoinSupply = SafeMath.add(totalCoinSupply, amount);  // Update supply first\nbalances[owner] = SafeMath.add(balances[owner], amount);  // Update owner balance\nsetEditedFalse(owner);  // Set editing flag back to false before the external call\nrequire(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data), 'External call failed!');  // Safe external call after state updates."
+        },
+        {
+            "vulnerableLines": "160-160",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "This line calls the recipient's fallback function directly after the state has changed, which is not safe. If the recipient is a contract, it could perform a reentrant call back into this contract to withdraw funds again before the state is settled.",
+            "potentialSecurityRisk": "If the recipient contract is malicious, it could call back into the `transfer` function, causing multiple withdrawals and draining funds from the contract.",
+            "fixedCode": "(bool success, ) = _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data); require(success, 'Transfer to contract failed.');  // Ensure successful external calls after state updates."
+        },
+        {
+            "vulnerableLines": "209-220",
+            "vulnerableCode": [
+                "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);",
+                "require (balanceOf(msg.sender) >= _value);",
+                "setEditedTrue(_to);",
+                "setEditedTrue(msg.sender);",
+                "balances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);",
+                "balances[_to] = SafeMath.add(balanceOf(_to), _value);",
+                "emit Transfer(msg.sender, _to, _value, _data);",
+                "setEditedFalse(_to);",
+                "setEditedFalse(msg.sender);",
+                "updateAddresses(_to);",
+                "updateAddresses(msg.sender);"
+            ],
+            "vulnerabilityReason": "Similar to previous vulnerabilities, updates to balances are made before calling the recipient's fallback function or managing the edited state, which could allow an attacker nested access to exploit repeated withdrawals.",
+            "potentialSecurityRisk": "An attacker can use the malicious contract to recursively call back into the function before the state changes are effectively applied, leading to duplicate rewards or drained contract balance.",
+            "fixedCode": "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);  // Check editing states\nrequire (balanceOf(msg.sender) >= _value);  // Ensure sufficient balance\nsetEditedTrue(_to);  // Lock editing for the receiver\nsetEditedTrue(msg.sender);  // Lock editing for the sender\nbalances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);  // Deduct sender's balance\nbalances[_to] = SafeMath.add(balanceOf(_to), _value);  // Update receiver's balance\nemit Transfer(msg.sender, _to, _value, _data);  // Emit transfer event\nsetEditedFalse(_to);  // Unlock editing for the receiver\nsetEditedFalse(msg.sender);  // Unlock editing for the sender\nupdateAddresses(_to);  // Update address mapping\nupdateAddresses(msg.sender);  // Update address mapping."
+        },
+        {
+            "vulnerableLines": "224-238",
+            "vulnerableCode": [
+                "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);",
+                "require (balanceOf(msg.sender) >= _value);",
+                "setEditedTrue(_to);",
+                "setEditedTrue(msg.sender);",
+                "balances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);",
+                "balances[_to] = SafeMath.add(balanceOf(_to), _value);",
+                "ContractReceiver receiver = ContractReceiver(_to);",
+                "receiver.tokenFallback(msg.sender, _value, _data);",
+                "emit Transfer(msg.sender, _to, _value, _data);",
+                "setEditedFalse(_to);",
+                "setEditedFalse(msg.sender);",
+                "updateAddresses(_to);",
+                "updateAddresses(msg.sender);"
+            ],
+            "vulnerabilityReason": "External calls to the `tokenFallback` method after updating balances could let attackers enter a reentrant state before the balance modifications are finalized.",
+            "potentialSecurityRisk": "This vulnerability could be exploited similarly to others by allowing an attacker to withdraw funds more than once before the state is updated, potentially draining the funds from the contract.",
+            "fixedCode": "require(beingEdited[_to] != true && beingEdited[msg.sender] != true);  // Validate editing state\nrequire (balanceOf(msg.sender) >= _value);  // Validate sender's balance\nsetEditedTrue(_to);  // Set editing state for receiver\nsetEditedTrue(msg.sender);  // Set editing state for sender\nbalances[msg.sender] = SafeMath.sub(balanceOf(msg.sender), _value);  // Deduct from sender\nbalances[_to] = SafeMath.add(balanceOf(_to), _value);  // Add to receiver\nContractReceiver receiver = ContractReceiver(_to);  // Reference receiver contract\nreceiver.tokenFallback(msg.sender, _value, _data);  // Call token fallback method\nemit Transfer(msg.sender, _to, _value, _data);  // Emit event\nsetEditedFalse(_to);  // Reset editing state\nsetEditedFalse(msg.sender);  // Reset editing state\nupdateAddresses(_to);  // Update address LUT\nupdateAddresses(msg.sender);  // Update address LUT."
+        }
+    ]
+}

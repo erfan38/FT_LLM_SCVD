@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "circulatingSupply = circulatingSupply + _mintAmount;",
+                "circulatingSupply = circulatingSupply - block.timestamp;"
+            ],
+            "vulnerabilityReason": "The operation 'circulatingSupply = circulatingSupply + _mintAmount;' can overflow if the total exceeds the maximum value of uint256. Additionally, 'circulatingSupply = circulatingSupply - block.timestamp;' can underflow if block.timestamp is greater than circulatingSupply, resulting in a negative value due to the nature of uint256 being unsigned.",
+            "potentialSecurityRisk": "These vulnerabilities could lead to incorrect calculations of circulating supply, which can affect the token minting process, allow malicious manipulation of the token's supply, and potentially lead to the contract's state becoming irreparable or cause funds to be locked or misallocated.",
+            "fixedCode": "require(circulatingSupply + _mintAmount > circulatingSupply, 'Minting would cause overflow');\nrequire(circulatingSupply >= block.timestamp, 'Cannot underflow circulating supply');\ncirculatingSupply += _mintAmount;\ncirculatingSupply -= block.timestamp;"
+        }
+    ]
+}

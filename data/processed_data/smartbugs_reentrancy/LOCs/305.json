@@ -1,13 +1,47 @@
-[
-    {
-        "start_line": 224,
-        "end_line": 228,
-        "code": [
-            "if (txn.destination.call.value(txn.value)(txn.data))",
-            "    emit Execution(transactionId);",
-            "else {",
-            "    emit ExecutionFailure(transactionId);",
-            "    txn.executed = false;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "224-228",
+            "vulnerableCode": [
+                "if (txn.destination.call.value(txn.value)(txn.data))",
+                "    emit Execution(transactionId);",
+                "else {",
+                "    emit ExecutionFailure(transactionId);",
+                "    txn.executed = false;}"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows the external contract to make a recursive call back into the MultiSigWallet contract before the transaction execution status is updated, making the contract vulnerable to reentrancy attacks.",
+            "potentialSecurityRisk": "If the destination contract is malicious, it could exploit this vulnerability to withdraw funds repeatedly before the contract registers the deductions, leading to potential loss of Ether from the contract.",
+            "fixedCode": "require(!txn.executed, \"Transaction already executed\"); // Checks-Effects-Interactions Pattern: Ensure state is updated properly\ntxn.executed = true; // Update execution status before making the external call\n(bool success, ) = txn.destination.call.value(txn.value)(txn.data); // Use call correctly, capture the result\nif (success) {\n    emit Execution(transactionId);\n} else {\n    emit ExecutionFailure(transactionId);\n    txn.executed = false; // Rollback execution status if it fails\n}"
+        },
+        {
+            "vulnerableLines": "269-270",
+            "vulnerableCode": [
+                "txn.executed = true;",
+                "if (txn.destination.call.value(txn.value)(txn.data))",
+                "    emit Execution(transactionId);"
+            ],
+            "vulnerabilityReason": "The order of operations is vulnerable, as the `txn.executed` status is updated before the Ether transfer using `call.value()`, which can be exploited to allow reentrancy.",
+            "potentialSecurityRisk": "An attacker can repeatedly call back into the `MultiSigWallet` contract, potentially leading to the execution of multiple withdrawals before the contract can update its state, culminating in significant financial loss.",
+            "fixedCode": "require(!txn.executed, \"Transaction already executed\"); // Ensure state is not changed prematurely\ntxn.executed = true; // Update status before the external call\n(bool success, ) = txn.destination.call.value(txn.value)(txn.data); // Perform the call\nif (success) {\n    emit Execution(transactionId);\n} else {\n    emit ExecutionFailure(transactionId);\n    txn.executed = false; // Rollback if the transfer fails\n}"
+        },
+        {
+            "vulnerableLines": "269-270",
+            "vulnerableCode": [
+                "txn.executed = false;",
+                "    emit ExecutionFailure(transactionId);"
+            ],
+            "vulnerabilityReason": "The lack of a reentrancy guard allows malicious actors to exploit this part of the code, resetting the execution status without the condition of previous withdrawals being handled properly.",
+            "potentialSecurityRisk": "This can lead to a situation where the executed flag is incorrectly set, allowing multiple calls before the state has stabilized, effectively allowing for repeated withdrawals without proper consent.",
+            "fixedCode": "require(!txn.executed, \"Transaction already executed\"); // Prevent double execution\n(bool success, ) = txn.destination.call.value(txn.value)(txn.data); // Carry out the external transaction\nif (success) {\n    emit Execution(transactionId);\n    txn.executed = true; // Mark as executed only if the transaction is successful\n} else {\n    emit ExecutionFailure(transactionId);\n}"
+        },
+        {
+            "vulnerableLines": "228-228",
+            "vulnerableCode": [
+                "txn.executed = false;"
+            ],
+            "vulnerabilityReason": "Resetting the execution status post-transaction without checks can lead to allowing reentrancy if not properly managed with a guard.",
+            "potentialSecurityRisk": "It creates a risk that the contract can be manipulated to enter an inconsistent state, affecting any subsequent transactions.",
+            "fixedCode": "// Ensure the txn status cannot inadvertently reset due to failed execution after a malicious exploit."
+        }
+    ]
+}

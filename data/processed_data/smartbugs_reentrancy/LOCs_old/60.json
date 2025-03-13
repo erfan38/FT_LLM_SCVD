@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 1190,
+        "end_line": 1190,
+        "code": [
+            "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    },
+    {
+        "start_line": 1074,
+        "end_line": 1074,
+        "code": [
+            "if (!address(TeamGoalbonanza).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+        ]
+    }
+]

@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 59,
-        "end_line": 59,
-        "code": [
-            "require(uint64(block.timestamp) > head);"
-        ]
-    },
-    {
-        "start_line": 83,
-        "end_line": 83,
-        "code": [
-            "while (release != 0 && block.timestamp > release) {"
-        ]
-    },
-    {
-        "start_line": 99,
-        "end_line": 99,
-        "code": [
-            "require(_until > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "59-59",
+            "vulnerableCode": [
+                "require(uint64(block.timestamp) > head);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to check if the current time is greater than the head time introduces a dependency on miner-manipulated timestamps, which can be exploited to enable unintended actions, such as releasing funds prematurely.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to ensure funds are released before they should be, undermining the intended locking mechanism and potentially leading to financial losses.",
+            "fixedCode": "require(uint64(block.timestamp + TIME_TOLERANCE) > head); // Implement a buffer to reduce precision dependency."
+        },
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "while (release != 0 && block.timestamp > release) {"
+            ],
+            "vulnerabilityReason": "Using block.timestamp in the releaseAll function to determine if funds can be released allows for miner manipulation, potentially allowing users to release funds prematurely when they shouldn't be able to.",
+            "potentialSecurityRisk": "Attackers might exploit manipulated timestamps to gain unintended access to locked funds, which could fundamentally disrupt the fairness of token distribution and financial integrity.",
+            "fixedCode": "while (release != 0 && block.timestamp + TIME_TOLERANCE > release) { // Adding a tolerance for safety."
+        },
+        {
+            "vulnerableLines": "99-99",
+            "vulnerableCode": [
+                "require(_until > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The freeze function relies on block.timestamp to define valid locking periods, making it vulnerable to manipulation by miners who can adjust the block timestamp.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp to allow freezing periods to start or end unexpectedly, which would disrupt normal operations and potentially allow undesired token transfers.",
+            "fixedCode": "require(_until > block.timestamp + TIME_TOLERANCE); // Adding a tolerance to mitigate manipulation risk."
+        }
+    ]
+}

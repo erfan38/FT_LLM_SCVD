@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 418,
+        "end_line": 418,
+        "code": [
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 447,
+        "end_line": 447,
+        "code": [
+            "                plyr_[_pID].addr.transfer(_eth);"
+        ]
+    },
+    {
+        "start_line": 742,
+        "end_line": 742,
+        "code": [
+            "            core(_rID, _pID, msg.value, _affID, _team, _eventData_);"
+        ]
+    },
+    {
+        "start_line": 801,
+        "end_line": 801,
+        "code": [
+            "            core(_rID, _pID, _eth, _affID, _team, _eventData_);"
+        ]
+    }
+]

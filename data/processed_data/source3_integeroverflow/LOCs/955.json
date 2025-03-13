@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "rewardsPerDay[currentDay] = totalStaked * _rewardRate / 10000;"
+            ],
+            "vulnerabilityReason": "The multiplication of 'totalStaked' and '_rewardRate' in the calculateDailyRewards function is not protected against integer overflow. If '_rewardRate' is large enough, the product 'totalStaked * _rewardRate' could exceed the maximum value of uint256, causing an overflow and leading to incorrect calculations of rewards.",
+            "potentialSecurityRisk": "This vulnerability can cause the distribution of incorrect rewards, leading to either excessive or insufficient rewards being allocated, which could affect the overall integrity of the staking system and lead to potential financial losses for users.",
+            "fixedCode": "require(_rewardRate <= type(uint256).max / totalStaked, \"Reward rate too high\");\nrewardsPerDay[currentDay] = (totalStaked * _rewardRate) / 10000; // Safely calculated after ensuring no overflow."
+        }
+    ]
+}

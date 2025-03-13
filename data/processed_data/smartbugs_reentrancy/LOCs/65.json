@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 203,
-        "end_line": 203,
-        "code": [
-            "    rx.tokenFallback( msg.sender, value, data );"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "203-203",
+            "vulnerableCode": [
+                "    rx.tokenFallback( msg.sender, value, data );"
+            ],
+            "vulnerabilityReason": "The contract calls `tokenFallback` on an external contract after transferring tokens, without updating the state first. This allows a malicious contract to call back into this function before the state reflects the transfer, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that implements `tokenFallback`, allowing them to recursively call the `transferToContract` function, withdrawing more tokens than intended before the state is updated.",
+            "fixedCode": "// Replace the order of operations to ensure state is updated before making the external call\n_transfer(msg.sender, to, value, data);\n// Transfer executed so update is now safe.\nif (isContract(to)) {\n    ContractReceiver(to).tokenFallback(msg.sender, value, data);\n}\nreturn true;"
+        }
+    ]
+}

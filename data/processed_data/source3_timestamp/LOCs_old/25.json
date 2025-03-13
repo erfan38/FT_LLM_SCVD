@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 89,
+        "end_line": 89,
+        "code": [
+            "return uint8(uint256(keccak256(block.timestamp, block.difficulty))%251);"
+        ]
+    },
+    {
+        "start_line": 93,
+        "end_line": 93,
+        "code": [
+            "return uint8(uint256(keccak256(blocks, block.difficulty))%251);"
+        ]
+    },
+    {
+        "start_line": 97,
+        "end_line": 97,
+        "code": [
+            "return uint8(uint256(keccak256(blocks, block.difficulty))%braggers.length);"
+        ]
+    }
+]

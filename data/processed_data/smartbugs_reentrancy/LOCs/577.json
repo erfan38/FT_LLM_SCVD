@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 74,
-        "end_line": 74,
-        "code": [
-            "if (!msg.sender.call.value(amount)()) throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of `call.value(amount)()` allows the recipient to execute a fallback function, enabling reentrancy if the recipient is a contract. This leads to the potential for an attacker to initiate a recursive call, withdrawing funds multiple times before the balance is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by repeatedly calling the withdraw function, draining Ether from the contract before the state updates the user's balance, resulting in financial loss to the contract.",
+            "fixedCode": "require(tokens[0][msg.sender] >= amount, \"Insufficient balance for withdrawal\");\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\nbool success = msg.sender.call.value(amount)();\nrequire(success, \"Transfer failed\");\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        }
+    ]
+}

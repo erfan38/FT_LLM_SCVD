@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 11,
-        "end_line": 13,
-        "code": [
-            "uint256 timePassed = block.timestamp - lastClaimTime[msg.sender];",
-            "lastClaimTime[msg.sender] = block.timestamp;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "11-13",
+            "vulnerableCode": [
+                "uint256 timePassed = block.timestamp - lastClaimTime[msg.sender];",
+                "lastClaimTime[msg.sender] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The claimRewards function calculates the time passed since the last claim using block.timestamp, creating a timestamp dependence that can be manipulated by miners.",
+            "potentialSecurityRisk": "If miners manipulate the timestamp, they could make it appear as though more time has passed than actually has, resulting in users receiving inflated rewards.",
+            "fixedCode": "// Use a more trustworthy method to calculate elapsed time, or use a constant block number for calculations that do not depend on timestamp."
+        }
+    ]
+}

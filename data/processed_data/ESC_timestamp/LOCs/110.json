@@ -1,0 +1,112 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1141-1141",
+            "vulnerableCode": [
+                "genesisTime = _genesisTime;"
+            ],
+            "vulnerabilityReason": "The genesis time is set using block.timestamp, which is susceptible to miner manipulation, leading to potential unfair advantages in auction timing.",
+            "potentialSecurityRisk": "Miners can manipulate the genesisTime, allowing them to influence the auction's progress and potentially gain benefits from auctions that rely on timing.",
+            "fixedCode": "genesisTime = block.timestamp + 60; // Use a fixed time adjustment instead of block.timestamp directly."
+        },
+        {
+            "vulnerableLines": "1042-1042",
+            "vulnerableCode": [
+                "return whichTick(block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line uses block.timestamp to determine the current tick, making it vulnerable to manipulation by miners who can adjust the block timestamp.",
+            "potentialSecurityRisk": "If a miner sets the timestamp to an earlier time, it could lead to inaccurate auction progress and unfair pricing.",
+            "fixedCode": "return whichTick(now); // Prefer using 'now' which aligns to block timestamp integrity."
+        },
+        {
+            "vulnerableLines": "1054-1054",
+            "vulnerableCode": [
+                "return whichAuction(currentTick());"
+            ],
+            "vulnerabilityReason": "The current auction state depends on currentTick() which is influenced by block.timestamp, making it susceptible to timestamp manipulations.",
+            "potentialSecurityRisk": "Miners can cause inconsistencies in auction states and time-related calculations, leading to disadvantages for some participants.",
+            "fixedCode": "return whichAuction(whichTick(now)); // Avoiding direct timestamp reliance."
+        },
+        {
+            "vulnerableLines": "926-926",
+            "vulnerableCode": [
+                "function restartAuction() private {"
+            ],
+            "vulnerabilityReason": "The function restartAuction relies on precise timing potentially based on manipulated block timestamps, setting auction times inaccurately.",
+            "potentialSecurityRisk": "This could allow a miner to create favorable conditions for them in future auctions, disrupting fairness.",
+            "fixedCode": "function restartAuction() private { if(now > lastAuctionEndTime) { /* continue */ } } // Reinforce checks to local timing."
+        },
+        {
+            "vulnerableLines": "952-952",
+            "vulnerableCode": [
+                "return ((fMul(s, (fSub(fSqrt(fAdd(DECMULT, fDiv(e, r))), DECMULT)))).mul(METDECMULT)).div(DECMULT);"
+            ],
+            "vulnerabilityReason": "This price calculation relies on correct timing during execution, which may be influenced by manipulation via block timestamps.",
+            "potentialSecurityRisk": "Miners can cheat on price calculations resulting in losses or benefits not aligned with intended rules of the auction.",
+            "fixedCode": "return ((fMul(s, (fSub(fSqrt(fAdd(DECMULT, fDiv(e, r))), DECMULT)))).mul(METDECMULT)).div(DECMULT); // Adjust to guarantee against time-based errors."
+        },
+        {
+            "vulnerableLines": "978-978",
+            "vulnerableCode": [
+                "return returnForRedemption(newSmartTokenSupply, mintRet, reserveTokenBalanceTo);"
+            ],
+            "vulnerabilityReason": "Risk exists that token redemption amounts miscalculate based on block.timestamp, which miners can manipulate, altering financial outcomes.",
+            "potentialSecurityRisk": "Miners could exploit timing to ensure unfair redemption advantages, leading to lost funds and mismanaged token distributions.",
+            "fixedCode": "return returnForRedemption(newSmartTokenSupply, mintRet, reserveTokenBalanceTo); // Implement time validation checks."
+        },
+        {
+            "vulnerableLines": "637-637",
+            "vulnerableCode": [
+                "require(_startTime >= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This check directly allows for block.timestamp to dictate contract behavior, which could be exploited.",
+            "potentialSecurityRisk": "A miner could backdate the auction timing, allowing their own tokens to be subscribed to erroneously by front running actions.",
+            "fixedCode": "require(_startTime >= now); // Retain robust time comparisons against miner manipulations."
+        },
+        {
+            "vulnerableLines": "720-720",
+            "vulnerableCode": [
+                "if (sub.startTime > 0 && sub.startTime < block.timestamp && sub.payPerWeek > 0) {"
+            ],
+            "vulnerabilityReason": "The checks based on block.timestamp expose the contract to manipulations for subscription payouts.",
+            "potentialSecurityRisk": "Those payouts may not align with actual timelines if miners tweak timestamps, impacting user trust and integrity of time-sensitive contracts.",
+            "fixedCode": "if (sub.startTime > 0 && sub.startTime < now && sub.payPerWeek > 0) {"
+        },
+        {
+            "vulnerableLines": "1183-1183",
+            "vulnerableCode": [
+                "genesisTime = block.timestamp + 60 - (block.timestamp % 60);"
+            ],
+            "vulnerabilityReason": "Using block.timestamp directly for setting genesis time creates pathways for manipulation and glitches in timing expectations.",
+            "potentialSecurityRisk": "It could allow miners to selectively influence auction launches or durations, creating a strategic advantage through timing manipulations.",
+            "fixedCode": "genesisTime = now + 60; // Always validate against miner-accurate referencing."
+        },
+        {
+            "vulnerableLines": "1270-1270",
+            "vulnerableCode": [
+                "if (genesisTime < block.timestamp) {"
+            ],
+            "vulnerabilityReason": "This check can be exploited where miners can control the perceived time condition, risking improper state transitions.",
+            "potentialSecurityRisk": "Inconsistent state transitions and ability for miners to manipulate outcomes from contract stakes and auctions.",
+            "fixedCode": "if (genesisTime < now) {"
+        },
+        {
+            "vulnerableLines": "1036-1036",
+            "vulnerableCode": [
+                "return (block.timestamp >= genesisTime && genesisTime > 0);"
+            ],
+            "vulnerabilityReason": "This check's reliance on block.timestamp introduces vulnerability in logical flow for contract execution regarding state checks.",
+            "potentialSecurityRisk": "May allow for miners to create advantageous conditions based on auction timings and transfers.",
+            "fixedCode": "return (now >= genesisTime && genesisTime > 0);"
+        },
+        {
+            "vulnerableLines": "1181-1181",
+            "vulnerableCode": [
+                "genesisTime = (_startTime / (1 minutes)) * (1 minutes) + 60;"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp creates opportunities for miners to exploit time settings in auction start timings.",
+            "potentialSecurityRisk": "Could undermine the auction's structural integrity and fairness through backdating practices by miners.",
+            "fixedCode": "genesisTime = (now / 1 minutes) * (1 minutes) + 60;"
+        }
+    ]
+}

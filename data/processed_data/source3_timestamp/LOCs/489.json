@@ -1,79 +1,103 @@
-[
-    {
-        "start_line": 110,
-        "end_line": 110,
-        "code": [
-            "Shares(withName, \"MLNF\", 18, now)"
-        ]
-    },
-    {
-        "start_line": 149,
-        "end_line": 149,
-        "code": [
-            "timestamp: now"
-        ]
-    },
-    {
-        "start_line": 206,
-        "end_line": 206,
-        "code": [
-            "timestamp: now"
-        ]
-    },
-    {
-        "start_line": 335,
-        "end_line": 335,
-        "code": [
-            "expiresAt = add(now, ORDER_EXPIRATION_TIME)"
-        ]
-    },
-    {
-        "start_line": 366,
-        "end_line": 366,
-        "code": [
-            "timestamp: block.timestamp"
-        ]
-    },
-    {
-        "start_line": 434,
-        "end_line": 434,
-        "code": [
-            "uint timePassed = sub(now, atLastUnclaimedFeeAllocation.timestamp);"
-        ]
-    },
-    {
-        "start_line": 526,
-        "end_line": 526,
-        "code": [
-            "timestamp: now"
-        ]
-    },
-    {
-        "start_line": 529,
-        "end_line": 529,
-        "code": [
-            "emit FeesConverted(now, feesShareQuantity, unclaimedFees);"
-        ]
-    },
-    {
-        "start_line": 530,
-        "end_line": 530,
-        "code": [
-            "emit CalculationUpdate(now, managementFee, performanceFee, nav, sharePrice, _totalSupply);"
-        ]
-    },
-    {
-        "start_line": 593,
-        "end_line": 593,
-        "code": [
-            "emit Redeemed(msg.sender, now, shareQuantity);"
-        ]
-    },
-    {
-        "start_line": 659,
-        "end_line": 659,
-        "code": [
-            "return block.timestamp >= expiryTime;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "110-110",
+            "vulnerableCode": [
+                "Shares(withName, \"MLNF\", 18, now)"
+            ],
+            "vulnerabilityReason": "Using 'now' (alias for block.timestamp) to initialize the Shares contract allows for miner manipulation, as miners can artificially prolong or shorten the current time, potentially affecting the issuance of shares.",
+            "potentialSecurityRisk": "Miners might gain an unfair advantage by manipulating the timing of share allocation, possibly leading to unequal shares being distributed based on when the transaction is mined.",
+            "fixedCode": "Shares(withName, \"MLNF\", 18, block.timestamp);"
+        },
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "timestamp: now"
+            ],
+            "vulnerabilityReason": "The struct 'Calculations' uses 'now', which is vulnerable to manipulation, allowing miners to affect any calculations reliant on the timestamp.",
+            "potentialSecurityRisk": "Manipulated timestamps could lead to incorrect calculations of fees or distributions, where a miner may explicitly exploit the timing to their advantage.",
+            "fixedCode": "timestamp: block.timestamp;"
+        },
+        {
+            "vulnerableLines": "206-206",
+            "vulnerableCode": [
+                "timestamp: now"
+            ],
+            "vulnerabilityReason": "Timestamp dependency in the request struct allows for miner manipulation affecting the request's timing logic.",
+            "potentialSecurityRisk": "Miners could affect the state of requests by manipulating the timestamp, potentially allowing them to affect the validity of requests or any associated timing mechanisms.",
+            "fixedCode": "timestamp: block.timestamp;"
+        },
+        {
+            "vulnerableLines": "335-335",
+            "vulnerableCode": [
+                "expiresAt = add(now, ORDER_EXPIRATION_TIME)"
+            ],
+            "vulnerabilityReason": "Setting the expiration time based on 'now' allows miners to manipulate the time window for orders, which could lead to unintended results in order handling.",
+            "potentialSecurityRisk": "An attacker could manipulate the expiration of orders, allowing them to circumvent fees or transactional requirements due to incorrect expiration timings.",
+            "fixedCode": "expiresAt = add(block.timestamp, ORDER_EXPIRATION_TIME);"
+        },
+        {
+            "vulnerableLines": "366-366",
+            "vulnerableCode": [
+                "timestamp: block.timestamp"
+            ],
+            "vulnerabilityReason": "This instance of block.timestamp could be prone to miner manipulation since it still relies on the miners' ability to set the block timestamp, though not as directly as now.",
+            "potentialSecurityRisk": "Tooling around the timestamp may allow miners to influence state changes or financial calculations dependent on this timestamp.",
+            "fixedCode": "timestamp: block.timestamp;"
+        },
+        {
+            "vulnerableLines": "434-434",
+            "vulnerableCode": [
+                "uint timePassed = sub(now, atLastUnclaimedFeeAllocation.timestamp);"
+            ],
+            "vulnerabilityReason": "Calculating time passed using 'now' in comparison to a previous timestamp introduces dependency on manipulated time by miners.",
+            "potentialSecurityRisk": "Miners could alter this timestamp calculation to affect fee allocations or any dependent operations, leading to revenue loss outcomes.",
+            "fixedCode": "uint timePassed = sub(block.timestamp, atLastUnclaimedFeeAllocation.timestamp);"
+        },
+        {
+            "vulnerableLines": "526-526",
+            "vulnerableCode": [
+                "timestamp: now"
+            ],
+            "vulnerabilityReason": "The inclusion of 'now' reinforces the timestamp dependency in the struct, making this data easily manipulated.",
+            "potentialSecurityRisk": "The integrity of calculations would be compromised when miners alter the timestamps, affecting system operations that rely on such values.",
+            "fixedCode": "timestamp: block.timestamp;"
+        },
+        {
+            "vulnerableLines": "529-529",
+            "vulnerableCode": [
+                "emit FeesConverted(now, feesShareQuantity, unclaimedFees);"
+            ],
+            "vulnerabilityReason": "Using 'now' to emit events includes a timestamp that can be altered by miners, affecting the accountability and trace of financials.",
+            "potentialSecurityRisk": "Miners could misrepresent when fees are considered converted or manipulated to their advantage leading to incorrect reporting and financial discrepancies in the event logs.",
+            "fixedCode": "emit FeesConverted(block.timestamp, feesShareQuantity, unclaimedFees);"
+        },
+        {
+            "vulnerableLines": "530-530",
+            "vulnerableCode": [
+                "emit CalculationUpdate(now, managementFee, performanceFee, nav, sharePrice, _totalSupply);"
+            ],
+            "vulnerabilityReason": "Similarly to previous lines, using 'now' to emit a calculation update allows miners to manipulate crucial information regarding fees and calculations.",
+            "potentialSecurityRisk": "If a miner abuses the manipulation, it might allow undeserved financial advantages or incorrect state updates within the contract.",
+            "fixedCode": "emit CalculationUpdate(block.timestamp, managementFee, performanceFee, nav, sharePrice, _totalSupply);"
+        },
+        {
+            "vulnerableLines": "593-593",
+            "vulnerableCode": [
+                "emit Redeemed(msg.sender, now, shareQuantity);"
+            ],
+            "vulnerabilityReason": "Using 'now' in emitted events can lead to misleading timestamps that are exploitable due to miner influence on block time.",
+            "potentialSecurityRisk": "Similar to other emit statements, this can lead to inaccurate transaction timelines being reported and might enable a miner to cover malicious actions/transactions with false timestamps.",
+            "fixedCode": "emit Redeemed(msg.sender, block.timestamp, shareQuantity);"
+        },
+        {
+            "vulnerableLines": "659-659",
+            "vulnerableCode": [
+                "return block.timestamp >= expiryTime;"
+            ],
+            "vulnerabilityReason": "This check for expiry is reliant on block.timestamp which miners can potentially manipulate, thus altering logical flow on important function calls.",
+            "potentialSecurityRisk": "Miners could manipulate the timing of the check to ensure they get the favorable outcomes regarding expired transactions or preempt legitimate transactions.",
+            "fixedCode": "return now >= expiryTime;"
+        }
+    ]
+}

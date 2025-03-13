@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 105,
+        "end_line": 105,
+        "code": [
+            "require(_bankroller.call.value(_amount)(_sig));"
+        ]
+    },
+    {
+        "start_line": 121,
+        "end_line": 121,
+        "code": [
+            "require(_tr.call.value(_profits)());"
+        ]
+    }
+]

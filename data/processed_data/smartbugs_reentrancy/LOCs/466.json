@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 134,
-        "end_line": 135,
-        "code": [
-            "require(_target.call.value(_value)(_data), \"BW: call to target failed\");",
-            "emit Invoked(msg.sender, _target, _value, _data);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-135",
+            "vulnerableCode": [
+                "require(_target.call.value(_value)(_data), \"BW: call to target failed\");",
+                "emit Invoked(msg.sender, _target, _value, _data);"
+            ],
+            "vulnerabilityReason": "The external call to `_target` using `call.value()` is made before emitting the `Invoked` event. This allows for a potential reentrancy attack where the called contract could call back into the `BaseWallet` contract before the event is logged, leading to unexpected behavior or fund theft.",
+            "potentialSecurityRisk": "By allowing a reentrant call, an attacker could disrupt the normal flow of the contract, potentially causing multiple withdrawals or manipulations of the contract state before it gets updated, effectively draining the wallet of funds or compromising its security.",
+            "fixedCode": "// Perform the event emission before any external calls are made to ensure that the state is accurately updated and events are logged correctly\nemit Invoked(msg.sender, _target, _value, _data);\nrequire(_target.call.value(_value)(_data), \"BW: call to target failed\");"
+        }
+    ]
+}

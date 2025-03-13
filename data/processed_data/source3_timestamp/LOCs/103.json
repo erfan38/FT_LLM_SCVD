@@ -1,24 +1,32 @@
-[
-    {
-        "start_line": 97,
-        "end_line": 99,
-        "code": [
-            "require(champ.withdrawCooldown < block.timestamp);",
-            "champ.withdrawCooldown = block.timestamp + 1 days;"
-        ]
-    },
-    {
-        "start_line": 150,
-        "end_line": 150,
-        "code": [
-            "require (myChamp.readyTime <= block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 188,
-        "end_line": 188,
-        "code": [
-            "myChamp.readyTime = uint(block.timestamp + myChamp.cooldownTime - myChampCooldownReduction);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "97-99",
+            "vulnerableCode": [
+                "require(champ.withdrawCooldown < block.timestamp);",
+                "champ.withdrawCooldown = block.timestamp + 1 days;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp allows miners to manipulate the cooldown logic, letting them bypass the cooldown requirement.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to allow immediate withdrawals after earlier confirmed withdrawals, circumventing the intended cooldown mechanics.",
+            "fixedCode": "require(champ.withdrawCooldown < block.timestamp + TIME_TOLERANCE); champ.withdrawCooldown = block.timestamp + 1 days;"
+        },
+        {
+            "vulnerableLines": "150-150",
+            "vulnerableCode": [
+                "require (myChamp.readyTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line relies on block.timestamp to determine readiness for attack, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp to allow a player to attack immediately after using their champion, leading to potential exploitations of the attack mechanics.",
+            "fixedCode": "require (myChamp.readyTime <= block.timestamp + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "188-188",
+            "vulnerableCode": [
+                "myChamp.readyTime = uint(block.timestamp + myChamp.cooldownTime - myChampCooldownReduction);"
+            ],
+            "vulnerabilityReason": "Here, using block.timestamp to set the next available attack time introduces the risk of timestamp manipulation affecting game balance.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to effectively reset a champion's attack availability to a lower cooldown period than intended, creating an unfair advantage in battle scenarios.",
+            "fixedCode": "myChamp.readyTime = uint(block.timestamp + myChamp.cooldownTime - myChampCooldownReduction + TIME_TOLERANCE);"
+        }
+    ]
+}

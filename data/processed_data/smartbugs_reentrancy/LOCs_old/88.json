@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 1258,
+        "end_line": 1258,
+        "code": [
+            "if (!address(admin).call.value(_com)())"
+        ]
+    },
+    {
+        "start_line": 1308,
+        "end_line": 1308,
+        "code": [
+            "emit F3Devents.onPotSwapDeposit(_rID, msg.value);"
+        ]
+    }
+]

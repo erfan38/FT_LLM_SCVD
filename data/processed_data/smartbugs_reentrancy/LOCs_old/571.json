@@ -1,0 +1,33 @@
+[
+    {
+        "start_line": 71,
+        "end_line": 75,
+        "code": [
+            "function withdraw(uint amount) {",
+            "    if (tokens[0][msg.sender] < amount) throw;",
+            "    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+            "    if (!msg.sender.call.value(amount)()) throw;",
+            "    Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        ]
+    },
+    {
+        "start_line": 117,
+        "end_line": 131,
+        "code": [
+            "function tradeBalances(address tokenGet, uint amountGet, address tokenGive, uint amountGive, address user, uint amount) private {",
+            "    uint feeMakeXfer = safeMul(amount, feeMake) / (1 ether);",
+            "    uint feeTakeXfer = safeMul(amount, feeTake) / (1 ether);",
+            "    uint feeRebateXfer = 0;",
+            "    if (accountLevelsAddr != 0x0) {",
+            "        uint accountLevel = AccountLevels(accountLevelsAddr).accountLevel(user);",
+            "        if (accountLevel==1) feeRebateXfer = safeMul(amount, feeRebate) / (1 ether);",
+            "        if (accountLevel==2) feeRebateXfer = feeTakeXfer;",
+            "    }",
+            "    tokens[tokenGet][msg.sender] = safeSub(tokens[tokenGet][msg.sender], safeAdd(amount, feeTakeXfer));",
+            "    tokens[tokenGet][user] = safeAdd(tokens[tokenGet][user], safeSub(safeAdd(amount, feeRebateXfer), feeMakeXfer));",
+            "    tokens[tokenGet][feeAccount] = safeAdd(tokens[tokenGet][feeAccount], safeSub(safeAdd(feeMakeXfer, feeTakeXfer), feeRebateXfer));",
+            "    tokens[tokenGive][user] = safeSub(tokens[tokenGive][user], safeMul(amountGive, amount) / amountGet);",
+            "    tokens[tokenGive][msg.sender] = safeAdd(tokens[tokenGive][msg.sender], safeMul(amountGive, amount) / amountGet);"
+        ]
+    }
+]

@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 54,
-        "end_line": 56,
-        "code": [
-            "if(!participants[payoutOrder].etherAddress.send(payoutToSend)){",
-            "participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "54-56",
+            "vulnerableCode": [
+                "if(!participants[payoutOrder].etherAddress.send(payoutToSend)) {",
+                "participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)();"
+            ],
+            "vulnerabilityReason": "The contract uses `send` followed by a state update, which allows the calling function to potentially fail without reverting the state as expected. Additionally, if the call is made to another contract that has fallback logic, it can call back into the `payout` function potentially leading to reentrancy.",
+            "potentialSecurityRisk": "An attacker could create a contract that triggers reentrant calls during the payout process, eventually draining the contract's funds because state changes occur after the funds are sent. This allows them to exploit the contract repeatedly before the payouts are properly accounted for, leading to financial losses.",
+            "fixedCode": "if(payoutToSend > 0) {\n    participants[payoutOrder].payout -= payoutToSend;\n    balance -= payoutToSend;\n    require(participants[payoutOrder].etherAddress.call.value(payoutToSend)()); // Use call and require to enforce success\n}"
+        }
+    ]
+}

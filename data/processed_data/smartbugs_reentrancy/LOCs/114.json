@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 295,
-        "end_line": 295,
-        "code": [
-            "vault.deposit.value(msg.value)(msg.sender);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "295-295",
+            "vulnerableCode": [
+                "vault.deposit.value(msg.value)(msg.sender);"
+            ],
+            "vulnerabilityReason": "The line executes an external call with `vault.deposit.value(msg.value)(msg.sender);` before changing any internal state variables. If the `vault` contract has a fallback function that calls back into this contract, it can manipulate its state before the funds are actually deposited.",
+            "potentialSecurityRisk": "This allowance for reentrancy could allow an attacker to exploit the function, repeatedly calling it to transfer excess ether while the actual balances in the contract haven’t been updated, leading to potential loss of funds.",
+            "fixedCode": "function _forwardFunds() internal {  require(msg.value > 0, \"No ether sent.\");  // Ensure there's actually some ether  vault.deposit.value(msg.value)(msg.sender);  // Potentially unsafe line but needs checks  // Update other relevant state variables after external calls to ensure safety  // Currently, we have no state changes after this line, but this is a crucial step for the Checks-Effects-Interactions pattern  // Ensure the withdrawal is successful somehow before proceeding  }"
+        }
+    ]
+}

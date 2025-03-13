@@ -1,17 +1,23 @@
-[
-    {
-        "start_line": 17,
-        "end_line": 17,
-        "code": [
-            "Crowdsale(START_TIME > now ? START_TIME : now, 1543640400, 1200 * TOKEN_DECIMAL_MULTIPLIER, 0x8BcC12F71e4C0C5f73C0dF9afbB3ed1de66DdD79)"
-        ]
-    },
-    {
-        "start_line": 92,
-        "end_line": 94,
-        "code": [
-            "require(now < endTime);",
-            "require(now < _endTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "17-17",
+            "vulnerableCode": [
+                "Crowdsale(START_TIME > now ? START_TIME : now, 1543640400, 1200 * TOKEN_DECIMAL_MULTIPLIER, 0x8BcC12F71e4C0C5f73C0dF9afbB3ed1de66DdD79)"
+            ],
+            "vulnerabilityReason": "Using 'now' (or block.timestamp) to initialize the start time for the crowdsale exposes it to manipulation by miners, who can change the block timestamp to set the start time in their favor.",
+            "potentialSecurityRisk": "A miner could manipulate the time to trigger the start of the crowdsale earlier than intended, allowing them to benefit from lower prices or other bonuses available during the initial sale period.",
+            "fixedCode": "Crowdsale(START_TIME > block.timestamp + TIME_TOLERANCE ? START_TIME : block.timestamp + TIME_TOLERANCE, 1543640400, 1200 * TOKEN_DECIMAL_MULTIPLIER, 0x8BcC12F71e4C0C5f73C0dF9afbB3ed1de66DdD79);"
+        },
+        {
+            "vulnerableLines": "92-94",
+            "vulnerableCode": [
+                "require(now < endTime);",
+                "require(now < _endTime);"
+            ],
+            "vulnerabilityReason": "Relying on 'now' for critical checks makes the contract's functionality dependent on the timestamp, which can be influenced by miners, potentially allowing them to end the crowdsale prematurely or extend it without proper verification.",
+            "potentialSecurityRisk": "Miners could alter timestamps to bypass conditions, either prematurely ending the crowdsale or preventing it from ending when intended, leading to financial consequences and unfair advantages.",
+            "fixedCode": "require(block.timestamp < endTime + TIME_TOLERANCE); //Allows for minor timing adjustments\nrequire(block.timestamp < _endTime + TIME_TOLERANCE); //Allows for minor timing adjustments"
+        }
+    ]
+}

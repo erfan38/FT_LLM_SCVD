@@ -1,17 +1,23 @@
-[
-    {
-        "start_line": 22,
-        "end_line": 22,
-        "code": [
-            "require(timestamp >= createTime && timestamp <= block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 48,
-        "end_line": 49,
-        "code": [
-            "function updateReleaseAmount(uint256 timestamp) internal {",
-            "    uint256 timeElapse = timestamp.sub(createTime);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "22-22",
+            "vulnerableCode": [
+                "require(timestamp >= createTime && timestamp <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the provided timestamp is within valid limits using block.timestamp, which can be manipulated by miners. A miner may set the timestamp to be slightly lower than the actual current time, allowing them to bypass checks or trigger certain conditions after the fact.",
+            "potentialSecurityRisk": "This vulnerability allows miners to manipulate the system's time-bound logic, leading to improper releases of funds or changing conditions under which funds can be released. They could release more funds than intended or at times that are not in line with the contract's logic, impacting the financial mechanisms of the contract.",
+            "fixedCode": "require(timestamp >= createTime && timestamp <= block.timestamp + TIME_TOLERANCE); // Add a buffer like TIME_TOLERANCE to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "48-49",
+            "vulnerableCode": [
+                "function updateReleaseAmount(uint256 timestamp) internal {",
+                "    uint256 timeElapse = timestamp.sub(createTime);"
+            ],
+            "vulnerabilityReason": "The updateReleaseAmount function computes the release amount based on the elapsed time since createTime, using the provided timestamp. Since this timestamp can be controlled by miners, it directly influences calculations that determine how much can be released, creating a risk of manipulation.",
+            "potentialSecurityRisk": "Miners could alter the timestamp to affect how much release amount is calculated, allowing them or accomplices to benefit from releases at more favorable amounts than intended by the contract's design.",
+            "fixedCode": "uint256 timeElapse = (timestamp.sub(createTime)).add(TIME_TOLERANCE); // Use a buffered calculation based on the manipulated timestamp."
+        }
+    ]
+}

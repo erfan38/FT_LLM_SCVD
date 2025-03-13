@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 6,
+        "code": [
+            "require(block.timestamp >= lastDrawTime + 1 days, \"Too early for next draw\");"
+        ]
+    }
+]

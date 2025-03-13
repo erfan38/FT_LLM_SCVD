@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 172,
-        "end_line": 172,
-        "code": [
-            "address(ethpyramid).call.value(investment).gas(1000000)();"
-        ]
-    },
-    {
-        "start_line": 190,
-        "end_line": 190,
-        "code": [
-            "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "172-172",
+            "vulnerableCode": [
+                "address(ethpyramid).call.value(investment).gas(1000000)();"
+            ],
+            "vulnerabilityReason": "This line uses 'call.value()' to send ethers without ensuring that the state is updated beforehand. If an attacker controls 'ethpyramid', they could exploit this by making a reentrant call, allowing them to withdraw more funds than allowed.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain funds from the contract by continuously re-entering the 'payout()' function before the state is properly updated, leading to unauthorized withdrawals.",
+            "fixedCode": "uint investment = balance / 2;\nrequire(investment <= address(this).balance, \"Insufficient contract balance\");\n(, ) = address(ethpyramid).call.value(investment).gas(1000000)();\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "190-190",
+            "vulnerableCode": [
+                "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+            ],
+            "vulnerabilityReason": "The line again uses 'call.value()' without adequate state management. If the recipient is a malicious contract, they can execute a reentrant call before the state updates occur, allowing for multiple withdrawals from their payout.",
+            "potentialSecurityRisk": "This vulnerability can be exploited to repeatedly withdraw funds by re-entering the function, resulting in a potential total loss of funds from the contract.",
+            "fixedCode": "if(participants[payoutOrder].etherAddress.call.value(payoutToSend)().gas(1000000)){\n  emit Payout(payoutToSend, participants[payoutOrder].etherAddress);\n} else {\n  balance += payoutToSend;\n  backlog += payoutToSend;\n  creditRemaining[participants[payoutOrder].etherAddress] += payoutToSend;\n  participants[payoutOrder].payout += payoutToSend;\n}"
+        }
+    ]
+}

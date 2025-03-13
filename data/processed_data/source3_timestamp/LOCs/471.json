@@ -1,18 +1,24 @@
-[
-    {
-        "start_line": 85,
-        "end_line": 87,
-        "code": [
-            "require(endAt_ > block.timestamp && state == State.Inactive);",
-            "startAt = block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 113,
-        "end_line": 115,
-        "code": [
-            "if (endAt_ > block.timestamp) {",
-            "endAt = endAt_;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "85-87",
+            "vulnerableCode": [
+                "require(endAt_ > block.timestamp && state == State.Inactive);",
+                "startAt = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The use of `block.timestamp` to set `startAt` and ensure that `endAt_` is greater than the current timestamp introduces a dependency on the blockchain timestamp, which is manipulable by miners.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to start the ICO earlier or extend its end time, allowing them to buy tokens at manipulated prices, leading to unfair advantages.",
+            "fixedCode": "require(endAt_ > block.timestamp + TIME_TOLERANCE && state == State.Inactive); \nstartAt = block.timestamp; // Note: Properly handle tolerance to buffer against slight timestamp manipulations."
+        },
+        {
+            "vulnerableLines": "113-115",
+            "vulnerableCode": [
+                "if (endAt_ > block.timestamp) {",
+                "endAt = endAt_;"
+            ],
+            "vulnerabilityReason": "The function `tune` uses `block.timestamp` to determine if the new `endAt_` is valid, making it a potential target for manipulation.",
+            "potentialSecurityRisk": "An attacker may manipulate the timestamp to set an `endAt` that does not accurately reflect the desired ending time of the ICO, leading to the possibility of extending the ICO period unfairly or altering the intended investment conditions.",
+            "fixedCode": "if (endAt_ > block.timestamp + TIME_TOLERANCE) { \nendAt = endAt_; // Use a buffer like TIME_TOLERANCE to mitigate against miner manipulation."
+        }
+    ]
+}

@@ -1,34 +1,44 @@
-[
-    {
-        "start_line": 367,
-        "end_line": 367,
-        "code": [
-            "            if (_eth > 0)",
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 395,
-        "end_line": 395,
-        "code": [
-            "            if (_eth > 0)",
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1029,
-        "end_line": 1030,
-        "code": [
-            "        if (!address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "        {"
-        ]
-    },
-    {
-        "start_line": 1138,
-        "end_line": 1139,
-        "code": [
-            "        if (!address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
-            "        {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "367-367",
+            "vulnerableCode": [
+                "            if (_eth > 0)",
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This line sends Ether to the player's address before updating any state variables. If a malicious contract calls this function, it can re-enter before the state is changed, allowing potential multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy bug to drain the contract's balance by calling this function multiple times before the player's balance is updated.",
+            "fixedCode": "if (_eth > 0) {\n    require(plyr_[_pID].addr.send(_eth), 'Transfer failed');\n}\npayable(plyr_[_pID].addr).transfer(_eth); // Adjust code to ensure transfer is made after necessary state updates."
+        },
+        {
+            "vulnerableLines": "395-395",
+            "vulnerableCode": [
+                "            if (_eth > 0)",
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This line also sends Ether to the player's address before the player's state variables are updated, creating a reentrancy risk similar to the previous instance.",
+            "potentialSecurityRisk": "An attacker could exploit this, potentially draining more Ether than intended by re-calling this function before the state update.",
+            "fixedCode": "if (_eth > 0) {\n    require(plyr_[_pID].addr.send(_eth), 'Transfer failed');\n}\npayable(plyr_[_pID].addr).transfer(_eth); // Guard against reentrancy."
+        },
+        {
+            "vulnerableLines": "1029-1030",
+            "vulnerableCode": [
+                "        if (!address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "        {  "
+            ],
+            "vulnerabilityReason": "The `call.value` method transfers Ether without ensuring that internal state updates have been executed first, allowing a reentrant call to drain funds from the contract.",
+            "potentialSecurityRisk": "A malicious contract could redirect the execution flow and withdraw funds again before the internal state reflects the outgoing transfers, leading to a potential drain of contract funds.",
+            "fixedCode": "(bool success, ) = address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\")));\nrequire(success, 'Transfer failed'); // Ensure transfer success."
+        },
+        {
+            "vulnerableLines": "1138-1139",
+            "vulnerableCode": [
+                "        if (!address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\"))))",
+                "        {  "
+            ],
+            "vulnerabilityReason": "This line, like the previous one, exposes the contract to a reentrancy risk as it transfers Ether before updating the respective contract state, which could be exploited by malicious actors.",
+            "potentialSecurityRisk": "An attacker could drain funds by exploiting the transfer call to re-enter the function, allowing for multiple withdrawals.",
+            "fixedCode": "(bool success, ) = address(TeamUnicorn).call.value(_com)(bytes4(keccak256(\"deposit()\")));\nrequire(success, 'Transfer failed'); // Ensure successful transfer."
+        }
+    ]
+}

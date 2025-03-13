@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "27-28",
+            "vulnerableCode": [
+                "balanceOf[_from] -= _value;",
+                "balanceOf[_to] += _value;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations on `balanceOf[_from]` and `balanceOf[_to]` without any checks for overflow or underflow. If `_value` exceeds the balance of `_from`, it will cause an underflow, resulting in incorrect balances. If adding `_value` to `balanceOf[_to]` exceeds the maximum limit for uint256, it causes an overflow.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by transferring more tokens than available, resulting in underflows or incorrect token balances, leading to unauthorized transfers or loss of funds.",
+            "fixedCode": "require(balanceOf[_from] >= _value, 'Insufficient balance');\nbalanceOf[_from] -= _value;\nbalanceOf[_to] += _value; // Using Solidity 0.8+ built-in overflow/underflow protection (or using SafeMath for older versions)"
+        },
+        {
+            "vulnerableLines": "60-60",
+            "vulnerableCode": [
+                "myDonation[msg.sender] += msg.value;"
+            ],
+            "vulnerabilityReason": "This line updates the `myDonation[msg.sender]` mapping without checking for overflow. If `msg.value` is very large and `myDonation[msg.sender]` is also large, it could result in an overflow, causing incorrect donations to be recorded.",
+            "potentialSecurityRisk": "An attacker could exploit this by sending a large enough value to cause an overflow in `myDonation`, resulting in losing track of the actual amount donated, potentially causing issues in withdrawal or misuse of funds.",
+            "fixedCode": "require(myDonation[msg.sender] + msg.value >= myDonation[msg.sender], 'Overflow detected');\nmyDonation[msg.sender] += msg.value; // Using Solidity 0.8+ built-in overflow/underflow protection (or using SafeMath for older versions)"
+        }
+    ]
+}

@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 5,
-        "end_line": 5,
-        "code": [
-            "      block.timestamp >= endTime"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "block.timestamp >= endTime"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' for comparisons in the totalInfo function introduces a vulnerability since miners can manipulate the block timestamp, impacting the evaluation of 'block.timestamp >= endTime'.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp within acceptable limits to manipulate the function's outcome, potentially allowing unauthorized access to features or state changes within the contract that depend on this condition being true or false.",
+            "fixedCode": "require(block.timestamp >= endTime + TIME_TOLERANCE); // Consider using a time buffer"
+        }
+    ]
+}

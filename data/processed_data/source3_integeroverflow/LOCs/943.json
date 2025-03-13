@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 rewardPerUser = totalReward / userCount;"
+            ],
+            "vulnerabilityReason": "The division operation in the `distributeReward` function does not check if `userCount` is zero before performing the division. Attempting to divide by zero will cause a runtime error, leading to a transaction revert.",
+            "potentialSecurityRisk": "If `userCount` is zero, any attempt to distribute rewards will revert the transaction, preventing successful execution of the function and potentially locking the rewards indefinitely since they cannot be distributed.",
+            "fixedCode": "require(userCount > 0, \"User count must be greater than zero\");\nuint256 rewardPerUser = totalReward / userCount;"
+        }
+    ]
+}

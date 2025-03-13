@@ -1,18 +1,24 @@
-[
-    {
-        "start_line": 237,
-        "end_line": 239,
-        "code": [
-            "            block.timestamp < crowdsales[_token].closingTime,",
-            "            \"Failed to buy token due to crowdsale is closed.\""
-        ]
-    },
-    {
-        "start_line": 348,
-        "end_line": 350,
-        "code": [
-            "            block.timestamp >= crowdsales[_token].closingTime),",
-            "            \"Failed to finalize due to crowdsale is opening.\""
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "237-239",
+            "vulnerableCode": [
+                "block.timestamp < crowdsales[_token].closingTime,",
+                "\"Failed to buy token due to crowdsale is closed.\""
+            ],
+            "vulnerabilityReason": "The buyToken function relies on block.timestamp to check if the crowdsale is still active. This reliance makes the function vulnerable because miners can manipulate the block timestamp, potentially causing unexpected behavior in the crowdsale's token purchase functionality.",
+            "potentialSecurityRisk": "Malicious miners can exploit timestamp adjustments to prematurely close the crowdsale or create conditions where they can buy tokens at reduced prices, thus undermining the intended fairness of the crowdsale process.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < crowdsales[_token].closingTime, \"Failed to buy token due to crowdsale is closed.\"); // Add a buffer to mitigate manipulation"
+        },
+        {
+            "vulnerableLines": "348-350",
+            "vulnerableCode": [
+                "block.timestamp >= crowdsales[_token].closingTime),",
+                "\"Failed to finalize due to crowdsale is opening.\""
+            ],
+            "vulnerabilityReason": "In the finalize function, the use of block.timestamp to verify if the crowdsale has ended opens the door for miner manipulation, allowing them to affect the finalization process of the crowdsale by altering timestamps.",
+            "potentialSecurityRisk": "This vulnerability could permit miners to falsely finalize or prolong a crowdsale, allowing them to manipulate outcomes or secure profits unethically, leading to loss of trust in the crowdsale mechanics.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= crowdsales[_token].closingTime, \"Failed to finalize due to crowdsale is opening.\"); // Introduce a buffer to reduce risk of manipulation"
+        }
+    ]
+}

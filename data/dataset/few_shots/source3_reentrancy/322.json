@@ -15,9 +15,12 @@
         "potentialSecurityRisk": "An attacker could deploy a malicious contract that exploits this function by re-entering before the balance update. By calling this function recursively within the fallback function of their contract, they can withdraw more funds than they initially deposited, leading to a complete depletion of the contract's balance.",
         "fixedCode": [
             "require(acc.balance >= _am, \"Insufficient balance\");",
-            "acc.balance -= _am;",
+            "require(block.timestamp > acc.unlockTime, \"Funds are still locked\");",
+            "acc.balance -= _am; // Update the state (balance) BEFORE the external call. Deduct the amount first to prevent reentrancy",  
             "(bool success, ) = msg.sender.call{value: _am}(\"\");",
-            "require(success, \"Transfer failed\");"
+            "require(success, \"Transfer failed\"); // Ensuring safe external call",
+            "LogFile.AddMessage(msg.sender, _am, \"Collect\"); // Logging the transaction"
         ]
+
     }
 ]

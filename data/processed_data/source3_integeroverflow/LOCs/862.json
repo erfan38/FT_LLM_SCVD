@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalRewards = totalRewards - reward;"
+            ],
+            "vulnerabilityReason": "The contract subtracts `reward` from `totalRewards` without checking if `totalRewards` is greater than or equal to `reward`. If `reward` exceeds `totalRewards`, it triggers an underflow, resulting in `totalRewards` wrapping around to a very large number.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to distribute rewards that exceed the available `totalRewards`, leading to incorrect balances and potential loss of funds to the contract, as it would allow them to claim more rewards than what should be possible.",
+            "fixedCode": "require(totalRewards >= reward, \"Insufficient totalRewards to distribute\");\ntotalRewards = totalRewards - reward;"
+        }
+    ]
+}

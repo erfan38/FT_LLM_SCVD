@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 288,
-        "end_line": 288,
-        "code": [
-            "else if (block.timestamp <= endsAt && !isCrowdsaleFull()) return State.Funding;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "288-288",
+            "vulnerableCode": [
+                "else if (block.timestamp <= endsAt && !isCrowdsaleFull()) return State.Funding;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the getState() function to determine the current state of the crowdsale makes the function susceptible to manipulation by miners, who can control the block timestamp to influence the funding status of the crowdsale.",
+            "potentialSecurityRisk": "Miners can exploit this vulnerability to trigger a funding state at will, thus allowing them to purchase tokens at a lower price than intended, creating an unfair advantage and potentially affecting the economics of the crowdsale.",
+            "fixedCode": "else if (now <= endsAt && !isCrowdsaleFull()) return State.Funding; // Use 'now' to maintain consistency while potentially adding buffer checks to enhance security."
+        }
+    ]
+}

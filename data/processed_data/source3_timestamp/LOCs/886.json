@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 191,
-        "end_line": 191,
-        "code": [
-            "block.timestamp > (forceOffsetBooks[user_] + 28800)"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "191-191",
+            "vulnerableCode": [
+                "block.timestamp > (forceOffsetBooks[user_] + 28800)"
+            ],
+            "vulnerabilityReason": "The offset function checks if the current timestamp exceeds a value that can be influenced by the miner, allowing them to manipulate when force offsets are activated.",
+            "potentialSecurityRisk": "Miners could alter the block timestamp to trigger force offsets prematurely, allowing for unintended use of tokens or financial exploitation in transactions that depend on correct timing.",
+            "fixedCode": "require(block.timestamp > (forceOffsetBooks[user_] + 28800 + TIME_TOLERANCE)); // Adding a buffer to mitigate manipulation"
+        }
+    ]
+}

@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 382,
-        "end_line": 382,
-        "code": [
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 411,
-        "end_line": 411,
-        "code": [
-            "                plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 1151,
-        "end_line": 1151,
-        "code": [
-            "            POHToken.call.value(_PoH)(bytes4(keccak256(\"sendDividends()\")));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "382-382",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract transfers Ether to the player's address without properly validating that the transfer was successful. If the transfer fails (for instance, the receiving address is a contract), the state change (winning amount) remains, allowing potential reentrant attacks.",
+            "potentialSecurityRisk": "An attacker could exploit the failure of the transfer to manipulate the contract state. They could repeatedly call this function, allowing them to withdraw funds without the state reflecting their actions properly, leading to loss of funds for other players.",
+            "fixedCode": "(bool success,) = plyr_[_pID].addr.call.value(_eth)(''); require(success, 'Transfer failed'); // Ensures the state is not modified unless the transfer is successful."
+        },
+        {
+            "vulnerableLines": "411-411",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, transferring Ether to the player's address without confirming the success of the transaction can leave the contract in an inconsistent state if the call fails.",
+            "potentialSecurityRisk": "This could allow an attacker to drain the contract by manipulating the state before the actual transfer occurs and exploiting repeated calls before state updates.",
+            "fixedCode": "(bool success,) = plyr_[_pID].addr.call.value(_eth)(''); require(success, 'Transfer failed'); // Ensures the state is only modified if the transfer succeeds."
+        },
+        {
+            "vulnerableLines": "1151-1151",
+            "vulnerableCode": [
+                "            POHToken.call.value(_PoH)(bytes4(keccak256(\"sendDividends()\")));"
+            ],
+            "vulnerabilityReason": "Using low-level call with POHToken can be risky if it does not handle Ether securely. If the external contract is malicious or behaves unexpectedly, it could affect the state of this contract, potentially leading to funds being lost or frozen.",
+            "potentialSecurityRisk": "A malicious POHToken contract may exploit the low-level call to take advantage of the state before or after its completion, leading to possible attacks on user balances or contract funds.",
+            "fixedCode": "require(POHToken.call.value(_PoH)(bytes4(keccak256(\"sendDividends()\"))), 'Transfer failed'); // Ensure the call to POHToken works as expected and ensure security."
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 195,
+        "end_line": 195,
+        "code": [
+            "dep.depositor.send(dep.expect);"
+        ]
+    },
+    {
+        "start_line": 202,
+        "end_line": 202,
+        "code": [
+            "dep.depositor.send(money);"
+        ]
+    },
+    {
+        "start_line": 284,
+        "end_line": 284,
+        "code": [
+            "FATHER.call.value(donation).gas(250000)();"
+        ]
+    },
+    {
+        "start_line": 287,
+        "end_line": 287,
+        "code": [
+            "queue[lastDepositInfo.index].depositor.send(prize);"
+        ]
+    }
+]

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint rewardPerRecipient = _totalRewards / _recipients;"
+            ],
+            "vulnerabilityReason": "The division operation uses '_recipients' as a divisor without checking if it is zero. If '_recipients' is zero, this will result in a division by zero error, causing the transaction to revert.",
+            "potentialSecurityRisk": "If '_recipients' is zero, the function cannot distribute rewards and will revert the transaction, potentially leading to a denial of service if this function is called under such conditions. Additionally, if '_totalRewards' is not evenly divisible by '_recipients', there could be rewards left undistributed due to integer division, resulting in inefficiencies or unexpected outcomes in reward distribution.",
+            "fixedCode": "require(_recipients > 0, 'Number of recipients must be greater than zero.');\nuint rewardPerRecipient = _totalRewards / _recipients;"
+        }
+    ]
+}

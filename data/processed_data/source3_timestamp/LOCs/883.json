@@ -1,37 +1,49 @@
-[
-    {
-        "start_line": 79,
-        "end_line": 79,
-        "code": [
-            "bool validTimestamp = startingTimestamp <= block.timestamp && endingTimestamp >= block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 167,
-        "end_line": 167,
-        "code": [
-            "TokenPurchase(msg.sender, beneficiary, _value, tokens, now);"
-        ]
-    },
-    {
-        "start_line": 180,
-        "end_line": 180,
-        "code": [
-            "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
-        ]
-    },
-    {
-        "start_line": 208,
-        "end_line": 208,
-        "code": [
-            "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
-        ]
-    },
-    {
-        "start_line": 241,
-        "end_line": 241,
-        "code": [
-            "WalletChange(_wallet , now);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "79-79",
+            "vulnerableCode": [
+                "bool validTimestamp = startingTimestamp <= block.timestamp && endingTimestamp >= block.timestamp;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to determine the validity of a purchase allows miners to manipulate the timestamp within allowable limits to their advantage.",
+            "potentialSecurityRisk": "Miners could manipulate the transaction timestamp to wrongfully validate or invalidate a purchase, potentially allowing them to purchase tokens at a discount unfairly or deny access to legitimate purchases during the sale period.",
+            "fixedCode": "bool validTimestamp = startingTimestamp <= block.timestamp + TIME_TOLERANCE && endingTimestamp >= block.timestamp + TIME_TOLERANCE;"
+        },
+        {
+            "vulnerableLines": "167-167",
+            "vulnerableCode": [
+                "TokenPurchase(msg.sender, beneficiary, _value, tokens, now);"
+            ],
+            "vulnerabilityReason": "Using 'now' (alias for block.timestamp) when logging a purchase exposes the contract to miner manipulations that override the actual purchase timing.",
+            "potentialSecurityRisk": "An attacker could manipulate the timestamp to affect any future logic that relies on these stored timestamps, thereby undermining the consistency and integrity of purchase logging.",
+            "fixedCode": "TokenPurchase(msg.sender, beneficiary, _value, tokens, block.timestamp);"
+        },
+        {
+            "vulnerableLines": "180-180",
+            "vulnerableCode": [
+                "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp in the releaseBonus function for determining the release of locked bonus tokens makes the contract susceptible to timestamp manipulation risks from miners.",
+            "potentialSecurityRisk": "A miner can extend or shorten the release period by slightly adjusting the timestamp, potentially releasing tokens earlier or later than intended, thereby creating unfair advantages in the token distribution.",
+            "fixedCode": "if(block.timestamp + TIME_TOLERANCE > (startingTimestamp.add(phase1Duration)))"
+        },
+        {
+            "vulnerableLines": "208-208",
+            "vulnerableCode": [
+                "if(block.timestamp > (startingTimestamp.add(phase1Duration)))"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this line can lead to the same vulnerabilities regarding locked bonus tokens based on miner-controlled timestamps.",
+            "potentialSecurityRisk": "Miners can exploit timestamp manipulation to unfairly release or delay token bonuses, affecting the payouts to users.",
+            "fixedCode": "if(block.timestamp + TIME_TOLERANCE > (startingTimestamp.add(phase1Duration)))"
+        },
+        {
+            "vulnerableLines": "241-241",
+            "vulnerableCode": [
+                "WalletChange(_wallet , now);"
+            ],
+            "vulnerabilityReason": "This line logs a wallet change using 'now' which can be manipulated by miners, thus compromising the integrity of the contract's event logging regarding wallet updates.",
+            "potentialSecurityRisk": "An attacker could manipulate the timestamp creating inconsistencies in events that track wallet changes, leading to confusion or disputes about when changes occurred.",
+            "fixedCode": "WalletChange(_wallet , block.timestamp);"
+        }
+    ]
+}

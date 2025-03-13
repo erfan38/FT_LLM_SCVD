@@ -1,16 +1,22 @@
-[
-    {
-        "start_line": 46,
-        "end_line": 46,
-        "code": [
-            "require(gameTime - 300 > block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 63,
-        "end_line": 63,
-        "code": [
-            "require(gameTime - 300 > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "require(gameTime - 300 > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The code checks if 'gameTime - 300' is greater than 'block.timestamp', creating a dependency on block.timestamp which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners can manipulate the block timestamp within a small range, allowing them to bypass the time check and execute actions that should be restricted until the game time elapses, potentially leading to unfair advantages.",
+            "fixedCode": "require(gameTime - 300 > block.timestamp + TIME_TOLERANCE); // Add a buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "63-63",
+            "vulnerableCode": [
+                "require(gameTime - 300 > block.timestamp);"
+            ],
+            "vulnerabilityReason": "A similar dependency on block.timestamp is present in the fallback function, allowing miners to manipulate the timing conditions to gain access to funds or tokens that are meant to have specific time constraints.",
+            "potentialSecurityRisk": "Manipulated timestamps could enable miners to exploit the timeframe checks, allowing them to purchase tokens at a lower price than intended or to bypass necessary time delays.",
+            "fixedCode": "require(gameTime - 300 > block.timestamp + TIME_TOLERANCE); // Add a buffer to mitigate timestamp manipulation."
+        }
+    ]
+}

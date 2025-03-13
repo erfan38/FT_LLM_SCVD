@@ -1,0 +1,16 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-6",
+            "vulnerableCode": [
+                "function exp_overflow() returns (uint32 _overflow) {",
+                "uint32 base = 2;",
+                "uint32 exponent = 31;",
+                "return base ** exponent;"
+            ],
+            "vulnerabilityReason": "The function calculates 2^31 using uint32 variables, which results in a value of 2,147,483,648. This value exceeds the maximum storable value for uint32 (4,294,967,295), causing an overflow. In Solidity versions prior to 0.8.0, this would yield an incorrect result, while in version 0.8.0 and later, it would revert the transaction.",
+            "potentialSecurityRisk": "The overflow vulnerability can cause the function to return an incorrect value or lead to a transaction revert. This could result in unexpected behavior, denial of service for users relying on this function, or financial losses if used in critical calculations or logic.",
+            "fixedCode": "function exp_overflow() public pure returns (uint256) {\n    uint32 base = 2;\n    uint32 exponent = 31;\n    return uint256(base) ** exponent; // Use a larger type for the result to avoid overflow\n}"
+        }
+    ]
+}

@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 385,
-        "end_line": 385,
-        "code": [
-            "admin.transfer(_com);"
-        ]
-    },
-    {
-        "start_line": 268,
-        "end_line": 268,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 389,
-        "end_line": 389,
-        "code": [
-            "if (!address(admin).call.value(_com)())"
-        ]
-    },
-    {
-        "start_line": 1285,
-        "end_line": 1285,
-        "code": [
-            "admin.transfer(_p3d.sub(_potAmount));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "385-385",
+            "vulnerableCode": [
+                "admin.transfer(_com);"
+            ],
+            "vulnerabilityReason": "The admin address receives funds before the state is updated (e.g., updating balances or players' winnings), which may allow an attacker to execute a reentrancy attack.",
+            "potentialSecurityRisk": "An attacker can call back into this function through a fallback, allowing them to manipulate the contract's state or withdraw additional funds before the admin's transfer is finalized.",
+            "fixedCode": "require(address(this).balance >= _com, 'Insufficient contract balance');\nuint256 comAmount = _com;\n_com = 0; // reset _com before transfer\nadmin.transfer(comAmount);"
+        },
+        {
+            "vulnerableLines": "268-268",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This external call using `transfer()` occurs prior to ensuring the player's earnings have been completely processed or updated, permitting reentrancy if the recipient is a malicious contract.",
+            "potentialSecurityRisk": "A malicious contract could call back into the `withdraw` function to withdraw additional funds before the balance is adjusted, potentially draining funds from the contract.",
+            "fixedCode": "uint256 ethWithdrawn = _eth;\n_eth = 0; // Ensure the amount cannot be withdrawn again\nplyr_[_pID].addr.transfer(ethWithdrawn);"
+        },
+        {
+            "vulnerableLines": "389-389",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "Using `call.value()` allows for potential fallback exploitation. If an attacker controls the `admin` address or uses a malicious contract that manipulates state during the call, it could lead to vulnerabilities.",
+            "potentialSecurityRisk": "If the `admin` address is compromised, a malicious contract can exploit this call to re-enter the state before proper shuffles or updates are completed, leading to unexpected fund drains or leverage of contract logic.",
+            "fixedCode": "require(_com <= address(this).balance, 'Insufficient balance for admin payment');\nbool successful = address(admin).call.value(_com)();\nrequire(successful, 'Admin transfer failed');"
+        },
+        {
+            "vulnerableLines": "1285-1285",
+            "vulnerableCode": [
+                "admin.transfer(_p3d.sub(_potAmount));"
+            ],
+            "vulnerabilityReason": "Admin receives funds prior to state updates, allowing for an attacker to manipulate the contract's state by executing reentrancy attacks before the transfer's effects are finalized.",
+            "potentialSecurityRisk": "An attacker could exploit the timing of this operation, making it possible to claim additional rewards or influence state without appropriate checks, ultimately draining more funds than intended.",
+            "fixedCode": "uint256 payoutAmount = _p3d.sub(_potAmount);\nrequire(address(this).balance >= payoutAmount, 'Insufficient contract balance for this transaction');\nadmin.transfer(payoutAmount);"
+        }
+    ]
+}

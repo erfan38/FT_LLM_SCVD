@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 21,
-        "end_line": 21,
-        "code": [
-            "participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)();"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)();"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value(payoutToSend)()' to send Ether, which allows for external calls. If 'participants[payoutOrder].etherAddress' is a malicious contract, it can re-enter the 'payout' function before the state is updated. This could allow the malicious contract to repeatedly withdraw funds while the original loop is still executing, leading to a potential drain of the contract's balance.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract that, when receiving the Ether, calls back into the 'payout' function and executes the payout process again, enabling the attacker to withdraw more funds than intended and drain the contract's balance.",
+            "fixedCode": "uint256 payoutToSend = balance < participants[payoutOrder].payout ? balance : participants[payoutOrder].payout;\nbalances[payoutOrder].payout -= payoutToSend; // Update state before external call\n(bool success,) = participants[payoutOrder].etherAddress.call{value: payoutToSend}('');\nrequire(success, \"Transfer failed\"); // Ensure successful transfer\nbalance -= payoutToSend;"
+        }
+    ]
+}

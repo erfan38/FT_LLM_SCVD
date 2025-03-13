@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 17,
+        "end_line": 17,
+        "code": [
+            "require (block.timestamp > partyTime && hodlers[msg.sender] > 0);"
+        ]
+    }
+]

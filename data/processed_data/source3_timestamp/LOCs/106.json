@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 57,
-        "end_line": 57,
-        "code": [
-            "require(payments[_index].requestedTime + 24*60*60 < block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 94,
-        "end_line": 94,
-        "code": [
-            "require(payments[_index].paymentDue <= block.timestamp);"
-        ]
-    },
-    {
-        "start_line": 115,
-        "end_line": 115,
-        "code": [
-            "require(payments[_index].requestedTime + 24*60*60 > block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "57-57",
+            "vulnerableCode": [
+                "require(payments[_index].requestedTime + 24*60*60 < block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if 24 hours have elapsed since the payment was requested by comparing with the current block timestamp. Miners can manipulate the block timestamp, thus allowing them to affect the payment collection timeline.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to trigger the payment collection eligibility earlier than intended, allowing them to unduly collect payments sooner or block others from doing so.",
+            "fixedCode": "require(payments[_index].requestedTime + 24*60*60 < block.timestamp + TIME_TOLERANCE); // Use a buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "require(payments[_index].paymentDue <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This requirement checks if the payment due date has arrived by comparing it to the current block timestamp. This expression is vulnerable to manipulation by miners managing the timestamps.",
+            "potentialSecurityRisk": "An attacker could adjust the block timestamp, leading to premature or delayed payment requests, disrupting the intended payment schedule and undermining contract reliability.",
+            "fixedCode": "require(payments[_index].paymentDue <= block.timestamp + TIME_TOLERANCE); // Use a buffer to protect against miner timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "115-115",
+            "vulnerableCode": [
+                "require(payments[_index].requestedTime + 24*60*60 > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line ensures that the rejection window only lasts for 24 hours post-request. If the block timestamp is manipulated, it can lead to erroneous payment rejection outcomes.",
+            "potentialSecurityRisk": "A miner could influence the outcome of payment rejections, potentially facilitating or blocking payment processing at will due to the manipulation of timestamps.",
+            "fixedCode": "require(payments[_index].requestedTime + 24*60*60 > block.timestamp + TIME_TOLERANCE); // Use a buffer for improved security against timestamp manipulation."
+        }
+    ]
+}

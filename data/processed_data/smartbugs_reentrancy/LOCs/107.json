@@ -1,30 +1,40 @@
-[
-    {
-        "start_line": 1255,
-        "end_line": 1255,
-        "code": [
-            "if (!address(admin1).call.value(_com.sub(_com / 2))())"
-        ]
-    },
-    {
-        "start_line": 1265,
-        "end_line": 1265,
-        "code": [
-            "if (!address(admin2).call.value(_com / 2)())"
-        ]
-    },
-    {
-        "start_line": 415,
-        "end_line": 415,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 444,
-        "end_line": 444,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1255-1255",
+            "vulnerableCode": [
+                "if (!address(admin1).call.value(_com.sub(_com / 2))())"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows the recipient (admin1) to execute a fallback function, which could make a call back to the smart contract before the state for the distributed commission is updated. If this callback is malicious, it may allow for reentrant calls, leading to potential unexpected behavior or loss of funds.",
+            "potentialSecurityRisk": "An attacker could exploit this by deploying malicious contracts that can re-enter into the contract during this call, potentially draining funds through repeated withdrawal or other mechanisms before the state is updated, resulting in loss of security of the contract's funds.",
+            "fixedCode": "require(admin1.send(_com.sub(_com / 2)), \"Failed to send to admin1\");"
+        },
+        {
+            "vulnerableLines": "1265-1265",
+            "vulnerableCode": [
+                "if (!address(admin2).call.value(_com / 2)())"
+            ],
+            "vulnerabilityReason": "Similar to the previous line, this use of `call.value()` does not enforce the secure method of updating the state before making the call, thus, allowing the recipient (admin2) to also execute a callback that could re-enter the contract and modify state before the completion of the transaction.",
+            "potentialSecurityRisk": "Malicious contracts could utilize this method to withdraw funds repeatedly before the associated state can be adjusted accordingly, leading to unintended outflows from the contract.",
+            "fixedCode": "require(admin2.send(_com / 2), \"Failed to send to admin2\");"
+        },
+        {
+            "vulnerableLines": "415-415",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Using `transfer` directly to send Ether without ensuring that the state is updated first poses a risk for reentrancy attacks. If `plyr_[_pID].addr` is a smart contract, it could execute a callback, allowing reentry into the `withdraw` function prior to the state reflecting the change in balance.",
+            "potentialSecurityRisk": "This could allow attackers to withdraw more funds than they should be entitled to by recursively invoking the `withdraw` method during the callback phase, compromising the contract's financial integrity.",
+            "fixedCode": "uint256 withdrawAmount = _eth; require(withdrawAmount <= address(this).balance, \"Insufficient funds\"); plyr_[_pID].addr.transfer(withdrawAmount);"
+        },
+        {
+            "vulnerableLines": "444-444",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The lack of reentrancy guard while using `transfer` to send Ether allows for a similar exploitation as previously mentioned. If a malicious contract is the recipient, it could trigger a re-entrant call back to the contract, modifying internal states before they **should** be changed, potentially leading to loss of funds.",
+            "potentialSecurityRisk": "Again, this can lead to multiple withdrawals being allowed if exploited, draining the contract's funds or causing corrupted state data.",
+            "fixedCode": "require(plyr_[_pID].addr.send(_eth), \"Transfer failed\");"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+[
+    {
+        "start_line": 134,
+        "end_line": 134,
+        "code": [
+            "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
+        ]
+    }
+]

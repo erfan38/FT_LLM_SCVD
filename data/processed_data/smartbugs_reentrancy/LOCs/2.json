@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 99,
-        "end_line": 99,
-        "code": [
-            "if (!founder.call.value(msg.value)()) throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "99-99",
+            "vulnerableCode": [
+                "if (!founder.call.value(msg.value)()) throw;"
+            ],
+            "vulnerabilityReason": "Using `call.value()` for sending Ether happens before updating the state variables (balances and totalSupply). This allows an attacker to re-enter the contract before the state is updated and execute malicious transactions to withdraw more Ether than intended, effectively draining the contract's funds.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability to make recursive calls to the `buyRecipient` function, allowing them to withdraw funds repeatedly before the state changes occur, which can lead to loss of funds for the contract.",
+            "fixedCode": "// Update the state before sending funds to the founder\nbalances[recipient] = safeAdd(balances[recipient], tokens);\ntotalSupply = safeAdd(totalSupply, tokens);\npresaleEtherRaised = safeAdd(presaleEtherRaised, msg.value);\nrequire(founder.send(msg.value), \"Transfer failed\"); // Use send instead of call.value() for a simpler Ether transfer."
+        }
+    ]
+}

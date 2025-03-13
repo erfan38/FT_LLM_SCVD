@@ -1,24 +1,30 @@
-[
-    {
-        "start_line": 97,
-        "end_line": 104,
-        "code": [
-            "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
-            "tokens[0][feeAccount] = safeAdd(tokens[0][feeAccount], feeWithdrawXfer);",
-            "if (!msg.sender.call.value(withdrawAmount)()) throw;",
-            "Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
-        ]
-    },
-    {
-        "start_line": 119,
-        "end_line": 126,
-        "code": [
-            "if (tokens[token][msg.sender] < amount) throw;",
-            "uint feeWithdrawXfer = safeMul(amount, feeWithdraw[token]) / (1 ether);",
-            "uint withdrawAmount = safeSub(amount, feeWithdrawXfer);",
-            "tokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount);",
-            "tokens[token][feeAccount] = safeAdd(tokens[token][feeAccount], feeWithdrawXfer);",
-            "if (!Token(token).transfer(msg.sender, withdrawAmount)) throw;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "97-104",
+            "vulnerableCode": [
+                "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+                "tokens[0][feeAccount] = safeAdd(tokens[0][feeAccount], feeWithdrawXfer);",
+                "if (!msg.sender.call.value(withdrawAmount)()) throw;",
+                "Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+            ],
+            "vulnerabilityReason": "The state variables tokens[0][msg.sender] and tokens[0][feeAccount] are updated only after the external call to msg.sender, which opens the contract to a reentrancy attack; an attacker could call the contract again before the state updates take effect.",
+            "potentialSecurityRisk": "An attacker can recursively call the withdraw function before the contract updates the state, allowing them to withdraw more funds than they are entitled to, potentially draining the contract of funds.",
+            "fixedCode": "// Perform the external call after state updates to comply with the Checks-Effects-Interactions pattern\nuint feeWithdrawXfer = safeMul(amount, feeWithdraw[0]) / (1 ether);\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\ntokens[0][feeAccount] = safeAdd(tokens[0][feeAccount], feeWithdrawXfer);\nif (!msg.sender.call.value(withdrawAmount)()) throw;\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        },
+        {
+            "vulnerableLines": "119-126",
+            "vulnerableCode": [
+                "if (tokens[token][msg.sender] < amount) throw;",
+                "uint feeWithdrawXfer = safeMul(amount, feeWithdraw[token]) / (1 ether);",
+                "uint withdrawAmount = safeSub(amount, feeWithdrawXfer);",
+                "tokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount);",
+                "tokens[token][feeAccount] = safeAdd(tokens[token][feeAccount], feeWithdrawXfer);",
+                "if (!Token(token).transfer(msg.sender, withdrawAmount)) throw;"
+            ],
+            "vulnerabilityReason": "Similar to the first vulnerability, the balance updates for the user's tokens and the fee account happen after the transfer call. This allows an attacker to exploit the contract by calling transfer again before the balance updates are reflected.",
+            "potentialSecurityRisk": "Exploitation can lead to multiple unauthorized withdrawals before the contract correctly updates the balances, resulting in loss of funds for the contract.",
+            "fixedCode": "// Ensure proper order of operations by adhering to Checks-Effects-Interactions pattern\nuint feeWithdrawXfer = safeMul(amount, feeWithdraw[token]) / (1 ether);\ntokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount);\ntokens[token][feeAccount] = safeAdd(tokens[token][feeAccount], feeWithdrawXfer);\nif (!Token(token).transfer(msg.sender, withdrawAmount)) throw;\nWithdraw(token, msg.sender, amount, tokens[token][msg.sender]);"
+        }
+    ]
+}

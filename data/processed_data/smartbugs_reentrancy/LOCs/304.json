@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 137,
-        "end_line": 137,
-        "code": [
-            "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "137-137",
+            "vulnerableCode": [
+                "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
+            ],
+            "vulnerabilityReason": "The contract executes an external call using `call.value()` before updating the transaction status to 'executed'. This order allows a malicious contract to call back into `executeTransaction` while the transaction is not marked as executed, leading to potential reentrancy issues.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that triggers reentrant calls, thereby executing multiple withdrawals before the original transaction's state is updated. This could allow the attacker to drain the contract's funds beyond what was intended.",
+            "fixedCode": "bool success = Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data);\nrequire(success, \"Transaction execution failed.\");\nTransactions[TransHash].executed = true;\nExecution(TransHash);"
+        }
+    ]
+}

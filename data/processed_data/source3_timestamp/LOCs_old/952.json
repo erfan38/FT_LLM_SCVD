@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 6,
+        "end_line": 7,
+        "code": [
+            "require(block.timestamp >= lastUpdateTime + 1 hours, \"Wait an hour between generations\");",
+            "randomNumber = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));"
+        ]
+    }
+]

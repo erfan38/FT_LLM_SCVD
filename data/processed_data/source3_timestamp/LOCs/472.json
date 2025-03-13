@@ -1,37 +1,49 @@
-[
-    {
-        "start_line": 50,
-        "end_line": 50,
-        "code": [
-            "personalCapEndAt = block.timestamp + 48 hours;"
-        ]
-    },
-    {
-        "start_line": 61,
-        "end_line": 61,
-        "code": [
-            "endAt = block.timestamp;"
-        ]
-    },
-    {
-        "start_line": 63,
-        "end_line": 63,
-        "code": [
-            "if (block.timestamp >= endAt) {"
-        ]
-    },
-    {
-        "start_line": 76,
-        "end_line": 76,
-        "code": [
-            "block.timestamp <= endAt &&"
-        ]
-    },
-    {
-        "start_line": 83,
-        "end_line": 83,
-        "code": [
-            "if (block.timestamp <= personalCapEndAt) {"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "50-50",
+            "vulnerableCode": [
+                "personalCapEndAt = block.timestamp + 48 hours;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp directly to set the personalCapEndAt means that miners can manipulate the timestamp slightly, potentially changing when the personal cap ends.",
+            "potentialSecurityRisk": "Miners altering the block timestamp can give themselves an advantage by changing when they can purchase tokens, bypassing personal caps by timing their transactions favorably.",
+            "fixedCode": "personalCapEndAt = block.timestamp + 48 hours; // Use a buffer like TIME_TOLERANCE to mitigate miner impact."
+        },
+        {
+            "vulnerableLines": "61-61",
+            "vulnerableCode": [
+                "endAt = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Setting the endAt time based on block.timestamp leaves it open to manipulation by miners.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to either extend or shorten the ICO ending time, giving them the ability to influence whether certain conditions are met in their favor.",
+            "fixedCode": "endAt = block.timestamp; // Use block.number or a time buffer to prevent dependency on timestamp."
+        },
+        {
+            "vulnerableLines": "63-63",
+            "vulnerableCode": [
+                "if (block.timestamp >= endAt) {"
+            ],
+            "vulnerabilityReason": "The check in touch() for whether the ICO has ended relies on block.timestamp, making it easily exploitable by miners.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp to keep the ICO active longer or close it prematurely at a point that benefits them financially.",
+            "fixedCode": "if (block.timestamp >= endAt) { // Consider using block.number for checks instead."
+        },
+        {
+            "vulnerableLines": "76-76",
+            "vulnerableCode": [
+                "block.timestamp <= endAt &&"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to check if the conditions for buying tokens still hold creates a point of manipulation.",
+            "potentialSecurityRisk": "Manipulation of the end time could lead to denied purchases or forced sales, undermining the ICO's structure and integrity.",
+            "fixedCode": "block.timestamp <= endAt && // Suggest replacing this with a more robust check or time tolerance."
+        },
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "if (block.timestamp <= personalCapEndAt) {"
+            ],
+            "vulnerabilityReason": "This check relies on block.timestamp to determine if the user's purchase is within the personal cap period.",
+            "potentialSecurityRisk": "Miners could time their transactions to gain more value by manipulating when their purchases fall within this time window, exploiting the discount or purchase limits.",
+            "fixedCode": "if (block.timestamp <= personalCapEndAt) { // Consider adding a buffer for safe time checks."
+        }
+    ]
+}

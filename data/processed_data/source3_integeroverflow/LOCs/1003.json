@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "uint256 loanDuration = currentTime - loanStart;"
+            ],
+            "vulnerabilityReason": "The code performs a subtraction operation between `currentTime` and `loanStart` without checking if `currentTime` is less than `loanStart`. If `currentTime` is indeed less, this could cause an underflow, resulting in an unexpected large `loanDuration` value due to the nature of unsigned integers in Solidity.",
+            "potentialSecurityRisk": "An underflow in the loan duration can result in incorrect calculations for the interest, potentially leading to unauthorized gains or incorrect loan management, which could financially harm the lender or the entire contract's integrity.",
+            "fixedCode": "require(currentTime >= loanStart, 'Invalid loan duration');\nuint256 loanDuration = currentTime - loanStart;"
+        },
+        {
+            "vulnerableLines": "12-12",
+            "vulnerableCode": [
+                "return borrowers[msg.sender]._loanAmount * yearsPassed * 5 / 100;"
+            ],
+            "vulnerabilityReason": "This line performs a multiplication of `_loanAmount`, `yearsPassed`, and a constant (5). If `_loanAmount` and `yearsPassed` are sufficiently large, the result can exceed the maximum value of uint256, leading to an overflow that would incorrectly decrease the interest value to a lower than expected positive amount.",
+            "potentialSecurityRisk": "An overflow could result in the function returning a much smaller interest value than intended, which can allow borrowers to underreport their owed amounts, impacting the lender's ability to recover funds and potentially leading to financial losses without proper safeguards.",
+            "fixedCode": "require(borrowers[msg.sender]._loanAmount <= (type(uint256).max / yearsPassed / 5), 'Interest calculation overflow');\nreturn borrowers[msg.sender]._loanAmount * yearsPassed * 5 / 100;"
+        }
+    ]
+}

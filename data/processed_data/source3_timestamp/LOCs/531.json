@@ -1,12 +1,16 @@
-[
-    {
-        "start_line": 38,
-        "end_line": 41,
-        "code": [
-            "if (block.timestamp >= start.add(duration)) {",
-            "return totalBalance;",
-            "} else {",
-            "return totalBalance.mul(block.timestamp.sub(start)).div(duration);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "38-41",
+            "vulnerableCode": [
+                "if (block.timestamp >= start.add(duration)) {",
+                "return totalBalance;",
+                "} else {",
+                "return totalBalance.mul(block.timestamp.sub(start)).div(duration);"
+            ],
+            "vulnerabilityReason": "The 'vestedAmount' function relies on 'block.timestamp' to determine the vested tokens. This creates a vulnerability to manipulation, as miners can adjust the block timestamp to affect the output of the function, whether by accelerating or delaying access to tokens.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp, they could allow specific users to receive their tokens earlier or later than intended, leading to an unfair distribution of tokens and possibly collusion among malicious actors.",
+            "fixedCode": "// Use a constant buffer for more robust logic,  uint256 timePassed = block.timestamp > start ? block.timestamp : start; \nif (timePassed >= start.add(duration)) { \n    return totalBalance;\n} else { \n    return totalBalance.mul(timePassed.sub(start)).div(duration);\n}"
+        }
+    ]
+}

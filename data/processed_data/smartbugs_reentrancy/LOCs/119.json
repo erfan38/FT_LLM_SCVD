@@ -1,23 +1,31 @@
-[
-    {
-        "start_line": 216,
-        "end_line": 216,
-        "code": [
-            "require(msg.sender.call.value(msg.value)());"
-        ]
-    },
-    {
-        "start_line": 223,
-        "end_line": 223,
-        "code": [
-            "require(msg.sender.call.value(msg.value)());"
-        ]
-    },
-    {
-        "start_line": 246,
-        "end_line": 246,
-        "code": [
-            "_game.sendPrize(2300);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "216-216",
+            "vulnerableCode": [
+                "require(msg.sender.call.value(msg.value)());"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' transfers Ether directly to the sender without ensuring the state has been updated first. This allows a reentrant contract to call this function again before the first call fully completes, potentially draining the contract's balance.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to withdraw more funds than they are entitled to by recursively calling the function before the initial call completes, leading to a loss of funds in the contract.",
+            "fixedCode": "require(msg.value == yourExpectedValue); // Check the value first before calling\n(bool success,) = msg.sender.call.value(msg.value)();\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful."
+        },
+        {
+            "vulnerableLines": "223-223",
+            "vulnerableCode": [
+                "require(msg.sender.call.value(msg.value)());"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, this line allows a reentrant call to happen during the Ether transfer to the sender, allowing an attacker to exploit the contract state before it can be updated, risking the contract's funds.",
+            "potentialSecurityRisk": "The attacker can withdraw funds multiple times via reentrant calls, causing financial loss to the contract as they exploit the state changes occurring after Ether has been sent.",
+            "fixedCode": "require(msg.value == yourExpectedValue); // Validate the value sent\n(bool success,) = msg.sender.call.value(msg.value)();\nrequire(success, \"Transfer failed\"); // Require successful transfer."
+        },
+        {
+            "vulnerableLines": "246-246",
+            "vulnerableCode": [
+                "_game.sendPrize(2300);"
+            ],
+            "vulnerabilityReason": "Calling an external contract function '_game.sendPrize(2300)' before updating the game status to 'ended' allows for a reentrant call from the recipient contract, potentially allowing for repeated withdrawals before status is updated.",
+            "potentialSecurityRisk": "This vulnerability can allow an attacker to exploit the prize sending mechanism, calling back into the contract and withdrawing funds multiple times before the game state is updated, leading to a loss of funds.",
+            "fixedCode": "if(!_game.isPaid()) {\n    _game.sendPrize(2300); // Send prize after status update\n    totalPrizes += _game.prize(); // Update internal state regarding total prizes given\n}\nif (_game.isEnded()) {\n    definedGames[_i].game = IMonarchyGame(0); // Transition state after sending funds\n    endedGames.push(_game);\n}"
+        }
+    ]
+}

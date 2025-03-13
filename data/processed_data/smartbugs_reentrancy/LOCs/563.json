@@ -1,25 +1,33 @@
-[
-    {
-        "start_line": 290,
-        "end_line": 290,
-        "code": [
-            "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
-        ]
-    },
-    {
-        "start_line": 318,
-        "end_line": 320,
-        "code": [
-            "var d = distributionMap[tokenAddr];",
-            "d.balanceRemaining = d.balanceRemaining.sub(tokenAmount);"
-        ]
-    },
-    {
-        "start_line": 326,
-        "end_line": 328,
-        "code": [
-            "c.balance = 0;",
-            "msg.sender.transfer(amountToTransfer);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "290-290",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The contract uses call.value() without checking if the transaction was successful. If receiverAddress is a malicious contract, it could revert the transaction silently, leading to loss of funds without properly notifying the contract.",
+            "potentialSecurityRisk": "A malicious contract could revert the transfer, potentially leaving the contract in an inconsistent state and leading to a loss of funds for users.",
+            "fixedCode": "(bool success, ) = receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))(); require(success, 'Transfer failed');"
+        },
+        {
+            "vulnerableLines": "318-320",
+            "vulnerableCode": [
+                "var d = distributionMap[tokenAddr];",
+                "d.balanceRemaining = d.balanceRemaining.sub(tokenAmount);"
+            ],
+            "vulnerabilityReason": "The balanceRemaining is updated before the token transfer takes place. This could allow an attacker to recursively call the contract before the balance update is recognized, allowing for repeated withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability and withdraw tokens repeatedly before the contract updates the balance, potentially draining the token allocation entirely.",
+            "fixedCode": "var d = distributionMap[tokenAddr]; uint tokenAmount = ...; if (tokenAmount > 0) { require(d.token.transfer(receiver, tokenAmount)); d.balanceRemaining = d.balanceRemaining.sub(tokenAmount); TokensWithdrawn(receiver, tokenAddr, tokenAmount); }"
+        },
+        {
+            "vulnerableLines": "326-328",
+            "vulnerableCode": [
+                "c.balance = 0;",
+                "msg.sender.transfer(amountToTransfer);"
+            ],
+            "vulnerabilityReason": "The balance is set to zero before transferring funds. If the transfer function was to be called recursively during the transfer, it could lead to a reentrant call before the contract's state is updated, causing multiple withdrawals from the same balance.",
+            "potentialSecurityRisk": "An attacker could drain funds by recursively invoking the withdraw function before the balance resets, leading to a drained contract and unpermissioned excess withdrawals.",
+            "fixedCode": "uint amountToTransfer = c.balance; c.balance = 0; require(msg.sender.send(amountToTransfer), 'Transfer failed');"
+        }
+    ]
+}

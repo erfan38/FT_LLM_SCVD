@@ -1,0 +1,16 @@
+[
+    {
+        "start_line": 46,
+        "end_line": 58,
+        "code": [
+            "function executeTransaction(uint transactionId)",
+            "Transaction tx = transactions[transactionId];",
+            "bool _confirmed = isConfirmed(transactionId);",
+            "if (_confirmed || tx.data.length == 0 && isUnderLimit(tx.value)) {",
+            "    tx.executed = true;",
+            "    if (!_confirmed)",
+            "        spentToday += tx.value;",
+            "    if (tx.destination.call.value(tx.value)(tx.data))"
+        ]
+    }
+]

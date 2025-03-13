@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "if(!(msg.sender.call.value(userBalance[msg.sender])())){ throw; }"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "if(!(msg.sender.call.value(userBalance[msg.sender])())){ throw; }"
+            ],
+            "vulnerabilityReason": "The contract uses `msg.sender.call.value(userBalance[msg.sender])()` to send Ether. This allows an external contract (if `msg.sender` is a contract) to execute arbitrary code during the Ether transfer before the state (userBalance) is updated. If a malicious contract calls this function, it can re-enter before the balance is zeroed out.",
+            "potentialSecurityRisk": "A malicious contract can repeatedly call the `withdrawBalance` function, draining more Ether than intended, since the balance is not updated until after the call. This can result in significant financial loss for the contract owner.",
+            "fixedCode": "//  Update the user balance before making the external call\nuserBalance[msg.sender] = 0;\n//  Now perform the external call\nif(!(msg.sender.call.value(userBalance[msg.sender])())){ throw; }"
+        }
+    ]
+}

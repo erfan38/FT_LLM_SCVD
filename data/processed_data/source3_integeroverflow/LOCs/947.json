@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-7",
+            "vulnerableCode": [
+                "uint256 discount = price * discountPercent / 100;",
+                "return price - discount;"
+            ],
+            "vulnerabilityReason": "The multiplication of 'price' and 'discountPercent' could result in an overflow if either value is large enough. Additionally, the subtraction 'price - discount' could lead to an underflow if the calculated 'discount' exceeds 'price'.",
+            "potentialSecurityRisk": "This could lead to incorrect price calculations after applying the discount, allowing unintended behavior such as allowing a customer to purchase an item at a negative price or potentially exploiting this vulnerability to obtain more value than intended from the contract.",
+            "fixedCode": "// Using SafeMath for overflow/underflow checks. \n// In Solidity versions >=0.8.0, this check is included by default.\nuint256 discount = price.mul(discountPercent).div(100); // SafeMath functions \nrequire(price >= discount, 'Invalid discount applied'); // Check to prevent underflow\nreturn price.sub(discount); // Ensure `price` remains valid after discount."
+        }
+    ]
+}

@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 9,
-        "code": [
-            "if (block.timestamp >= lastWithdrawal + 1 days) {",
-            "lastWithdrawal = block.timestamp;"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-9",
+            "vulnerableCode": [
+                "if (block.timestamp >= lastWithdrawal + 1 days) {",
+                "lastWithdrawal = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The withdraw function uses block.timestamp to check if a day has passed since the last withdrawal. This creates a dependency on a manipulatable value, allowing miners to influence the reset of the daily limit.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to reset the lastWithdrawal time, enabling malicious users to withdraw more than the daily limit allowed, thereby bypassing important restrictions meant to protect the contract's funds.",
+            "fixedCode": "if (block.timestamp >= lastWithdrawal + 1 days) { lastWithdrawal = block.timestamp + TIME_TOLERANCE; // Adding a buffer to prevent manipulation }"
+        }
+    ]
+}

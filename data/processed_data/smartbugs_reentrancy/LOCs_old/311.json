@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 38,
+        "end_line": 38,
+        "code": [
+            "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+        ]
+    },
+    {
+        "start_line": 91,
+        "end_line": 91,
+        "code": [
+            "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+        ]
+    },
+    {
+        "start_line": 141,
+        "end_line": 141,
+        "code": [
+            "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+        ]
+    },
+    {
+        "start_line": 188,
+        "end_line": 188,
+        "code": [
+            "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+        ]
+    }
+]

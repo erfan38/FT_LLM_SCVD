@@ -1,0 +1,23 @@
+[
+    {
+        "start_line": 256,
+        "end_line": 258,
+        "code": [
+            "function setDailyTokenLimit(uint limit)",
+            "public",
+            "isAnOwner {"
+        ]
+    },
+    {
+        "start_line": 360,
+        "end_line": 366,
+        "code": [
+            "function executeTransaction(uint transactionId)",
+            "public",
+            "notExecuted(transactionId) {",
+            "if (isConfirmed(transactionId)) {",
+            "Transaction storage txToExecute = transactions[transactionId];",
+            "txToExecute.executed = true;"
+        ]
+    }
+]

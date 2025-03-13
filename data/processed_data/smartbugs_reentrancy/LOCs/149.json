@@ -1,14 +1,27 @@
-[
-    {
-        "start_line": 176,
-        "end_line": 182,
-        "code": [
-            "if (txn.destination.call.value(txn.value)(txn.data))",
-            "emit Execution(transactionId);",
-            "else {",
-            "emit ExecutionFailure(transactionId);",
-            "txn.executed = false;",
-            "}"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "176-182",
+            "vulnerableCode": [
+                "if (txn.destination.call.value(txn.value)(txn.data))",
+                "emit Execution(transactionId);",
+                "else {",
+                "emit ExecutionFailure(transactionId);",
+                "txn.executed = false;",
+                "}"
+            ],
+            "vulnerabilityReason": "The contract calls a destination address to execute a transaction using `call.value()` before marking the transaction as executed. This means if a malicious contract is called, it may call back into the `MultiSigWallet` contract before the `executed` status is set to true, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "If an attacker controls the destination contract and it can perform reentrant calls, it could repeatedly call back into the `MultiSigWallet`, executing multiple withdrawals or causing unintended side effects that could drain the wallet's balance.",
+            "fixedCode": "if (isConfirmed(transactionId)) {  Transaction storage txn = transactions[transactionId];  txn.executed = true;  (bool success, ) = txn.destination.call.value(txn.value)(txn.data);  require(success, \"Transaction execution failed\");  emit Execution(transactionId);}"
+        },
+        {
+            "vulnerableLines": "182-182",
+            "vulnerableCode": [
+                "emit Execution(transactionId);"
+            ],
+            "vulnerabilityReason": "This line is executed after making a call to an external contract. If that external contract is destructive or malicious, it can take advantage of the lack of state management and perform unauthorized actions before the execution is confirmed.",
+            "potentialSecurityRisk": "An attacker could manipulate the execution by exploiting the intermediate states of the contract, allowing for multiple executions of funds transfer or unauthorized access to contract functionality.",
+            "fixedCode": "// Add proper checks and ensure that the transaction state is managed appropriately before emitting events or updating states."
+        }
+    ]
+}

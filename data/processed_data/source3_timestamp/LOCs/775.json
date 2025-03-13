@@ -1,26 +1,34 @@
-[
-    {
-        "start_line": 68,
-        "end_line": 70,
-        "code": [
-            "bool isPresale = block.timestamp >= PRESALE_OPENING_TIME && block.timestamp <= PRESALE_CLOSING_TIME;",
-            "bool isCrowdsale = block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME;",
-            "require(isPresale || isCrowdsale);"
-        ]
-    },
-    {
-        "start_line": 109,
-        "end_line": 111,
-        "code": [
-            "require(block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME);",
-            "uint256 elapsedTime = block.timestamp.sub(CROWDSALE_OPENING_TIME);"
-        ]
-    },
-    {
-        "start_line": 189,
-        "end_line": 189,
-        "code": [
-            "require(block.timestamp > CROWDSALE_CLOSING_TIME || (block.timestamp > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "68-70",
+            "vulnerableCode": [
+                "bool isPresale = block.timestamp >= PRESALE_OPENING_TIME && block.timestamp <= PRESALE_CLOSING_TIME;",
+                "bool isCrowdsale = block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME;",
+                "require(isPresale || isCrowdsale);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' allows miners to manipulate the timing of token purchases. If they manipulate the timestamp, they can trigger conditions that impact whether purchasing is allowed during presale or crowdsale.",
+            "potentialSecurityRisk": "Miners can exploit this by changing block timestamps within acceptable ranges to allow or deny token purchases at certain prices, leading to an unfair advantage or collusion.",
+            "fixedCode": "bool isPresale = block.timestamp + TIME_TOLERANCE >= PRESALE_OPENING_TIME && block.timestamp + TIME_TOLERANCE <= PRESALE_CLOSING_TIME;\nbool isCrowdsale = block.timestamp + TIME_TOLERANCE >= CROWDSALE_OPENING_TIME && block.timestamp + TIME_TOLERANCE <= CROWDSALE_CLOSING_TIME; \nrequire(isPresale || isCrowdsale);"
+        },
+        {
+            "vulnerableLines": "109-111",
+            "vulnerableCode": [
+                "require(block.timestamp >= CROWDSALE_OPENING_TIME && block.timestamp <= CROWDSALE_CLOSING_TIME);",
+                "uint256 elapsedTime = block.timestamp.sub(CROWDSALE_OPENING_TIME);"
+            ],
+            "vulnerabilityReason": "Using 'block.timestamp' here for timing checks makes this vulnerable as miners can manipulate when the crowdsale is considered to be open, potentially allowing them to satisfy the conditions even when they shouldn't.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to manipulate the crowdsale period, possibly influencing how much a user can contribute based on elapsed time.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= CROWDSALE_OPENING_TIME && block.timestamp + TIME_TOLERANCE <= CROWDSALE_CLOSING_TIME);\nuint256 elapsedTime = block.timestamp.sub(CROWDSALE_OPENING_TIME);"
+        },
+        {
+            "vulnerableLines": "189-189",
+            "vulnerableCode": [
+                "require(block.timestamp > CROWDSALE_CLOSING_TIME || (block.timestamp > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
+            ],
+            "vulnerabilityReason": "This line combines timestamps from different periods, relying on 'block.timestamp' to validate the closing conditions. It allows miner manipulation that can lead to incorrect evaluations of whether conditions to finalize the crowdsale are met.",
+            "potentialSecurityRisk": "By manipulating timestamps, miners could influence the outcome of the crowdsale conclusion, potentially allowing them to gain tokens at a discount or avoiding obligations to refund.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > CROWDSALE_CLOSING_TIME || (block.timestamp + TIME_TOLERANCE > PRESALE_CLOSING_TIME && presaleWeiRaised < PRESALE_WEI_GOAL));"
+        }
+    ]
+}

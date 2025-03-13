@@ -1,53 +1,67 @@
-[
-    {
-        "start_line": 213,
-        "end_line": 228,
-        "code": [
-            "if (_affCode == '' || _affCode == plyr_[_pID].name)",
-            "{",
-            "    _affID = plyr_[_pID].laff;",
-            "}",
-            "else {",
-            "    _affID = pIDxName_[_affCode];",
-            "    if (_affID != plyr_[_pID].laff) {",
-            "        plyr_[_pID].laff = _affID;",
-            "    }",
-            "}"
-        ]
-    },
-    {
-        "start_line": 108,
-        "end_line": 108,
-        "code": [
-            "buyCore(_pID, plyr_[_pID].laff, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 141,
-        "end_line": 141,
-        "code": [
-            "buyCore(_pID, _affCode, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 183,
-        "end_line": 183,
-        "code": [
-            "buyCore(_pID, _affID, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 383,
-        "end_line": 383,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    },
-    {
-        "start_line": 412,
-        "end_line": 412,
-        "code": [
-            "plyr_[_pID].addr.transfer(_eth);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "213-228",
+            "vulnerableCode": [
+                "if (_affCode == '' || _affCode == plyr_[_pID].name)",
+                "{",
+                "    _affID = plyr_[_pID].laff;",
+                "}",
+                "else {",
+                "    _affID = pIDxName_[_affCode];",
+                "    if (_affID != plyr_[_pID].laff) {",
+                "        plyr_[_pID].laff = _affID;",
+                "    }",
+                "}"
+            ],
+            "vulnerabilityReason": "The contract calls 'plyr_[_pID].addr.transfer(_eth)' after updating the player affiliate code; if the receiving address is a contract, it can re-enter the 'withdraw' function and exploit the contract before the internal state updates are completed.",
+            "potentialSecurityRisk": "An attacker could drain the contract by repeatedly calling 'withdraw' during the ether transfer, resulting in repeated withdrawals without proper deduction from the user's balance.",
+            "fixedCode": "// Ensure enough balance before transferring \n require(address(this).balance >= _eth, \"Insufficient contract balance\");\n uint256 earnings = withdrawEarnings(_pID);\n // Reset the player's earnings before transfer to prevent re-entrancy\n plyr_[_pID].win = 0; \n plyr_[_pID].gen = 0; \n plyr_[_pID].aff = 0;\n if (_eth > 0) {\n     plyr_[_pID].addr.transfer(_eth);\n }"
+        },
+        {
+            "vulnerableLines": "108-108",
+            "vulnerableCode": [
+                "buyCore(_pID, plyr_[_pID].laff, _eventData_);"
+            ],
+            "vulnerabilityReason": "The function 'buyCore' is called and transfers ether to an affiliate without ensuring that state changes are made before the ether transfer happens, allowing for abuse via reentrancy.",
+            "potentialSecurityRisk": "If the 'buyCore' function involves ether transfers, an attacker might exploit this order of operations to create reentrant calls that hash the contract's funds.",
+            "fixedCode": "// Perform necessary calculations and updates first \n // Ensure we adjust player state before transferring ether\n buyCore(_pID, plyr_[_pID].laff, _eventData_);"
+        },
+        {
+            "vulnerableLines": "141-141",
+            "vulnerableCode": [
+                "buyCore(_pID, _affCode, _eventData_);"
+            ],
+            "vulnerabilityReason": "Similar to the previous function, an ether transfer in 'buyCore' is made without prior state protection against reentrancy.",
+            "potentialSecurityRisk": "An attacker can repeatedly re-enter the contract during the ether transfer, leading to potential fund drainage.",
+            "fixedCode": "// Ensure player state is set before calling buyCore\n buyCore(_pID, _affCode, _eventData_);"
+        },
+        {
+            "vulnerableLines": "183-183",
+            "vulnerableCode": [
+                "buyCore(_pID, _affID, _eventData_);"
+            ],
+            "vulnerabilityReason": "The call to 'buyCore' transfers ether and modifies player states after the transfer without proper checks.",
+            "potentialSecurityRisk": "An attacker may exploit reentrancy by calling the method before the state change occurs, leading to multiple withdrawals.",
+            "fixedCode": "// Proper state handling before performing external calls\n buyCore(_pID, _affID, _eventData_);"
+        },
+        {
+            "vulnerableLines": "383-383",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The call to transfer ether is made without completing prior state changes, risking reentrancy incidents during ether transfer.",
+            "potentialSecurityRisk": "If 'plyr_[_pID].addr' is a contract, it could re-enter the function before the player's state is updated, potentially draining funds.",
+            "fixedCode": "// Update internal state before any ether transfer to mitigate reentrancy risk\n uint256 earnings = withdrawEarnings(_pID);\n require(address(this).balance >= earnings, \"Insufficient contract balance\");\n plyr_[_pID].addr.transfer(earnings);"
+        },
+        {
+            "vulnerableLines": "412-412",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "As above, the function transfers ether after the player’s state is not updated, allowing a reentrancy vector.",
+            "potentialSecurityRisk": "Similar to previous examples, attackers can exploit transfer functions before internal states have been reconciled, resulting in continued withdrawals.",
+            "fixedCode": "// Ensure the player state is reset before any ether transfer\n uint256 earnings = withdrawalEarnings(_pID);\n require(address(this).balance >= earnings, \"Insufficient contract balance\");\n plyr_[_pID].addr.transfer(earnings);"
+        }
+    ]
+}

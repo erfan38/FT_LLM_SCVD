@@ -1,25 +1,33 @@
-[
-    {
-        "start_line": 244,
-        "end_line": 244,
-        "code": [
-            "userPendingWithdrawals[msg.sender] = 0;"
-        ]
-    },
-    {
-        "start_line": 276,
-        "end_line": 279,
-        "code": [
-            "userTempReward[myid] = userProfit[myid];",
-            "userProfit[myid] = 0;",
-            "maxPendingPayouts = safeSub(maxPendingPayouts, userTempReward[myid]);"
-        ]
-    },
-    {
-        "start_line": 290,
-        "end_line": 292,
-        "code": [
-            "totalWeiWagered += userTempBetValue[myid];"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "244-244",
+            "vulnerableCode": [
+                "userPendingWithdrawals[msg.sender] = 0;"
+            ],
+            "vulnerabilityReason": "This line resets the user's pending withdrawal balance after the withdrawal amount has been sent. If an attacker can trigger a recursive call (e.g., through a fallback function), they can withdraw multiple times before the pending withdrawal balance is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to repeatedly withdraw funds by manipulating the state before it has been updated, leading to potential loss of funds from the contract.",
+            "fixedCode": "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance\");\nuint256 amount = userPendingWithdrawals[msg.sender];\nuserPendingWithdrawals[msg.sender] = 0; // State updated only after ensuring the amount is valid\ntoSend(userTempAddress[msg.sender], amount); // Call to external address to send Ether\n\nfunction toSend(address recipient, uint256 amount) internal {\n    (bool success, ) = recipient.call.value(amount)();\n    require(success, \"Transfer failed\");\n}"
+        },
+        {
+            "vulnerableLines": "276-279",
+            "vulnerableCode": [
+                "userTempReward[myid] = userProfit[myid];",
+                "userProfit[myid] = 0;",
+                "maxPendingPayouts = safeSub(maxPendingPayouts, userTempReward[myid]);"
+            ],
+            "vulnerabilityReason": "These lines set the temporary reward and reset the user's profit, but they are executed before any external call to transfer funds. An attacker could call back into the contract, allowing them to manipulate the state before it is updated properly.",
+            "potentialSecurityRisk": "An attacker may re-enter the callback function and exploit the inconsistent state to withdraw more than their rightful share of funds, draining the contract's balance.",
+            "fixedCode": "userTempReward[myid] = userProfit[myid];\nuserProfit[myid] = 0; // Clear the user's profit after ensuring all checks are passed.\nif(maxPendingPayouts >= address(this).balance) revert(\"Insufficient funds to proceed\");\nmaxPendingPayouts = safeSub(maxPendingPayouts, userTempReward[myid]);\n// External call to transfer funds should only occur after updating state."
+        },
+        {
+            "vulnerableLines": "290-292",
+            "vulnerableCode": [
+                "totalWeiWagered += userTempBetValue[myid];"
+            ],
+            "vulnerabilityReason": "Updating `totalWeiWagered` happens prior to any checks or transfers. If an external call is made before this line executes, the state can be manipulated by a reentrant call, leading to incorrect accounting of bets.",
+            "potentialSecurityRisk": "An attacker could exploit this to manipulate the total wagers recorded, potentially allowing them to withdraw more funds or win more than they should when re-entering the contract.",
+            "fixedCode": "require(userTempBetValue[myid] > 0, \"Invalid bet\");\ntotalWeiWagered += userTempBetValue[myid]; // Ensure the amount is valid before updating."
+        }
+    ]
+}

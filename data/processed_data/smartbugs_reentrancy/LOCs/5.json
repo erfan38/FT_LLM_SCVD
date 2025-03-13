@@ -1,41 +1,53 @@
-[
-    {
-        "start_line": 195,
-        "end_line": 200,
-        "code": [
-            "uint256 _totalPot = (gameStatus_[_gameID].winningVaultInst).add(gameStatus_[_gameID].winningVaultFinal);",
-            "gameStatus_[_gameID].totalWithdrawn = _totalPot;",
-            "if (_totalPot > 0) {",
-            "    FSKingCorp.deposit.value(_totalPot)();",
-            "}"
-        ]
-    },
-    {
-        "start_line": 259,
-        "end_line": 259,
-        "code": [
-            "FSBook.getPlayerAddr(_pID).transfer(_totalInvestment);"
-        ]
-    },
-    {
-        "start_line": 267,
-        "end_line": 267,
-        "code": [
-            "FSBook.getPlayerAddr(_pID).transfer(_totalWinnings);"
-        ]
-    },
-    {
-        "start_line": 295,
-        "end_line": 295,
-        "code": [
-            "FSKingCorp.deposit.value(_amount)();"
-        ]
-    },
-    {
-        "start_line": 611,
-        "end_line": 611,
-        "code": [
-            "FSBook.depositAffiliate.value(_aff)(_affID);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "195-200",
+            "vulnerableCode": [
+                "uint256 _totalPot = (gameStatus_[_gameID].winningVaultInst).add(gameStatus_[_gameID].winningVaultFinal);",
+                "gameStatus_[_gameID].totalWithdrawn = _totalPot;",
+                "if (_totalPot > 0) {",
+                "    FSKingCorp.deposit.value(_totalPot)();",
+                "}"
+            ],
+            "vulnerabilityReason": "The withdraw function sends ether using call.value() before updating the player's withdrawal status, making it vulnerable to reentrancy. An attacker could call withdraw again before the totalWithdrawn is updated and drain funds. ",
+            "potentialSecurityRisk": "Malicious contracts could exploit this vulnerability by recursively calling withdraw, potentially allowing them to withdraw more than their entitled amount, ultimately draining the contract.",
+            "fixedCode": "]"
+        },
+        {
+            "vulnerableLines": "259-259",
+            "vulnerableCode": [
+                "FSBook.getPlayerAddr(_pID).transfer(_totalInvestment);"
+            ],
+            "vulnerabilityReason": "The transfer happens before updating the player's state, which allows reentrancy. If the player is also a contract, they can call back into the function before state changes are complete.",
+            "potentialSecurityRisk": "An attacker can re-enter before the state update, which could allow them to withdraw funds multiple times.",
+            "fixedCode": "]"
+        },
+        {
+            "vulnerableLines": "267-267",
+            "vulnerableCode": [
+                "FSBook.getPlayerAddr(_pID).transfer(_totalWinnings);"
+            ],
+            "vulnerabilityReason": "The use of transfer before updating state variables can lead to reentrancy vulnerabilities. If this function is called from a malicious contract during the transfer, it can exploit the state before it's finalized.",
+            "potentialSecurityRisk": "The same risk as prior transfers, allowing recursive withdrawals and draining of funds.",
+            "fixedCode": "]"
+        },
+        {
+            "vulnerableLines": "295-295",
+            "vulnerableCode": [
+                "FSKingCorp.deposit.value(_amount)();"
+            ],
+            "vulnerabilityReason": "This line calls a potentially untrusted contract's deposit method using call.value() before checking if the state allowed the withdrawal, enabling a reentrancy attack. ",
+            "potentialSecurityRisk": "An attacker could exploit this to drain funds by calling back into the function before the state is updated, leading to losses.",
+            "fixedCode": "]"
+        },
+        {
+            "vulnerableLines": "611-611",
+            "vulnerableCode": [
+                "FSBook.depositAffiliate.value(_aff)(_affID);"
+            ],
+            "vulnerabilityReason": "Calling a function with value before any state changes can permit an external contract to execute and manipulate withdrawal amounts through reentrant calls.",
+            "potentialSecurityRisk": "This allows an attacker to recursively call into the contract, potentially withdrawing funds multiple times beyond their limit.",
+            "fixedCode": "]"
+        }
+    ]
+}

@@ -1,54 +1,23 @@
-[
-    {
-        "start_line": 168,
-        "end_line": 181,
-        "code": [
-            "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
-            "{",
-            "    F3Ddatasets.EventReturns memory _eventData_;",
-            "    round_[_rID].ended = true;",
-            "    _eventData_ = endRound(_eventData_);",
-            "    _eth = withdrawEarnings(_pID);",
-            "    if (_eth > 0)",
-            "        plyr_[_pID].addr.transfer(_eth);",
-            "    _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);",
-            "    _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;",
-            "    emit F3Devents.onWithdrawAndDistribute"
-        ]
-    },
-    {
-        "start_line": 117,
-        "end_line": 123,
-        "code": [
-            "core(_rID, _pID, msg.value, _affID, _team, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 143,
-        "end_line": 150,
-        "code": [
-            "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 254,
-        "end_line": 254,
-        "code": [
-            "buyCore(_pID, _affID, _team, _eventData_);"
-        ]
-    },
-    {
-        "start_line": 780,
-        "end_line": 780,
-        "code": [
-            "coin_base.transfer(_com);"
-        ]
-    },
-    {
-        "start_line": 1286,
-        "end_line": 1286,
-        "code": [
-            "coin_base.transfer(_p3d.sub(_potAmount));"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "168-181",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
+                "{",
+                "    F3Ddatasets.EventReturns memory _eventData_;",
+                "    round_[_rID].ended = true;",
+                "    _eventData_ = endRound(_eventData_);",
+                "    _eth = withdrawEarnings(_pID);",
+                "    if (_eth > 0)",
+                "        plyr_[_pID].addr.transfer(_eth);",
+                "    _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);",
+                "    _eventData_.compressedIDs = _eventData_.compressedIDs + _pID;",
+                "    emit F3Devents.onWithdrawAndDistribute"
+            ],
+            "vulnerabilityReason": "The `withdraw()` function first checks if the round has ended before attempting to withdraw earnings. If the round ends and the function `endRound()` is called, it distributes winnings before the player's earnings are withdrawn. An attacker could potentially call `withdraw()` again during this state distribution, leading to reentrancy issues.",
+            "potentialSecurityRisk": "This vulnerability might allow malicious actors to withdraw funds multiple times before the state reflects the updated balances, resulting in unauthorized access to the contract's funds.",
+            "fixedCode": "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0) { \n    round_[_rID].ended = true; \n    _eventData_ = endRound(_eventData_); \n    _eth = withdrawEarnings(_pID); \n    if (_eth > 0) { \n        plyr_[_pID].addr.transfer(_eth); \n    } \n    emit F3Devents.onWithdrawAndDistribute(...); // emit events at the end only\n} else { \n    // logic for withdrawing earnings directly if the round hasn't ended \n}"
+        }
+    ]
+}

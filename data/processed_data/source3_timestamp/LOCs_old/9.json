@@ -1,0 +1,30 @@
+[
+    {
+        "start_line": 86,
+        "end_line": 87,
+        "code": [
+            "require(_endTime > block.timestamp);",
+            "endDiscountTime = _endTime;"
+        ]
+    },
+    {
+        "start_line": 219,
+        "end_line": 222,
+        "code": [
+            "if (block.timestamp <= endDiscountTime) {",
+            "require(_value == 0.64 ether);",
+            "} else {",
+            "require(_value == 0.99 ether);"
+        ]
+    },
+    {
+        "start_line": 249,
+        "end_line": 252,
+        "code": [
+            "if (block.timestamp <= endDiscountTime) {",
+            "require(_value == 0.585 ether);",
+            "} else {",
+            "require(_value == 0.90 ether);"
+        ]
+    }
+]

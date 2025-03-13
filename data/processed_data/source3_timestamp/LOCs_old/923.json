@@ -1,0 +1,10 @@
+[
+    {
+        "start_line": 36,
+        "end_line": 72,
+        "code": [
+            "uint256 requiredTime = block.timestamp - holdTime;",
+            "holded[_owner].time.push(block.timestamp);"
+        ]
+    }
+]

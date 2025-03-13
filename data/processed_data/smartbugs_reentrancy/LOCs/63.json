@@ -1,9 +1,13 @@
-[
-    {
-        "start_line": 134,
-        "end_line": 134,
-        "code": [
-            "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-134",
+            "vulnerableCode": [
+                "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows the transaction to call an external contract before the wallet's state has been updated. If the external contract invokes the wallet contract again (for example, through a fallback or another function), it can perform actions while the state has not yet been modified, leading to potential incorrect balance situations.",
+            "potentialSecurityRisk": "An attacker can exploit the vulnerability by creating a malicious contract that, when called, calls back into this contract before the state is updated. This could allow them to withdraw more funds than they are entitled to, or engage in other malicious activities using the funds in the wallet contract.",
+            "fixedCode": "// Reordering operations to follow Checks-Effects-Interactions pattern\nuint balanceBefore = address(this).balance;\nrequire(_target.call.value(_value)(_data), \"BW: call to target failed\");\nrequire(address(this).balance == balanceBefore - _value, \"BW: Incorrect balance after withdrawal\");\nemit Invoked(msg.sender, _target, _value, _data);"
+        }
+    ]
+}

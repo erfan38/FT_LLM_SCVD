@@ -1,10 +1,14 @@
-[
-    {
-        "start_line": 36,
-        "end_line": 72,
-        "code": [
-            "uint256 requiredTime = block.timestamp - holdTime;",
-            "holded[_owner].time.push(block.timestamp);"
-        ]
-    }
-]
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "36-72",
+            "vulnerableCode": [
+                "uint256 requiredTime = block.timestamp - holdTime;",
+                "holded[_owner].time.push(block.timestamp);"
+            ],
+            "vulnerabilityReason": "The holdedOf function uses block.timestamp to calculate the required time for tokens to be held, creating a dependency on miner-controlled timestamps. This function checks the difference between the current timestamp and holdTime, which can be set by the contract owner. Such dependencies can lead to manipulations that could incorrectly limit access to user funds based on a potentially altered timestamp.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to delay or bypass funding availability requirements for users, affecting token liquidity and causing unintended financial consequences for users expecting their funds to be released after a defined holding period.",
+            "fixedCode": "uint256 requiredTime = block.timestamp - holdTime + TIME_TOLERANCE; // using a buffer like TIME_TOLERANCE to mitigate manipulation\nholded[_owner].time.push(block.timestamp);"
+        }
+    ]
+}
