@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "48-48",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())"
+            ],
+            "vulnerabilityReason": "The code sends Ether to `msg.sender` using `call.value(_am)()` before updating the user's balance with `balances[msg.sender]-=_am;`. This allows a reentrant contract to call back into the `Collect` function before the balance is updated, potentially allowing the attacker to withdraw more funds than they have in their balance.",
+            "potentialSecurityRisk": "An attacker can create a malicious code that includes fallback functions to repeatedly call the `Collect` function, draining funds from the contract before the balance is updated. This could potentially deplete the contract's funds entirely.",
+            "fixedCode": "        uint256 balanceBefore = balances[msg.sender];\n        require(balanceBefore >= MinSum && balanceBefore >= _am);\n        balances[msg.sender] -= _am;\n        if(!msg.sender.call.value(_am)()) {\n            balances[msg.sender] += _am; // Revert balance change on failure\n        } else {\n            Log.AddMessage(msg.sender,_am,\"Collect\");\n        } // Fixed by using Checks-Effects-Interactions pattern: Update the balance before sending Ether, and check for success."
+        }
+    ]
+}

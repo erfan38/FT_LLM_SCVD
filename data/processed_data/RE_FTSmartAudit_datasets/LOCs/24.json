@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "48-48",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())"
+            ],
+            "vulnerabilityReason": "The contract performs an external call to `msg.sender` using `call.value(_am)()`, which allows for reentrancy. This means that if `msg.sender` is a contract, it can call back into the `Collect` function before the balance is updated, enabling a malicious contract to drain Ether.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by deploying a malicious contract that repeatedly calls the `Collect` function. By doing so, they could withdraw more Ether than they originally had in their account, potentially draining the entire contract balance.",
+            "fixedCode": "            require(balances[msg.sender] >= _am, \"Insufficient balance\");  // Check balance before transfer\n            balances[msg.sender] -= _am;  // Update balance first\n            if (!msg.sender.call.value(_am)()) {  // Transfer Ether\n                balances[msg.sender] += _am;  // Revert balance if transfer fails\n                revert();  // Revert entire transaction to prevent loss of funds\n            }"
+        }
+    ]
+}

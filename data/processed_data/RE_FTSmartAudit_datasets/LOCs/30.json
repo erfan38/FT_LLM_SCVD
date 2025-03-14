@@ -1,0 +1,17 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "23-27",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())",
+                "            {",
+                "                acc.balance-=_am;",
+                "                LogFile.AddMessage(msg.sender,_am,\"Collect\");",
+                "            }"
+            ],
+            "vulnerabilityReason": "The contract invokes msg.sender.call.value(_am)() which can call back into the Collect function before the state (acc.balance) is updated. This allows for reentrancy attacks as the balance is decremented only after the external call, which could lead to multiple withdrawals before the state change is settled.",
+            "potentialSecurityRisk": "A malicious contract could cause the Collect function to be re-entered multiple times before updating the balance, allowing the attacker to withdraw more Ether than originally intended, potentially draining the contract's funds.",
+            "fixedCode": "            acc.balance -= _am; // Update balance first\n            if(!msg.sender.call.value(_am)()) { // Transfer Ether after state update\n                acc.balance += _am; // Revert balance if transfer fails\n            } else {\n                LogFile.AddMessage(msg.sender, _am, \"Collect\");\n            } // End of fixed code"
+        }
+    ]
+}

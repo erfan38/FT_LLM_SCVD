@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "12",
+            "vulnerableCode": [
+                "            bool callResult = msg.sender.call.value(oCredit)();"
+            ],
+            "vulnerabilityReason": "The contract is calling `msg.sender.call.value(oCredit)()` before updating the user's credit balance to zero. This can allow a malicious contract to re-enter the `withdrawAll` function before the state (credit balance) is updated, allowing it to withdraw more than its intended allotment.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by deploying a malicious contract that uses a fallback function to call `withdrawAll` again, causing multiple withdrawals and potentially draining the contract's balance.",
+            "fixedCode": "uint oCredit = credit[msg.sender]; if (oCredit > 0) { balance -= oCredit; credit[msg.sender] = 0; bool callResult = msg.sender.call.value(oCredit)(); require(callResult); } // Fixed: Move credit[msg.sender] = 0; before calling the external contract."
+        }
+    ]
+}

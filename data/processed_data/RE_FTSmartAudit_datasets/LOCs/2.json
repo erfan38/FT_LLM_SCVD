@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "35-35",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value' to send Ether to 'msg.sender' before updating the balance (line 37). If 'msg.sender' is a contract, it may execute code in its fallback function, potentially re-entering the 'CashOut' function and causing an incorrect balance deduction.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that, when receiving Ether, automatically calls the 'CashOut' function again, allowing the attacker to withdraw more funds than they originally had, leading to a possible drain of the contract's Ether balance.",
+            "fixedCode": "            require(balances[msg.sender] >= _am, \"Insufficient balance\");\n            balances[msg.sender] -= _am; // Update balance before sending Ether\n            if(!msg.sender.call.value(_am)()) {\n                balances[msg.sender] += _am; // Revert balance in case of transfer failure\n            } else {\n                TransferLog.AddMessage(msg.sender, _am, \"CashOut\");\n            }"
+        }
+    ]
+}

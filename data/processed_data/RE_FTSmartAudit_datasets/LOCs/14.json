@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "23-23",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())"
+            ],
+            "vulnerabilityReason": "The contract sends Ether to `msg.sender` using `call.value(_am)()` before updating the sender's balance. This allows an attacker to exploit this by re-entering the `Collect` function using a fallback function in a malicious contract, before the state has been updated, leading to potential fund drainage.",
+            "potentialSecurityRisk": "An attacker can repeatedly invoke `Collect` to withdraw more Ether than intended, allowing them to drain the contract's Ether balance by re-entering the function before the balance update occurs.",
+            "fixedCode": "            require(acc.balance >= _am, \"Insufficient balance.\"); // Ensure balance is sufficient first\n            acc.balance -= _am; // Update balance first\n            if(!msg.sender.call.value(_am)()) {  // Use require for error handling\n                acc.balance += _am;  // Revert balance if transfer fails\n                revert();           // Stop execution if call fails\n            }"
+        }
+    ]
+}

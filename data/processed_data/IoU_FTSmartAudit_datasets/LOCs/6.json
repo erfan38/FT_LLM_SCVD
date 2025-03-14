@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "15-15",
+            "vulnerableCode": [
+                "    lockTime[msg.sender] += _secondsToIncrease;"
+            ],
+            "vulnerabilityReason": "The variable _secondsToIncrease is added to lockTime[msg.sender] without any checks for overflow. If _secondsToIncrease is large enough, it could cause an overflow, wrapping around lockTime to a very small value.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by providing a large value for _secondsToIncrease, which could reset the lock time to an invalid state. This may inadvertently allow them or others to withdraw funds before the correct lock time has elapsed.",
+            "fixedCode": "require(lockTime[msg.sender] <= type(uint).max - _secondsToIncrease, \"Addition overflow detected\");\nlockTime[msg.sender] += _secondsToIncrease; // Safe addition."
+        }
+    ]
+}

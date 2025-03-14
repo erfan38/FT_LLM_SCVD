@@ -5,31 +5,6 @@
         "output": "1. The smart contract contains a reentrancy vulnerability. The contract first transfers Ether using `.transfer()`, which is generally safe due to gas limitations. However, it then immediately follows with an ERC-20 token transfer. If the ERC-20 token has a fallback function that interacts with this contract, it could execute a reentrancy attack before state changes are finalized. To mitigate this, the contract should transfer ERC-20 tokens before sending Ether."
     },
     {
-        "vulnerableLines": "231-239",
-        "vulnerableCode": [
-            "function approveAndCall(address _spender, uint256 _value, bytes _extraData) public returns (bool success) {",
-            "    allowed[msg.sender][_spender] = _value;",
-            "    emit Approval(msg.sender, _spender, _value);",
-            "",
-            "",
-            "",
-            "",
-            "    require(_spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))), msg.sender, _value, this, _extraData));",
-            "    return true; "
-        ],
-        "vulnerabilityReason": "The function makes an external call to `_spender.call(...)` after setting the allowance (`allowed[msg.sender][_spender] = _value`) but before any further state protection. A malicious `_spender` contract could re-enter the contract via its fallback function, potentially calling `transferFrom` to spend the allowance multiple times if not mitigated elsewhere.",
-        "potentialSecurityRisk": "An attacker could exploit the allowance before it’s reduced or cleared, potentially draining tokens if reentrancy occurs. The risk is partially mitigated by `transferFrom` updating `allowed` before token transfer, but without additional reentrancy guards (e.g., OpenZeppelin’s ReentrancyGuard), this remains a risk when used with untrusted contracts.",
-        "fixedCode": [
-            "function approveAndCall(address _spender, uint256 _value, bytes _extraData) public returns (bool success) {",
-            "    allowed[msg.sender][_spender] = _value;",
-            "    emit Approval(msg.sender, _spender, _value);",
-            "    bool callSuccess = _spender.call(bytes4(bytes32(keccak256(\"receiveApproval(address,uint256,address,bytes)\"))), msg.sender, _value, this, _extraData);",
-            "    require(callSuccess, \"External call failed\");",
-            "    return true;",
-            "} // fixed using Checks-Effects-Interactions: Ensured external call success verification before proceeding with function logic to prevent reentrancy."
-        ]
-    },
-    {
         "vulnerableLines": "405-409",
         "vulnerableCode": [
             "Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);",
@@ -50,63 +25,6 @@
             "if(tokenBalance != 0) {",
             "    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], tokenBalance),\"CreateChannel: token transfer failure\");",
             "} // fixed using Checks-Effects-Interactions: Stored balances in local variables before making external calls and deleted the channel state before transferring funds to prevent reentrancy attacks."
-        ]
-    },    
-
-    {
-        "vulnerableLines": "513-519",
-        "vulnerableCode": [
-        "Channels[_lcID].partyAddresses[0].transfer(_balances[0]);",
-        "Channels[_lcID].partyAddresses[1].transfer(_balances[1]);",
-        "}",
-        "if(_balances[2] != 0 || _balances[3] != 0) {",
-        "    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], _balances[2]),\"happyCloseChannel: token transfer failure\");",
-        "    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[1], _balances[3]),\"happyCloseChannel: token transfer failure\");",
-        "}"
-        ],
-        "vulnerabilityReason": "The function makes external calls (`transfer` for Ether and `token.transfer` for tokens) after setting `isOpen = false` but before decrementing `numChannels`. A malicious contract could re-enter another function that relies on `isOpen` without checking balances, potentially allowing multiple withdrawals before the channel state is fully finalized.",
-        "potentialSecurityRisk": "An attacker could drain more Ether or tokens than intended by exploiting the window between the calls and the `numChannels` update. The `isOpen = false` setting prevents reentrancy into this function, but other functions depending on `isOpen` could be vulnerable if balances aren’t validated.",
-        "fixedCode": [
-            "Channels[_lcID].isOpen = false;",
-            "numChannels--;",
-            "if(_balances[0] != 0 || _balances[1] != 0) {",
-            "    Channels[_lcID].partyAddresses[0].transfer(_balances[0]);",
-            "    Channels[_lcID].partyAddresses[1].transfer(_balances[1]);",
-            "}",
-            "if(_balances[2] != 0 || _balances[3] != 0) {",
-            "    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], _balances[2]),\"happyCloseChannel: token transfer failure\");",
-            "    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[1], _balances[3]),\"happyCloseChannel: token transfer failure\");",
-            "} // fixed using Checks-Effects-Interactions: Marked `isOpen = false` and decremented `numChannels` before executing external transfers to prevent reentrancy attacks relying on `isOpen` status."
-        ]
-    },
-    {
-        "vulnerableLines": "777-787",
-        "vulnerableCode": [
-            "channel.partyAddresses[0].transfer(ethbalanceA);",
-            "channel.partyAddresses[1].transfer(ethbalanceI);",
-            "}",
-            "if(tokenbalanceA != 0 || tokenbalanceI != 0) {",
-            "    require(",
-            "        channel.token.transfer(channel.partyAddresses[0], tokenbalanceA),",
-            "        \"byzantineCloseChannel: token transfer failure\"",
-            "    );",
-            "    require(",
-            "        channel.token.transfer(channel.partyAddresses[1], tokenbalanceI),",
-            "        \"byzantineCloseChannel: token transfer failure\""
-        ],
-        "vulnerabilityReason": "External calls (`transfer` for Ether and `token.transfer` for tokens) occur before setting `isOpen = false` and decrementing `numChannels`. A malicious contract could re-enter, exploiting the channel’s open state before it’s fully closed.",
-        "potentialSecurityRisk": "High risk: An attacker could withdraw funds multiple times by re-entering before `isOpen` is set to false, leading to unintended loss of Ether or tokens despite balances being zeroed earlier.",
-        "fixedCode": [
-            "channel.isOpen = false;",
-            "numChannels--;",
-            "if(ethbalanceA != 0 || ethbalanceI != 0) {",
-            "    channel.partyAddresses[0].transfer(ethbalanceA);",
-            "    channel.partyAddresses[1].transfer(ethbalanceI);",
-            "}",
-            "if(tokenbalanceA != 0 || tokenbalanceI != 0) {",
-            "    require(channel.token.transfer(channel.partyAddresses[0], tokenbalanceA),\"byzantineCloseChannel: token transfer failure\");",
-            "    require(channel.token.transfer(channel.partyAddresses[1], tokenbalanceI),\"byzantineCloseChannel: token transfer failure\");",
-            "} // fixed using Checks-Effects-Interactions: Ensured `isOpen = false` and `numChannels--` updates occur before executing external calls to prevent reentrancy by exploiting the open channel state."
         ]
     }
 ]
