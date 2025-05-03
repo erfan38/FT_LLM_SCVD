@@ -1,0 +1,58 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "36-36",
+            "vulnerableCode": [
+                "if (nodes[left].end_stamp <= block.timestamp) {"
+            ],
+            "vulnerabilityReason": "This condition checks if the freezing period has expired based on block.timestamp, which can be manipulated by miners to prematurely clear freezing periods.",
+            "potentialSecurityRisk": "Miners can influence the expiration of freezing periods by manipulating block.timestamp, possibly allowing them or their associates to take advantage by manipulating freezing conditions.",
+            "fixedCode": "if (nodes[left].end_stamp <= block.timestamp + TIME_TOLERANCE) { // Adding a buffer to mitigate precise time manipulation."
+        },
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "if (nodes[right].end_stamp > block.timestamp) {"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp here for comparison allows miners to interfere with the transition of nodes, potentially retaining or losing freezing status inappropriately.",
+            "potentialSecurityRisk": "An attacker can ensure they keep their tokens frozen longer or create confusion around whether their tokens are still frozen by subtly manipulating the mined block's timestamp.",
+            "fixedCode": "if (nodes[right].end_stamp > block.timestamp + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "64-64",
+            "vulnerableCode": [
+                "if (nodes[i].end_stamp > block.timestamp) {"
+            ],
+            "vulnerabilityReason": "The function is using block.timestamp to validate nodes against their expiration state, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Manipulation of this condition might lead to incorrect calculations or access to token quantities that should not be available yet.",
+            "fixedCode": "if (nodes[i].end_stamp > block.timestamp + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "81-81",
+            "vulnerableCode": [
+                "require(block.timestamp < end_stamp);"
+            ],
+            "vulnerabilityReason": "This statement checks if the freezing period starts in the future based on block.timestamp, which may be compromised if miners adjust the timestamps.",
+            "potentialSecurityRisk": "If miners change the block timestamp, it could be possible for an admin or user to incorrectly set future freezing periods that do not align with expected timing.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < end_stamp);"
+        },
+        {
+            "vulnerableLines": "109-109",
+            "vulnerableCode": [
+                "clearExpiredFreezing(msg.sender);"
+            ],
+            "vulnerabilityReason": "Calling this function before transferring tokens allows miners to manipulate timestamps to influence the freezing status for token holders.",
+            "potentialSecurityRisk": "Miners could abuse the timing of this interaction to manipulate who can access their funds or alter balances by speeding up their own miners' timelines.",
+            "fixedCode": "clearExpiredFreezing(msg.sender); // Ensure proper checks are applied inside clearExpiredFreezing to account for potential manipulation."
+        },
+        {
+            "vulnerableLines": "126-126",
+            "vulnerableCode": [
+                "clearExpiredFreezing(_from);"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this code ensures that freezing conditions are checked before allowing a transfer, which can be influenced if miners manipulate timestamps.",
+            "potentialSecurityRisk": "Allows for potential exploit where miners can change the state of freezing before completing a transaction, disadvantaging genuine users of the token.",
+            "fixedCode": "clearExpiredFreezing(_from); // Ensure proper checks are applied inside clearExpiredFreezing to account for potential manipulation."
+        }
+    ]
+}

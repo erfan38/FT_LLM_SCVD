@@ -1,0 +1,33 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "26-27",
+            "vulnerableCode": [
+                "balances[msg.sender] -= _value;",
+                "balances[_to] += _value;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations to adjust balances without using SafeMath or bounds checking, which can lead to integer overflow or underflow. For example, if balances[_to] + _value exceeds the maximum uint256 value, it will wrap around to 0, causing incorrect balance records.",
+            "potentialSecurityRisk": "An attacker can manipulate the contract by performing a transfer that exceeds the maximum balance allowed, resulting in losing tokens due to the wraparound effect, allowing them to gain more tokens than intended or causing discrepancies in the monetary accounting.",
+            "fixedCode": "require(balances[msg.sender] >= _value, \"Insufficient balance\");\nbalances[msg.sender] -= _value;\nrequire(balances[_to] + _value >= balances[_to], \"Overflow detected\");\nbalances[_to] += _value;"
+        },
+        {
+            "vulnerableLines": "35-36",
+            "vulnerableCode": [
+                "balances[_to] += _value;",
+                "balances[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, adding _value to balances[_to] and subtracting it from balances[_from] without checks can lead to overflow and underflow, respectively. Overflow occurs if balances[_to] is close to the maximum uint256 and _value is large enough to exceed it.",
+            "potentialSecurityRisk": "Manipulating balances leading to unintended balance states. An attacker could create a situation where the balance of _from becomes much higher than intended due to an underflow, potentially creating unauthorized access to more funds.",
+            "fixedCode": "require(balances[_from] >= _value, \"Insufficient balance\");\nbalances[_to] += _value;\nrequire(balances[_from] >= _value, \"Underflow detected\");\nbalances[_from] -= _value;"
+        },
+        {
+            "vulnerableLines": "38-38",
+            "vulnerableCode": [
+                "allowed[_from][msg.sender] -= _value;"
+            ],
+            "vulnerabilityReason": "Subtracting _value from allowed without checks can cause underflow when allowance is equal to MAX_UINT256. This can lead to a situation where the allowance becomes an unintended high value, bypassing limits for allowed tokens.",
+            "potentialSecurityRisk": "This can easily enable attackers to completely bypass the allowance mechanism by allowing them infinite spending capabilities if the allowance wraps into a negative value, compromising the security of the token transfer system.",
+            "fixedCode": "require(allowed[_from][msg.sender] >= _value, \"Allowance exceeded\");\nallowed[_from][msg.sender] -= _value;"
+        }
+    ]
+}

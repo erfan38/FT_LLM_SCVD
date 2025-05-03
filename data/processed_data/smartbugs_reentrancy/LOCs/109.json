@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' to send Ether allows for an external contract to execute code before the state variables are updated. If the recipient is a malicious contract, it could call back into the EtherTradex contract, leading to recursive withdrawals before the withdrawal balance is updated.",
+            "potentialSecurityRisk": "An attacker can use a malicious contract to drain funds from the contract by repeatedly invoking the withdraw function before the internal state (the user's balance) is updated, leading to excessive fund withdrawals.",
+            "fixedCode": "require(tokens[0][msg.sender] >= amount, \"Insufficient balance\");\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\n(bool success, ) = msg.sender.call.value(amount)();\nrequire(success, \"Transfer failed\");\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        }
+    ]
+}

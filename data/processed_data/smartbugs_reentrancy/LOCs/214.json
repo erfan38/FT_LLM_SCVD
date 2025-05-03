@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "188-188",
+            "vulnerableCode": [
+                "if (!_to.call.value(_value)(_data))"
+            ],
+            "vulnerabilityReason": "The use of call.value() allows an external contract to be called, and since state changes occur afterwards, this enables a reentrant call, potentially letting an attacker withdraw funds before the first withdrawal is accounted.",
+            "potentialSecurityRisk": "This vulnerability could lead to significant funds being drained from the contract by repeatedly calling back into the execute function before the state update can take effect, leading to multiple withdrawals for a single transaction.",
+            "fixedCode": "// Check for sufficient balance to prevent reentrancy\nrequire(address(this).balance >= _value, \"Insufficient contract balance\");\n// Update state variable before making the call\n_success = _to.call.value(_value)(_data);\nrequire(_success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "222-222",
+            "vulnerableCode": [
+                "if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, this call to an external address using call.value() occurs before the state is updated to indicate that funds are outgoing, which again exposes the contract to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this by triggering a reentrant call during the call to the external contract, allowing them to manipulate state and withdraw more funds than intended.",
+            "fixedCode": "// Ensure the transaction details are valid\nrequire(m_txs[_h].to != address(0), \"Transaction address is zero\");\nrequire(address(this).balance >= m_txs[_h].value, \"Insufficient contract balance\");\n// Execute external call after ensuring state consistency\n(bool success,) = m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

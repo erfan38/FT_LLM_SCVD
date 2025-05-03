@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "require(block.timestamp < pubEnd);"
+            ],
+            "vulnerabilityReason": "This line uses block.timestamp to ensure that purchases can be made only before the public sale ends (pubEnd). Since miners can manipulate block.timestamp, they might gain an advantage by setting it to appear within the sale period without adherence to actual time.",
+            "potentialSecurityRisk": "Attackers could manipulate block time to purchase tokens during the discount period indefinitely, affecting token pricing and fairness of sales, potentially leading to financial loss for the token issuer.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < pubEnd); //Adding a buffer to the timestamp check."
+        },
+        {
+            "vulnerableLines": "118-118",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "This line checks if the current block timestamp is greater than pubEnd to allow withdrawals. Relying on block.timestamp can lead to exploitation, whereby miners can alter it, affecting the ability of users to withdraw after the public sale.",
+            "potentialSecurityRisk": "Manipulation of block.timestamp could allow miners to withdraw funds before the intended sale closure, thereby disrupting the intended financial flow and governance of the token sale.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Adding a buffer to avoid miner manipulation."
+        },
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "Similar to the previous requires, this line ensures that the contract allows the owner to withdraw after the end of the public sale. The dependency on block.timestamp opens up the method to miner manipulation.",
+            "potentialSecurityRisk": "If miners are able to manipulate block.timestamp, they could cause issues in the contract's ability to transition funds appropriately. This presents risks of unauthorized withdrawals or timing discrepancies in the logic.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Adding a buffer time to the check."
+        }
+    ]
+}

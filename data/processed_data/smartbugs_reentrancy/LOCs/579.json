@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "169-169",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract attempts to transfer funds to a player before confirming the round has ended. This may allow a malicious contract to perform a reentrant call during the fund transfer, allowing them to manipulate the contract state maliciously.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to withdraw more funds than they are entitled to by re-entering the `withdraw` function before the contract's state is updated, potentially draining the contract's funds.",
+            "fixedCode": "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0) { uint256 _eth = withdrawEarnings(_pID); if (_eth > 0) { plyr_[_pID].addr.transfer(_eth); } } else { revert('Round not ended'); }"
+        },
+        {
+            "vulnerableLines": "265-265",
+            "vulnerableCode": [
+                "address(admin).call.value(_com)()"
+            ],
+            "vulnerabilityReason": "The contract makes a low-level call to transfer funds to the admin address without updating the internal state beforehand. This allows for a potential reentrancy attack, where an external contract could be called back, allowing it to manipulate the contract state.",
+            "potentialSecurityRisk": "An attacker can exploit the timing of this call to invoke reentrant functionality, leading to the potential draining of funds or corruption of contract state properties before they are updated.",
+            "fixedCode": "uint256 _com = _eth / 50; require(admin.call.value(_com)(), 'Transfer failed');"
+        },
+        {
+            "vulnerableLines": "286-286",
+            "vulnerableCode": [
+                "round_[_rID].pot = round_[_rID].pot.add(msg.value);"
+            ],
+            "vulnerabilityReason": "Anyone can deposit funds into the pot without any access control or validation, which leads to vulnerability because an attacker could craft a malicious contract that deposits and immediately triggers other functions, leading to potential reentrancy.",
+            "potentialSecurityRisk": "This allows attacks where an external contract could exploit the fund deposit to manipulate the pot, possibly allowing them to withdraw more funds than deposited or manipulate the game states.",
+            "fixedCode": "require(msg.value > 0, 'Must send non-zero value'); round_[_rID].pot = round_[_rID].pot.add(msg.value); emit F3Devents.onPotSwapDeposit(_rID, msg.value);"
+        }
+    ]
+}

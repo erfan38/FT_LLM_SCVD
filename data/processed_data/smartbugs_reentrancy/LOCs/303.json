@@ -1,0 +1,46 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "110-113",
+            "vulnerableCode": [
+                "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+                "balances[_to] = safeAdd(balanceOf(_to), _value);",
+                "ContractReceiver receiver = ContractReceiver(_to);",
+                "receiver.call.value(0)(bytes4(sha3(_custom_fallback)), msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "The state changes related to balances are executed after the external call to the receiver contract. This can allow an attacker to re-enter the `transfer` function during the external call and withdraw additional funds before the balance state is properly updated.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by making a recursive call to the transfer function while the external call is being processed, allowing them to withdraw more funds than intended, potentially draining the contract's balance.",
+            "fixedCode": "if (balanceOf(msg.sender) < _value) { revert(); }\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\nContractReceiver receiver = ContractReceiver(_to);\nreceiver.call.value(0)(bytes4(sha3(_custom_fallback)), msg.sender, _value, _data);\nTransfer(msg.sender, _to, _value, _data);\nreturn true;"
+        },
+        {
+            "vulnerableLines": "211-212",
+            "vulnerableCode": [
+                "balances[_to] = safeAdd(balanceOf(_to), _value);",
+                "balances[_from] = safeSub(balanceOf(_from), _value);"
+            ],
+            "vulnerabilityReason": "The balances for `_to` and `_from` are updated after performing an operation that includes an external call. If an external contract is malicious, it can trigger a reentrant call before the balances are updated, leading to unauthorized withdrawals.",
+            "potentialSecurityRisk": "An attacker can recursively call the function using a malicious contract during the state update phase, enabling them to withdraw funds beyond their current balance, hence draining the contract.",
+            "fixedCode": "require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && balances[_to] + _value > balances[_to]);\nbalances[_from] = safeSub(balanceOf(_from), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\nallowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);\nTransfer(_from, _to, _value);"
+        },
+        {
+            "vulnerableLines": "170-171",
+            "vulnerableCode": [
+                "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+                "balances[_to] = safeAdd(balanceOf(_to), _value);"
+            ],
+            "vulnerabilityReason": "Similar to the previous issues, the state change happens after the external call, which can lead to reentrancy problems.",
+            "potentialSecurityRisk": "An attacker can craft a contract that exploits this sequence of operations, allowing them to steal more funds than they are entitled to by re-entering the function during the external call.",
+            "fixedCode": "if (balanceOf(msg.sender) < _value) { revert(); }\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\nTransfer(msg.sender, _to, _value);"
+        },
+        {
+            "vulnerableLines": "181-182",
+            "vulnerableCode": [
+                "balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);",
+                "balances[_to] = safeAdd(balanceOf(_to), _value);"
+            ],
+            "vulnerabilityReason": "The state updates occur after the transfer function may potentially allow external calls, leading to the same vulnerability as the previous mentions.",
+            "potentialSecurityRisk": "This invites reentrancy attacks where the attacker could deplete the contract of funds by recursively transferring amounts during state updates causing state inconsistencies.",
+            "fixedCode": "if (balanceOf(msg.sender) < _value) { revert(); }\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\nbalances[_to] = safeAdd(balanceOf(_to), _value);\nTransfer(msg.sender, _to, _value);"
+        }
+    ]
+}

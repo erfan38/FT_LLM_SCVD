@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "lockedUntil[msg.sender] = block.timestamp + lockDuration;"
+            ],
+            "vulnerabilityReason": "The deposit function uses block.timestamp to set the locking duration for the funds deposited by the sender. This dependency on block.timestamp can lead to various exploits since miners can manipulate the timestamp when creating a block, potentially allowing them to bypass lock conditions.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp to be earlier than intended, they could trick the contract into allowing early withdrawal of funds, undermining the integrity of the locking mechanism.",
+            "fixedCode": "lockedUntil[msg.sender] = block.timestamp + lockDuration + TIME_TOLERANCE; // Here TIME_TOLERANCE is a defined constant giving a buffer to avoid manipulation."
+        },
+        {
+            "vulnerableLines": "11-11",
+            "vulnerableCode": [
+                "require(block.timestamp >= lockedUntil[msg.sender], \"Funds are still locked\");"
+            ],
+            "vulnerabilityReason": "The withdraw function checks if the current block.timestamp is greater than or equal to the lockedUntil timestamp to allow withdrawal. This introduces a vulnerability where miners can manipulate the block.timestamp to affect this condition.",
+            "potentialSecurityRisk": "Miners may be able to set a block timestamp such that they can withdraw funds before the user intended the funds to be available, leading to potential financial loss.",
+            "fixedCode": "require(block.timestamp >= lockedUntil[msg.sender] + TIME_TOLERANCE, \"Funds are still locked\"); // Adding a buffer against timestamp manipulation."
+        }
+    ]
+}

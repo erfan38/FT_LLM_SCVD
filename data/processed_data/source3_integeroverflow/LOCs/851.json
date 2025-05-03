@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "balance -= amount;"
+            ],
+            "vulnerabilityReason": "The 'withdraw' function subtracts 'amount' from 'balance' without verifying if 'balance' is sufficient to cover the withdrawal. If 'amount' exceeds 'balance', this causes an integer underflow, resulting in 'balance' wrapping around to a very large number in Solidity versions prior to 0.8.0. In versions 0.8.0 and later, the transaction would revert, but it still doesn't handle the error gracefully, making it a vulnerability.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by calling 'withdraw' with an amount greater than the current 'balance', leading to underflow and potentially allowing them to manipulate 'balance' to obtain more funds than intended, since underflow will make 'balance' a very large number and could bypass checks subsequently implemented.",
+            "fixedCode": "require(balance >= amount, 'Insufficient balance for withdrawal');\nbalance -= amount;"
+        }
+    ]
+}

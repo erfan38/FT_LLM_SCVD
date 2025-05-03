@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "235-236",
+            "vulnerableCode": [
+                "owner.call.value(devDirect)();",
+                "feeRecipient.call.value(total.sub(devDirect))();"
+            ],
+            "vulnerabilityReason": "The use of low-level calls with call.value() to send Ether after making state changes can lead to vulnerabilities. If the recipient is a smart contract, it could trigger fallback functions without proper handling, allowing unexpected interactions.",
+            "potentialSecurityRisk": "If a malicious contract is set as either the owner or fee recipient, it could exploit this order of operations to manipulate the contract state or drain funds. While the current context does not directly expose a reentrancy risk, future changes to the contract or interactions could introduce such vulnerabilities.",
+            "fixedCode": "uint256 total = address(this).balance; uint256 devDirect = total.mul(375).div(1000); require(owner.send(devDirect), 'Transfer to owner failed'); require(feeRecipient.send(total.sub(devDirect)), 'Transfer to feeRecipient failed');"
+        }
+    ]
+}

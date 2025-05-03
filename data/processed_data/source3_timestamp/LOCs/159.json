@@ -1,0 +1,42 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "97-97",
+            "vulnerableCode": [
+                "uint256 endTime; // Vulnerable due to block.timestamp usage"
+            ],
+            "vulnerabilityReason": "The 'endTime' for the round is being set using 'block.timestamp', which is manipulable by miners during block creation, making it unreliable as a definitive time measure.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp when setting the endTime, potentially allowing for abuse in round mechanics or benefits from discounted tokens.",
+            "fixedCode": "uint256 endTime; // Consider refactoring to depend on block.number or ensuring proper validation."
+        },
+        {
+            "vulnerableLines": "205-206",
+            "vulnerableCode": [
+                "require(block.timestamp > lastOne.endTime);",
+                "_round.endTime = block.timestamp.add(maxTimeRemain);"
+            ],
+            "vulnerabilityReason": "This condition depends on 'block.timestamp' to check if the current time exceeds the round's 'endTime', allowing miners to exploit this condition to determine when to finalize rounds.",
+            "potentialSecurityRisk": "An attacker could manipulate block timestamps to finalize rounds more favorably, either to execute advantageous buy operations or gain oversight and control of the game.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > lastOne.endTime); // Use a buffer for validation."
+        },
+        {
+            "vulnerableLines": "362-363",
+            "vulnerableCode": [
+                "if (block.timestamp > current.endTime) {",
+                "current_now.endTime = current_now.endTime.add(timeGap);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' here to check if the current time exceeds 'endTime' could give insights to miners to time their transactions better, taking advantage of timing discrepancies.",
+            "potentialSecurityRisk": "Miners could strategically adjust timestamps, affecting the outcome of the game and transaction dynamics of key purchases during the critical window of buying.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE > current.endTime) { // Adding buffer to handle precision issues."
+        },
+        {
+            "vulnerableLines": "485-485",
+            "vulnerableCode": [
+                "return rounds[currentRound].endTime - block.timestamp;"
+            ],
+            "vulnerabilityReason": "This line directly calculates the remaining time based on 'block.timestamp', making it susceptible to shifts that a miner can introduce, affecting game fairness.",
+            "potentialSecurityRisk": "Manipulating the timestamp could skew calculations leading players to think time remains when it has not, aiding in unbalanced gameplay.",
+            "fixedCode": "return rounds[currentRound].endTime - (block.timestamp + TIME_TOLERANCE); // Using a tolerance to lessen miner influence."
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "113-118",
+            "vulnerableCode": [
+                "function getState() public constant returns (State) {",
+                "  if (block.timestamp < startsAt) {",
+                "    return State.PreFunding;",
+                "  } else {",
+                "    return State.Funding;",
+                "  }"
+            ],
+            "vulnerabilityReason": "The getState() function relies on block.timestamp to determine whether the crowdsale is in the PreFunding or Funding state. This dependency creates a risk, as block.timestamp can be slightly manipulated by miners.",
+            "potentialSecurityRisk": "If a miner manipulates the block timestamp, they could cause the crowdsale to enter an unintended state. This could allow for premature funding actions or manipulation of participant eligibility in the crowdsale, leading to financial losses or unfair advantages.",
+            "fixedCode": "function getState() public constant returns (State) { uint256 currentTime = block.timestamp; if (currentTime < startsAt) { return State.PreFunding; } else { return State.Funding; }}"
+        }
+    ]
+}

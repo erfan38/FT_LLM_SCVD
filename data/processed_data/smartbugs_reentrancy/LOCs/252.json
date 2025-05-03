@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "42-42",
+            "vulnerableCode": [
+                "require(receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The external call to `receiver.call.value(0)` allows the called contract to execute its fallback function before the state has been updated. This can lead to a situation where the called contract calls back into the original contract before the withdrawal state is finalized, enabling potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this by deploying a malicious contract that can recursively call the `transfer` function, withdrawing more tokens than they are supposed to before the state is updated, ultimately draining the contract of its tokens.",
+            "fixedCode": "// Update the state first before making the external call\n// Assume the contract has sufficient balance and allowances are checked properly:\nrequire(Balances(balancesContract()).get(msg.sender) >= _value);\nBalances(balancesContract()).transfer(msg.sender, _to, _value);\nTransfer(msg.sender, _to, _value);\nTransfer(msg.sender, _to, _value, _data);\nif(isContract(_to)) {\n   ContractReceiver receiver = ContractReceiver(_to);\n   // Call the fallback function after the state updates\n   require(receiver.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n}"
+        }
+    ]
+}

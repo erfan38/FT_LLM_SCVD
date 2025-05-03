@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(!(msg.sender.call.value(amount)())){ throw; }"
+            ],
+            "vulnerabilityReason": "The code makes an external call to `msg.sender` to transfer Ether before updating the user's balance. This allows a malicious contract to re-enter the `withdrawBalance_fixed` function before the balance is set to zero, enabling it to exploit the function and withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that calls the `withdrawBalance_fixed` function, allowing them to repeatedly withdraw the same funds while the balance is still set to the original amount, potentially draining the contract of its Ether reserves.",
+            "fixedCode": "uint amount = userBalance[msg.sender];\nrequire(amount > 0, 'Insufficient balance');\nuserBalance[msg.sender] = 0; // Update the balance first\n(bool success, ) = msg.sender.call.value(amount)(); // Call only after state is updated\nrequire(success, 'Transfer failed'); // Ensure the transfer was successful."
+        }
+    ]
+}

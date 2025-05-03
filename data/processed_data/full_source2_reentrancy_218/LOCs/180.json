@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_amount).gas(2000)()) {"
+            ],
+            "vulnerabilityReason": "The function uses `msg.sender.call.value(_amount).gas(2000)()` which allows for external contract calls. This method can invoke a callback (fallback function) in the recipient contract, leading to potential reentrancy attacks before the state is updated.",
+            "potentialSecurityRisk": "A malicious contract could re-enter the `withdraw` function before the balance is updated, allowing it to withdraw more funds than it is entitled to, thus potentially draining the entire balance from the contract.",
+            "fixedCode": "require(balances[msg.sender] >= _amount); // Ensure sufficient balance\nbalances[msg.sender] -= _amount; // Update the balance before transferring\n(bool success, ) = msg.sender.call{value: _amount}(''); // Safely transfer Ether\nrequire(success, 'Transfer failed'); // Check that the transfer was successful."
+        }
+    ]
+}

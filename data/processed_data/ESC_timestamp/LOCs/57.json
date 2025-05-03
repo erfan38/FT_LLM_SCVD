@@ -1,0 +1,109 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "412-414",
+            "vulnerableCode": [
+                "if (crowdSaleEndTime == 0 || block.timestamp < unlockTime) {",
+                "return false;",
+                "}"
+            ],
+            "vulnerabilityReason": "The function checks if the current timestamp is less than unlockTime, which is derived from crowdSaleEndTime. Miners have control over block.timestamp, allowing them to manipulate the outcome of the lock period enforcement.",
+            "potentialSecurityRisk": "A miner could alter the block.timestamp to allow early transfers, circumventing the lock imposed on tokens which could lead to premature token distribution to potentially malicious actors.",
+            "fixedCode": "if (crowdSaleEndTime == 0 || block.timestamp + TIME_TOLERANCE < unlockTime) { return false; }"
+        },
+        {
+            "vulnerableLines": "436-440",
+            "vulnerableCode": [
+                "if (block.timestamp < crowdSaleEndTime &&",
+                "crowdSale != address(0) &&",
+                "crowdSale.isTransferAllowed(_from, _value) == false",
+                ") {",
+                "return false;"
+            ],
+            "vulnerabilityReason": "This condition uses block.timestamp to determine if a transfer is allowed before the crowd sale ends. Manipulation of block.timestamp could lead to incorrect processing of transfer statuses.",
+            "potentialSecurityRisk": "Miners could alter the timestamp to allow unauthorized transitions, leading to token transfers that should be disallowed, negatively impacting the sale and its participants.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE < crowdSaleEndTime && crowdSale != address(0) && crowdSale.isTransferAllowed(_from, _value) == false) { return false; }"
+        },
+        {
+            "vulnerableLines": "463-463",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This check ensures that the crowd sale has ended by comparing block.timestamp with crowdSaleEndTime, which is susceptible to manipulation by miners.",
+            "potentialSecurityRisk": "A malicious miner could set the block.timestamp to an earlier time than the actual current time, which may cause the contract to conclude the sale prematurely, thus impacting the intended distribution of tokens.",
+            "fixedCode": "require(crowdSaleEndTime <= block.timestamp + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "471-471",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerabilities, this line checks if the sale has ended using block.timestamp, which is modifiable by miners.",
+            "potentialSecurityRisk": "If exploited, this vulnerability allows miners to manipulate when the contract considers the sale to be over, which could lead to unauthorized actions.",
+            "fixedCode": "require(crowdSaleEndTime <= block.timestamp + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "479-479",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line also relies on block.timestamp to enforce conditions on actions taken post-sale, making it open to manipulation.",
+            "potentialSecurityRisk": "Manipulation via block.timestamp can result in premature token burning or refunding processes, causing unintended financial consequences for holders and contributors.",
+            "fixedCode": "require(crowdSaleEndTime <= block.timestamp + TIME_TOLERANCE);"
+        },
+        {
+            "vulnerableLines": "494-494",
+            "vulnerableCode": [
+                "require(block.timestamp > crowdSaleEndTime);"
+            ],
+            "vulnerabilityReason": "This requirement hinges on the block.timestamp to enforce timing conditions that determine when certain actions can be performed, thus making it vulnerable.",
+            "potentialSecurityRisk": "Manipulating the block.timestamp allows miners to bypass critical post-crowd sale requirements, which impacts the fairness of the token distribution.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > crowdSaleEndTime);"
+        },
+        {
+            "vulnerableLines": "509-509",
+            "vulnerableCode": [
+                "require(block.timestamp > crowdSaleEndTime);"
+            ],
+            "vulnerabilityReason": "Utilizing block.timestamp for ending sales opens this statement to miner manipulation risks.",
+            "potentialSecurityRisk": "This could allow undesired actions such as premature burning of unsold tokens from the sale when they should not be accessible.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > crowdSaleEndTime);"
+        },
+        {
+            "vulnerableLines": "888-888",
+            "vulnerableCode": [
+                "if (block.timestamp >= tiers[i].startTime && block.timestamp <= tiers[i].endTime) {"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to determine active tiers relies on miner-controlled values, showing vulnerability to timing manipulations.",
+            "potentialSecurityRisk": "Exploitation could enable miners to manipulate the active tier, allowing contributors to benefit from the wrong tier conditions (e.g., discounts).",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE >= tiers[i].startTime && block.timestamp + TIME_TOLERANCE <= tiers[i].endTime) {"
+        },
+        {
+            "vulnerableLines": "902-902",
+            "vulnerableCode": [
+                "if (endTime < block.timestamp) {"
+            ],
+            "vulnerabilityReason": "The contract's logic relies on block.timestamp to validate if the sale has ended, leading to potential exploits due to miner control.",
+            "potentialSecurityRisk": "Miners altering the time could incorrectly signify the end of a sale period, which may lead to undesired state transitions.",
+            "fixedCode": "if (endTime < block.timestamp + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "928-928",
+            "vulnerableCode": [
+                "if (endTime < block.timestamp) {"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this condition is also controlled by the block.timestamp value, being prone to manipulation.",
+            "potentialSecurityRisk": "Miners can falsely conclude the availability of tokens, leading to inappropriate sales or distributions.",
+            "fixedCode": "if (endTime < block.timestamp + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "992-992",
+            "vulnerableCode": [
+                "if (isActive() || block.timestamp < startTime || collectedUSD.add(preICOStats.collectedUSD) >= softCap) {"
+            ],
+            "vulnerabilityReason": "This condition checks against block.timestamp to ensure sales are still active, exposing it to time manipulation risks.",
+            "potentialSecurityRisk": "Manipulation could open the opportunity for false declarations of activity during the sale period, enabling undue advantages or manipulation of refunds.",
+            "fixedCode": "if (isActive() || block.timestamp + TIME_TOLERANCE < startTime || collectedUSD.add(preICOStats.collectedUSD) >= softCap) {"
+        }
+    ]
+}

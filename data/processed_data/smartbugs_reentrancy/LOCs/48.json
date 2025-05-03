@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "257-259",
+            "vulnerableCode": [
+                "delete balances[investor];",
+                "if(!(investor.call.value(amount)())) throw;"
+            ],
+            "vulnerabilityReason": "The contract performs a deletion of the investor's balance before making an external call to refund via `call.value()`. This order of operations allows an attacker to recursively call back into the contract during the refund process, before the state is effectively updated, resulting in multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by repeatedly invoking the refund function, draining the contract of all funds available for refunds since the balance is deleted before the actual transfer call, leading to potential financial loss for legitimate investors and destabilizing the contract.",
+            "fixedCode": "// Ensure that the balance is not deleted until after a successful transfer.\nfunction refund() stopInEmergency {\n    if(getState() != State.Refunding) throw;\n    address investor = msg.sender;\n    if(balances[investor] == 0) throw;\n    uint amount = balances[investor];\n    // Perform the call before deleting the balance\n    if(!(investor.call.value(amount)())) throw;\n    delete balances[investor]; // Safe to delete now since transfer succeeded\n    Refunded(investor, amount);\n}"
+        }
+    ]
+}

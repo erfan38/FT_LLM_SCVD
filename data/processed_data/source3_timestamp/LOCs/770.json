@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "18-18",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)"
+            ],
+            "vulnerabilityReason": "The condition checks if the current timestamp is less than the release time, which can be manipulated by miners adjusting the block timestamp within a certain range.",
+            "potentialSecurityRisk": "Miners may change the block timestamp to prematurely or unnecessarily delay the release of tokens, influencing the distribution in their favor.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Introduce a buffer to mitigate timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "28-28",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)"
+            ],
+            "vulnerabilityReason": "This check also relies on block.timestamp to enforce token release conditions, making it susceptible to manipulation similar to the previous case.",
+            "potentialSecurityRisk": "Manipulation of block.timestamp can allow miners to control the token release window, benefiting those who influence timing.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Introduce a buffer to mitigate timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "49-49",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)"
+            ],
+            "vulnerabilityReason": "Again, reliance on block.timestamp for fluidity of token release opens up the logic to miner manipulation, primarily for timing-based conditions.",
+            "potentialSecurityRisk": "Abuse of this vulnerability could disrupt fair access to tokens, providing opportunistic miners with advantages over other users.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Introduce a buffer to mitigate timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "45-45",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "Directly returning block.timestamp does not control or mitigate the effects of miner influence, providing a poor source of randomness or timing.",
+            "potentialSecurityRisk": "This could allow external influences on contract behavior without proper resistance to manipulation, which may critically affect the contract's integrity.",
+            "fixedCode": "return now; // Use now with a defined process or mechanism to validate the return value's integrity instead."
+        }
+    ]
+}

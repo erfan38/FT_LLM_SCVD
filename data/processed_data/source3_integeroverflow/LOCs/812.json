@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "return --min;"
+            ],
+            "vulnerabilityReason": "The function attempts to decrement a uint8 variable, `min`, which is initialized to 0. Decrementing this value results in an underflow, wrapping it to 255, due to the behavior of unsigned integers in Solidity versions prior to 0.8.0. This type of underflow can cause unexpected results and is considered a serious vulnerability.",
+            "potentialSecurityRisk": "If this function is called, it could unexpectedly return a value of 255 instead of an error or a valid response. This behavior could lead to incorrect calculations, affecting the contract's functionality and allowing unintended or malicious actions to occur, potentially leading to a denial of service or security breach.",
+            "fixedCode": "// A safe way to decrement while checking underflow\nif (min > 0) {\n    min--;\n}\nreturn min;"
+        }
+    ]
+}

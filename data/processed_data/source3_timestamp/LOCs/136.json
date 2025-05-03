@@ -1,0 +1,42 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "20-21",
+            "vulnerableCode": [
+                "startTime = block.timestamp;",
+                "endTime = startTime + maxTime;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp directly to set startTime and endTime makes these variables susceptible to miner manipulation, as miners could subtly influence the block timestamp during contract execution.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to create advantages in the timing of operations, affecting fairness and potentially influencing contract behavior regarding when functions can be executed or how much time is left for certain actions.",
+            "fixedCode": "startTime = block.timestamp; // Use block.number or a safer approach to determine time context\nendTime = startTime.add(maxTime);"
+        },
+        {
+            "vulnerableLines": "69-70",
+            "vulnerableCode": [
+                "endTime = endTime.add(goldenTickets.mul(addedTime)) > block.timestamp.add(maxTime) ?",
+                "  block.timestamp.add(maxTime) : endTime.add(goldenTickets.mul(addedTime));"
+            ],
+            "vulnerabilityReason": "This line adjusts endTime based on block.timestamp, allowing miners to alter the perceived end time by manipulating the timestamp to decide which value is used, leading to potential advantages in game dynamics.",
+            "potentialSecurityRisk": "Miners can extend or shorten the effective duration of a discount period, allowing them to unfairly benefit. By manipulating timestamps, they could ensure they are always able to claim discounts or other advantages.",
+            "fixedCode": "endTime = (endTime.add(goldenTickets.mul(addedTime)) > block.timestamp.add(maxTime)) ? block.timestamp.add(maxTime) : endTime.add(goldenTickets.mul(addedTime)); // Consider adding a buffer to calculations to mitigate risk"
+        },
+        {
+            "vulnerableLines": "115-115",
+            "vulnerableCode": [
+                "require(block.timestamp > (endTime + 10 minutes));"
+            ],
+            "vulnerabilityReason": "This condition is sensitive to block.timestamp, which means miners can adjust the block timestamp to allow or prevent withdrawal of the pot, affecting contract integrity.",
+            "potentialSecurityRisk": "Miners could manipulate the end time to either expedite withdrawals or delay them, potentially allowing them or their associates to gain unfair access to pot funds leading to a lack of fairness in the withdrawal process.",
+            "fixedCode": "require(block.timestamp > (endTime + 10 minutes)); // Use a more secure timing method, considering variations in blockchain behavior."
+        },
+        {
+            "vulnerableLines": "114-114",
+            "vulnerableCode": [
+                "require(startTime > 0);"
+            ],
+            "vulnerabilityReason": "This line requires that startTime has been set and is presumably less prone to attack. However, there are indirect vulnerabilities associated with how startTime is set initially using block.timestamp.",
+            "potentialSecurityRisk": "While this particular line does not expose a direct manipulation vulnerability, the reliance on startTime being influenced by block.timestamp can lead to unsound logic regarding contract states if timestamp functionality is compromised elsewhere.",
+            "fixedCode": "require(startTime > 0); // Ensure that startTime has been set with a buffer or through safer methods to reduce dependency on miner-controlled timestamps."
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "24-25",
+            "vulnerableCode": [
+                "balances[msg.sender] -= _value;",
+                "balances[_to] += _value;"
+            ],
+            "vulnerabilityReason": "The contract performs arithmetic operations (`+=` and `-=`) on `balances[msg.sender]` and `balances[_to]` without checking for overflow or underflow. Specifically, if the sender's balance is less than `_value`, subtracting `_value` from `balances[msg.sender]` will cause an underflow. Conversely, if adding `_value` to `balances[_to]` exceeds the maximum uint256 value, it can lead to an overflow.",
+            "potentialSecurityRisk": "An attacker could exploit the underflow by transferring more tokens than their balance allows, potentially resulting in negative balances. Overflowing the recipient's balance could allow unauthorized access to funds or view incorrect balance values, leading to potential loss of funds or misuse of the contract.",
+            "fixedCode": "require(balances[msg.sender] >= _value, 'Insufficient balance');\nbalances[msg.sender] -= _value;\nrequire(balances[_to] + _value >= balances[_to], 'Overflow detected');\nbalances[_to] += _value;"
+        },
+        {
+            "vulnerableLines": "33-34",
+            "vulnerableCode": [
+                "balances[_to] += _value;",
+                "balances[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "The `transferFrom` function includes arithmetic operations that change `balances[_to]` and `balances[_from]`, but does not check for overflow or underflow. If the sender `_from` has less than `_value`, subtracting `_value` from their balance will result in an underflow, which could affect subsequent ledger states. Adding `_value` to `_to` could trigger overflow if the new value exceeds the uint256 maximum.",
+            "potentialSecurityRisk": "This presents a risk where an attacker may manipulate the contract to transfer more funds than authorized by using underflow, enabling access to excess tokens on their part or causing a balance that rolls over to a significantly large number, leading to exploitation of the contract.",
+            "fixedCode": "require(balances[_from] >= _value, 'Insufficient balance');\nrequire(balances[_to] + _value >= balances[_to], 'Overflow detected');\nbalances[_from] -= _value;\nbalances[_to] += _value;"
+        }
+    ]
+}

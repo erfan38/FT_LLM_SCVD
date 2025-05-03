@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "16-16",
+            "vulnerableCode": [
+                "        count -= input;"
+            ],
+            "vulnerabilityReason": "The operation count -= input does not check if count is less than input before performing the subtraction. If input is greater than count, this will cause an underflow, resulting in count wrapping around to a very large number due to the nature of unsigned integers in Solidity.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by passing a value larger than the current count, which would cause it to underflow. This could lead to an unintended state where count appears to be much larger than it actually is, potentially allowing unauthorized operations or misuse of the contract.",
+            "fixedCode": "require(count >= input, \"Underflow detected\"); // Prevent underflow\ndata.count -= input; // Safe subtraction"
+        }
+    ]
+}

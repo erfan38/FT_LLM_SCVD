@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "lockdownEnd = block.timestamp + _duration;"
+            ],
+            "vulnerabilityReason": "The setLockdown function assigns the end of the lockdown based on block.timestamp. This creates a potential vulnerability since miners can manipulate timestamps within certain limits when mining blocks.",
+            "potentialSecurityRisk": "If miners alter the timestamp, they can either end or extend the lockdown period deliberately, leading to potential abuses such as allowing or preventing significant actions that are supposed to be restricted during the lockdown period.",
+            "fixedCode": "lockdownEnd = block.number + (_duration / SECONDS_PER_BLOCK); // Use block.number instead of block.timestamp for a more reliable time representation."
+        },
+        {
+            "vulnerableLines": "9-9",
+            "vulnerableCode": [
+                "return block.timestamp < lockdownEnd;"
+            ],
+            "vulnerabilityReason": "The isLockdownActive function evaluates the current time against the lockdown end time via block.timestamp, which is subject to miner manipulation.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability by manipulating the block timestamp, causing the function to yield incorrect results regarding the lockdown status, possibly allowing unauthorized actions.",
+            "fixedCode": "return (block.number < (lockdownEnd / SECONDS_PER_BLOCK)); // Adjusting to use block.number instead of block.timestamp."
+        }
+    ]
+}

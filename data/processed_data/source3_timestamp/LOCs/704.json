@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "14-14",
+            "vulnerableCode": [
+                "require(_releaseTime > uint64(block.timestamp));"
+            ],
+            "vulnerabilityReason": "The constructor sets the releaseTime based on block.timestamp, making it vulnerable to manipulation by miners who control the reported time in the blockchain.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp to allow a future release time to be set too soon, it could result in funds being released much earlier than intended, undermining trust and safe handling of the token release.",
+            "fixedCode": "require(_releaseTime > uint64(block.timestamp + TIME_TOLERANCE)); //Introduce TIME_TOLERANCE to add a buffer."
+        },
+        {
+            "vulnerableLines": "22-22",
+            "vulnerableCode": [
+                "require(uint64(block.timestamp) >= releaseTime);"
+            ],
+            "vulnerabilityReason": "The release() function uses block.timestamp to check if the current time is greater than or equal to releaseTime, making the release logic dependent on a manipulable value.",
+            "potentialSecurityRisk": "Miners could delay blocks or manipulate timestamps to affect the timing of token releases, potentially allowing unauthorized access to funds before the intended time.",
+            "fixedCode": "require(uint64(block.timestamp + TIME_TOLERANCE) >= releaseTime); //Use a buffer like TIME_TOLERANCE to mitigate risks."
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "161-181",
+            "vulnerableCode": [
+                "if (block.timestamp >= fifth_round_release_time) {",
+                "if (block.timestamp >= forth_round_release_time) {",
+                "if (block.timestamp >= third_round_release_time) {",
+                "if (block.timestamp >= second_round_release_time) {",
+                "if (block.timestamp >= first_round_release_time) {"
+            ],
+            "vulnerabilityReason": "The releaseToken() function relies on block.timestamp to determine which round of token releases is active. This exposes the contract to timestamp dependency vulnerabilities, as miners can manipulate block.timestamp.",
+            "potentialSecurityRisk": "Miners can adjust block timestamps to gain access to token releases earlier than intended or trigger unintended behaviors, which could facilitate theft of tokens or provide unfair advantages to certain players in the token distribution process.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE >= fifth_round_release_time) { // Using a buffer for time comparisons\n// Similar changes for the other rounds."
+        }
+    ]
+}

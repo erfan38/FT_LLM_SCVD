@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "229-229",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` for sending Ether to `tx.destination` before marking the transaction as executed (`tx.executed = true`) creates a reentrancy vulnerability. An attacker could exploit this by creating a malicious contract that calls back into the MultiSigWallet contract before the execution state is updated, allowing unauthorized withdrawals.",
+            "potentialSecurityRisk": "An attacker can repeatedly call the `executeTransaction` function, draining funds from the MultiSigWallet by crafting a contract with a malicious fallback function that can make recursive calls to `executeTransaction`. This could result in the loss of all funds held by the wallet.",
+            "fixedCode": "if (isConfirmed(transactionId)) {\n    Transaction tx = transactions[transactionId];\n    if (tx.destination.call.value(tx.value)(tx.data)) {\n        tx.executed = true; // Ensure the transaction is marked executed only after the call is successful\n        Execution(transactionId);\n    } else {\n        ExecutionFailure(transactionId);\n        tx.executed = false;\n    }\n}"
+        }
+    ]
+}

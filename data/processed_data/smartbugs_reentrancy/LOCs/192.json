@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "187-187",
+            "vulnerableCode": [
+                "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()) {"
+            ],
+            "vulnerabilityReason": "The contract calls `participants[payoutOrder].etherAddress.call.value(payoutToSend)`, sending ether before updating the participant's payout and creditRemaining values. If an attacker controls the address, they can re-enter the `payout()` function before the state is adjusted, allowing them to withdraw more funds than they are owed.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability to drain funds from the contract by making recursive calls before the contract state is updated, leading to multiple payouts for the same amount.",
+            "fixedCode": "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()) {\n    emit Payout(payoutToSend, participants[payoutOrder].etherAddress);\n} else {\n    // Adjust state only if the call fails\n    balance += payoutToSend;\n    backlog += payoutToSend;\n    creditRemaining[participants[payoutOrder].etherAddress] += payoutToSend;\n    participants[payoutOrder].payout += payoutToSend;\n}"
+        },
+        {
+            "vulnerableLines": "238-238",
+            "vulnerableCode": [
+                "potj.withdraw.gas(1000000)();"
+            ],
+            "vulnerabilityReason": "The call to `potj.withdraw()` directly invokes a method on another contract without restricting this access, which may allow the potj contract itself to be vulnerable or allow reentrancy attacks through that contract.",
+            "potentialSecurityRisk": "If `potj.withdraw()` contains its own vulnerabilities, it could be exploited to execute reentrant calls back into the `IronHands` contract, leading to unexpected behaviors or loss of funds.",
+            "fixedCode": "// Ensure potj is a secure contract and possibly implement a call to withdraw with a gas limit or through controlled access\nuint256 initialBalance = address(this).balance;\npotj.withdraw.gas(1000000)();\nuint256 dividendsPaid = address(this).balance - initialBalance;"
+        }
+    ]
+}

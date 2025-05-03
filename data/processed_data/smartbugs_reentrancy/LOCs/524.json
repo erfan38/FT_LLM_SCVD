@@ -1,0 +1,54 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "167-176",
+            "vulnerableCode": [
+                "        if (isConfirmed(transactionId)) {",
+                "            Transaction storage txn = transactions[transactionId];",
+                "            txn.executed = true;",
+                "            (bool exec, bytes memory _) = txn.destination.call.value(txn.value)(\"\");",
+                "            if (exec)",
+                "                emit Execution(transactionId);",
+                "            else {",
+                "                emit ExecutionFailure(transactionId);",
+                "                txn.executed = false;",
+                "            }",
+                "        }"
+            ],
+            "vulnerabilityReason": "This function marks a transaction as executed before actually sending the value to the destination. If the external call reenters this function before `txn.executed` is set to true, an attacker can exploit this by executing the same transaction multiple times, draining funds.",
+            "potentialSecurityRisk": "An attacker could perform a reentrancy attack, repeatedly triggering the external call and successfully executing the transaction several times before the contract's state is updated, potentially draining the contract's funds.",
+            "fixedCode": "if (isConfirmed(transactionId)) { \n    Transaction storage txn = transactions[transactionId]; \n    require(!txn.executed, 'Transaction already executed'); // Ensure transaction hasn't been executed\n    txn.executed = true; \n    (bool exec, bytes memory _) = txn.destination.call.value(txn.value)(''); \n    if (exec) \n        emit Execution(transactionId); \n    else { \n        emit ExecutionFailure(transactionId); \n        txn.executed = false;  \n    } \n}"
+        },
+        {
+            "vulnerableLines": "126-132",
+            "vulnerableCode": [
+                "    function submitTransaction(address destination, uint value)",
+                "        public",
+                "        returns (uint transactionId)",
+                "    {",
+                "        transactionId = addTransaction(destination, value);",
+                "        confirmTransaction(transactionId);"
+            ],
+            "vulnerabilityReason": "This function confirms the transaction and immediately executes it after submission, which means that within the `confirmTransaction` logic, it can lead to executing the transaction before any state changes are finalized.",
+            "potentialSecurityRisk": "An attacker could exploit the confirmation and immediate execution in combination with the transaction logic that follows, leading to potential multiple executions before the state reflects the changes.",
+            "fixedCode": "function submitTransaction(address destination, uint value) public returns (uint transactionId) {\n    transactionId = addTransaction(destination, value);\n    emit Submission(transactionId); // Emit submission event before any confirmation\n}"
+        },
+        {
+            "vulnerableLines": "136-145",
+            "vulnerableCode": [
+                "    function confirmTransaction(uint transactionId)",
+                "        public",
+                "        ownerExists(msg.sender)",
+                "        transactionExists(transactionId)",
+                "        notConfirmed(transactionId, msg.sender)",
+                "    {",
+                "        confirmations[transactionId][msg.sender] = true;",
+                "        emit Confirmation(msg.sender, transactionId);",
+                "        executeTransaction(transactionId);"
+            ],
+            "vulnerabilityReason": "This function executes the transaction right after confirming it without isolating the confirmation and transaction execution. An attacker could exploit this as execution follows after states that could allow potential reentrancy issues.",
+            "potentialSecurityRisk": "An attacker could invoke a reentrancy attack by confirming a transaction and executing it, which would allow changing transaction states without control, potentially draining funds.",
+            "fixedCode": "function confirmTransaction(uint transactionId) public ownerExists(msg.sender) transactionExists(transactionId) notConfirmed(transactionId, msg.sender) {\n    confirmations[transactionId][msg.sender] = true;\n    emit Confirmation(msg.sender, transactionId);\n    // Moved executeTransaction call to a separate function to isolate execution\n}"
+        }
+    ]
+}

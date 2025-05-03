@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 weight = block.timestamp - participationStart;"
+            ],
+            "vulnerabilityReason": "The computation of `weight` involves subtracting `participationStart` from `block.timestamp`. If `participationStart` is greater than `block.timestamp`, it results in an underflow, causing `weight` to become a large number (due to wrapping around in unsigned integer). This can lead to unexpected behavior in governance weight calculations.",
+            "potentialSecurityRisk": "This underflow could allow malicious users to manipulate their governance weight significantly, leading to unfair advantages in governance decisions or potential exploitation of the system, resulting in a lack of integrity in the governance process.",
+            "fixedCode": "uint256 weight = block.timestamp >= participationStart ? block.timestamp - participationStart : 0;"
+        }
+    ]
+}

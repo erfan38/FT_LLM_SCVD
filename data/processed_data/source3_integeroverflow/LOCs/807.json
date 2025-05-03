@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "totalValue += value;",
+                "count += 1;"
+            ],
+            "vulnerabilityReason": "The contract performs addition on `totalValue` and `count` without checking for overflow. Since both are of type `uint16`, they can only hold values up to 65,535. Adding a value that would exceed this limit can result in an overflow, wrapping around to zero, which can lead to an incorrect state.",
+            "potentialSecurityRisk": "An attacker could exploit the overflow vulnerability by repeatedly adding values to `totalValue`, effectively resetting it to zero or an unintended small number, thus manipulating the contract's state and calculations. The overflow could also lead to incorrect average calculations in the `getAverage` function.",
+            "fixedCode": "require(totalValue + value <= 65535, 'Total value overflow');\ntotalValue += value;\nrequire(count < 65535, 'Count overflow');\ncount += 1;"
+        },
+        {
+            "vulnerableLines": "9-9",
+            "vulnerableCode": [
+                "return totalValue / count;"
+            ],
+            "vulnerabilityReason": "The division operation in this line does not check if `count` is zero before performing the division. If `count` is zero, it will lead to a division by zero error, causing the smart contract to revert.",
+            "potentialSecurityRisk": "If `getAverage` is called when no values have been added (i.e., `count` is still zero), it will cause the transaction to revert, potentially denying service to legitimate users trying to retrieve the average. This could also be exploited by attackers to disrupt the normal functioning of the contract.",
+            "fixedCode": "require(count > 0, 'Cannot divide by zero');\nreturn totalValue / count;"
+        }
+    ]
+}

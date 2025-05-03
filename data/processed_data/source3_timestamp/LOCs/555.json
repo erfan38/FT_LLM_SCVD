@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "63-63",
+            "vulnerableCode": [
+                "require(block.timestamp > lockStartTime);"
+            ],
+            "vulnerabilityReason": "The contract relies on block.timestamp to determine whether the lock period has expired. This creates a vulnerability as miners can manipulate the block timestamp within a certain range, potentially allowing them to execute operations earlier than intended.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to skip the lock period, resulting in premature allocation and release of tokens, which undermines the intended vesting mechanism.",
+            "fixedCode": "require(block.timestamp > lockStartTime + TIME_TOLERANCE); // use a buffer like TIME_TOLERANCE to reduce dependency on block.timestamp"
+        },
+        {
+            "vulnerableLines": "97-97",
+            "vulnerableCode": [
+                "uint256 stage = (block.timestamp.sub(lockStartTime)).div(vestingMonths);"
+            ],
+            "vulnerabilityReason": "The calculation for the vesting stage uses block.timestamp, which is subject to manipulation by miners. This can allow them to influence the computation of the vesting stage and consequently the release of tokens.",
+            "potentialSecurityRisk": "Manipulated timestamp might cause an attacker to accelerate their token vesting, allowing them to receive tokens earlier than intended and disrupting the economic model of the contract.",
+            "fixedCode": "uint256 stage = (block.timestamp.add(TIME_TOLERANCE).sub(lockStartTime)).div(vestingMonths); // calculating stage with a tolerance buffer"
+        }
+    ]
+}

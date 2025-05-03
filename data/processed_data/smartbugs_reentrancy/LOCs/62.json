@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "265-265",
+            "vulnerableCode": [
+                "if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data))"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to send Ether occurs before confirming the success of the transaction and before updating the state variable `executed` to true. This allows an attacker to make a recursive call back into the contract before the state is updated, exploiting the opportunity for reentrancy.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by recursively invoking the `executeTransaction` function before the state change is finalized, potentially allowing them to drain funds through multiple withdrawals before the contract registers the original transaction as executed.",
+            "fixedCode": "if (isConfirmed(transactionId)) {\n    transactions[transactionId].executed = true; // this should happen AFTER confirming the call success\n    require(transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data), \"Transaction failed\");\n    emit Execution(transactionId);\n} else {\n    emit ExecutionFailure(transactionId);\n    transactions[transactionId].executed = false;\n}"
+        }
+    ]
+}

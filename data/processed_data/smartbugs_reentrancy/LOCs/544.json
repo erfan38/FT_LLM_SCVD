@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "240-242",
+            "vulnerableCode": [
+                "require(receiverAddress.call.value(weiAmount)",
+                "    .gas(gasleft().sub(5000))(),",
+                "    \"Error submitting pool to receivingAddress\";"
+            ],
+            "vulnerabilityReason": "Although the contract uses a noReentrancy modifier, the use of call.value can still be unsafe because it executes the transfer before checking or updating state variables. If the receiver's address is a smart contract, it could call back into this contract, potentially leading to reentrancy issues despite the use of the noReentrancy modifier.",
+            "potentialSecurityRisk": "An attacker could exploit the reentrancy by utilizing a malicious contract as the receiver to drain funds or manipulate the state in unintended ways, especially if the receiver contract is capable of calling back into this contract.",
+            "fixedCode": "(bool success, ) = receiverAddress.call.value(weiAmount).gas(gasleft().sub(5000))();\nrequire(success, \"Error submitting pool to receivingAddress\"); // Ensures that the call was successful before proceeding with any state changes or further logic."
+        }
+    ]
+}

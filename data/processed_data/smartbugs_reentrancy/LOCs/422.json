@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "414-414",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The use of .transfer() allows for reentrancy attacks because it internally uses a call, which lets the recipient execute code in the fallback function. If this fallback calls the withdraw function again before the state is updated, it can drain the contract's funds before the original call path completes.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that repeatedly calls the withdraw function, effectively extracting more funds than they are entitled to, leading to a potential drain of the contract's balance.",
+            "fixedCode": "uint256 amount = _eth; if(amount > 0) { plyr_[_pID].addr.call.value(amount)(); require(result, \"Transfer failed\"); }"
+        },
+        {
+            "vulnerableLines": "771-771",
+            "vulnerableCode": [
+                "plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);"
+            ],
+            "vulnerabilityReason": "This line updates a state variable (gen) after an external call in reLoadCore. If an attacker can invoke reLoadCore to withdraw funds right after this line, they can gain access to rewards multiple times before their state in gen is updated.",
+            "potentialSecurityRisk": "An attacker could manipulate game state by calling the buyCore function again before the player's earnings are fully computed and updated, allowing for duplicate claims on earnings.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); plyr_[_pID].gen = earnings.add(plyr_[_pID].gen.add(msg.value));"
+        },
+        {
+            "vulnerableLines": "1251-1251",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "This line directly sends Ether using .call.value() without checking for a sufficient contract balance or updating state before the transaction. If the admin’s contract has a fallback function, it could reenter the contract and disrupt expected state changes.",
+            "potentialSecurityRisk": "If the admin contract can be exploited to reenter before the balance is adjusted, it may lead to inconsistent states or funds being drained due to repeated entry before withdrawal success is confirmed.",
+            "fixedCode": "require(address(this).balance >= _com, \"Insufficient funds to send to admin\"); bool success = address(admin).call.value(_com)(); require(success, \"Transfer to admin failed\");"
+        },
+        {
+            "vulnerableLines": "794-794",
+            "vulnerableCode": [
+                "plyr_[_pID].gen = withdrawEarnings(_pID).sub(_eth);"
+            ],
+            "vulnerabilityReason": "The potential for reentrancy exists here because the withdrawal of earnings is done after an external call to withdrawEarnings(). An attacker could effectively get additional earnings by recursively calling this function before the state updates occur, potentially draining the contract.",
+            "potentialSecurityRisk": "An attacker could create a contract that recursively calls the withdrawEarnings function, leading to the contract being exploited by withdrawing funds that don't belong to the attacking contract, causing financial losses and state corruption.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); plyr_[_pID].gen = earnings.sub(_eth);"
+        }
+    ]
+}

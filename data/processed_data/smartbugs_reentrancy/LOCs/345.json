@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "232-232",
+            "vulnerableCode": [
+                "!_account.call.value(balance)();"
+            ],
+            "vulnerabilityReason": "The contract uses a low-level call to send Ether to `_account` before the state is updated. If the target address is a contract with a fallback function, it could call back into this contract before the balance is set to zero, allowing for a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could recursively call the `removeContributor` function multiple times before the balance is updated, allowing them to withdraw funds repeatedly, draining the contract's balance.",
+            "fixedCode": "uint256 balance = contributors[_account].balance; contributors[_account].balance = 0; require(_account.call.value(balance)());"
+        },
+        {
+            "vulnerableLines": "248-248",
+            "vulnerableCode": [
+                "assert(_to.call.value(this.balance)());"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to send Ether occurs before the contract checks or updates any state variables. This allows an incoming contract to re-enter this function before the Ether is successfully sent, leading to potential reentrancy.",
+            "potentialSecurityRisk": "If a malicious user has control over the `_to` address, they could manipulate the contract to call this function again before it updates the state, potentially resulting in funds being drained.",
+            "fixedCode": "require(_to.call.value(this.balance)()); // Only after ensuring state consistency and sufficient balance."
+        },
+        {
+            "vulnerableLines": "273-273",
+            "vulnerableCode": [
+                "assert(msg.sender.call.value(balance)());"
+            ],
+            "vulnerabilityReason": "By using `call.value()` before setting the contributor's balance to zero, the contract allows for potential reentrant calls from the `msg.sender`, which can lead to multiple withdrawals from the contract.",
+            "potentialSecurityRisk": "This could lead to multiple unlimited withdrawals by an attacker, ultimately draining the contract's funds if they can manipulate the fallback functionality of their contract.",
+            "fixedCode": "uint256 balance = contributors[msg.sender].balance; contributors[msg.sender].balance = 0; assert(msg.sender.call.value(balance)());"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "49-49",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The `call.value()` method allows for an external contract to call back into the `MultiSigWalletWithDailyLimit` contract, which can lead to reentrant attacks. The contract updates the transaction's executed state before the external call is completed, making it vulnerable to being manipulated by a malicious contract.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that executes a reentrant call to the `executeTransaction` function. This could lead to multiple withdrawals before the `spentToday` variable is updated, allowing the attacker to exceed the daily limit set for the contract and withdraw more funds than allowed.",
+            "fixedCode": "// Update `spentToday` and execute the call in the reversed order to prevent reentrancy.\nif (isUnderLimit(tx.value)) {\n    if (!confirmed) {\n        spentToday += tx.value;\n    }\n    tx.executed = true;\n    if (!tx.destination.call.value(tx.value)(tx.data)) { // Move call before state change\n        ExecutionFailure(transactionId);\n        tx.executed = false;\n        if (!confirmed) {\n            spentToday -= tx.value;\n        }\n    } else {\n        Execution(transactionId);\n    }\n}"
+        }
+    ]
+}

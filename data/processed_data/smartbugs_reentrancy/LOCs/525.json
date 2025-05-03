@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "16-18",
+            "vulnerableCode": [
+                "balances[msg.sender] = safeSub(balances[msg.sender], _tkA);",
+                "balances[_pd] = safeAdd(balances[_pd], _tkA);",
+                "if (!_pd.call.value(_etA)()) revert();"
+            ],
+            "vulnerabilityReason": "The smart contract updates user balances before performing the Ether transfer using `call.value()`. This allows an attacker to exploit the fact that the state changes are not finalized before the external call occurs, leading to multiple withdrawals without the balance being reduced correctly.",
+            "potentialSecurityRisk": "An attacker can craft a malicious contract that calls back into this function during the external call. This can lead to multiple withdrawals from the contract before the balances are updated, potentially draining the contract of its Ether supply.",
+            "fixedCode": "function eT(address _pd, uint _tkA, uint _etA) returns (bool success) {\n    require(balances[msg.sender] >= _tkA); // Ensure sufficient balance\n    balances[msg.sender] = safeSub(balances[msg.sender], _tkA);\n    balances[_pd] = safeAdd(balances[_pd], _tkA);\n    // Perform the external call after state changes\n    if (!_pd.call.value(_etA)()) revert(); \n    ET(_pd, _tkA, _etA);\n    return true;\n}"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "44-44",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of low-level call method may expose the contract to reentrancy attacks. By transferring funds and allowing the receiving contract to execute a fallback function before updating the sender's balance, a malicious contract can initiate a recursive call back to the transfer function.",
+            "potentialSecurityRisk": "An attacker controlling the recipient address (_to) could exploit this vulnerability to withdraw funds multiple times from the contract, leading to potential loss of funds until the contract is drained completely.",
+            "fixedCode": "if (isContract(_to)) {\\n    if (balanceOf(msg.sender) < _value) revert();\\n    balances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\\n    balances[_to] = safeAdd(balanceOf(_to), _value);\\n    // Move the fallback call to occur after state updates\\n    emit Transfer(msg.sender, _to, _value);\\n    assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\\n    emit Transfer(msg.sender, _to, _value, _data);\\n    return true;\\n}"
+        },
+        {
+            "vulnerableLines": "107-107",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "This function call occurs after the balances have been updated, allowing an attacker to exploit the receipt of funds to manipulate subsequent contract logic and drain the contract of Ether.",
+            "potentialSecurityRisk": "An attacker can control the recipient contract and cause it to call back into the 'transfer' method before the balance update is recognized by the contract, leading to repeated withdrawals and potential loss of all funds from the token contract.",
+            "fixedCode": "// Update balance before calling tokenFallback\\nbalances[msg.sender] = safeSub(balanceOf(msg.sender), _value);\\nbalances[_to] = safeAdd(balanceOf(_to), _value);\\n// Ensure tokenFallback is called after state updates\\nContractReceiver receiver = ContractReceiver(_to);\\nreceiver.tokenFallback(msg.sender, _value, _data);\\nemit Transfer(msg.sender, _to, _value);\\nemits Transfer(msg.sender, _to, _value, _data);"
+        }
+    ]
+}

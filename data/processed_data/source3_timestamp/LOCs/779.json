@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "53-68",
+            "vulnerableCode": [
+                "require(block.timestamp > purchaseTimestamp + purchaseSeconds);",
+                "purchaseTimestamp = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the updateAd function introduces a reliance on transaction-specific timing that can be manipulated by miners. They can adjust the timestamp to meet the conditions necessary to trigger or prevent the execution of critical portions of the code.",
+            "potentialSecurityRisk": "By exploiting this vulnerability, miners could manipulate the timestamp to either allow a fraudulent transaction to succeed or to block legitimate transactions, thus impacting fairness in ad purchases.",
+            "fixedCode": "require(block.timestamp > purchaseTimestamp + purchaseSeconds + TIME_TOLERANCE); // Add a buffer to mitigate miner manipulation\npurchaseTimestamp = block.timestamp; // This line could be kept to set the new purchase time."
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "4-5",
+            "vulnerableCode": [
+                "for (uint8 i = 1; i <= n; i++) {",
+                "sum += i;"
+            ],
+            "vulnerabilityReason": "The function performs a summation using a `uint8` variable `sum`, which can hold values from 0 to 255. When `n` exceeds 22, the sum of numbers from 1 to `n` will result in a value greater than 255, leading to an integer overflow. In Solidity versions prior to 0.8.0, this overflow would occur silently without any errors, which could lead to faulty calculations and behavior.",
+            "potentialSecurityRisk": "If this overflow occurs, the returned result of `sumTo` could be incorrect, leading to erroneous logic in the contract that depends on the sum. This could allow malicious users to exploit the overflow condition, potentially causing disruptions or unexpected behavior in the contract’s operations, such as unanticipated fund distributions or logical errors.",
+            "fixedCode": "function sumTo(uint256 n) public pure returns (uint256) { uint256 sum = 0; require(n <= 22, 'Value exceeds uint8 max sum'); for (uint256 i = 1; i <= n; i++) { sum += i; } return sum; }"
+        }
+    ]
+}

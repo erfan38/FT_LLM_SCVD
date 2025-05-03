@@ -1,0 +1,17 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "36-49",
+            "vulnerableCode": [
+                "var random = uint(sha3(block.timestamp)) % 2;",
+                "if (random == 0) {",
+                "    bank.transfer(FEE_AMOUNT);",
+                "    msg.sender.transfer(pot - FEE_AMOUNT);",
+                "    pot = 0;"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' to generate randomness (line 36) is vulnerable because the timestamp is controlled by miners who can manipulate it to their advantage. This affects the fairness of the lottery since a miner can choose a timestamp that helps them win consistently, compromising the randomness and integrity of the game.",
+            "potentialSecurityRisk": "Miners can manipulate the block timestamp to consistently produce a winning random number, allowing them to exploit the contract. By doing so, the miner could repeatedly withdraw funds from the contract, leading to potential financial losses for other users and rendering the lottery mechanism ineffective and unfair.",
+            "fixedCode": "uint random = uint(sha3(block.difficulty, block.number, msg.sender)) % 2; // Use block.difficulty and block.number to enhance randomness"
+        }
+    ]
+}

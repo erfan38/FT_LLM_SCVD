@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "421-421",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The function transfers Ether to an external address before updating the player's state. This means that if the player's address is a contract, it can call back into this function before the state update, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this by making recursive calls to withdraw the funds multiple times before the contract state reflects the actual balance, potentially draining the contract of funds.",
+            "fixedCode": "uint256 amount = _eth; \nplyr_[_pID].gen = plyr_[_pID].gen.add(amount); // Update state first\nplyr_[_pID].addr.transfer(amount);  // Transfer after state update."
+        },
+        {
+            "vulnerableLines": "450-450",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous example, transferring Ether to the player's address happens before adjusting the player's winning state, allowing an attacker to exploit the transfer.",
+            "potentialSecurityRisk": "If an attacker controls the recipient address, they can recursively call this function to withdraw Ether multiple times before the withdrawal records are updated, draining available funds.",
+            "fixedCode": "uint256 amount = _eth; \nplyr_[_pID].gen = plyr_[_pID].gen.add(amount); // Update state first\nplyr_[_pID].addr.transfer(amount); // Transfer after state update."
+        },
+        {
+            "vulnerableLines": "1283-1283",
+            "vulnerableCode": [
+                "if (!address(Team_Forwarder).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Using low-level call to transfer Ether without ensuring that the state updates beforehand can lead to reentrancy attacks if the receiving contract allows it.",
+            "potentialSecurityRisk": "An adversary might exploit this to invoke operations in the calling contract before it has fully processed the transaction, leading to inconsistent states and potential fund loss.",
+            "fixedCode": "if(!Team_Forwarder.deposit.value(_com)()) { /* Handle failure */ } // Ensure state update is handled properly before the call."
+        },
+        {
+            "vulnerableLines": "1294-1294",
+            "vulnerableCode": [
+                "if(!address(Team_Forwarder).call.value(_p3d)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Low-level call `address.call.value(...)` is unsafe as it can introduce reentrancy vulnerabilities since state can change after the call without safeguards.",
+            "potentialSecurityRisk": "An attacker could leverage this to manipulate the state of the contract, which could enable them to withdraw additional funds or modify balances before they are finalized.",
+            "fixedCode": "if(!Team_Forwarder.deposit.value(_p3d)()) { /* Handle failure */ } // Ensure state update is processed."
+        }
+    ]
+}

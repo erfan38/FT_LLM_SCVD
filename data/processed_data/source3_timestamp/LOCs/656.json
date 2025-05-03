@@ -1,0 +1,42 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "49-49",
+            "vulnerableCode": [
+                "require(timestamp <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' allows miners to manipulate the release timing, potentially unauthorizedly releasing tokens if they modify the block time.",
+            "potentialSecurityRisk": "Miners may exploit this vulnerability to cause premature releases of tokens, undermining the intended release schedule and potentially leading to financial loss for the contract.",
+            "fixedCode": "require(timestamp <= block.timestamp + TIME_TOLERANCE); // Use a tolerance buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "87-87",
+            "vulnerableCode": [
+                "require(_unFrozenTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This statement checks if the unfrozen time is greater than the current time using 'block.timestamp', making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Manipulation by miners could lead to conditions that allow tokens to be unfrozen earlier than intended, possibly leading to misuse of funds.",
+            "fixedCode": "require(_unFrozenTime > block.timestamp + TIME_TOLERANCE); // Adding a buffer to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "64-64",
+            "vulnerableCode": [
+                "lastReleaseTime = timestamp;"
+            ],
+            "vulnerabilityReason": "Assigning 'lastReleaseTime' a value based on a potentially manipulated block timestamp creates a vulnerability for token release timings.",
+            "potentialSecurityRisk": "If miners manipulate timestamps, the release could be logged incorrectly, affecting future releases and token distribution calculations.",
+            "fixedCode": "lastReleaseTime = timestamp; // This should be reviewed for proper assignment if manipulating timestamp."
+        },
+        {
+            "vulnerableLines": "74-76",
+            "vulnerableCode": [
+                "if ((lastReleaseTime.parseTimestamp().year == timestamp.parseTimestamp().year)",
+                "    && (lastReleaseTime.parseTimestamp().month == timestamp.parseTimestamp().month)",
+                "    && (lastReleaseTime.parseTimestamp().day == timestamp.parseTimestamp().day)) {"
+            ],
+            "vulnerabilityReason": "Relying on 'block.timestamp' for day, month, and year comparisons makes it susceptible to miner manipulation affecting time-sensitive actions in the contract.",
+            "potentialSecurityRisk": "An attacker could manipulate the block timestamp to affect the logic around token releases, potentially gaining an unfair financial advantage.",
+            "fixedCode": "if ((lastReleaseTime.parseTimestamp().year == timestamp.parseTimestamp().year) && (lastReleaseTime.parseTimestamp().month == timestamp.parseTimestamp().month) && (lastReleaseTime.parseTimestamp().day == timestamp.parseTimestamp().day + 1)) { // Adjust to mitigate potential issues."
+        }
+    ]
+}

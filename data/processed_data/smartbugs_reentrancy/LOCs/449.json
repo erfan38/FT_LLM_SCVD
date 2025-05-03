@@ -1,0 +1,25 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "127-138",
+            "vulnerableCode": [
+                "require(SafeMath.safeDiv(ethersTotal, tokensTotal) <= SafeMath.safeDiv(ethersObtained, tokensSold));",
+                "tokensRefunded = SafeMath.safeSub(tokensTotal, tokensSold);",
+                "if(tokensRefunded > 0) require(Token(token).transfer(msg.sender, tokensRefunded));",
+                "transfer(msg.sender, ethersObtained);"
+            ],
+            "vulnerabilityReason": "The order of operations in this function allows for a potential reentrancy attack. After transferring Ether to the user, the FillSellOrder event is emitted, and the state (tokensRefunded) is updated in a way that allows reentrant calls from the user's contract before the state is finalized.",
+            "potentialSecurityRisk": "A malicious user could craft an attack contract that re-enters the EasyTrade contract after the Ether has been sent but before the event is emitted or other state changes are made, allowing them to drain funds from the EasyTrade contract.",
+            "fixedCode": "require(SafeMath.safeDiv(ethersTotal, tokensTotal) <= SafeMath.safeDiv(ethersObtained, tokensSold));\ntokensRefunded = SafeMath.safeSub(tokensTotal, tokensSold);\nif(tokensRefunded > 0) require(Token(token).transfer(msg.sender, tokensRefunded));\n\nFillSellOrder(msg.sender, token, tokensTotal, ethersTotal, tokensSold, ethersObtained, tokensRefunded);\ntransfer(msg.sender, ethersObtained);"
+        },
+        {
+            "vulnerableLines": "327-327",
+            "vulnerableCode": [
+                "require(msg.sender.call.value(ethersRefunded)());"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` for sending Ether allows for reentrancy, as it can allow an external contract to take control and call back into the EasyTrade contract before it has completed the function and ensured the correct state, potentially leading to multiple refunds being triggered before the state is updated.",
+            "potentialSecurityRisk": "A malicious contract could repeatedly call back into the EasyTrade contract during the refund process, allowing it to exploit the contract by draining funds each time it receives a refund before the state is updated.",
+            "fixedCode": "if(ethersRefunded > 0) {\n    require(msg.sender.send(ethersRefunded));\n}"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "285-285",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {"
+            ],
+            "vulnerabilityReason": "The function makes an external call using `msg.sender.call.value()` before the state variable `playerPendingWithdrawals[msg.sender]` is set to 0. This allows an attacker to re-enter the function using a malicious contract and withdraw more funds than intended, as the state change has not yet taken effect.",
+            "potentialSecurityRisk": "An attacker could recursively call this function, withdrawing the same funds multiple times before the state is updated to prevent further withdrawals, potentially draining the contract's balance.",
+            "fixedCode": "uint withdrawAmount = playerPendingWithdrawals[msg.sender];\nrequire(withdrawAmount > 0);\nplayerPendingWithdrawals[msg.sender] = 0;\n(bool success, ) = msg.sender.call.value(withdrawAmount)();\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "274-274",
+            "vulnerableCode": [
+                "if (!beneficiary.send(amount)) {"
+            ],
+            "vulnerabilityReason": "The use of `send()` does not revert on failure and is subject to reentrancy attacks. If `beneficiary` is a contract that can re-enter the function, an attacker could manipulate the state to drain funds.",
+            "potentialSecurityRisk": "If the beneficiary is a malicious contract, it could exploit the reentrancy vulnerability to call back into the `safeSendFunds` function before the state is updated, allowing for repeated withdrawals of the same funds.",
+            "fixedCode": "require(amount <= address(this).balance, \"Insufficient contract balance\");\nif (!beneficiary.call.value(amount)()) {\n    playerPendingWithdrawals[beneficiary] = playerPendingWithdrawals[beneficiary].add(amount);\n}"
+        }
+    ]
+}

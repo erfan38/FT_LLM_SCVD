@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "308-308",
+            "vulnerableCode": [
+                "uint256 epoch = (block.timestamp.sub(debit.info.startTime) / debit.info.interval).add(1);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to calculate the epoch introduces a dependency on the miner-controlled timestamp, which can be manipulated to exploit the withdrawal logic.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to manipulate the epoch calculation, allowing them to withdraw amounts that exceed what they are entitled to based on the intended time constraints.",
+            "fixedCode": "uint256 epoch = (block.timestamp.add(TIME_TOLERANCE).sub(debit.info.startTime) / debit.info.interval).add(1); //adding a buffer to mitigate manipulation"
+        },
+        {
+            "vulnerableLines": "329-329",
+            "vulnerableCode": [
+                "uint256 epoch = (block.timestamp.sub(debit.info.startTime) / debit.info.interval).add(1);"
+            ],
+            "vulnerabilityReason": "This line also relies on block.timestamp for calculating the epoch, which presents the same vulnerabilities as previously indicated.",
+            "potentialSecurityRisk": "An exploitable vulnerability exists since miners can adjust the block timestamp to manipulate the calculation, affecting the withdrawal amount and potentially leading to underfunded or overfunded accounts.",
+            "fixedCode": "uint256 epoch = (block.timestamp.add(TIME_TOLERANCE).sub(debit.info.startTime) / debit.info.interval).add(1); //adding a buffer to account for possible slight manipulations in miner timestamps."
+        }
+    ]
+}

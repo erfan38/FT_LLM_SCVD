@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "229-229",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The use of call.value() allows an external address to invoke the MultiSigWallet contract again before the state variable tx.executed is marked as true, which opens up the possibility of reentrant calls.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that re-invokes the executeTransaction function multiple times before the transaction's state is updated, potentially draining funds from the contract.",
+            "fixedCode": "(bool success, ) = tx.destination.call.value(tx.value)(tx.data);\\nrequire(success, \"Transaction execution failed\");\\ntx.executed = true;"
+        }
+    ]
+}

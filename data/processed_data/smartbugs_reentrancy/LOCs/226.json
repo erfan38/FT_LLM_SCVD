@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "142-142",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "This line makes an external call using `call.value(0)` to the recipient contract's fallback function. Although no Ether is sent, the call is made after state changes (balance updates), creating a potential for reentrancy if the fallback function is malicious and can make recursive calls.",
+            "potentialSecurityRisk": "If the recipient contract's fallback function is malicious, it could invoke the `transfer` function again before the balance changes are finalized, which can lead to an unintended withdrawal of funds or reentrancy attacks.",
+            "fixedCode": "// No need for value(0), call it directly to avoid unnecessary risks.\nif (isContract(_to)) {\n    require(balanceOf[msg.sender] >= _value);\n    balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\n    balanceOf[_to] = balanceOf[_to].add(_value);\n    receiver = ContractReceiver(_to); // Use typecasting for better clarity.\n    receiver.tokenFallback(msg.sender, _value, _data);\n    Transfer(msg.sender, _to, _value, _data);\n    Transfer(msg.sender, _to, _value);\n    return true;\n}"
+        },
+        {
+            "vulnerableLines": "210-210",
+            "vulnerableCode": [
+                "receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "This line calls the `tokenFallback` function of a recipient contract *after* updating the balances, which opens up a pathway for a reentrancy attack. If the recipient contract is malicious, it could call back into the `transfer` function recursively and manipulate the state before the balance has been properly updated.",
+            "potentialSecurityRisk": "An attacker could use a malicious contract to drain funds by recursively calling the `transfer` function before the initial balance updates are completed, allowing them to withdraw more tokens than intended.",
+            "fixedCode": "// Always ensure state updates (balance changes) happen BEFORE any external contract calls.\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n\n// External call after state change\nreceiver.tokenFallback(msg.sender, _value, _data); // Correctly ordered external call."
+        },
+        {
+            "vulnerableLines": "331-331",
+            "vulnerableCode": [
+                "Transfer(msg.sender, addresses[j], amount);"
+            ],
+            "vulnerabilityReason": "This line calls the `Transfer` event *after* updating the balance of the `msg.sender`. If any external contracts are registered to listen for these events or act upon them, they can potentially execute a reentrancy attack that exploits this order of operations.",
+            "potentialSecurityRisk": "The event emission could be manipulated by an attacker, leading to unexpected behaviors in smart contracts observing these events, perhaps enabling them to withdraw more tokens than they should have been able to.",
+            "fixedCode": "// Emitting events should typically happen after any balance modifications or external calls to maintain consistent state."
+        },
+        {
+            "vulnerableLines": "358-358",
+            "vulnerableCode": [
+                "Transfer(msg.sender, addresses[j], amounts[j]);"
+            ],
+            "vulnerabilityReason": "This line, similar to the previous one, emits a transfer event after updating balances, which may allow external listeners to react improperly during a reentrancy attack, leading to inconsistencies and potential fund loss.",
+            "potentialSecurityRisk": "Malicious contracts may exploit event handling to perform reentrancy attacks, draining the contract's funds before balance updates can register properly.",
+            "fixedCode": "// Ensure event emissions happen only after necessary state changes and external calls have been correctly handled."
+        }
+    ]
+}

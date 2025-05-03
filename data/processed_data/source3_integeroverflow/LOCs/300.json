@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "18-18",
+            "vulnerableCode": [
+                "require(balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]);"
+            ],
+            "vulnerabilityReason": "This line attempts to prevent overflow by checking if the addition of `_value` to `balances[_to]` is greater than `balances[_to]`. However, this check is flawed because if `_value` is sufficiently large, the addition could wrap around and yield a smaller number, thereby incorrectly passing the condition. Hence, this does not effectively protect against addition overflow.",
+            "potentialSecurityRisk": "An attacker could exploit this faulty check to transfer an amount larger than the sender's balance or cause an overflow, which could lead to incorrect token distribution or unauthorized access to tokens due to manipulation of balances.",
+            "fixedCode": "require(balances[msg.sender] >= _value && _value + balances[_to] > balances[_to]); // ensure addition is safe."
+        },
+        {
+            "vulnerableLines": "27-27",
+            "vulnerableCode": [
+                "require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value);"
+            ],
+            "vulnerabilityReason": "This line checks if `balances[_from]` is sufficient and if the allowance is enough. However, it does not check if `_value` is too large relative to `balances[_from]`, leaving open the potential for underflow when subtracting the `_value` from `balances[_from]` later in the code.",
+            "potentialSecurityRisk": "An attacker could transfer more tokens than are available in `_from`'s balance, leading to an underflow situation which could allow an attacker to manipulate balances or create invalid states within the contract.",
+            "fixedCode": "require(balances[_from] >= _value, 'Insufficient balance for transfer.'); require(allowed[_from][msg.sender] >= _value, 'Allowance exceeded.');"
+        },
+        {
+            "vulnerableLines": "28-28",
+            "vulnerableCode": [
+                "balances[_to] += _value;"
+            ],
+            "vulnerabilityReason": "This line adds `_value` to `balances[_to]` without checking for overflow as part of the check. If this addition exceeds the maximum value of `uint256`, it will cause an overflow and result in an unexpected state.",
+            "potentialSecurityRisk": "Exceeding the maximum value for `balances[_to]` might allow an attacker to take control over the token's total supply, leading to potential manipulation of token amounts or loss of funds by disproportionately large unauthorized balances.",
+            "fixedCode": "require(balances[_to] + _value > balances[_to], 'Overflow risk detected.'); balances[_to] += _value;"
+        },
+        {
+            "vulnerableLines": "29-29",
+            "vulnerableCode": [
+                "balances[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "This line reduces the balance of `_from` by `_value`, which could lead to an underflow if `_value` is greater than `balances[_from]`. The requirement check does not prevent this underflow from happening at the moment of execution.",
+            "potentialSecurityRisk": "An attacker can cause the balance of `_from` to underflow, allowing them to potentially create tokens out of nowhere, leading to loss of funds or manipulation of the token supply.",
+            "fixedCode": "require(balances[_from] >= _value, 'Insufficient balance.'); balances[_from] -= _value;"
+        }
+    ]
+}

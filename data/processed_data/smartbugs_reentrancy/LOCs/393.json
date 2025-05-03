@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "383-383",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The use of .transfer() is made to send Ether after the earnings have been calculated, allowing an attacker to call another function before the withdrawal is finalized, thus potentially executing a reentrancy attack, where the attacker's balance is not updated yet allows multiple withdrawals in one call.",
+            "potentialSecurityRisk": "A malicious contract could allow an attacker to exploit this function, leading to repetitive withdrawals of Ether from the contract before the state reflects the new balance, thereby draining funds from the contract.",
+            "fixedCode": "uint256 amount = withdrawEarnings(_pID);\nif (amount > 0) {\n    plyr_[_pID].addr.transfer(amount);\n} \nrequire(amount <= address(this).balance, \"Insufficient contract balance\");"
+        },
+        {
+            "vulnerableLines": "412-412",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this .transfer() call does not secure the state of the player's earnings before sending the funds. If the player's address is a contract, it may re-enter this function allowing multiple withdrawals before the state can update.",
+            "potentialSecurityRisk": "This provides the attacker with a way to drain funds from the contract repeatedly through reentrant calls, losing more Ether from the contract than intended by the legitimate player.",
+            "fixedCode": "uint256 amount = withdrawEarnings(_pID);\nif (amount > 0) {\n    plyr_[_pID].addr.transfer(amount);\n}\nrequire(amount <= address(this).balance, \"Insufficient contract balance\");"
+        },
+        {
+            "vulnerableLines": "1052-1052",
+            "vulnerableCode": [
+                "flushDivs.call.value(_POOH)(bytes4(keccak256(\"donate()\")));"
+            ],
+            "vulnerabilityReason": "This .call() method can carry an external attacker's address which if malicious can re-enter the contract before the state is updated, allowing manipulation of the contract's funds.",
+            "potentialSecurityRisk": "As the state is not updated before the call to external contract, it could allow malicious actors to invoke this repeatedly, leading to drained funds.",
+            "fixedCode": "require(flushDivs.call.value(_POOH)(bytes4(keccak256(\"donate()\"))), \"External call failed\");"
+        },
+        {
+            "vulnerableLines": "1162-1162",
+            "vulnerableCode": [
+                "flushDivs.call.value(_POOH)(bytes4(keccak256(\"donate()\")));"
+            ],
+            "vulnerabilityReason": "This function allows funds to be sent using .call() which can lead to reentrancy issues similarly to the previous instances, as state updates do not occur before the call.",
+            "potentialSecurityRisk": "This vulnerability can allow repeated calls to be made by a malicious contract, draining contract funds before protections can activate, thus increasing financial losses.",
+            "fixedCode": "require(flushDivs.call.value(_POOH)(bytes4(keccak256(\"donate()\"))), \"External call failed\");"
+        },
+        {
+            "vulnerableLines": "1178-1178",
+            "vulnerableCode": [
+                "admin.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "Same issue as previous .transfer() calls, using .transfer() here can allow a malicious contract at admin's address to re-enter the function and cause unexpected behavior allowing for a potential exploit.",
+            "potentialSecurityRisk": "This situation assumes the admin has control over an address that could execute its own code, posing a risk of reentrancy and possibly allowing any funds sent to be significantly drained.",
+            "fixedCode": "require(admin.send(msg.value), \"Transfer failed\");"
+        }
+    ]
+}

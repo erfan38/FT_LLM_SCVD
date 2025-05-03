@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "104-104",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The function uses `transfer()` to send Ether but does not change the state before doing so. If the recipient's address is a malicious contract, they can execute a reentrant call during the transfer, which could allow them to withdraw again before the user balance is updated.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that re-enters the `withdraw` function before the user's state is updated, allowing them to withdraw more funds than they are entitled to, potentially draining the contract completely.",
+            "fixedCode": "if (_eth > 0) {\n    uint256 withdrawAmount = _eth;\n    plyr_[_pID].addr = address(0); // Set to zero for safety before transferring.\n    plyr_[_pID].addr.transfer(withdrawAmount);  // Send Ether after state change\n}"
+        }
+    ]
+}

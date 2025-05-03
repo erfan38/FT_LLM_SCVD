@@ -1,0 +1,33 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "216-421",
+            "vulnerableCode": [
+                "            _eth = withdrawEarnings(_pID);",
+                "            if (_eth > 0)",
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The `withdraw` function sends Ether to the player's address without setting `_eth` to zero after transferring. An attacker could exploit this by making a recursive call to `withdraw` before `_eth` is updated, allowing them to withdraw more funds than they should.",
+            "potentialSecurityRisk": "A malicious contract could exploit the reentrancy vulnerability, potentially allowing an attacker to withdraw more than their actual earnings, draining the contract's funds completely.",
+            "fixedCode": "if (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n    _eth = 0; // Reset the value after transfer\n}"
+        },
+        {
+            "vulnerableLines": "131-138",
+            "vulnerableCode": [
+                "            buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
+            ],
+            "vulnerabilityReason": "The `buyCore` function may call external contracts without ensuring the current state is settled first. This opens the door for potential reentrancy attacks if `buyCore` itself performs Ether transfers directly to any address.",
+            "potentialSecurityRisk": "An attacker may exploit this by re-entering the function during an external call, manipulating the contract state and affecting its ability to function correctly.",
+            "fixedCode": "// Secure against reentrancy by ensuring the state is modified before calling buyCore or by using checks-effects-interactions pattern."
+        },
+        {
+            "vulnerableLines": "159-219",
+            "vulnerableCode": [
+                "            buyCore(_pID, _affID, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, the `buyCore` function involves external calls that may lead to reentrancy if the contract’s state is not properly controlled prior to executing external calls.",
+            "potentialSecurityRisk": "Potentially allows an attacker to interfere with the contract’s execution, leading to manipulation of amounts being sent, creating vulnerabilities in payouts and transaction finality.",
+            "fixedCode": "// Ensure the state is settled before making the external call or implement reentrancy guards."
+        }
+    ]
+}

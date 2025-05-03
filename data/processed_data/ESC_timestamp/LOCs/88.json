@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "370-372",
+            "vulnerableCode": [
+                "require(_time > block.timestamp);",
+                "require(isReleased == false);",
+                "releaseTime = _time;"
+            ],
+            "vulnerabilityReason": "This part of the code allows setting a `releaseTime` that can be manipulated by miners through calling the `setReleaseTime` function. Since block.timestamp can be adjusted by miners, a malicious actor could manipulate the release time to an advantage.",
+            "potentialSecurityRisk": "Miners could set an earlier release time, allowing for premature token transfers which could undermine the intended vesting process, leading to the potential loss of funds for token holders.",
+            "fixedCode": "require(_time > block.timestamp + TIME_TOLERANCE); // Sets a time buffer to account for miner manipulation to reduce vulnerability."
+        },
+        {
+            "vulnerableLines": "407-409",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);",
+                "require(fundingLowcapReached == true);"
+            ],
+            "vulnerabilityReason": "The `canTransfer` modifier relies on block.timestamp to check if the tokens can be transferred, making it susceptible to miner manipulation. If the releaseTime was set maliciously, it could allow unexpected token transfers.",
+            "potentialSecurityRisk": "An attacker could exploit timing manipulations, transferring tokens earlier than intended, which could disrupt the contract’s intended logic and result in financial losses for legitimate contributors.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE >= releaseTime); // Introducing a buffer to protect against timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "496-496",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "This line directly returns block.timestamp without any safeguards against miner influence, exposing the contract to potential timing discrepancies.",
+            "potentialSecurityRisk": "If used in critical operations (like vesting), it could allow the manipulation of time-dependent logic, causing unexpected behavior in the contract.",
+            "fixedCode": "return block.timestamp + TIME_TOLERANCE; // Adjusting the function to return a time estimate with a safety buffer."
+        }
+    ]
+}

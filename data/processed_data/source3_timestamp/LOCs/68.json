@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "128-128",
+            "vulnerableCode": [
+                "require(block.timestamp < sigExp);"
+            ],
+            "vulnerabilityReason": "The redeem function uses block.timestamp to ensure that the current time is less than sigExp, which is crucial for allowing the redeem operation to proceed. This direct dependency on block.timestamp opens the function up to potential manipulation by miners who can alter the block timestamp by a few seconds.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability by manipulating the block timestamp, allowing them to redeem tokens at an undeserved time or under circumstances that the contract does not intend, potentially resulting in unfair distributions or financial loss to the contract's users.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < sigExp); // Adding a buffer to account for minor timestamp manipulations."
+        }
+    ]
+}

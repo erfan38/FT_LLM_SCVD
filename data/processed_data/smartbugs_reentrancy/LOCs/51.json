@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "415-415",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The transfer of Ether occurs before the player's earnings are deducted from their balance, allowing an attacker to potentially call the withdraw function multiple times before the state is updated, leading to multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this by recursively calling the withdraw function, withdrawing more funds than they are entitled to until the contract is drained of Ether.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID);\nif (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n} "
+        },
+        {
+            "vulnerableLines": "444-444",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, Ether is transferred before ensuring the state of the player's earnings is updated, creating a risk for reentrancy attacks if the withdraw function is called again during the transfer process.",
+            "potentialSecurityRisk": "As with the previous instance, an attacker could repeatedly exploit this vulnerability to drain the contract's funds by recursively invoking the withdraw functionality.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID);\nif (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n} "
+        },
+        {
+            "vulnerableLines": "795-795",
+            "vulnerableCode": [
+                "plyr_[_pID].gen = withdrawEarnings(_pID).sub(_eth);"
+            ],
+            "vulnerabilityReason": "The state variable for the player's generation earnings is updated after the call to withdrawEarnings, which is susceptible to reentrancy since an attacker could exploit this by calling the function again before the subtracted amount is registered.",
+            "potentialSecurityRisk": "An attacker could potentially withdraw funds multiple times, increasing their earnings inappropriately due to the order of operations, leading to unintended losses for the contract.",
+            "fixedCode": "uint256 _earnings = withdrawEarnings(_pID);\nplyr_[_pID].gen = _earnings.sub(_eth);"
+        },
+        {
+            "vulnerableLines": "1255-1255",
+            "vulnerableCode": [
+                "if (!address(admin1).call.value(_com.sub(_com / 2))())"
+            ],
+            "vulnerabilityReason": "Using call.value without checking the state prior to the call exposes the contract to reentrancy attacks as external calls should always be followed by state updates to prevent reentrancy.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to gain control over the funds before the contract properly updates the state, causing an unexpected loss of funds.",
+            "fixedCode": "uint256 adminPayment = _com.sub(_com / 2);\nrequire(adminPayment <= address(this).balance, \"Insufficient funds\");\nif (!address(admin1).call.value(adminPayment)()) { /* handle failure */ }"
+        },
+        {
+            "vulnerableLines": "1265-1265",
+            "vulnerableCode": [
+                "if (!address(admin2).call.value(_com / 2)())"
+            ],
+            "vulnerabilityReason": "The call to transfer funds using call.value can be exploited similarly to the previous case if not carefully managed, allowing an attacker to drain funds before the state is recorded.",
+            "potentialSecurityRisk": "Reentrancy could cause excessive payouts to an attacker resulting in contract funds depletion, damaging trust and usability of the contract.",
+            "fixedCode": "uint256 adminPayment = _com / 2;\nrequire(adminPayment <= address(this).balance, \"Insufficient funds\");\nif (!address(admin2).call.value(adminPayment)()) { /* handle failure */ }"
+        }
+    ]
+}

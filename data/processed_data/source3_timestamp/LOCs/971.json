@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-8",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastWithdrawal + 1 days, \"Daily limit reached\");",
+                "lastWithdrawal = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The withdraw function uses block.timestamp to enforce a daily withdrawal limit. Relying on block.timestamp can lead to vulnerabilities as miners have the ability to manipulate the timestamp to their advantage.",
+            "potentialSecurityRisk": "A miner could alter the block timestamp to bypass the daily withdrawal limit, allowing them to withdraw funds more frequently than intended, which could lead to financial loss for the users or the contract owners.",
+            "fixedCode": "require(block.timestamp >= lastWithdrawal + 1 days + TIME_TOLERANCE, \"Daily limit reached\"); lastWithdrawal = block.timestamp; // Use a buffer like TIME_TOLERANCE to reduce timestamp dependency."
+        }
+    ]
+}

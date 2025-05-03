@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1002-1002",
+            "vulnerableCode": [
+                "if (!address(One_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "This line performs an external call to the One_Island_Inc contract for depositing funds without updating any state variables prior to the call. An attacker could exploit this by re-entering the function during the execution of `deposit()`.",
+            "potentialSecurityRisk": "If an attacker is able to re-enter the `distributeExternal` function through the deposit function being called, they could manipulate funds or the contract's state before the current transaction finishes, leading to unexpected behaviors like draining funds or incorrect state. This could potentially result in the loss of user funds or manipulation of contract balances.",
+            "fixedCode": "uint256 _rewardAmount = _com; // Keep a local variable of the reward\nif (!address(One_Island_Inc).call.value(_rewardAmount)(bytes4(keccak256(\"deposit()\")))) { /* handle failure gracefully */ }"
+        },
+        {
+            "vulnerableLines": "501-501",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This transfer is made before updating the player's state, specifically the pending earnings. This allows an attacker to exploit reentrancy by calling `withdraw` again before the player's pending earnings state is cleared.",
+            "potentialSecurityRisk": "By calling withdraw during a state transfer, an attacker can potentially keep withdrawing funds multiple times before the state variable reflects how much they have left, leading to an infinite withdrawal scenario where the attacker can drain the contract's balance.",
+            "fixedCode": "uint256 _withdrawAmount = withdrawEarnings(_pID); // Call to withdraw earnings\nif(_withdrawAmount > 0) {\n    plyr_[_pID].addr.transfer(_withdrawAmount); // Perform transfer if there's an amount to withdraw\n    // Clear earnings only after successful transfer\nthe plyr_[_pID].win = 0; plyr_[_pID].gen = 0; plyr_[_pID].aff = 0;\n} else {\n    // handle no earnings scenario\n}"
+        }
+    ]
+}

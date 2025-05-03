@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_amount)()) {"
+            ],
+            "vulnerabilityReason": "The function uses 'call.value(_amount)()' to send Ether to msg.sender before updating the state. This allows the msg.sender (if it's a contract) to execute arbitrary code and call back into the withdraw function, potentially allowing it to withdraw again before the balance is updated, enabling the attacker to drain funds from the contract in multiple reentrancy attempts.",
+            "potentialSecurityRisk": "This vulnerability can lead to a complete drain of the contract's Ether balance if an attacker crafts a malicious contract that executes the withdraw function recursively before the state is updated, resulting in multiple withdrawals being processed before the original withdrawal is recorded in contract storage.",
+            "fixedCode": "require(balances[msg.sender] >= _amount, \"Insufficient balance\");\n balances[msg.sender] -= _amount;  // Update balance first\n (bool success, ) = msg.sender.call{value:_amount}('');\n require(success, \"Transfer failed\");"
+        }
+    ]
+}

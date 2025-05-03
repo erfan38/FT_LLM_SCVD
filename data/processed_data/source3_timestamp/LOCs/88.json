@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "58-62",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);",
+                "uint256 released_times = (block.timestamp-releaseTime).div(60*60*24*30*3);"
+            ],
+            "vulnerabilityReason": "The 'release' function relies on block.timestamp to check the release conditions and to calculate the number of intervals that have passed since releaseTime. This introduces a vulnerability as miners can manipulate the block timestamp, affecting the pricing and release logic.",
+            "potentialSecurityRisk": "A miner can adjust the block timestamp to facilitate the early release of tokens or manipulate the conditions that determine how many tokens can be released, potentially allowing for excessive token withdrawals at discounted rates, resulting in financial loss for the contract and its users.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Apply a buffer like TIME_TOLERANCE\nuint256 releasedTimes = (block.timestamp - releaseTime - TIME_TOLERANCE).div(60 * 60 * 24 * 30 * 3); // Using the adjusted timestamp for calculations."
+        }
+    ]
+}

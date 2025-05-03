@@ -1,0 +1,2 @@
+contract modularShort is LBevents {}
+

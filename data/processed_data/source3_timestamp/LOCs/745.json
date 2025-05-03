@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "if (block.timestamp >= start) {"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' to check against the 'start' time allows miners to manipulate the timestamp to trigger vesting before the intended start time.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp to unlock funds prematurely, enabling beneficiaries to access their vested amount sooner than expected, which undermines the intended vesting schedule.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE >= start) {"
+        },
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "if (block.timestamp >= cliff && block.timestamp < end) {"
+            ],
+            "vulnerabilityReason": "Checking 'block.timestamp' against the 'cliff' for unlocking vested funds creates a dependency on manipulable timestamps, which could allow miners to influence the flow of funds.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to impact the calculation of unlocked balances, leading to unintended early withdrawals or inequities in fund distribution.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE >= cliff && block.timestamp < end) {"
+        },
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "if (block.timestamp >= end) {"
+            ],
+            "vulnerabilityReason": "Dependency on 'block.timestamp' to determine if the vesting period has concluded can be exploited by miners adjusting their timestamps to game the contract's logic.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp, they could potentially extend the vesting period or allow beneficiaries to access their entire balance prematurely, disrupting the contract's intended protections.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE >= end) {"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "57",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value' to transfer Ether to 'msg.sender' before updating their balance in the mapping, potentially allowing a reentrancy attack.",
+            "potentialSecurityRisk": "A malicious contract could repeatedly call 'Collect', draining funds from the contract before the balance is updated after the external call, potentially leading to a loss of funds.",
+            "fixedCode": "            acc.balance -= _am; \n            if(!msg.sender.call.value(_am)()) {\n                acc.balance += _am; // revert balance if transfer fails\n            } else {\n                LogFile.AddMessage(msg.sender, _am, \"Collect\");\n            } // fixed using Checks-Effects-Interactions pattern: balance updated before external call to prevent reentrancy."
+        }
+    ]
+}

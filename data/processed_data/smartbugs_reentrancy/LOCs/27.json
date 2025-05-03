@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "222-222",
+            "vulnerableCode": [
+                "if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data)) {"
+            ],
+            "vulnerabilityReason": "The use of call.value() without updating the transaction state (marking it as executed) before the external call allows a reentrant call back into the contract. An attacker can exploit this to drain the funds before the execution status is verified and updated, as the execution status is only set to true after the external call succeeds.",
+            "potentialSecurityRisk": "This vulnerability allows an attacker to trigger multiple withdrawals in a single transaction, potentially draining the NamiMultiSigWallet's funds before the transaction state is updated to reflect that it has been executed.",
+            "fixedCode": "if (isConfirmed(transactionId)) {\n    transactions[transactionId].executed = true;\n    // Send Ether only after marking the transaction as executed\n    if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data)) {\n        emit Execution(transactionId);\n    } else {\n        emit ExecutionFailure(transactionId);\n        transactions[transactionId].executed = false;\n    }\n}"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "41-41",
+            "vulnerableCode": [
+                "require(balanceOf[_to] + _value >= balanceOf[_to]);"
+            ],
+            "vulnerabilityReason": "This check on line 41 is meant to prevent overflow by ensuring that adding `_value` to `balanceOf[_to]` does not exceed its current value. However, it does not check for scenarios where adding `_value` could lead to an overflow, thus not providing comprehensive protection against overflow issues. Underflows are also not checked, which can lead to negative balances if an operation goes below zero.",
+            "potentialSecurityRisk": "An attacker could manipulate this vulnerability by using a very large `_value`, causing `balanceOf[_to]` to wrap around and incorrectly reflect a negative or unexpected balance. This could lead to unauthorized token transfers or make the contract state inconsistent, allowing malicious users to exploit the contract further by creating an unintended supply of tokens.",
+            "fixedCode": "require(balanceOf[_to] + _value >= balanceOf[_to], 'Overflow detected'); require(balanceOf[_to] + _value >= _value, 'Balance of _to would underflow'); // Use SafeMath or Solidity 0.8+ checks."
+        },
+        {
+            "vulnerableLines": "89-89",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] -= _value;"
+            ],
+            "vulnerabilityReason": "No checks are performed before subtracting `_value` from `balanceOf[msg.sender]`. If the value of `_value` exceeds the current balance, this operation will underflow, resulting in an unintended large balance due to the wrapping behavior of unsigned integers in Solidity before version 0.8.0.",
+            "potentialSecurityRisk": "If an attacker calls the burn function with a value larger than their balance, it could lead to negative balances due to underflow. This can disrupt the integrity of the token supply and allow unwanted manipulation of the total supply, posing risks to the entire token structure.",
+            "fixedCode": "require(balanceOf[msg.sender] >= _value, 'Insufficient balance'); balanceOf[msg.sender] -= _value; // Apply underflow protection."
+        },
+        {
+            "vulnerableLines": "90-90",
+            "vulnerableCode": [
+                "totalSupply -= _value;"
+            ],
+            "vulnerabilityReason": "Similarly, subtracting from `totalSupply` without checks may lead to underflow if `_value` is larger than the current `totalSupply`, allowing for a negative totalSupply to occur, which is not valid for most token implementations.",
+            "potentialSecurityRisk": "An underflow here can lead to an incorrect `totalSupply`, potentially allowing for unauthorized increase of the total token supply. This could manipulate the market and diminish trust in the contract by presenting a fraudulent total supply to potential investors or holders.",
+            "fixedCode": "require(totalSupply >= _value, 'Total supply underflow'); totalSupply -= _value; // Include an underflow protection before the subtraction."
+        },
+        {
+            "vulnerableLines": "99-99",
+            "vulnerableCode": [
+                "balanceOf[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "As previously mentioned, subtracting `_value` from `balanceOf[_from]` does not account for underflow scenarios. If `_value` is larger than the balance of `_from`, it could lead to an incorrect balance due to underflow.",
+            "potentialSecurityRisk": "Similar to the above cases, exploiting this could lead to situations where balances do not reflect reality, allowing unauthorized access to tokens. Users could (intentionally or unintentionally) reduce balances of other accounts incorrectly.",
+            "fixedCode": "require(balanceOf[_from] >= _value, 'Insufficient balance'); balanceOf[_from] -= _value; // Add underflow checks in the subtraction."
+        },
+        {
+            "vulnerableLines": "101-101",
+            "vulnerableCode": [
+                "totalSupply -= _value;"
+            ],
+            "vulnerabilityReason": "Again, subtracting from `totalSupply` without validation can lead to underflow. If `_value` exceeds the current totalSupply, this operation will create an invalid state for the total supply value.",
+            "potentialSecurityRisk": "This vulnerability could fundamentally break the token contract, permitting an attacker to create an infinite supply of tokens by continually burning values larger than the current supply, resulting in loss of control of the token supply.",
+            "fixedCode": "require(totalSupply >= _value, 'Total supply underflow'); totalSupply -= _value; // This check ensures valid token supply management."
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)()){"
+            ],
+            "vulnerabilityReason": "The use of `call.value(_am)()` allows the receiving contract to execute code before the sender's balance is updated. If the receiving address is a malicious contract, it could re-enter the `CashOut` function before the balance update occurs, allowing the attacker to withdraw multiple times without having sufficient funds.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability by deploying a malicious contract that increases its balance through multiple withdrawals in a single transaction, leading to an unintended drain of the contract's funds.",
+            "fixedCode": "require(_am <= balances[msg.sender], \"Insufficient balance\");\n// Deduct the user's balance before sending Ether\nbalances[msg.sender] -= _am;\n(bool success, ) = msg.sender.call.value(_am)();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

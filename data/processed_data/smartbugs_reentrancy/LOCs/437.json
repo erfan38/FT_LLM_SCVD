@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "233-234",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "The contract sends Ether using `call.value()` before updating the state variable `totalEthFundRecieved`. This can allow an attacker to repeatedly call `payFund()` during the execution of the external call, leading to a reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by calling the `payFund()` function recursively before the state is updated, allowing them to withdraw more Ether than intended and drain the contract’s balance.",
+            "fixedCode": "require(ethToPay > 1, \"Amount to pay must be greater than 1\"); totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay); bool success = giveEthFundAddress.call.value(ethToPay).gas(400000)(); require(success, \"Transfer failed\");"
+        }
+    ]
+}

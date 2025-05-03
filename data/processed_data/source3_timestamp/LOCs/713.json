@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "66-68",
+            "vulnerableCode": [
+                "require(_closingTime >= block.timestamp);",
+                "require(_closingTime >= openingTime);",
+                "closingTime = _closingTime;"
+            ],
+            "vulnerabilityReason": "The use of 'block.timestamp' in the 'setClosingTime' function to check that the new closing time is in the future makes the contract susceptible to miner manipulation. Miners can control the block timestamp within certain limits, affecting critical time constraints of the crowdsale.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to set an advantageous closing time, potentially leading to unauthorized access to discounted token rates, or allow themselves to purchase tokens just before the crowdsale officially ends, disrupting the intended operational fairness of the crowdsale.",
+            "fixedCode": "require(_closingTime >= block.timestamp + TIME_TOLERANCE);\nrequire(_closingTime >= openingTime);\nclosingTime = _closingTime; // Adding a delay to protect against manipulation."
+        }
+    ]
+}

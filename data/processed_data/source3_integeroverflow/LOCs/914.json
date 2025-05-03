@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "return initialReputation + (block.timestamp * activityLevel);"
+            ],
+            "vulnerabilityReason": "The function `calculateReputation` performs arithmetic operations involving multiplication and addition which could lead to an overflow if the value of `(block.timestamp * activityLevel)` exceeds the maximum value that a `uint256` can hold. The multiplication of `block.timestamp` (which can be very large) and `activityLevel` could result in a number that, when added to `initialReputation`, exceeds `2^256 - 1`.",
+            "potentialSecurityRisk": "This overflow can lead to incorrect reputation values being calculated, disrupting any logic that relies on reputation scores and potentially allowing abuse of the reputation system or inaccuracies in its implementation.",
+            "fixedCode": "require(block.timestamp * activityLevel <= type(uint256).max - initialReputation, \"Reputation calculation will overflow\");\nreturn initialReputation + (block.timestamp * activityLevel);"
+        }
+    ]
+}

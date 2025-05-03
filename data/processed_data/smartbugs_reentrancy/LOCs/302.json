@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "305-306",
+            "vulnerableCode": [
+                "(bool success,) = wallet.call.value(amount)(\"\");",
+                "require(success);"
+            ],
+            "vulnerabilityReason": "The use of `call.value(amount)` to transfer Ether allows the receiving address to execute code, which can lead to reentrancy if the recipient's fallback function calls back into the `bid` function before state changes are applied. The check for success does not ensure that state updates occur before the call returns.",
+            "potentialSecurityRisk": "An attacker can create a malicious contract that uses the fallback function to call back into the `bid` function, allowing them to withdraw funds multiple times before the `bids` mapping and `totalReceived` are updated, draining the contract of Ether.",
+            "fixedCode": "(bool success,) = wallet.call.value(amount)(\"\");\nrequire(success);\n\n// Move the state updates before the transfer\nbids[receiver] += amount;\ntotalReceived += amount;"
+        }
+    ]
+}

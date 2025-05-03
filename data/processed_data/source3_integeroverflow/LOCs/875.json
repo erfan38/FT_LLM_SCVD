@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 points = block.timestamp - registrationTime;"
+            ],
+            "vulnerabilityReason": "The calculation of 'points' assumes that 'registrationTime' will always be less than or equal to 'block.timestamp'. If 'registrationTime' exceeds the current block timestamp, this will lead to an underflow, resulting in a value for 'points' that is artificially high because unsigned integers in Solidity wrap around to the maximum uint256 value.",
+            "potentialSecurityRisk": "This vulnerability could allow users to exploit the loyalty program by providing a future registration time, resulting in a potentially very high points value. This can lead to users gaining unintended benefits, such as claiming rewards or bonuses they shouldn't have access to, ultimately causing financial loss to the contract or system.",
+            "fixedCode": "uint256 points = block.timestamp >= registrationTime ? block.timestamp - registrationTime : 0; // Safeguard against underflow. This sets points to 0 if registrationTime exceeds block.timestamp."
+        }
+    ]
+}

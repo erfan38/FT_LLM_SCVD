@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "197-259",
+            "vulnerableCode": [
+                "if (!p.recipient.call.value(p.amount)(_transactionData))",
+                "throw;"
+            ],
+            "vulnerabilityReason": "The call to send Ether using call.value() occurs before the state updates to the proposal status and the proposal deposit refund to the creator. This allows any malicious contract to re-enter the executeProposal function and potentially drain funds before the status is updated and the deposit is refunded.",
+            "potentialSecurityRisk": "An attacker could exploit the vulnerability by creating a malicious contract that calls back into this contract during the external call, allowing them to withdraw additional funds or execute arbitrary code before the state is securely updated.",
+            "fixedCode": "// Update the proposal status and refund the deposit first\nif (p.recipient == address(0)) throw;  // Ensure recipient is valid\nif (p.amount > actualBalance()) throw;  // Ensure sufficient balance\nif (!p.recipient.call.value(p.amount)(_transactionData)) throw;  // Send Ether after checks and ensure recipient is valid\np.proposalPassed = true;  // Update the proposal status afterwards\n_success = true;  // Mark execution as successful"
+        },
+        {
+            "vulnerableLines": "333-334",
+            "vulnerableCode": [
+                "if (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false)",
+                "throw;"
+            ],
+            "vulnerabilityReason": "The external call to createTokenProxy is made before updating the DAO state and balances, allowing an attacker to exploit this order of operations for a reentrancy attack, potentially draining funds intended for the new DAO creation.",
+            "potentialSecurityRisk": "A malicious contract could invoke createTokenProxy and call back into this function, allowing the attacker to modify its state and potentially steal Ether or manipulate the DAO's token distribution before state updates can take effect.",
+            "fixedCode": "// Ensure the funds can be moved to the new DAO first\nif (fundsToBeMoved == 0) throw;  // Ensure there's an actual fund to be moved\nif (this.balance < fundsToBeMoved) throw;  // Check on available balance\nif (p.splitData[0].newDAO.createTokenProxy.value(fundsToBeMoved)(msg.sender) == false) throw;  // Call after validating internal state and funds"
+        }
+    ]
+}

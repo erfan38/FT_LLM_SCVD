@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "31-31",
+            "vulnerableCode": [
+                "assert(block.timestamp >= endDate);"
+            ],
+            "vulnerabilityReason": "The payOutBounty function checks if the current time (using block.timestamp) is greater than or equal to the endDate to ensure that the bounty is paid out only after a certain date. This creates a vulnerability due to the manipulability of the block timestamp by miners.",
+            "potentialSecurityRisk": "Miners can manipulate the timestamp to either ensure that the payout occurs prematurely or deny payouts entirely, allowing them to exploit the timing of transactions for personal gain.",
+            "fixedCode": "require(block.timestamp >= endDate, \"Bounty cannot be paid yet\"); // Change assert to require, providing an error message for clarity."
+        },
+        {
+            "vulnerableLines": "47-47",
+            "vulnerableCode": [
+                "assert(block.timestamp >= endDate);"
+            ],
+            "vulnerabilityReason": "Similarly, the withdrawERC20Token function also relies on block.timestamp to check if the current time is past endDate before allowing the withdrawal of tokens. This reliance introduces the same risk regarding miner influence.",
+            "potentialSecurityRisk": "If miners can control the block timestamp, they could prevent the contract owner from withdrawing tokens, or conversely, allow them to withdraw tokens prematurely, thereby undermining the logic of the contract and possibly leading to financial loss.",
+            "fixedCode": "require(block.timestamp >= endDate, \"Cannot withdraw funds until end date\"); // Change assert to require, including an informative error message."
+        }
+    ]
+}

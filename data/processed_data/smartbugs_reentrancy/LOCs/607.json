@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "196-197",
+            "vulnerableCode": [
+                "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));",
+                "totalDonated += amount;"
+            ],
+            "vulnerabilityReason": "The external call to `whale.call.value(amount)(...)` occurs before updating the state variable `totalDonated`. This allows an attacker to execute a reentrancy attack on the `donateToWhale` function during the external call, enabling them to manipulate the state and withdraw more than their intended amount.",
+            "potentialSecurityRisk": "An attacker can repeatedly invoke the `donate` function, calling the `donateToWhale` before the state is updated. This can lead to the contract being drained of Ether as the attacker might manipulate the state to bypass the expected checks, resulting in financial loss to the contract.",
+            "fixedCode": "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));\\ntotalDonated += amount;\\nemit Donate(amount, whale, msg.sender); // Emit the donation event after state change."
+        },
+        {
+            "vulnerableLines": "207-208",
+            "vulnerableCode": [
+                "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));",
+                "totalDonated += amount;"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this vulnerable line also involves an external call to the `whale` contract before the state variable `totalDonated` is updated. It can be exploited by an attacker to drain funds or manipulate the state, resulting in unexpected behavior.",
+            "potentialSecurityRisk": "Repeated invocation of the `loseWager` function can enable an attacker to withdraw more Ether than intended, as their state wouldn't be reflected until after the Ether is sent, posing a serious security risk to the contract's funds.",
+            "fixedCode": "whale.call.value(amount)(bytes4(keccak256(\"donate()\")));\\ntotalDonated += amount;\\nemit Lose(amount, msg.sender); // Emit loss event after state change."
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "265-266",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))",
+                "Execution(transactionId);"
+            ],
+            "vulnerabilityReason": "The external call to `tx.destination.call.value(tx.value)(tx.data)` occurs before the transaction status is updated to marked as executed. This allows a malicious contract to call back into the `executeTransaction` function before it has finished executing, thereby enabling reentrancy attacks to drain funds.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that re-invokes the `executeTransaction` function during the execution of the external call, potentially draining the contract of its funds before the state is properly updated.",
+            "fixedCode": "function executeTransaction(uint transactionId) public notExecuted(transactionId) { if (isConfirmed(transactionId)) { Transaction tx = transactions[transactionId]; tx.executed = true; // Perform external call after updating the executed status if (tx.destination.call.value(tx.value)(tx.data)) Execution(transactionId); else { ExecutionFailure(transactionId); tx.executed = false; } } }"
+        },
+        {
+            "vulnerableLines": "241-241",
+            "vulnerableCode": [
+                "executeTransaction(transactionId);"
+            ],
+            "vulnerabilityReason": "The `executeTransaction` function is called immediately after confirming a transaction without verifying access control on who can execute transactions. This allows for unauthorized users to trigger and manipulate transactions, potentially exploiting the aforementioned reentrancy vulnerability.",
+            "potentialSecurityRisk": "Without proper access control, unauthorized users could perform transactions, which compounds the risks of reentrancy attacks, allowing attackers to manipulate state or drain funds.",
+            "fixedCode": "modifier onlyOwner { require(isOwner[msg.sender]); _; } // Add this modifier to `executeTransaction` function to restrict access."
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "result -= 1;"
+            ],
+            "vulnerabilityReason": "The subtraction operation on the uint8 variable 'result' does not check for underflow. When 'result' reaches 0, subtracting 1 will cause it to wrap around to 255, which is unexpected behavior in the context of the logic that the function appears to implement.",
+            "potentialSecurityRisk": "The underflow could lead to unexpected results by allowing the function to return a value that is not a logical outcome of its calculations. In addition, if this function is relied upon by other contract logic, it could lead to vulnerabilities such as incorrect states or denial of service.",
+            "fixedCode": "if (result > 0) { result -= 1; } // Safeguarding against underflow. Alternatively, using built-in SafeMath during older Solidity versions."
+        }
+    ]
+}

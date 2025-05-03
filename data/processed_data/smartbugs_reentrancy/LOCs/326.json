@@ -1,0 +1,17 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "112-116",
+            "vulnerableCode": [
+                "function executeSigned(address to, uint value, bytes calldata data, uint gasPrice, uint gasLimit, bytes calldata signature) external",
+                "    onlyAuthorisedKeysOrSelf(_recoverSigner(address(this), to, value, data, nextNonce, gasPrice, gasLimit, signature) )",
+                "    returns (bytes memory) {",
+                "        (bool success, bytes memory result) = to.call.value(value)(data);",
+                "        msg.sender.transfer((gasUsed + 40000 + (msg.data.length * 68)) * gasPrice);"
+            ],
+            "vulnerabilityReason": "The function `executeSigned` contains a reentrancy vulnerability because it calls `msg.sender.transfer()` after an external call to `to.call.value(value)(data)`. This allows an attacker to perform a recursive call to the contract before the fluid state update, potentially allowing unauthorized withdrawals of ether.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that calls `executeSigned` and exploits the timing of the state update and the ether transfer. The attacker could repeatedly withdraw ether before the contract updates its state, leading to significant financial loss for the contract.",
+            "fixedCode": "require(gasUsed <= gasLimit, 'Gas limit exceeded'); // Check gas limit before transferring any amount\n\n// Transfer should always happen after the state updates\n(msg.sender).transfer((gasUsed + 40000 + (msg.data.length * 68)) * gasPrice); // Schedule transfer to msg.sender after ensuring that previous state is stable."
+        }
+    ]
+}

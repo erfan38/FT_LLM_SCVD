@@ -1,0 +1,38 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "124-126",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The balance of the sender is decremented before the external call to `_to`, allowing the recipient, if it’s a contract, to execute a fallback function that could call back into the contract and withdraw again before the deductions are registered.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that takes advantage of this and withdraw funds multiple times in a single transaction, causing a loss of funds from the contract.",
+            "fixedCode": "// Updates the balance of the sender after the external call\nassert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);"
+        },
+        {
+            "vulnerableLines": "192-194",
+            "vulnerableCode": [
+                "balanceOf[_from] = balanceOf[_from].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "allowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);"
+            ],
+            "vulnerabilityReason": "The sender’s balance and the allowance are updated before the transfer is executed. This allows for a malicious contract to re-enter the transferFrom function before the deductions are logged, enabling multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this to withdraw more funds than intended by making recursive calls via code injected into a fallback function.",
+            "fixedCode": "// Call the external function first, then modify the balances and allowances\n(bool success) = _to.call.value(0)(\"transferFrom\", _from, _to, _value);\nrequire(success, \"Transfer failed\");\nbalanceOf[_from] = balanceOf[_from].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nallowance[_from][msg.sender] = allowance[_from][msg.sender].sub(_value);"
+        },
+        {
+            "vulnerableLines": "218-240",
+            "vulnerableCode": [
+                "for (j = 0; j < addresses.length; j++) {",
+                "    balanceOf[addresses[j]] = balanceOf[addresses[j]].add(amounts[j]);",
+                "    emit Transfer(msg.sender, addresses[j], amounts[j]);",
+                "    transferIns[addresses[j]].push(transferInStruct(uint256(amounts[j]),_now));"
+            ],
+            "vulnerabilityReason": "The airdrop function transfers funds to multiple addresses without checking whether each transfer is successful. If any address is malicious and executes a call during the transfer, it could repeatedly call this function and drain the contract’s funds.",
+            "potentialSecurityRisk": "Malicious recipients could repeatedly receive funds from the airdrop operation, as there’s no sanity check on the integrity of the transfers after they are initiated.",
+            "fixedCode": "for (j = 0; j < addresses.length; j++) {\n    require(amounts[j] > 0 && addresses[j] != address(0));\n    balanceOf[addresses[j]] = balanceOf[addresses[j]].add(amounts[j]);\n    emit Transfer(msg.sender, addresses[j], amounts[j]);\n\n    // Safely check transfer success\n    (bool success) = addresses[j].call.value(amounts[j])(\" \");\n    require(success, \"Transfer failed\");\n    transferIns[addresses[j]].push(transferInStruct(uint256(amounts[j]),_now));\n}"
+        }
+    ]
+}

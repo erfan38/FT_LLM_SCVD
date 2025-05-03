@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "295-295",
+            "vulnerableCode": [
+                "winner.transfer(ethToTransfer);"
+            ],
+            "vulnerabilityReason": "The external call to transfer Ether to the winner occurs before the state variable associated with the bet is updated. This can allow a malicious contract to re-enter the `payout` function before the state is set to reflect the transfer, allowing it to withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain funds from the contract by repeatedly triggering the payout process before the outstanding state changes are handled, potentially leading to a loss of funds for the contract.",
+            "fixedCode": "uint256 totalPayout = ethToTransfer; emit Win(winner, totalPayout, ticketID, maskRes, jackpotRes); bet.amount = 0; winner.transfer(totalPayout);"
+        },
+        {
+            "vulnerableLines": "306-306",
+            "vulnerableCode": [
+                "requester.transfer(ethToTransfer);"
+            ],
+            "vulnerabilityReason": "In `sendRefund()`, the Ether is sent to the requester before resetting the state that tracks the bet amount. This allows an attacker to make recursive calls and gain multiple refunds before the refund process can be adjusted in the contract's records.",
+            "potentialSecurityRisk": "The vulnerability creates a potential for an attacker to execute reentrant calls, which can enable them to withdraw funds multiple times without updating the internal state correctly, leading to an overall loss of funds within the contract.",
+            "fixedCode": "uint256 totalRefund = ethToTransfer; emit Refund(ticketID, totalRefund, requester); bet.amount = 0; requester.transfer(totalRefund);"
+        },
+        {
+            "vulnerableLines": "317-317",
+            "vulnerableCode": [
+                "bool success = paidUser.send(amount);"
+            ],
+            "vulnerabilityReason": "In the `sendFunds()` function, sending funds occurs before any change to the state indicating that funds have been paid. If this external call fails or an attacker is able to take control of this call, they could exploit the function to drain funds before any state updates are made.",
+            "potentialSecurityRisk": "An attacker can exploit this to create a reentrant attack, where they invoke `sendFunds` again before the state changes are recorded, allowing for the same amount to be 'sent' multiple times, draining the fund reserves of the contract.",
+            "fixedCode": "require(amount <= address(this).balance, \"Insufficient contract balance for sending funds.\"); bool success = paidUser.call.value(amount)(); require(success, \"Failed to send funds.\"); emit Payment(paidUser, amount);"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "368-375",
+            "vulnerableCode": [
+                "function _uncreditUser(address _user, uint _amt)",
+                "private",
+                "{",
+                "    if (_amt > credits[_user] || _amt == 0) _amt = credits[_user];",
+                "    if (_amt == 0) return;",
+                "    vars.totalCredits -= uint88(_amt);",
+                "    credits[_user] -= _amt;",
+                "    require(_user.call.value(_amt)());",
+                "    emit CreditsCashedout(now, _user, _amt);"
+            ],
+            "vulnerabilityReason": "The function uses a low-level call to send Ether to the user's address after modifying the total credits and before checking if the user's balance has been deducted. This order of operations allows an attacker to exploit the contract by making recursive calls during the execution of this function, allowing them to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could call this function recursively, leading to them being able to drain funds from the contract before the user's balance is accurately updated, potentially causing significant financial loss to the contract.",
+            "fixedCode": "function _uncreditUser(address _user, uint _amt) private {  \n    if (_amt > credits[_user] || _amt == 0) _amt = credits[_user];  \n    if (_amt == 0) return;  \n    credits[_user] -= _amt;  \n    vars.totalCredits -= uint88(_amt);  \n    require(_user.call.value(_amt)());  \n    emit CreditsCashedout(now, _user, _amt);  \n}"
+        },
+        {
+            "vulnerableLines": "368-375",
+            "vulnerableCode": [
+                "function _uncreditUser(address _user, uint _amt)",
+                "private",
+                "{",
+                "    if (_amt > credits[_user] || _amt == 0) _amt = credits[_user];",
+                "    if (_amt == 0) return;",
+                "    vars.totalCredits -= uint88(_amt);",
+                "    credits[_user] -= _amt;",
+                "    require(_user.call.value(_amt)());",
+                "    emit CreditsCashedout(now, _user, _amt);"
+            ],
+            "vulnerabilityReason": "The function uses a low-level call to send Ether to the user's address after modifying the total credits and before checking if the user's balance has been deducted. This order of operations allows an attacker to exploit the contract by making recursive calls during the execution of this function, allowing them to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could call this function recursively, leading to them being able to drain funds from the contract before the user's balance is accurately updated, potentially causing significant financial loss to the contract.",
+            "fixedCode": "function _uncreditUser(address _user, uint _amt) private {  \n    if (_amt > credits[_user] || _amt == 0) _amt = credits[_user];  \n    if (_amt == 0) return;  \n    credits[_user] -= _amt;  \n    vars.totalCredits -= uint88(_amt);  \n    require(_user.call.value(_amt)());  \n    emit CreditsCashedout(now, _user, _amt);  \n}"
+        }
+    ]
+}

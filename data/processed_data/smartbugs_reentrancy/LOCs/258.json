@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "233-233",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` to send Ether, which can lead to reentrancy vulnerabilities. If the destination address is a contract, it can call back into the `MultiSigWallet` contract before the transaction's state is updated.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that exploits this vulnerability to call back into the wallet contract, potentially draining funds before the transaction is marked as executed.",
+            "fixedCode": "require(address(this).balance >= tx.value, \"Insufficient balance to execute transaction\");\ntransactions[transactionId].executed = true;\n(bool success, ) = tx.destination.call.value(tx.value)(tx.data);\nif (!success) {\n    ExecutionFailure(transactionId);\n    transactions[transactionId].executed = false;\n} else {\n    Execution(transactionId);\n}"
+        },
+        {
+            "vulnerableLines": "274-276",
+            "vulnerableCode": [
+                "transactions[transactionId] = Transaction({",
+                "destination: destination,",
+                "value: value,}"
+            ],
+            "vulnerabilityReason": "The state of the transaction is updated after the call to the destination address, allowing the possibility of reentrancy before the transaction's state is confirmed, which can lead to multiple executions of the same transaction.",
+            "potentialSecurityRisk": "If an attacker is capable of calling the `executeTransaction` function again during the execution of the current transaction, they could exploit the function to withdraw more funds than authorized by continuously re-entering the function.",
+            "fixedCode": "transactions[transactionId] = Transaction({\ndestination: destination,\nvalue: value,\ndata: data,\nexecuted: false\n});\nSubmission(transactionId);"
+        }
+    ]
+}

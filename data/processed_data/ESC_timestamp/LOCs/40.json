@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-134",
+            "vulnerableCode": [
+                "require(block.timestamp > lockStartTime);"
+            ],
+            "vulnerabilityReason": "The reliance on block.timestamp means that miners can manipulate the timestamp to either trigger or delay the allocation of tokens. This can lead to significant unfair advantages during the allocation process if the timing is adjusted by malicious miners.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp just before the allocation to ensure that the require fails, thereby delaying the allocation of tokens, or alternatively, cause the allocation to occur earlier than intended, potentially disrupting the planned vesting schedule.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > lockStartTime); // Introducing a buffer around the time check to prevent minor manipulations."
+        },
+        {
+            "vulnerableLines": "168-168",
+            "vulnerableCode": [
+                "uint256 stage = (block.timestamp.sub(lockStartTime)).div(vestingMonths);"
+            ],
+            "vulnerabilityReason": "The calculation of the vesting stage directly depends on block.timestamp, making it susceptible to miner manipulation. Miners can adjust the time to calculate a different vesting stage, potentially leading to early unlocking of tokens.",
+            "potentialSecurityRisk": "A miner could shift the timestamp to facilitate a more favorable calculation in the vesting schedule, allowing for tokens to become available sooner than they should be, which disrupts the intended vesting timeline.",
+            "fixedCode": "uint256 stage = (block.timestamp.add(TIME_TOLERANCE).sub(lockStartTime)).div(vestingMonths); // Adding a buffer to the time calculation."
+        }
+    ]
+}

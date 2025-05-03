@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "273-275",
+            "vulnerableCode": [
+                "if(!giveEthBankRollAddress.call.value(ethToPay).gas(400000)()) {",
+                "totalEthBankrollReceived = SafeMath.sub(totalEthBankrollReceived, ethToPay);"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' to transfer funds occurs after updating 'totalEthBankrollReceived'. This allows an attacker to manipulate the state of the contract during the fund transfer, potentially leading to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract and call 'payBankRoll()', causing recursive calls before the state boolean has been updated and enabling repeated withdrawals resulting in funds being drained from the contract.",
+            "fixedCode": "require(ethToPay > 1);\ntotalEthBankrollReceived = SafeMath.add(totalEthBankrollReceived, ethToPay);\n(bool success, ) = giveEthBankRollAddress.call.value(ethToPay).gas(400000)();\nrequire(success, \"Transfer failed\");\n"
+        },
+        {
+            "vulnerableLines": "451-452",
+            "vulnerableCode": [
+                "ERC223ReceivingContract _contract = ERC223ReceivingContract(_toAddress);",
+                "_contract.tokenFallback(msg.sender, _amountOfTokens, _data);"
+            ],
+            "vulnerabilityReason": "Calling an unknown contract's 'tokenFallback()' function can allow a malicious contract to execute reentrancy attacks if it implements such functionalities in its fallback method, potentially leading to unexpected state changes or fund loss.",
+            "potentialSecurityRisk": "If the target of the 'tokenFallback()' implementation is malicious, it can recursively call back into this contract and manipulate its state or drain funds.",
+            "fixedCode": "ERC223ReceivingContract _contract = ERC223ReceivingContract(_toAddress);\n(bool success, ) = address(_contract).call(abi.encodeWithSignature(\"tokenFallback(address,uint256,bytes)\", msg.sender, _amountOfTokens, _data));\nrequire(success, \"Transfer failed\");\n"
+        }
+    ]
+}

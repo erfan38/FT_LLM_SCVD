@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "4-5",
+            "vulnerableCode": [
+                "futureTimestamp += _days * 86400;",
+                "futureTimestamp += _hours * 3600;"
+            ],
+            "vulnerabilityReason": "The calculations for the future timestamp involve multiplications with `_days` and `_hours`, which can lead to integer overflow if either of these inputs are large enough. Specifically, multiplying these values by large constants can exceed the maximum value of a uint256, resulting in wraparound and incorrect future timestamp calculations.",
+            "potentialSecurityRisk": "An overflow in the timestamp calculation could lead to erroneous contract behavior, particularly if time-based functionality relies on accurate future timestamps. This can result in incorrect states in the contract, leading to unintended outcomes such as premature or delayed executions of time-related conditions.",
+            "fixedCode": "require(_days < (type(uint256).max / 86400), 'Days value too large to prevent overflow');\nfutureTimestamp += _days * 86400;\nrequire(_hours < (type(uint256).max / 3600), 'Hours value too large to prevent overflow');\nfutureTimestamp += _hours * 3600;"
+        }
+    ]
+}

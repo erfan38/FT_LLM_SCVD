@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "7-11",
+            "vulnerableCode": [
+                "unlockTime[msg.sender] = block.timestamp + lockDuration;",
+                "require(block.timestamp >= unlockTime[msg.sender], \"Tokens are still locked\");"
+            ],
+            "vulnerabilityReason": "The unlockTokens function relies on block.timestamp to determine if the lock period has ended, enabling miners to manipulate the timestamp. They could alter it to allow early unlocking of tokens, violating the intended lock duration.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability to prematurely unlock tokens before the intended lock duration ends, which potentially leads to unauthorized access to funds and undermines the contract's security and intended functionality.",
+            "fixedCode": "uint256 currentTime = block.timestamp; unlockTime[msg.sender] = currentTime + lockDuration; require(currentTime >= unlockTime[msg.sender], \"Tokens are still locked\"); // Use a local variable to mitigate reliance on unguarded block.timestamp."
+        }
+    ]
+}

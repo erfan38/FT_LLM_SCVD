@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastWithdrawalTime[msg.sender] + 1 days, \"Can only withdraw once per day\");"
+            ],
+            "vulnerabilityReason": "The withdraw function relies on block.timestamp to determine if a user can make a withdrawal, creating dependency on a value that can be manipulated by miners within a limited range.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to allow a user to withdraw multiple times within a single day, effectively circumventing the intended withdrawal limits and potentially leading to economic loss for the contract.",
+            "fixedCode": "require(block.timestamp >= lastWithdrawalTime[msg.sender] + 1 days + TIME_TOLERANCE, \"Can only withdraw once per day\"); // Add a buffer to the time check"
+        }
+    ]
+}

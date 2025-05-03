@@ -1,0 +1,33 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "20-21",
+            "vulnerableCode": [
+                "uint public preIcoPhaseCountdown;",
+                "uint public icoPhaseCountdown;"
+            ],
+            "vulnerabilityReason": "The 'preIcoPhaseCountdown' and 'icoPhaseCountdown' variables are set based on block.timestamp, creating a dependency on potentially manipulable block timestamps.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp slightly, influencing when the ICO phases start and end, potentially allowing an unfair accumulation of funds or disrupting the intended timing of the token sale.",
+            "fixedCode": "uint public preIcoPhaseCountdown = now + [desired countdown duration];\nuint public icoPhaseCountdown = now + [desired ICO duration]; //assign countdown times based on the contract's logic instead of block.timestamp."
+        },
+        {
+            "vulnerableLines": "32-33",
+            "vulnerableCode": [
+                "uint public openingTime = 1535385600;",
+                "uint public closingTime = openingTime.add(7 days);"
+            ],
+            "vulnerabilityReason": "The 'openingTime' and 'closingTime' are hardcoded timestamps that can conflict with actual block timestamps upon deployment and might not synchronize with the current blockchain time.",
+            "potentialSecurityRisk": "If miners manipulate the time close to the token sale, this might lead to unexpected or unintended outcomes, such as extending or shortening the sale duration based on manipulated timestamps.",
+            "fixedCode": "uint public openingTime = now; \nuint public closingTime = openingTime.add(7 days); // set based on the actual deployment time to avoid manipulation."
+        },
+        {
+            "vulnerableLines": "98-98",
+            "vulnerableCode": [
+                "postIcoPhaseCountdown = closingTime.add(14 days);"
+            ],
+            "vulnerabilityReason": "The 'postIcoPhaseCountdown' variable is set using 'closingTime', which depends on a timestamp that can be influenced by miners.",
+            "potentialSecurityRisk": "By manipulating the block time, miners could prematurely end the token sale or extend it, resulting in an uneven and unfair advantage in the token distribution.",
+            "fixedCode": "postIcoPhaseCountdown = now.add(14 days); // calculate this based on the contract determined time to avoid miner manipulation."
+        }
+    ]
+}

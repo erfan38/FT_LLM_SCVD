@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "9-12",
+            "vulnerableCode": [
+                "uint256 public startingTimestamp = 1518696000;",
+                "uint256 public endingTimestamp = 1521115200;"
+            ],
+            "vulnerabilityReason": "The contract sets fixed timestamps for the sale's start and end. While they may not be directly manipulable, they may not adapt to the actual times the contract is supposed to be live as it relies on block timestamps without proper checks.",
+            "potentialSecurityRisk": "If the sale times were intended to be dynamic or adjustable, hardcoding them can cause issues with market dynamics, preventing the sale from occurring outside of miner adjustments.",
+            "fixedCode": "// Consider using dynamic timestamps or configurable parameters instead."
+        },
+        {
+            "vulnerableLines": "61-61",
+            "vulnerableCode": [
+                "bool validTimestamp = startingTimestamp <= block.timestamp && endingTimestamp >= block.timestamp;"
+            ],
+            "vulnerabilityReason": "The reliance on block.timestamp means that the sale's validity can be impacted by miners who can manipulate the timestamp, allowing them to affect the open/close status of the sale.",
+            "potentialSecurityRisk": "Miners could influence the success of token purchases by manipulating when the sale appears to start or end, giving them an advantage over regular users.",
+            "fixedCode": "bool validTimestamp = startingTimestamp <= (block.timestamp + TIME_TOLERANCE) && endingTimestamp >= (block.timestamp - TIME_TOLERANCE); // introducing a TIME_TOLERANCE to mitigate minute changes."
+        },
+        {
+            "vulnerableLines": "111-111",
+            "vulnerableCode": [
+                "TokenPurchase(msg.sender, beneficiary, value, tokens, now);"
+            ],
+            "vulnerabilityReason": "Using 'now' for timestamps directly echoes the issues of using block.timestamp, making this susceptible to miner manipulation.",
+            "potentialSecurityRisk": "An attacker could manipulate the mining of the block sufficient to adjust the timing of the token purchase events, leading to potential replay attacks and validity exploitation in token transfers.",
+            "fixedCode": "TokenPurchase(msg.sender, beneficiary, value, tokens, block.timestamp); //Replacing 'now' with block.timestamp preserves clarity, but still requires checks to avoid manipulation."
+        },
+        {
+            "vulnerableLines": "128-128",
+            "vulnerableCode": [
+                "WalletChange(_wallet , now);"
+            ],
+            "vulnerabilityReason": "This line uses 'now', which equals block.timestamp, leading to the same manipulations as previous lines.",
+            "potentialSecurityRisk": "A miner can adjust the timestamp when this wallet address is logged, potentially misleading users about event timings and causing conflicts in transactional integrity.",
+            "fixedCode": "WalletChange(_wallet , block.timestamp); //Ensures better clarity of the manipulation issues."
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "229-229",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to send funds occurs before marking the transaction as executed. This allows an attacker to re-enter the function during the execution phase and potentially manipulate the contract's state or steal funds.",
+            "potentialSecurityRisk": "A malicious user can exploit the opportunity to call back into the contract multiple times before the state is updated, leading to multiple withdrawals of funds that have not been deducted from the account, effectively draining the contract's funds.",
+            "fixedCode": "function executeTransaction(uint transactionId) public notExecuted(transactionId) { if (isConfirmed(transactionId)) { Transaction tx = transactions[transactionId]; tx.executed = true; // Update state before calling external contract if (tx.destination.call.value(tx.value)(tx.data)) Execution(transactionId); else { ExecutionFailure(transactionId); tx.executed = false; } } }"
+        }
+    ]
+}

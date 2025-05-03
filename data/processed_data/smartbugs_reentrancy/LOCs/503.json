@@ -1,0 +1,58 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "414-414",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The external call to transfer ETH occurs before the state is updated (the player's earnings), allowing an attacker to re-enter the function before the state change, which can lead to unauthorized access.",
+            "potentialSecurityRisk": "An attacker can exploit this to withdraw funds multiple times in a single transaction by calling `withdraw` recursively before the earnings are reset, potentially draining the contract's balance.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID); \nif (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n} "
+        },
+        {
+            "vulnerableLines": "443-443",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this transfer takes place after earnings have been updated but before the completion of the rest of the withdrawal process. This allows for potential re-entrance.",
+            "potentialSecurityRisk": "An attacker can use the opportunity to withdraw funds multiple times before the state is returned back to its normal state, causing a potential drain on the contract's balance.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID); \nif (_eth > 0) {\n    plyr_[_pID].addr.transfer(_eth);\n} "
+        },
+        {
+            "vulnerableLines": "1255-1255",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "Using call.value() opens the possibility of re-entrancy, as the state changes and checks are not always in place prior to executing external calls, allowing an attacker to manipulate states during the transaction.",
+            "potentialSecurityRisk": "If _com is significant, an attacker controlling the address could drain funds through recursively calling this function before the state changes take effect.",
+            "fixedCode": "(bool success, ) = address(admin).call.value(_com)(); \nrequire(success, 'Transfer failed'); "
+        },
+        {
+            "vulnerableLines": "1287-1287",
+            "vulnerableCode": [
+                "admin.transfer(_p3d.sub(_potAmount));"
+            ],
+            "vulnerabilityReason": "The transfer happens directly affecting the admin's funds, and if there are recursive calls allowed, it could cause unexpected behavior and money loss from unauthorized calls.",
+            "potentialSecurityRisk": "An attacker could exploit the possibility of re-entry to steal funds, especially if they can control the conditions under which this function is called allowing unauthorized access to funds meant for admin.",
+            "fixedCode": "uint256 amountToTransfer = _p3d.sub(_potAmount); \nrequire(amountToTransfer <= address(this).balance, 'Insufficient balance'); \nadmin.transfer(amountToTransfer); "
+        },
+        {
+            "vulnerableLines": "1150-1150",
+            "vulnerableCode": [
+                "admin.transfer(_p3d.sub(_p3d / 2));"
+            ],
+            "vulnerabilityReason": "This transfer happens after calculations that may lead to state inconsistencies, particularly if further calls are made during its execution, potentially allowing for unauthorized extraction of funds.",
+            "potentialSecurityRisk": "Exploiting any potential vulnerability around this operation could allow an attacker to redirect or drain funds during the transfer process.",
+            "fixedCode": "uint256 amountToTransfer = _p3d.sub(_p3d / 2); \nrequire(amountToTransfer <= address(this).balance, 'Insufficient balance'); \nadmin.transfer(amountToTransfer); "
+        },
+        {
+            "vulnerableLines": "1439-1439",
+            "vulnerableCode": [
+                "require(msg.sender == admin, \"only admin can activate\");"
+            ],
+            "vulnerabilityReason": "There is insufficient access control as any address could inadvertently send a transaction to this function if it is not properly secured after initialization, potentially allowing for governance attacks.",
+            "potentialSecurityRisk": "If an unauthorized user becomes the admin or manages to alter the `admin` variable, they could activate the contract making it susceptible to unauthorized actions affecting contract integrity.",
+            "fixedCode": "require(msg.sender == admin, 'Only the admin can activate this function'); "
+        }
+    ]
+}

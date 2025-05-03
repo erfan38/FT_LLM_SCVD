@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "totalSupply = totalSupply - amount;"
+            ],
+            "vulnerabilityReason": "The contract subtracts 'amount' from 'totalSupply' without validating that 'amount' is less than or equal to 'totalSupply'. If 'amount' exceeds 'totalSupply', this will result in an integer underflow, causing 'totalSupply' to wrap around to a very large value due to the nature of unsigned integers in Solidity.",
+            "potentialSecurityRisk": "This can disrupt the economic model of the token, potentially allowing unauthorized minting of tokens, as the total supply can become erroneously large, confusing future calculations and leading to security vulnerabilities or exploits.",
+            "fixedCode": "require(amount <= totalSupply, 'Burn amount exceeds total supply');\ntotalSupply = totalSupply - amount;"
+        }
+    ]
+}

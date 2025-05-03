@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "return now >= startTime;"
+            ],
+            "vulnerabilityReason": "The 'hasStarted()' function uses 'now', which is equivalent to block.timestamp, creating a dependency on miner-controlled timestamps. This introduces a vulnerability since miners can manipulate the block timestamp to influence the start condition of the crowdsale.",
+            "potentialSecurityRisk": "Miners could exploit this vulnerability to start the crowdsale earlier or later than intended, potentially disrupting the expected fundraising mechanism and giving unfair advantages to certain participants.",
+            "fixedCode": "return block.timestamp >= startTime;"
+        }
+    ]
+}

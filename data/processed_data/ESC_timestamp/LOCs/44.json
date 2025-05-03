@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "143-143",
+            "vulnerableCode": [
+                "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp, latestApply[token][msg.sender]) > applyWait);"
+            ],
+            "vulnerabilityReason": "This line relies on block.timestamp to compare the current time with the last application time, making it susceptible to miner manipulation. Miners can adjust the timestamp of mined blocks, which can impact the time check used for allowing withdrawals.",
+            "potentialSecurityRisk": "A malicious miner could manipulate the timestamp to either accelerate or delay a user's ability to withdraw funds. For instance, by artificially advancing the timestamp, a miner could allow withdrawals sooner than intended, granting unfair advantages or causing premature withdrawals when the user should still be restricted.",
+            "fixedCode": "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp + TIME_TOLERANCE, latestApply[token][msg.sender]) > applyWait); // Adding TIME_TOLERANCE to mitigate timestamp manipulation."
+        }
+    ]
+}

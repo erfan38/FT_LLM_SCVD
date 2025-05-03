@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "23-23",
+            "vulnerableCode": [
+                "require(block.timestamp < deadline)"
+            ],
+            "vulnerabilityReason": "The buyTokens function relies on block.timestamp to enforce a deadline for purchasing tokens. Since block.timestamp is influenced by miners, they can manipulate it to enable or disable token purchases at will, leading to unfair advantages or disruptions in the sale process.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to extend or shorten the purchase window, giving them the ability to buy tokens at discounted prices or prevent others from participating, ultimately undermining the fair distribution of tokens.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < deadline) // Use TIME_TOLERANCE to mitigate manipulation risks by allowing a small buffer in time checks."
+        }
+    ]
+}

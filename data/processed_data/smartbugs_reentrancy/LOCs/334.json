@@ -1,0 +1,32 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "106-111",
+            "vulnerableCode": [
+                "function withdraw(uint _amount) {",
+                "    require(tokens[0][msg.sender] >= _amount);",
+                "    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], _amount);",
+                "    if (!msg.sender.call.value(_amount)()) {",
+                "        revert();",
+                "    }"
+            ],
+            "vulnerabilityReason": "The function utilizes `msg.sender.call.value()` after decreasing the user's token balance. This allows the recipient to call back into the `withdraw` function before the Ether transfer is complete, leading to potential reentrancy attacks.",
+            "potentialSecurityRisk": "A malicious user could deploy a contract that exploits this by calling `withdraw` repeatedly before the state variable is updated to reflect the withdrawal, potentially draining the contract of Ether.",
+            "fixedCode": "function withdraw(uint _amount) { require(tokens[0][msg.sender] >= _amount); tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], _amount); (bool success, ) = msg.sender.call.value(_amount)(); require(success, \"Transfer failed\"); Withdraw(0, msg.sender, _amount, tokens[0][msg.sender]); }"
+        },
+        {
+            "vulnerableLines": "126-130",
+            "vulnerableCode": [
+                "function withdrawToken(address _token, uint _amount) {",
+                "    require(_token != 0);",
+                "    require(tokens[_token][msg.sender] >= _amount);",
+                "    tokens[_token][msg.sender] = safeSub(tokens[_token][msg.sender], _amount);",
+                "    if (!Token(_token).transfer(msg.sender, _amount)) {",
+                "}"
+            ],
+            "vulnerabilityReason": "Similar to the previous function, this function reduces the user's token balance before making an external call (`Token(_token).transfer`). If the external call is to a malicious contract, it can trigger a reentrancy attack before updating the state.",
+            "potentialSecurityRisk": "An attacker could exploit the withdrawal function to call back into this function before the new balance is recorded, allowing them to withdraw more tokens than intended, depleting the contract's funds.",
+            "fixedCode": "function withdrawToken(address _token, uint _amount) { require(_token != 0); require(tokens[_token][msg.sender] >= _amount); (bool success) = Token(_token).transfer(msg.sender, _amount); require(success, \"Transfer failed\"); tokens[_token][msg.sender] = safeSub(tokens[_token][msg.sender], _amount); Withdraw(_token, msg.sender, _amount, tokens[_token][msg.sender]); }"
+        }
+    ]
+}

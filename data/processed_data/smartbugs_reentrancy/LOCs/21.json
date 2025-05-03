@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "102-102",
+            "vulnerableCode": [
+                "if (!founder.call.value(msg.value)()) revert();"
+            ],
+            "vulnerabilityReason": "The contract makes an external call to the founder's address using `call.value()`, which allows the recipient to execute code within the `buyRecipient` function before the state variables `balances`, `totalSupply`, `saleTokenSupply`, and `salesVolume` are updated. This creates an opportunity for reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by recursively calling the `buyRecipient` function before the state updates, allowing them to withdraw more Ether than intended, which could lead to draining the contract's funds.",
+            "fixedCode": "require(msg.value <= address(this).balance); // Ensure there's enough balance\nuint tokens = safeMul(msg.value, price(block.timestamp)); // Calculate tokens after ensuring the balance\nbalances[recipient] = safeAdd(balances[recipient], tokens); // Update balance first\ntotalSupply = safeAdd(totalSupply, tokens); // Update total supply\nsaleTokenSupply = safeAdd(saleTokenSupply, tokens); // Update sale token supply\nsalesVolume = safeAdd(salesVolume, msg.value); // Update sales volume\n(bool success, ) = founder.call.value(msg.value)(); // Send funds after state updates\nrequire(success, \"Transfer failed.\"); // Ensure the transfer was successful"
+        }
+    ]
+}

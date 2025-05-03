@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "120-120",
+            "vulnerableCode": [
+                "        receiver.tokenFallback(msg.sender, _value, _data);"
+            ],
+            "vulnerabilityReason": "The `tokenFallback` function call is made after the state updates for the transfer. This external call is to a contract that can have arbitrary code, which means that the recipient contract can make a recursive call back to this contract before the sender's balance is decreased. This creates a reentrancy vulnerability.",
+            "potentialSecurityRisk": "A malicious contract could exploit this by calling back into the `transferToContract` function, allowing the attacker to manipulate the state and continue withdrawing tokens beyond what was intended, potentially draining the token supply.",
+            "fixedCode": "// The safer approach is to first update balances, and then use a checks-effects-interactions pattern noted below:\n\n// Update balances first\nbalances[msg.sender] = balances[msg.sender].sub(_value);\nbalances[_to] = balances[_to].add(_value);\n\n// Perform the external call, keeping in mind the possibility of reentrancy\nERC223ReceivingContract receiver = ERC223ReceivingContract(_to);\nreceiver.tokenFallback(msg.sender, _value, _data);\n\n// Emit transfer event after success\nTransferContract(msg.sender, _to, _value, _data);"
+        }
+    ]
+}

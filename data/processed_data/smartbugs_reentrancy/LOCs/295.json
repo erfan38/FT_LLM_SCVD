@@ -1,0 +1,47 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "101-103",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of the low-level call to the recipient's contract occurs before the state update of the sender's balance. An attacker could create a malicious contract that executes a fallback function upon receiving Ether, allowing them to call the transfer function again before the balance of msg.sender is reduced, leading to a reentrancy exploit.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain tokens from the sender's account multiple times in a single transaction, effectively withdrawing more than they should be allowed to, leading to financial loss for the contract.",
+            "fixedCode": "// Ensure balance is updated before external call\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n// Perform the external call after state updates\nassert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\nTransfer(msg.sender, _to, _value, _data);\nTransfer(msg.sender, _to, _value);"
+        },
+        {
+            "vulnerableLines": "150-153",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "Transfer(msg.sender, _to, _value, _data);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case, updating balances after calling another contract can lead to reentrancy, where an attacker can drain funds before the sender's balance is updated, allowing multiple withdrawals in a single transaction.",
+            "potentialSecurityRisk": "This can lead to loss of funds as attackers repeatedly exploit this issue to transfer tokens before their balance is reduced correctly.",
+            "fixedCode": "// Update balances first before making external calls\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n// Now it is safe to emit the transfer event\nTransfer(msg.sender, _to, _value, _data);"
+        },
+        {
+            "vulnerableLines": "159-163",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "ContractReceiver receiver = ContractReceiver(_to);"
+            ],
+            "vulnerabilityReason": "The code again updates balances after making an external call to the contract receiver, which can allow a malicious receiver to cause reentrant calls that drain funds before the balance update takes effect.",
+            "potentialSecurityRisk": "An attacker can exploit this to manipulate the fund transfers, causing inconsistent state and loss of tokens in the contract due to multiple calls before the balance is set correctly.",
+            "fixedCode": "// Ensure balances are updated before external calls\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n// Now call the contract receiver safely\nContractReceiver receiver = ContractReceiver(_to);\nreceiver.tokenFallback(msg.sender, _value, _data);"
+        },
+        {
+            "vulnerableLines": "179-180",
+            "vulnerableCode": [
+                "balanceOf[_from] = balanceOf[_from].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);"
+            ],
+            "vulnerabilityReason": "In this function, the balance updates occur after making an external call, which introduces a reentrancy vulnerability similar to the previous cases, allowing attackers to misuse the flow and withdraw improperly.",
+            "potentialSecurityRisk": "Could result in an attacker withdrawing tokens multiple times, leading to a loss of assets for the contract and its legitimate users.",
+            "fixedCode": "// Update balances first to prevent reentrancy\nbalanceOf[_from] = balanceOf[_from].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\n// Logic for allowance update and event emission follows here."
+        }
+    ]
+}

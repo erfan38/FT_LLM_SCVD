@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1258-1258",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The external call using `call.value()` transfers funds to the admin address before the state is updated, allowing an attacker to potentially exploit this by re-entering the function before state changes occur. If an attacker controls the admin address, they can repeatedly invoke this call and drain funds.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that re-enters this function or any other function in contention, potentially allowing them to withdraw funds multiple times before the contract updates its state adequately.",
+            "fixedCode": "uint256 _com = _eth / 50;\n// Ensure any transfer is only done after all state is set and then perform the transfer.\nbool success = address(admin).call.value(_com)();\nrequire(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "1308-1308",
+            "vulnerableCode": [
+                "emit F3Devents.onPotSwapDeposit(_rID, msg.value);"
+            ],
+            "vulnerabilityReason": "The `potSwap` function emits an event after accepting a deposit. While this does not directly lead to a reentrancy issue, the function does not have any state checks that prevent a malicious contract from exploiting the deposit mechanism.",
+            "potentialSecurityRisk": "A malicious contract could potentially call `potSwap` and trigger unintended effects, taking advantage of the lack of strict input validations or access controls to exploit unexpected behaviors.",
+            "fixedCode": "require(msg.value > 0, \"Must send some Ether\");\nround_[_rID].pot = round_[_rID].pot.add(msg.value);\nemit F3Devents.onPotSwapDeposit(_rID, msg.value);"
+        }
+    ]
+}

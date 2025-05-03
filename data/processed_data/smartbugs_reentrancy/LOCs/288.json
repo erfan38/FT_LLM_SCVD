@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "128-128",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The `call.value(0)` is an external call to `_to` that occurs before the sender's balance is updated. This allows an attacker to re-enter the `transfer` function before the balance deduction is completed, causing multiple withdrawals in a single transaction.",
+            "potentialSecurityRisk": "An attacker could execute a malicious contract that calls this function recursively, withdrawing more funds than intended by exploiting the improper order of operations, draining the contract's resources.",
+            "fixedCode": "require(balanceOf[msg.sender] >= _value); // Ensure sufficient balance before any transfers\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value); // Deduct the balance first\nbalanceOf[_to] = balanceOf[_to].add(_value); // Update the recipient's balance\nif (isContract(_to)) {\n    // Interacts with the contract only after updating balances\n    require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n}\nTransfer(msg.sender, _to, _value, _data);\nTransfer(msg.sender, _to, _value);\nreturn true; "
+        },
+        {
+            "vulnerableLines": "312-312",
+            "vulnerableCode": [
+                "if(msg.value > 0) Addr1.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The transfer of Ether occurs before updating the contract's state. This allows a reentrancy attack since the external call can cause another execution of `autoDistribute` before the balance is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by sending Ether to the `autoDistribute` function, causing it to recursively call `autoDistribute` before the balance updates, allowing funds to be drained.",
+            "fixedCode": "require(distributeAmount > 0 && balanceOf[Addr1] >= distributeAmount); // Ensure proper conditions before making transfers\nif (msg.value > 0) {  \n    uint256 transferredValue = msg.value; // Save mount to local variable for distribution\n    Addr1.transfer(transferredValue); // Make sure to validate transfer first\n}\nbalanceOf[Addr1] = balanceOf[Addr1].sub(distributeAmount); // Update balance after transfer\nbalanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);\nTransfer(Addr1, msg.sender, distributeAmount);"
+        }
+    ]
+}

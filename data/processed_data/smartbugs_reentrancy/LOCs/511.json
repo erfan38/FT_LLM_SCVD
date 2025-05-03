@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "328-328",
+            "vulnerableCode": [
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "The function calls '_customerAddress.transfer(_dividends)' before updating state variables 'referralBalance_' and 'payoutsTo_'. This allows an attacker to recursively invoke the withdraw function before these variables are modified, potentially enabling them to withdraw more than they're entitled to.",
+            "potentialSecurityRisk": "This order of operations could allow a malicious actor to exploit the vulnerability through a reentrancy attack, repeatedly calling the withdraw function and draining the contract's funds before the state gets updated correctly.",
+            "fixedCode": "payoutsTo_[_customerAddress] += (int256)(_dividends * magnitude); referralBalance_[_customerAddress] = 0; _customerAddress.transfer(_dividends);"
+        },
+        {
+            "vulnerableLines": "261-261",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000) {"
+            ],
+            "vulnerabilityReason": "The external call to 'giveEthFundAddress.call.value(ethToPay)' is made without prior state updates. If a malicious contract is called during this transfer, it could exploit the order of operations to repeatedly drain funds from the contract before the state variable 'totalEthFundReceived' is updated.",
+            "potentialSecurityRisk": "This could potentially result in unauthorized withdrawals or fund draining by allowing the malicious contract to call back into the payFund function due to the improper handling of state transitions before the external call has been completed.",
+            "fixedCode": "totalEthFundReceived = SafeMath.add(totalEthFundReceived, ethToPay);\n(bool success, ) = giveEthFundAddress.call.value(ethToPay).gas(400000)();\nif (!success) { totalEthFundReceived = SafeMath.sub(totalEthFundReceived, ethToPay); }"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastDrawTime + 1 days, \"Too early for next draw\");"
+            ],
+            "vulnerabilityReason": "The draw function uses block.timestamp to check if 1 day has elapsed since the last draw. This dependency exposes the function to manipulation via block timestamps by miners who can adjust the timestamp of their mined blocks.",
+            "potentialSecurityRisk": "If miners manipulate the block timestamp, they could trigger the draw function more frequently than intended, allowing them to potentially win the lottery multiple times or gain unfair advantages in the lottery.",
+            "fixedCode": "require(block.number > lastDrawTime + (1 days / 15), \"Too early for next draw\"); // Use block.number as an indirect measure of time, assuming an average block time of 15 seconds"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "36-37",
+            "vulnerableCode": [
+                "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The contract updates the user's token balance before performing the external call to send Ether. If the `msg.sender` is a malicious contract, it can call back into the `withdraw` function and exploit the vulnerability before the state changes are applied, allowing repeated withdrawals of funds.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that calls `withdraw` repeatedly during the external call, draining the contract of funds by exploiting the timing of the state update and the weak ordering of operations.",
+            "fixedCode": "require(tokens[0][msg.sender] >= amount, 'Insufficient balance.'); // Check balance first\n\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); // Update state before external call\n(bool success, ) = msg.sender.call.value(amount)(); // Use call and check its success\nrequire(success, 'Transfer failed'); // Ensure transfer succeeded\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        }
+    ]
+}

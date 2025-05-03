@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "405-409",
+            "vulnerableCode": [
+                "Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]);",
+                "require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], Channels[_lcID].erc20Balances[0]),\"CreateChannel: token transfer failure\");"
+            ],
+            "vulnerabilityReason": "The contract makes external calls to transfer Ether and tokens before updating the channel state or deleting the channel. This allows a malicious contract to call back into the function, potentially draining funds before proper updates.",
+            "potentialSecurityRisk": "A malicious actor could craft a contract that exploits the reentrancy vulnerability to withdraw funds multiple times, draining the entire channel balance for impractical gains, leading to significant losses.",
+            "fixedCode": "if (Channels[_lcID].initialDeposit[0] != 0) {\n    uint256 amountToTransfer = Channels[_lcID].ethBalances[0];\n    Channels[_lcID].ethBalances[0] = 0; // Prevent reentrancy\n    Channels[_lcID].partyAddresses[0].transfer(amountToTransfer);\n}\nif (Channels[_lcID].initialDeposit[1] != 0) {\n    uint256 amountToTransferToken = Channels[_lcID].erc20Balances[0];\n    Channels[_lcID].erc20Balances[0] = 0; // Prevent reentrancy\n    require(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0], amountToTransferToken),\"CreateChannel: token transfer failure\");\n} // Fixed: Transfers money after setting balance to zero to avoid reentrancy attacks."
+        }
+    ]
+}

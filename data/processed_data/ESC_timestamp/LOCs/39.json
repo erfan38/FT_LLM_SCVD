@@ -1,0 +1,85 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "189-189",
+            "vulnerableCode": [
+                "return now > deadline(id);"
+            ],
+            "vulnerabilityReason": "The function uses 'now' (which is alias to block.timestamp) to check if a proposal has expired. This dependency on block.timestamp makes it vulnerable to manipulation by miners, who can adjust the timestamp of the mined blocks.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp to make a proposal appear expired when it is not, allowing them to take advantage of the situation, such as confirming actions that should not be allowed or manipulating the outcome of proposals.",
+            "fixedCode": "return block.timestamp > deadline(id); // Use block.timestamp for clarity; consider implementing a grace period or alternative time-checking mechanisms."
+        },
+        {
+            "vulnerableLines": "205-205",
+            "vulnerableCode": [
+                "actions[id].deadline  = now + window;"
+            ],
+            "vulnerabilityReason": "The contract sets a proposal's deadline based on the current block timestamp, allowing miners to influence the expiration time of proposals.",
+            "potentialSecurityRisk": "Miners can adjust 'now' to set the deadline to a time beneficial for them, potentially manipulating the outcomes of proposals or actions associated with those proposals based on their control of the timestamp.",
+            "fixedCode": "actions[id].deadline = block.timestamp + window; // Same as above, use block.timestamp instead."
+        },
+        {
+            "vulnerableLines": "655-655",
+            "vulnerableCode": [
+                "emit Created(msg.sender, now, shareQuantity);"
+            ],
+            "vulnerabilityReason": "The contract emits a 'Created' event using 'now' to capture the timestamp, thus making the timestamp susceptible to miner manipulation.",
+            "potentialSecurityRisk": "A miner can control the timestamp when this event is emitted, affecting the recorded time of creation for share quantities and potentially misleading users about the timing of events.",
+            "fixedCode": "emit Created(msg.sender, block.timestamp, shareQuantity); // Use block.timestamp for clarity."
+        },
+        {
+            "vulnerableLines": "664-664",
+            "vulnerableCode": [
+                "emit Annihilated(msg.sender, now, shareQuantity);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this emits an event using 'now', allowing miners to control the timestamp affecting how share annihilation is recorded.",
+            "potentialSecurityRisk": "Misleading information about when shares were annihilated can be recorded, potentially affecting user trust or actions based on these records.",
+            "fixedCode": "emit Annihilated(msg.sender, block.timestamp, shareQuantity); // Use block.timestamp instead."
+        },
+        {
+            "vulnerableLines": "915-915",
+            "vulnerableCode": [
+                "timestamp: now"
+            ],
+            "vulnerabilityReason": "This line uses 'now' to set a timestamp, relying on block.timestamp which can be influenced by miners.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp stored in this variable to product misleading information related to times of specific events, leading to trust issues or potential exploits.",
+            "fixedCode": "timestamp: block.timestamp // Use block.timestamp instead."
+        },
+        {
+            "vulnerableLines": "1292-1292",
+            "vulnerableCode": [
+                "timestamp: now"
+            ],
+            "vulnerabilityReason": "The usage of 'now' again introduces vulnerability through reliance on an easily manipulated timestamp.",
+            "potentialSecurityRisk": "Similar risks as previous occurrences; this timestamp could be pivotal in contract logic and events, leading to risks of manipulation for benefits in time-sensitive logic.",
+            "fixedCode": "timestamp: block.timestamp // Use block.timestamp."
+        },
+        {
+            "vulnerableLines": "1360-1360",
+            "vulnerableCode": [
+                "emit Redeemed(msg.sender, now, shareQuantity);"
+            ],
+            "vulnerabilityReason": "As mentioned before, using 'now' can lead to miners manipulating the timestamp when this event is logged.",
+            "potentialSecurityRisk": "Manipulation could mislead event handlers, investors, or users relying on accurate timestamping of the redemption events.",
+            "fixedCode": "emit Redeemed(msg.sender, block.timestamp, shareQuantity); // Use block.timestamp instead."
+        },
+        {
+            "vulnerableLines": "2404-2404",
+            "vulnerableCode": [
+                "if (now > add(timestamp, VALIDITY)) {"
+            ],
+            "vulnerabilityReason": "This conditional relies on 'now' to check whether some condition involving timestamps has been exceeded, allowing miner manipulation risks.",
+            "potentialSecurityRisk": "If the timestamp can be altered, the check may pass or fail unnaturally, leading to actions that could be allowed or disallowed based on manipulated time values.",
+            "fixedCode": "if (block.timestamp > add(timestamp, VALIDITY)) { // Use block.timestamp instead."
+        },
+        {
+            "vulnerableLines": "2484-2484",
+            "vulnerableCode": [
+                "return (sub(now, timestamp) <= VALIDITY);"
+            ],
+            "vulnerabilityReason": "Calculating values based on 'now' adds to the timestamps' vulnerability to manipulation.",
+            "potentialSecurityRisk": "A miner could strategically manipulate the timestamp to disallow certain actions or to falsely permit others, thus skewing the intended functionality of the contract.",
+            "fixedCode": "return (sub(block.timestamp, timestamp) <= VALIDITY); // Use block.timestamp instead."
+        }
+    ]
+}

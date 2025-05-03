@@ -1,0 +1,25 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "202-206",
+            "vulnerableCode": [
+                "cap = 0;",
+                "bonusCap = 1000000000000000000000000;",
+                "minInvestmentValue = 0.02 ether;",
+                "ethRaised = 0;"
+            ],
+            "vulnerabilityReason": "State changes for caps and investments are done before any transfer of funds is made in the _forwardFunds() function, allowing for possible state manipulations before the transfer is completed, which can lead to reentrancy attacks.",
+            "potentialSecurityRisk": "A malicious user could exploit the sequence of operations to withdraw funds recursively, as the state is updated after ether is sent, which could result in loss of funds for the contract.",
+            "fixedCode": "// Ensure to check if the following state updates should happen before transferring funds to avoid reentrancy.\n// This would typically involve checking conditions on cap and bonusCap."
+        },
+        {
+            "vulnerableLines": "377-377",
+            "vulnerableCode": [
+                "bool isTransferDone = wallet.call.value(msg.value).gas(gasAmount)();"
+            ],
+            "vulnerabilityReason": "Using call.value() allows the recipient to control the gas used in the fallback function and can lead to reentrancy if the recipient is a contract that calls back into the function before the state updates. It does not revert on failure, potentially allowing manipulation of states.",
+            "potentialSecurityRisk": "An attacker can create a malicious contract to recursively call back into the _forwardFunds() function, exploiting the balance before the transaction is final, leading to undefined behavior and possible fund loss.",
+            "fixedCode": "// Instead of using call.value(), you could use:\n(wallet).transfer(msg.value);\n// The transfer function limits gas forwarded and can help mitigate reentrancy attacks."
+        }
+    ]
+}

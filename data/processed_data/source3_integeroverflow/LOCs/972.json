@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint result = (_total * _percent) / 100;"
+            ],
+            "vulnerabilityReason": "The multiplication operation `_total * _percent` can lead to an integer overflow when both `_total` and `_percent` are sufficiently large. In Solidity, if the result of multiplication exceeds the maximum value of `uint`, it wraps around, resulting in an incorrect value for `result`.",
+            "potentialSecurityRisk": "An overflow could lead to a smaller or unintended result for the percentage calculation, potentially causing significant errors in logic and calculations throughout the contract. This could be exploited by an attacker to manipulate the outputs of this function, leading to financial miscalculations or incorrect distributions.",
+            "fixedCode": "uint result = (_total * _percent) / 100;\nrequire((_total == 0 || _percent == 0 || _total * _percent / _total == _percent), \"Overflow detected\"); // Overflow protection"
+        }
+    ]
+}

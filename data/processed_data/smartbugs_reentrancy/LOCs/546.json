@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "62-63",
+            "vulnerableCode": [
+                "if (!main.NoxonInit.value(12)()) throw;",
+                "if (!main.call.value(24)()) revert();"
+            ],
+            "vulnerabilityReason": "The contract makes an external call to `main.NoxonInit` and potentially another external call via `main.call` before checking or updating any state variables related to these transactions. This order is vulnerable to a reentrancy attack, allowing an attacker to manipulate the contract's state before it is updated.",
+            "potentialSecurityRisk": "An attacker could invoke a malicious contract that calls back into `init()` before the pending state updates are completed, resulting in double-spending or incorrect balance states.",
+            "fixedCode": "// Update state before making external calls\nuint initialBalance = main.balanceOf(address(this));\nif (!main.NoxonInit.value(12)()) throw;\nif (!main.call.value(24)()) revert();\n// Assert that balance is correct after state update\nassert(main.balanceOf(address(this)) == initialBalance + 2);"
+        },
+        {
+            "vulnerableLines": "67-67",
+            "vulnerableCode": [
+                "if (main.call.value(23)()) revert();"
+            ],
+            "vulnerabilityReason": "This line makes another external call to `main.call` without verifying the contract's balance or updating state before this transaction. This could lead to a reentrancy attack as the state may not reflect reality if called by a reentrant contract.",
+            "potentialSecurityRisk": "An attacker could exploit this call to reenter the contract and withdraw funds multiple times, draining the contract's assets before the first call’s effects are realized in the state changes.",
+            "fixedCode": "// Ensuring state is updated before any further external calls\nuint currentBalance = main.balanceOf(address(this));\nif (main.call.value(23)()) revert();\n// State checks afterwards as needed."
+        },
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!main.call.value(26)()) revert();"
+            ],
+            "vulnerabilityReason": "Like previous lines, this call occurs before any state updates can be verified, allowing reentrancy if an attacker controls the `main` contract.",
+            "potentialSecurityRisk": "An attacker could exploit this by calling this function in a manner that they can modify state before expected updates, leading to unauthorized fund access or other unintended behaviors.",
+            "fixedCode": "// Update balances/state before making the external call\nuint previousBalance = main.balanceOf(address(this));\nif (!main.call.value(26)()) revert();\nassert(main.balanceOf(address(this)) == previousBalance + 1);"
+        },
+        {
+            "vulnerableLines": "81-81",
+            "vulnerableCode": [
+                "if (!main.call.value(40)()) revert();"
+            ],
+            "vulnerabilityReason": "This function similarly performs an external call without safeguarding against reentrancy or ensuring a valid state before the call.",
+            "potentialSecurityRisk": "It opens the possibility for an attacker to drain the contract by making repeated calls before the state can be updated appropriately, overriding the intended transactional logic.",
+            "fixedCode": "// Check and update state before making the external call\nuint balanceBefore = main.balanceOf(address(this));\nif (!main.call.value(40)()) revert();\nassert(main.balanceOf(address(this)) >= balanceBefore);"
+        }
+    ]
+}

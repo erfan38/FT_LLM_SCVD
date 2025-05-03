@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "141-144",
+            "vulnerableCode": [
+                "            p.executed = true;",
+                "            if (!p.recipient.call.value(p.amount * 1 ether)(transactionBytecode)) {",
+                "                throw;"
+            ],
+            "vulnerabilityReason": "The `executeProposal` function marks the proposal as executed after the external call to `p.recipient.call.value(...)`, which poses a reentrancy risk. An attacker could call this function again during the execution before the state is updated, allowing multiple withdrawals before the proposal is officially marked as executed.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to repeatedly call the execute proposal function, withdrawing more funds than intended and potentially draining the contract's balance.",
+            "fixedCode": "            if (!p.recipient.call.value(p.amount * 1 ether)(transactionBytecode)) { // Attempt to send funds first\n                throw;  \n            }\n            p.executed = true; // Mark as executed only after the successful transfer."
+        }
+    ]
+}

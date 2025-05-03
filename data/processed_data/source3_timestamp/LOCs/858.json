@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "46-46",
+            "vulnerableCode": [
+                "require(gameTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This check ensures that gameTime is set after the current block timestamp. However, miners can manipulate block.timestamp, potentially allowing them to exploit the condition for premature transactions or favorable outcomes.",
+            "potentialSecurityRisk": "Miners could influence the timing of game mechanics, allowing them to trigger actions that assume gameTime is valid, thereby gaining an unfair advantage.",
+            "fixedCode": "require(gameTime > block.timestamp + TIME_TOLERANCE); // where TIME_TOLERANCE is a small buffer like 15 seconds."
+        },
+        {
+            "vulnerableLines": "63-63",
+            "vulnerableCode": [
+                "require(gameTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this condition in the fallback function also relies on the block timestamp and can be manipulated by miners.",
+            "potentialSecurityRisk": "Manipulation of block.timestamp could let a miner exploit the functionality by bypassing the intended conditions of the game, resulting in unintended financial gains.",
+            "fixedCode": "require(gameTime > block.timestamp + TIME_TOLERANCE); // where TIME_TOLERANCE is a defined buffer."
+        },
+        {
+            "vulnerableLines": "81-81",
+            "vulnerableCode": [
+                "require(block.timestamp >= finishTime);"
+            ],
+            "vulnerabilityReason": "Using block.timestamp in the finish function could allow miners to manipulate the finish conditions, potentially leading to erroneous triggers of finishing game states.",
+            "potentialSecurityRisk": "An attacker could trigger the finish function prematurely or retain access to funds beyond the intended timeframe, thereby undermining the intended game rules.",
+            "fixedCode": "require(block.timestamp >= finishTime + TIME_TOLERANCE); // using a buffer to safeguard against timestamp manipulation."
+        }
+    ]
+}

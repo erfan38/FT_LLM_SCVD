@@ -1,0 +1,50 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "62-64",
+            "vulnerableCode": [
+                "if (lSave > 0 && lSave < block.timestamp) {",
+                "return SafeMath.mul(getJadeProduction(player),SafeMath.div(SafeMath.sub(block.timestamp,lSave),10));"
+            ],
+            "vulnerabilityReason": "The balanceOfUnclaimed function relies directly on block.timestamp to calculate the unclaimed rewards since the last save time. This dependency can be manipulated by miners to fraudulently benefit from enhanced rewards by manipulating the block timestamp.",
+            "potentialSecurityRisk": "Miner manipulation of the timestamp can lead to incorrect calculations of unclaimed rewards, potentially resulting in higher rewards for some players or lowering the rewards of others, thus undermining the fairness of the contract.",
+            "fixedCode": "if (lSave > 0 && lSave < (block.timestamp + TIME_TOLERANCE)) { \nreturn SafeMath.mul(getJadeProduction(player),SafeMath.div(SafeMath.sub(block.timestamp,lSave),10)); // include a buffer with TIME_TOLERANCE."
+        },
+        {
+            "vulnerableLines": "106-106",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Updating lastJadeSaveTime directly with block.timestamp allows for miner manipulation, possibly allowing for undeserved rewards if the timestamp is tampered with.",
+            "potentialSecurityRisk": "This can lead to players receiving higher token rewards due to manipulated timestamps, especially when actions depend on last save times.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // include a buffer for time sensitivity."
+        },
+        {
+            "vulnerableLines": "114-114",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "This line sets the lastJadeSaveTime using block.timestamp, which is manipulatable by miners, adding a risk of unfair distribution of jade rewards.",
+            "potentialSecurityRisk": "Manipulated timestamps can unfairly impact reward calculations and 'last save' logic, leading to potential exploitation.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // include a buffer for time sensitivity."
+        },
+        {
+            "vulnerableLines": "166-166",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Again, the setting of lastJadeSaveTime with block.timestamp introduces consistent risks of manipulation by miners, affecting earnings calculations.",
+            "potentialSecurityRisk": "This vulnerability could allow players to exploit timing discrepancies to increase their token balance unduly.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // include a buffer for time sensitivity."
+        },
+        {
+            "vulnerableLines": "288-288",
+            "vulnerableCode": [
+                "nextSnapshotTime = block.timestamp + 24 hours;"
+            ],
+            "vulnerabilityReason": "Setting nextSnapshotTime based on block.timestamp allows for potential manipulation by miners, possibly changing the intended snapshot timing.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to reset or affect funding mechanics to their advantage, thereby affecting the expected funding allocations unreasonably.",
+            "fixedCode": "nextSnapshotTime = block.timestamp + 24 hours + TIME_TOLERANCE; // use a more precise calculation with a temporal buffer."
+        }
+    ]
+}

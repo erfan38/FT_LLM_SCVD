@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 power = block.timestamp - membershipStart;"
+            ],
+            "vulnerabilityReason": "The calculation of `power` involves subtracting `membershipStart` from `block.timestamp`. If `membershipStart` is greater than `block.timestamp`, this results in an underflow, yielding a very large number instead of a valid voting power, potentially allowing an attacker to gain excessive voting rights.",
+            "potentialSecurityRisk": "An attacker could manipulate the `membershipStart` value to a future timestamp, leading to an unintentionally high voting power. This undermines the integrity of the voting system, allowing for potential exploitation or manipulation of voting outcomes.",
+            "fixedCode": "require(membershipStart <= block.timestamp, \"Invalid membership start time.\");\nuint256 power = block.timestamp - membershipStart;"
+        }
+    ]
+}

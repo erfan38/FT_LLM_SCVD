@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "334-344",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {",
+                "return true;",
+                "}"
+            ],
+            "vulnerabilityReason": "The function uses call.value() to send Ether without first updating the player’s pending withdrawals to zero. An attacker could take advantage of this by executing a reentrant call when the Ether is being sent, allowing them to withdraw multiple times before the balance update occurs.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by deploying a malicious contract that calls back into this contract while the first call is still executing, effectively allowing the attacker to drain the contract's funds.",
+            "fixedCode": "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance\"); // Ensure the contract has enough Ether before proceeding\nplayerPendingWithdrawals[msg.sender] = 0; // Update the state before making the call\n(bool success, ) = msg.sender.call.value(withdrawAmount)(); // Now send Ether\nrequire(success, \"Transfer failed\"); // Check if the transfer succeeded"
+        },
+        {
+            "vulnerableLines": "433-440",
+            "vulnerableCode": [
+                "if(!sendTo.send(amount)) throw;",
+                "LogOwnerTransfer(sendTo, amount);"
+            ],
+            "vulnerabilityReason": "The contract uses send() for transferring Ether without ensuring the internal state is updated beforehand. The order of operations allows reentrancy, making it possible for an attacker to trigger the same function again before the transfer is processed.",
+            "potentialSecurityRisk": "An attacker could recursively call this function through a fallback function in their contract before the transfer completes, leading to multiple withdrawals before the contract state reflects the deduction.",
+            "fixedCode": "require(amount <= address(this).balance, \"Insufficient contract balance\"); // Check contract balance\ncontractBalance = safeSub(contractBalance, amount); // Update state before making external call\n(bool success, ) = sendTo.call.value(amount)(); // Secure fund transfer\nrequire(success, \"Transfer failed\"); // Ensure successful transfer"
+        },
+        {
+            "vulnerableLines": "457-457",
+            "vulnerableCode": [
+                "if(!sendTo.send(originalPlayerBetValue)) throw;"
+            ],
+            "vulnerabilityReason": "This uses send() to transfer funds without updating the balance beforehand. The order of operations creates a window for reentrancy, allowing an attacker to withdraw before the state is updated, leading to repeated withdrawals.",
+            "potentialSecurityRisk": "A malicious contract can exploit this by invoking the send method recursively, draining the funds from the contract before the contract can update its state to reflect the transfer.",
+            "fixedCode": "require(originalPlayerBetValue <= address(this).balance, \"Insufficient contract balance\"); // Check if contract has enough balance\nbool success = sendTo.call.value(originalPlayerBetValue)(); // Attempt to send funds\nrequire(success, \"Transfer failed\"); // Handle transfer failure accordingly"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint256 randomNumber = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender)));"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the generation of a random number could allow miners to influence the outcome due to their ability to manipulate the timestamp when mining blocks.",
+            "potentialSecurityRisk": "Miners could strategically alter the block timestamp to increase their chance of winning a prize, leading to unfair advantages and undermining the integrity of the prize distribution.",
+            "fixedCode": "uint256 randomNumber = uint256(keccak256(abi.encodePacked(block.number, msg.sender))); // Using block.number instead for randomness."
+        }
+    ]
+}

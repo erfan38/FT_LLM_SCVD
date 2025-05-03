@@ -1,0 +1,43 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "441-445",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);",
+                "    emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, _now);"
+            ],
+            "vulnerabilityReason": "The external call to transfer ether occurs before updating the player's earnings stored in the contract, making it susceptible to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by calling the withdraw function recursively before the state is updated to zero out their pending withdrawals, allowing them to drain funds from the contract on each call.",
+            "fixedCode": "if (_eth > 0) {\n    plyr_[_pID].gen = 0; // Reset the player's earnings first\n    plyr_[_pID].addr.transfer(_eth);\n    emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _eth, now);\n}"
+        },
+        {
+            "vulnerableLines": "476-479",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "Using call.value to transfer funds to the admin address without updating the state first can lead to reentrancy. An attacker could craft a malicious fallback function to exploit this transfer.",
+            "potentialSecurityRisk": "An attacker could create a contract that receives ether and calls back into the contract's function before the state has been updated, potentially draining funds through repeated calls.",
+            "fixedCode": "if (_com > 0) {\n    (bool success, ) = address(admin).call.value(_com)();\n    require(success, \"Transfer failed\"); // Ensure that the external call succeeded\n}"
+        },
+        {
+            "vulnerableLines": "1251-1251",
+            "vulnerableCode": [
+                "(bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXnameFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);"
+            ],
+            "vulnerabilityReason": "This external call to another contract is made with msg.value, which is a mutable state. Since it occurs with user-provided data, it may be vulnerable to unwanted state changes during execution.",
+            "potentialSecurityRisk": "An attacker could send a malicious transaction to change unexpected states in the contract by manipulating the registered name or affiliation, potentially leading to unintended withdrawals or governance changes.",
+            "fixedCode": "(bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXnameFromDapp(msg.sender, _name, _affCode, _all); // Ensure that no ether is sent in the call."
+        },
+        {
+            "vulnerableLines": "541-541",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Directly using transfer for ether distribution without updating the state beforehand opens up the opportunity for reentrancy, where an attacker could recursively call the withdraw function.",
+            "potentialSecurityRisk": "An attacker could exploit the ability to withdraw continuously without the state being updated, potentially draining the contract of all its funds.",
+            "fixedCode": "if (_eth > 0) {\n    plyr_[_pID].gen = 0; // Reset the earnings before transfer\n    plyr_[_pID].addr.transfer(_eth);\n}"
+        }
+    ]
+}

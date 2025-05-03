@@ -1,0 +1,95 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "361-361",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "In this function, 'now' (or block.timestamp) is used to store the current timestamp, which can be manipulated by miners. This makes the contract logic dependent on adjustable timestamp values, leading to potential vulnerabilities.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to alter the execution flow of the contract, causing unexpected results especially in timing-based conditions.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "482-482",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The repetition of 'now' facilitates miner manipulation in scenarios where timing accuracy is essential for game mechanics, enhancing risks of exploitation.",
+            "potentialSecurityRisk": "Manipulated timestamps might allow an adversary to gain advantages in timing-related conditions, adversely affecting the contract's operations and fairness.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "522-522",
+            "vulnerableCode": [
+                "if (now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+            ],
+            "vulnerabilityReason": "Conditional logic based on 'now' creates a dependency that can be easily exploited through timestamp manipulation, allowing miners to falsely trigger round states.",
+            "potentialSecurityRisk": "Miners can affect the flow of rounds, potentially enabling them to gain unfair advantages or exploit winnings through adjusted conditions.",
+            "fixedCode": "if (block.timestamp > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+        },
+        {
+            "vulnerableLines": "631-631",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Reliance on 'now' for holding the current timestamp continues to set precedents for timestamp manipulation risks throughout the contract.",
+            "potentialSecurityRisk": "Inconsistent use of timestamp-based decision-making can generate loopholes for adversaries aiming to exploit the timing mechanisms of the game.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "681-681",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The function's logic, which relies on the current timestamp from 'now', risks manipulation, impacting function integrity significantly.",
+            "potentialSecurityRisk": "By manipulating 'now', miners can affect outcomes, expanding their potential for unfair advantages and undermining the fairness of the game.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "738-738",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Using 'now' in this manner opens avenues for miner exploitation, as block.timestamp can be adjusted slightly by miners.",
+            "potentialSecurityRisk": "Miners may tweak timestamps to gain undue advantages relative to functions sensitive to time, creating imbalances in the game mechanics.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "1031-1031",
+            "vulnerableCode": [
+                "round_[_rID].strt = now;"
+            ],
+            "vulnerabilityReason": "Setting the round start time based on 'now' relies on a variable that is vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "If miners manipulate 'now', it could set an inaccurate round start time, granting them an unfair advantage or disrupting planned timing mechanisms.",
+            "fixedCode": "round_[_rID].strt = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "1032-1032",
+            "vulnerableCode": [
+                "round_[_rID].end = now.add(rndInit_).add(rndGap_);"
+            ],
+            "vulnerabilityReason": "Using 'now' to define round parameters introduces risks of manipulation, with miners able to shift the timing to their benefit.",
+            "potentialSecurityRisk": "Altered timestamps here could misalign timing expectations and create unfair conditions for other players and actions within the round.",
+            "fixedCode": "round_[_rID].end = block.timestamp.add(rndInit_).add(rndGap_);"
+        },
+        {
+            "vulnerableLines": "1280-1281",
+            "vulnerableCode": [
+                "round_[1].strt = now + rndExtra_ - rndGap_;",
+                "round_[1].end = now + rndInit_ + rndExtra_;"
+            ],
+            "vulnerabilityReason": "These assignments directly depend on 'now', making the start and end of round timings susceptible to manipulation.",
+            "potentialSecurityRisk": "Manipulated timestamps could lead to uneven gameplay opportunities, allowing certain miners to exploit gaps in the mechanics.",
+            "fixedCode": "round_[1].strt = block.timestamp + rndExtra_ - rndGap_; \nround_[1].end = block.timestamp + rndInit_ + rndExtra_;"
+        },
+        {
+            "vulnerableLines": "1126-1126",
+            "vulnerableCode": [
+                "emit F3Devents.onAffiliatePayout(_affID, plyr_[_affID].addr, plyr_[_affID].name, _rID, _pID, _aff, now);"
+            ],
+            "vulnerabilityReason": "Including 'now' in event emissions allows for potential exploitation of timing-related logic, impacting perceived actions and precise payouts.",
+            "potentialSecurityRisk": "Attackers could manipulate timing conditions associated with affiliate payouts to benefit from that manipulation, undermining the contract's integrity.",
+            "fixedCode": "emit F3Devents.onAffiliatePayout(_affID, plyr_[_affID].addr, plyr_[_affID].name, _rID, _pID, _aff, block.timestamp);"
+        }
+    ]
+}

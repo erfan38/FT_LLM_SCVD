@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "22-22",
+            "vulnerableCode": [
+                "        withdrawReward(recipient);"
+            ],
+            "vulnerabilityReason": "The function `withdrawReward(recipient);` is called before updating the state variable `claimedBonus[recipient]`. This allows a malicious contract at `recipient` to call back into `getFirstWithdrawalBonus` before `claimedBonus[recipient]` is set to true. This can lead to multiple withdrawals before the state is updated, allowing for potential exploitation of the reward mechanism.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by deploying a malicious contract that calls `getFirstWithdrawalBonus` multiple times, effectively draining the rewards available to them by repeatedly executing `withdrawReward` before their `claimedBonus` flag is set to true.",
+            "fixedCode": "function getFirstWithdrawalBonus(address recipient) public { \n    require(!claimedBonus[recipient]); \n    rewardsForA[recipient] += 100;\n    claimedBonus[recipient] = true; // Update state before external call\n    withdrawReward(recipient); // Now safe to call after updating state\n}"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "267-270",
+            "vulnerableCode": [
+                "uint amountToTransfer = whitelist[addr].balance;",
+                "whitelist[addr].balance = 0;",
+                "addr.transfer(amountToTransfer);",
+                "ContributorBalanceChanged(addr, 0);"
+            ],
+            "vulnerabilityReason": "The use of `addr.transfer(amountToTransfer)` allows for potential reentrancy because it sends Ether before the state variable `whitelist[addr].balance` is updated to 0. This means an attacker could trigger a reentrant call before the state change effectively blocks further withdrawals.",
+            "potentialSecurityRisk": "If the `addr` address is a smart contract, it could call back into the `PresalePool` contract before the withdrawal process is complete, potentially withdrawing more than intended by exploiting the balance check being done after the transfer.",
+            "fixedCode": "uint amountToTransfer = whitelist[addr].balance;\n// Reset balance first to avoid reentrancy\nwhitelist[addr].balance = 0;\n// Ensure that the next operation uses the updated state\nrequire(addr.send(amountToTransfer), 'Transfer failed');\nContributorBalanceChanged(addr, 0);"
+        },
+        {
+            "vulnerableLines": "403-409",
+            "vulnerableCode": [
+                "function submitPool (uint amountInWei) public onlyOwner noReentrancy {",
+                "require (contractStage < 3);",
+                "require (contributionMin <= amountInWei && amountInWei <= this.balance);",
+                "finalBalance = this.balance;",
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());",
+                "ethRefundAmount.push(this.balance);",
+                "contractStage = 3;"
+            ],
+            "vulnerabilityReason": "The function calls `receiverAddress.call.value(amountInWei)` before updating the `contractStage`. If the `receiverAddress` is a contract that is malicious, it can call back into the `PresalePool` contract before the state update, exploiting the allowance to withdraw funds again.",
+            "potentialSecurityRisk": "An attacker could re-enter the `submitPool` function due to the external call happening before the state change, allowing them to drain more Ether than they should be allowed to withdraw.",
+            "fixedCode": "require (contractStage < 3);\nrequire (contributionMin <= amountInWei && amountInWei <= this.balance);\nfinalBalance = this.balance;\n// Perform checks before external call and update state outside of the call\nuint previousStage = contractStage;\ncontractStage = 3;\nrequire (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))(), 'Transfer failed');\nethRefundAmount.push(this.balance);\ncontractStage = previousStage;"
+        }
+    ]
+}

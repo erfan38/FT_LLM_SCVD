@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1031-1031",
+            "vulnerableCode": [
+                "admin.transfer(_com.add(_p3d / 2));"
+            ],
+            "vulnerabilityReason": "The function uses `admin.transfer(...)`, which invokes an external call to transfer Ether. This call does not ensure that the contract’s state is updated before making the external transfer. As a result, an external address could make a recursive call back into this function, potentially allowing it to exploit the system by withdrawing more Ether than intended before the state can update.",
+            "potentialSecurityRisk": "An attacker controlling the `admin` address could exploit this vulnerability to perform a reentrancy attack, draining more funds than they should, effectively removing Ether from the contract without holding the necessary balance, leading to a total loss of funds for the contract.",
+            "fixedCode": "uint256 _amountToTransfer = _com.add(_p3d / 2); // Calculate the total amount to transfer first\nadmin.transfer(_amountToTransfer); // Perform the transfer only after ensuring the total amount is valid."
+        },
+        {
+            "vulnerableLines": "444-444",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "In the `withdraw` function, calling `plyr_[_pID].addr.transfer(_eth)` sends Ether after updating the state of the player's balance. This order exposes the contract to reentrancy attacks. If an attacker controls the address being transferred to, they could execute what is known as a 'recursive call', effectively allowing them to withdraw multiple times before the contract can update the state correctly.",
+            "potentialSecurityRisk": "An attacker could exploit this functionality, repeatedly calling back into the contract to withdraw funds without the contract's balance being correctly updated. This can lead to a significant financial loss for the contract and its participants.",
+            "fixedCode": "uint256 _ethToWithdraw = withdrawEarnings(_pID); // This retrieves earnings safely\nif (_ethToWithdraw > 0) { \n    plyr_[_pID].addr.transfer(_ethToWithdraw); // Withdraw funds only after ensuring all state updates are complete.\n}"
+        }
+    ]
+}

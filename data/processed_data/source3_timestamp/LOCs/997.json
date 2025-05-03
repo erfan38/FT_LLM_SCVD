@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "return block.timestamp < endTime;"
+            ],
+            "vulnerabilityReason": "The isOpen function uses block.timestamp to determine whether the auction is still open. This enables a vulnerability as miners can manipulate the block timestamp, leading to potential miscalculations of when the auction ends.",
+            "potentialSecurityRisk": "If a miner sets the timestamp in a block to an earlier time, it could cause the auction to end prematurely. Conversely, if set to a later time, it could allow bids after the intended end time, disrupting the auction's integrity.",
+            "fixedCode": "return block.timestamp + TIME_TOLERANCE < endTime; // use a buffer like TIME_TOLERANCE to add robustness against miner manipulation."
+        }
+    ]
+}

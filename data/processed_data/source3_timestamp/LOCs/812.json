@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "214-215",
+            "vulnerableCode": [
+                "uint commitEndDate = block.timestamp.add(_commitDuration);",
+                "uint revealEndDate = commitEndDate.add(_revealDuration);"
+            ],
+            "vulnerabilityReason": "The calculation of commitEndDate and revealEndDate is based on block.timestamp, allowing miners to manipulate the timing of these events.",
+            "potentialSecurityRisk": "Miners can adjust block timestamps to manipulate commit and reveal periods, potentially allowing them to influence the outcomes of the poll by creating opportunities to gain unfavorable pricing for votes.",
+            "fixedCode": "uint commitEndDate = block.timestamp.add(_commitDuration).add(TIME_TOLERANCE); // Define a buffer to reduce manipulation risk\nuint revealEndDate = commitEndDate.add(_revealDuration);"
+        },
+        {
+            "vulnerableLines": "262-262",
+            "vulnerableCode": [
+                "return !isExpired(pollMap[_pollID].commitEndDate);"
+            ],
+            "vulnerabilityReason": "The commit period's active state check relies on a timing comparison against block.timestamp, making it subject to potential manipulation.",
+            "potentialSecurityRisk": "If miners modify the timestamp, they could extend or shorten the active commit period, affecting voter participation and influencing the polling process.",
+            "fixedCode": "return !isExpired(pollMap[_pollID].commitEndDate.add(TIME_TOLERANCE)); // Using a buffer to safeguard against timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "269-269",
+            "vulnerableCode": [
+                "return !isExpired(pollMap[_pollID].revealEndDate) && !commitPeriodActive(_pollID);"
+            ],
+            "vulnerabilityReason": "The reveal period also uses block.timestamp to check if it's still active, making it vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "Manipulated timestamps could allow miners to influence the reveal timing, potentially allowing them to predict results or change their votes without detection.",
+            "fixedCode": "return !isExpired(pollMap[_pollID].revealEndDate.add(TIME_TOLERANCE)) && !commitPeriodActive(_pollID); // Adding TIME_TOLERANCE to protect the reveal period"
+        },
+        {
+            "vulnerableLines": "348-348",
+            "vulnerableCode": [
+                "return (block.timestamp > _terminationDate);"
+            ],
+            "vulnerabilityReason": "The expiration check directly relies on block.timestamp, which could be manipulated to falsely indicate whether the termination date has passed or not.",
+            "potentialSecurityRisk": "Misuse of timestamp manipulation can lead to unauthorized access to poll functions or results, giving an unfair advantage.",
+            "fixedCode": "return (block.timestamp.add(TIME_TOLERANCE) > _terminationDate); // Adding a tolerance buffer to the expiration check."
+        }
+    ]
+}

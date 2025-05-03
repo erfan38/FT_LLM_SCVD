@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "199-201",
+            "vulnerableCode": [
+                "if(!winner.send(games[gameId].CurrentTotal)){",
+                "games[currentGameId].CurrentTotal = games[currentGameId].CurrentTotal.add(gameAmt);"
+            ],
+            "vulnerabilityReason": "Using the send method to transfer ether before updating the state allows an attacker to recursively call this function before the current game total is updated, leading to multiple withdrawals of funds.",
+            "potentialSecurityRisk": "An attacker could exploit this by re-entering the function via a fallback function, withdrawing more than intended and potentially draining the contract's funds.",
+            "fixedCode": "if (games[gameId].CurrentTotal <= address(this).balance){Winner memory winnerDetails = Winner(winner, games[gameId].CurrentTotal, now, games[gameId].BarId, gameId); winners.push(winnerDetails); games[currentGameId].CurrentTotal = games[currentGameId].CurrentTotal.add(gameAmt); (bool success, ) = winner.call{value: games[gameId].CurrentTotal}(''); require(success, \"Transfer failed\"); } else { playerPendingWithdrawals[winner] = playerPendingWithdrawals[winner].add(games[gameId].CurrentTotal);} "
+        },
+        {
+            "vulnerableLines": "230-232",
+            "vulnerableCode": [
+                "if(!_playerAddr.send(_gamePlayerBalance)){",
+                "playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case, the use of the send method before updating the player’s pending withdrawals allows for reentrancy, where an attacker could exploit this to withdraw funds multiple times.",
+            "potentialSecurityRisk": "An attacker could cause the function to be invoked repeatedly before the pending balance is updated, leading to potential loss of funds.",
+            "fixedCode": "require(_gamePlayerBalance <= address(this).balance,\"Insufficient contract balance\"); if(!_playerAddr.send(_gamePlayerBalance)){ playerPendingWithdrawals[_playerAddr] = playerPendingWithdrawals[_playerAddr].add(_gamePlayerBalance); } else { games[_gameId].PlayerBidMap[_playerAddr] = 0; } "
+        },
+        {
+            "vulnerableLines": "310-312",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {",
+                "return true;"
+            ],
+            "vulnerabilityReason": "This line uses call.value() to send ether before updating the sender's pending withdrawals, allowing for reentrant calls that could manipulate state before it is updated properly.",
+            "potentialSecurityRisk": "An attacker could leverage this reentrancy flaw to withdraw more funds than intended, potentially resulting in the depletion of the contract's balance.",
+            "fixedCode": "require(withdrawAmount <= address(this).balance,\"Insufficient contract balance\"); playerPendingWithdrawals[msg.sender] = 0; (bool success, ) = msg.sender.call{value: withdrawAmount}(''); require(success, \"Transfer failed\"); return true;"
+        }
+    ]
+}

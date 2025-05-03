@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "161-163",
+            "vulnerableCode": [
+                "        balances[_from] = safeSub(balanceOf(_from), _value);",
+                "        allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);",
+                "        balances[_to] = safeAdd(balanceOf(_to), _value);"
+            ],
+            "vulnerabilityReason": "The function updates the balance and allowance before checking if the external call is successful, creating a risk for reentrancy if `_to` is a contract that calls back into `transferFrom` before the state updates have completed.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability to repeatedly withdraw funds from allowance before it is deducted, leading to potential fund theft or allowance manipulation.",
+            "fixedCode": "        require(balanceOf(_from) >= _value, \"Insufficient balance.\");\n        require(allowed[_from][msg.sender] >= _value, \"Allowance exceeded.\");\n        balances[_from] = safeSub(balances[_from], _value);\n        allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);\n        balances[_to] = safeAdd(balances[_to], _value);\n        Transfer(_from, _to, _value);\n        return true;"
+        }
+    ]
+}

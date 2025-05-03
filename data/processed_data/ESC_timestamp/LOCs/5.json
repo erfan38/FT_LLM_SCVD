@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "124-124",
+            "vulnerableCode": [
+                "require(block.timestamp > lockStartTime);"
+            ],
+            "vulnerabilityReason": "The requirement to check if block.timestamp is greater than lockStartTime can be manipulated by miners, as they can adjust the timestamp of mined blocks.",
+            "potentialSecurityRisk": "A miner could intentionally manipulate the timestamp to unlock the token allocation earlier than intended, allowing unauthorized access to allocated tokens, which compromises the distribution plan and creates potential for exploitation.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE > lockStartTime, 'Tokens are still locked.'); // Adding a tolerance to reduce precision issues."
+        },
+        {
+            "vulnerableLines": "153-153",
+            "vulnerableCode": [
+                "uint256 stage = (block.timestamp.sub(lockStartTime)).div(vestingMonths);"
+            ],
+            "vulnerabilityReason": "The calculation of the vesting stage relies directly on block.timestamp. Miners can manipulate this value to alter the number of tokens released to the user.",
+            "potentialSecurityRisk": "If miners manipulate the block timestamp, they could cause an inaccurate calculation of the vested amount, leading to either accelerated unlocking of tokens or delayed access for token holders. This can lead to unfair distribution of tokens and possibly significant financial losses for stakeholders.",
+            "fixedCode": "uint256 currentTime = block.timestamp + TIME_TOLERANCE; uint256 stage = (currentTime.sub(lockStartTime)).div(vestingMonths); // Using currentTime ensures miners cannot manipulate the calculation easily."
+        }
+    ]
+}

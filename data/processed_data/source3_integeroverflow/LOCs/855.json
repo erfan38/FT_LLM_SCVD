@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "count -= amount;"
+            ],
+            "vulnerabilityReason": "The decrement function subtracts 'amount' from 'count' without verifying if 'count' is greater than or equal to 'amount'. If 'amount' exceeds 'count', this will result in an underflow, causing 'count' to wrap around to a large number, potentially leading to unexpected behavior and security issues.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by providing an 'amount' greater than the current 'count', resulting in an underflow condition. This could allow the attacker to bypass any logic that depends on 'count' being non-negative, leading to unintended consequences such as unauthorized access or other erroneous contract behavior.",
+            "fixedCode": "require(count >= amount, \"Insufficient count to decrement\");\ncount -= amount;"
+        }
+    ]
+}

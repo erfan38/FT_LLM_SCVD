@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "17-17",
+            "vulnerableCode": [
+                "require(msg.value == numTokens * PRICE_PER_TOKEN);"
+            ],
+            "vulnerabilityReason": "The multiplication `numTokens * PRICE_PER_TOKEN` can overflow if `numTokens` is too large, which will make the require condition always evaluate to true, allowing the attacker to buy tokens for free.",
+            "potentialSecurityRisk": "An attacker could exploit this to purchase an arbitrary number of tokens without sending the correct ether, possibly leading the contract to a state where it cannot sustain its operations.",
+            "fixedCode": "require(numTokens > 0, \"Invalid number of tokens\"); uint256 totalCost = numTokens * PRICE_PER_TOKEN; require(msg.value == totalCost, \"Incorrect Ether sent\"); // Ensure correct payment"
+        },
+        {
+            "vulnerableLines": "19-19",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] += numTokens;"
+            ],
+            "vulnerabilityReason": "If `numTokens` is too large, the addition may overflow, allowing the attacker to gain an unintended large balance in their favor.",
+            "potentialSecurityRisk": "An attacker could exploit the overflow to manipulate the token balance, resulting in unwarranted access and control over tokens, leading to financial exploitation.",
+            "fixedCode": "require(balanceOf[msg.sender] + numTokens >= balanceOf[msg.sender], \"Addition overflow detected\"); balanceOf[msg.sender] += numTokens; // Safe addition"
+        },
+        {
+            "vulnerableLines": "27-27",
+            "vulnerableCode": [
+                "msg.sender.transfer(numTokens * PRICE_PER_TOKEN);"
+            ],
+            "vulnerabilityReason": "The multiplication operation `numTokens * PRICE_PER_TOKEN` can overflow, leading to less ether being transferred than intended.",
+            "potentialSecurityRisk": "An overflow can lead to incorrect amounts being sent to the user, potentially causing financial losses and also making the contract logic vulnerable to exploitation by crafty attackers.",
+            "fixedCode": "require(numTokens > 0, \"Invalid number of tokens\"); uint256 payout = numTokens * PRICE_PER_TOKEN; require(payout / numTokens == PRICE_PER_TOKEN, \"Multiplication overflow\"); (bool success, ) = msg.sender.call.value(payout)(); require(success, \"Transfer failed\"); // Ensure successful transfer"
+        }
+    ]
+}

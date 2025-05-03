@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "63-63",
+            "vulnerableCode": [
+                "require(block.timestamp > lockStartTime);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the allocateToken function creates a dependency on the current block time, which can be manipulated by miners. This makes it possible for miners to slightly manipulate the time to exploit the allocation process.",
+            "potentialSecurityRisk": "If miners manipulate the block timestamp to meet the requirement, this could lead to unauthorized token allocations or allow malicious actors to execute allocations before the intended lock period has expired.",
+            "fixedCode": "require(block.timestamp > lockStartTime + TIME_TOLERANCE); // Implement a small buffer to reduce timestamp dependence."
+        },
+        {
+            "vulnerableLines": "97-97",
+            "vulnerableCode": [
+                "uint256 stage = (block.timestamp.sub(lockStartTime)).div(vestingMonths);"
+            ],
+            "vulnerabilityReason": "The vestStage function's reliance on block.timestamp creates a vulnerability whereby miners could manipulate the timestamp, directly impacting the calculated vesting stage.",
+            "potentialSecurityRisk": "Miner manipulation of the block timestamp could allow users to accelerate their vesting stage, potentially leading to the premature release of tokens and unfair advantages in accessing funds.",
+            "fixedCode": "uint256 currentTime = block.timestamp; uint256 stage = (currentTime.sub(lockStartTime)).div(vestingMonths); // Store timestamp in a local variable before usage."
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "425-427",
+            "vulnerableCode": [
+                "playerFundsToWithdraw[msg.sender] = 0;",
+                "if (msg.sender.call.value(amount)()) {"
+            ],
+            "vulnerabilityReason": "The function `withdrawPendingTransactions` uses `msg.sender.call.value(amount)()` to send Ether to the player before updating the state variable `playerFundsToWithdraw`. This allows the recipient contract to execute a reentrant call back to this function before `playerFundsToWithdraw` is set to zero, which can result in unauthorized withdrawals.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that calls `withdrawPendingTransactions`, potentially draining the contract of funds by repeatedly invoking the withdrawal before the state is updated.",
+            "fixedCode": "uint256 amount = playerFundsToWithdraw[msg.sender];\n// Update the state variable to zero before making the external call\nplayerFundsToWithdraw[msg.sender] = 0;\n// Perform the external call after updating the state\nif (msg.sender.call.value(amount)()) {\n    return true;\n} else {\n    // If the call fails, revert the state change\n    playerFundsToWithdraw[msg.sender] = amount;\n    return false;\n}"
+        }
+    ]
+}

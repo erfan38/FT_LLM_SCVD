@@ -1,0 +1,36 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "550-552",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())",
+                "admin.transfer(_com);"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' sends Ether to the admin address without updating the contract state beforehand. If a malicious contract is in control of the address, it could call back into the contract and exploit this vulnerability.",
+            "potentialSecurityRisk": "An attacker can drain ethers from the contract by invoking the fallback function of the malicious contract each time the 'call.value()' is executed, leading to potential financial loss for the users of the contract.",
+            "fixedCode": "require(admin.send(_com), \"Transfer to admin failed\"); // Use send instead of call.value() to ensure that state is updated first."
+        },
+        {
+            "vulnerableLines": "764-765",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);",
+                "admin.transfer(_com);"
+            ],
+            "vulnerabilityReason": "The contract performs Ether transfers to 'plyr_[_pID].addr' using 'transfer' before updating relevant state variables, allowing an attacker to interfere via recursive calls.",
+            "potentialSecurityRisk": "The attacker could exploit this sequence to withdraw more funds than they are entitled to by repeatedly calling the withdraw function before the state is updated.",
+            "fixedCode": "(bool success, ) = plyr_[_pID].addr.call.value(_eth)(); require(success, \"Transfer to player failed\"); // Ensure state is managed and ensure successful transfer."
+        },
+        {
+            "vulnerableLines": "382-386",
+            "vulnerableCode": [
+                "function withdraw()",
+                "public",
+                "{",
+                "uint256 _rID = rID_;"
+            ],
+            "vulnerabilityReason": "The withdraw function is marked as 'public', exposing it to external calls that can trigger reentrancy before internal variables are updated.",
+            "potentialSecurityRisk": "Any external contract could trigger this function, enabling an attacker to exploit the vulnerability inherently supplemented by the 'public' modifier, facilitating repeated withdrawals.",
+            "fixedCode": "function withdraw() external isActivated isHuman() { // Add appropriate access controls to limit external access."
+        }
+    ]
+}

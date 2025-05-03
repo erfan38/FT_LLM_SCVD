@@ -1,0 +1,58 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1206-1206",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "This line uses a low-level call to transfer funds to another contract without updating the state first. If the recipient contract is malicious, it could re-enter the calling function via its fallback method, exploiting the unupdated state and allowing multiple withdrawals.",
+            "potentialSecurityRisk": "A malicious contract can repeatedly call back into the original function before the state changes are effective, allowing for funds to be withdrawn more than once, draining the contract's balance.",
+            "fixedCode": "require(address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"Deposit failed\");\n// Ensure this call is made only after updating relevant state variables."
+        },
+        {
+            "vulnerableLines": "1223-1223",
+            "vulnerableCode": [
+                "if (_p3d > 0) Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "This line calls another contract's deposit function while trying to transfer `eth`. The contributing state (like the amount of `_p3d`) could be used in a malicious reentrant call before the state is correctly updated.",
+            "potentialSecurityRisk": "An attacker can exploit this by executing multiple calls before the contract's state reflects the reduced balance, enabling them to withdraw more Ether than they should.",
+            "fixedCode": "if (_p3d > 0) {\n    require(Divies.deposit.value(_p3d)(), \"Failed to deposit\");\n} // Make sure to check that the deposit is successful and the preceding state has been properly recorded."
+        },
+        {
+            "vulnerableLines": "1320-1320",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Similar to the previous call, this line allows an unguarded low-level call that could be exploited by a reentrant attack because it happens before the state is finalized.",
+            "potentialSecurityRisk": "As before, if an attacker controls `Jekyll_Island_Inc`, they can execute code before the state variables are updated, leading to drained funds.",
+            "fixedCode": "bool success = address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\")));\nrequire(success, \"Deposit failed\"); // Enforce that the external call is successful before proceeding."
+        },
+        {
+            "vulnerableLines": "1353-1353",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "The call to deposit on the `Divies` contract uses the `_p3d` value, which could be manipulated in a reentrancy attack as there's no state update before this call.",
+            "potentialSecurityRisk": "An attacker could manipulate `Divies` to call back into the original contract and exploit the opportunity to withdraw multiple times before the state reflects the changes.",
+            "fixedCode": "require(Divies.deposit.value(_p3d)(), \"Deposit failed\"); // Ensure successful deposit."
+        },
+        {
+            "vulnerableLines": "469-469",
+            "vulnerableCode": [
+                "_eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "This line calls a function to withdraw earnings but does not properly account for state changes before Ether is sent out, which could be exploited by an attacker.",
+            "potentialSecurityRisk": "If this function is exploited, it can result in multiple withdrawals leading to loss of funds as the user's earnings aren't updated properly before sending Ether.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID);\nrequire(earnings > 0, \"No earnings\");\n// Now proceed to send Ether only after ensuring earnings are correct."
+        },
+        {
+            "vulnerableLines": "502-502",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This line transfers Ether based on `_eth`, which could be manipulated until the state reflecting the last earnings withdrawal is updated, making it vulnerable to reentrancy.",
+            "potentialSecurityRisk": "An attacker can re-enter this function before the state is updated, allowing them to withdraw more funds than they are entitled to.",
+            "fixedCode": "require(plyr_[_pID].addr.send(_eth), \"Transfer failed\"); // Use send and require to ensure state is correct before finalizing the transfer."
+        }
+    ]
+}

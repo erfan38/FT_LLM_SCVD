@@ -1,0 +1,47 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "234-241",
+            "vulnerableCode": [
+                "playerPendingWithdrawals[msg.sender] = 0;",
+                "if (msg.sender.call.value(withdrawAmount)()) {",
+                "    return true;",
+                "} else {",
+                "    playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+            ],
+            "vulnerabilityReason": "The state variable playerPendingWithdrawals[msg.sender] is reset to 0 after the call to msg.sender.call.value(withdrawAmount)(), which allows for reentrancy as the external call to msg.sender can invoke this function again before the state is updated.",
+            "potentialSecurityRisk": "An attacker could call this function, initiate a withdrawal, and then call back into the contract recursively, leading to multiple withdrawals before the state updates properly, potentially draining funds from the contract.",
+            "fixedCode": "uint withdrawAmount = playerPendingWithdrawals[msg.sender];\nrequire(withdrawAmount > 0, \"No funds to withdraw\");\nplayerPendingWithdrawals[msg.sender] = 0; // Reset the balance BEFORE external call\n(bool success, ) = msg.sender.call.value(withdrawAmount)();\nrequire(success, \"Transfer failed\"); // Ensure the call was successful"
+        },
+        {
+            "vulnerableLines": "156-161",
+            "vulnerableCode": [
+                "if(!pendingBets[i].bettorAddress.send(reward)){",
+                "    LogResult(pendingBets[i].betID, pendingBets[i].bettorAddress, underNumber, randResult, reward, 2, pendingBets[i].betSize,underNumber);",
+                "    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], reward);"
+            ],
+            "vulnerabilityReason": "The contract attempts to send a reward to a bettor and, upon failure, updates the pending withdrawals without verifying that the send was successful, allowing reentrancy.",
+            "potentialSecurityRisk": "A reentrancy attack could occur if an attacker crafts their contract to receive the reward failure notification, allowing them to withdraw more funds than they are entitled to.",
+            "fixedCode": "uint reward = calculateReward(pendingBets[i]);\nif(!pendingBets[i].bettorAddress.send(reward)){\n    LogResult(pendingBets[i].betID, pendingBets[i].bettorAddress, underNumber, randResult, reward, 2, pendingBets[i].betSize,underNumber);\n    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], reward);\n} else {\n    // Safe to adjust contract state if send was successful\n}"
+        },
+        {
+            "vulnerableLines": "189-192",
+            "vulnerableCode": [
+                "if(!pendingBets[i].bettorAddress.send(1)){",
+                "    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case; the contract updates the playerPendingWithdrawals based on a send failure without checking if the send was successful.",
+            "potentialSecurityRisk": "This opens a reentrancy flaw where an attacker can invoke the send failure to gain additional funds improperly.",
+            "fixedCode": "if(!pendingBets[i].bettorAddress.send(1)){\n    // handle send failure appropriately\n    playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);\n}"
+        },
+        {
+            "vulnerableLines": "240-242",
+            "vulnerableCode": [
+                "playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+            ],
+            "vulnerabilityReason": "Here, if the withdrawal process fails, the balance is not verified before being reset, allowing an attacker to make a reentrant call.",
+            "potentialSecurityRisk": "If not properly secured, reentrancy could allow the attacker to evade the contract's safeguards and withdraw improperly, leading to loss of funds.",
+            "fixedCode": "if (msg.sender.call.value(withdrawAmount)()) {\n    // Success, do not revert state\n} else {\n    playerPendingWithdrawals[msg.sender] = withdrawAmount;\n}"
+        }
+    ]
+}

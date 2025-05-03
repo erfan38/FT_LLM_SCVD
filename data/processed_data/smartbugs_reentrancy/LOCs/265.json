@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "216-216",
+            "vulnerableCode": [
+                "require(p.recipient.call.value(p.amount)(transactionBytecode));"
+            ],
+            "vulnerabilityReason": "This line performs a low-level call to send Ether, which does not update the state of the contract until the execution returns. Because the state variable 'executed' is only updated after this call, an attacker can perform a reentrant call before 'executed' is set to true, leading to potentially multiple withdrawals before the state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this reentrancy vulnerability to call the 'executeProposal' function repeatedly, draining the contract of its funds by withdrawing multiple times before the proposal is marked as executed. This could result in significant financial loss for the contract.",
+            "fixedCode": "p.executed = true;  // Set state to reflect that the proposal has been executed\nrequire(p.recipient.call.value(p.amount)(transactionBytecode)); // Call the recipient after setting the executed state."
+        }
+    ]
+}

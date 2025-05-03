@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "if (block.timestamp >= start) {"
+            ],
+            "vulnerabilityReason": "This line relies on block.timestamp to determine if the vesting period has started. Miners can manipulate the blockchain timestamp, which may lead to premature access to vested tokens.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to influence the condition, allowing beneficiaries to gain access to tokens earlier than intended, which undermines the vesting schedule's integrity.",
+            "fixedCode": "if (now >= start) { // Replace block.timestamp with now to improve clarity, but this still poses the same risk."
+        },
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "if (block.timestamp >= cliff && block.timestamp < end) {"
+            ],
+            "vulnerabilityReason": "The reliance on block.timestamp for checking whether the beneficiary has reached the cliff period heightens vulnerability due to miner manipulation.",
+            "potentialSecurityRisk": "Miners could adjust timestamps slightly, thereby allowing beneficiaries to access tokens sooner than intended during the vesting period.",
+            "fixedCode": "if (now >= cliff && now < end) {"
+        },
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "if (block.timestamp >= end) {"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to determine if the vesting period has ended exposes the contract to risks of manipulation by miners, who can adjust the timestamp.",
+            "potentialSecurityRisk": "An attacker could force the timestamp to reach this condition and access the entire balance of tokens too early, contrary to the intended vesting schedule.",
+            "fixedCode": "if (now >= end) {"
+        }
+    ]
+}

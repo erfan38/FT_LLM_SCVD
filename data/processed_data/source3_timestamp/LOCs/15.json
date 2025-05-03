@@ -1,0 +1,140 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "367-367",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The use of _now to capture block.timestamp makes the contract susceptible to miner manipulation, as miners control the block timestamps and can exploit this for favorable conditions.",
+            "potentialSecurityRisk": "Miners could adjust the timestamp to trigger logic in the contract that allows them to exploit favorable pricing or actions, thus affecting the fairness of the game mechanics.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "403-403",
+            "vulnerableCode": [
+                "_eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000);"
+            ],
+            "vulnerabilityReason": "Using _now, which is based on block.timestamp, means that this operation can be influenced by miners, leading to potential manipulation of event data.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp, this could affect the representation of transaction values and outcomes in the event data, impacting game fairness.",
+            "fixedCode": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000);"
+        },
+        {
+            "vulnerableLines": "506-506",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The assignment of _now to block.timestamp introduces a vulnerability that can be exploited by miners to achieve desired outcomes.",
+            "potentialSecurityRisk": "Miners could manipulate the time at which critical decisions are made regarding round transitions or pricing, resulting in unfair advantages.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "509-511",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0))){",
+                "return ( (round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000) );"
+            ],
+            "vulnerabilityReason": "This conditional logic uses _now to check whether the current round is active, which is open to manipulation by miners, allowing them to influence game logic.",
+            "potentialSecurityRisk": "By manipulating the timestamp, a miner could change the outcome of whether a transaction is valid, thus exploiting the system to their benefit.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0))){\nreturn ( (round_[_rID].keys.add(1e18)).ethRec(1e18) );}"
+        },
+        {
+            "vulnerableLines": "525-525",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp through _now creates a dependency that allows miners to exploit the timing of event triggers in the contract.",
+            "potentialSecurityRisk": "Miners could use this manipulation to change outcomes in ways that provide them undue advantage over other players.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "546-546",
+            "vulnerableCode": [
+                "if (now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)"
+            ],
+            "vulnerabilityReason": "This line checks whether a round has ended based on block.timestamp, which is subject to manipulation by miners.",
+            "potentialSecurityRisk": "Miners could alter their timestamps to keep a round open longer than intended or trigger an end condition at a favorable time.",
+            "fixedCode": "if (block.timestamp > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0){"
+        },
+        {
+            "vulnerableLines": "864-864",
+            "vulnerableCode": [
+                "uint256 _now = now;"
+            ],
+            "vulnerabilityReason": "Assigning _now to now introduces a window of vulnerability as miners can manipulate this reference for their gain.",
+            "potentialSecurityRisk": "Timestamp manipulation could enable miners to influence critical calculations that depend on the precise timing of these functions.",
+            "fixedCode": "uint256 _now = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "886-886",
+            "vulnerableCode": [
+                "if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0)))"
+            ],
+            "vulnerabilityReason": "This condition checks the active round based on _now, allowing miners fair play to potentially exploit timing needs for multiple outcomes in a single round.",
+            "potentialSecurityRisk": "Manipulated timestamps can allow miners to bypass intended game mechanics, such as pricing or eligibility checks for actions related to these rounds.",
+            "fixedCode": "if (block.timestamp > round_[_rID].strt + rndGap_ && (block.timestamp <= round_[_rID].end || (block.timestamp > round_[_rID].end && round_[_rID].plyr == 0)))"
+        },
+        {
+            "vulnerableLines": "1320-1320",
+            "vulnerableCode": [
+                "_eventData_.compressedData = _eventData_.compressedData + (now * 1000000000000000000) + (_team * 100000000000000000000000000000);"
+            ],
+            "vulnerabilityReason": "Using now for potential financial data within compressedData opens the function to timestamp manipulation risks from miners.",
+            "potentialSecurityRisk": "Miners may choose to manipulate transaction representations adversely affecting how the game rewards are calculated or represented.",
+            "fixedCode": "_eventData_.compressedData = _eventData_.compressedData + (block.timestamp * 1000000000000000000) + (_team * 100000000000000000000000000000);"
+        },
+        {
+            "vulnerableLines": "1361-1361",
+            "vulnerableCode": [
+                "round_[1].strt = now + rndExtra_ - rndGap_;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in setting up round start times allows miners to influence game session timing.",
+            "potentialSecurityRisk": "If manipulated, a miner could prolong or restrict participation in rounds to suit their interests, disrupting expected game mechanics.",
+            "fixedCode": "round_[1].strt = block.timestamp + rndExtra_ - rndGap_;"
+        },
+        {
+            "vulnerableLines": "1362-1362",
+            "vulnerableCode": [
+                "round_[1].end = now + rndInit_ + rndExtra_;"
+            ],
+            "vulnerabilityReason": "This line assigns a round end time based on block.timestamp, which is easily changed by miners, presenting a vulnerability.",
+            "potentialSecurityRisk": "Miners have the potential to extend rounds or create unforeseen delays benefiting their position when seeking to manipulate game outcomes.",
+            "fixedCode": "round_[1].end = block.timestamp + rndInit_ + rndExtra_;"
+        },
+        {
+            "vulnerableLines": "1056-1056",
+            "vulnerableCode": [
+                "round_[_rID].strt = now;"
+            ],
+            "vulnerabilityReason": "Directly using now creates vulnerability in setting the round start time, allowing miner influence.",
+            "potentialSecurityRisk": "The risk includes the ability for miners to set up advantageous conditions regarding round transitions, which could manipulate the game's integrity.",
+            "fixedCode": "round_[_rID].strt = block.timestamp;"
+        },
+        {
+            "vulnerableLines": "1057-1057",
+            "vulnerableCode": [
+                "round_[_rID].end = now.add(rndInit_).add(rndGap_);"
+            ],
+            "vulnerabilityReason": "Using now for determining round end time means that miners can affect when rounds finish or start, leading to exploitation of timing.",
+            "potentialSecurityRisk": "Should attackers interfere, they could create scenarios that extend their advantage by manipulating the set end time of a round.",
+            "fixedCode": "round_[_rID].end = block.timestamp.add(rndInit_).add(rndGap_);"
+        },
+        {
+            "vulnerableLines": "1113-1113",
+            "vulnerableCode": [
+                "(block.timestamp).add"
+            ],
+            "vulnerabilityReason": "Using block.timestamp implicitly suggests reliance on miner behavior to drive randomness or pseudo-randomness logic, which invites manipulation risks.",
+            "potentialSecurityRisk": "As a result of timestamp tampering, miners might influence the randomness of outcomes linked to this logic.",
+            "fixedCode": "(block.number).add; // using block number to reduce direct timestamp dependence"
+        },
+        {
+            "vulnerableLines": "1155-1155",
+            "vulnerableCode": [
+                "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (now)).add"
+            ],
+            "vulnerabilityReason": "The division by now creates deterministic outputs, contingent on the miner's timestamp manipulation, thus undermining the randomness around this operation.",
+            "potentialSecurityRisk": "Miners could skew outcomes by tweaking timestamps, allowing predictable results from this function, undermining both fairness and integrity.",
+            "fixedCode": "((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.number)).add; // using block number helps in reducing timestamp manipulation risks."
+        }
+    ]
+}

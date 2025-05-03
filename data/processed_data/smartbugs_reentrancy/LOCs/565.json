@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "121-121",
+            "vulnerableCode": [
+                "assert(crowdSale.call.value(purchaseAmount)());"
+            ],
+            "vulnerabilityReason": "The vulnerability arises because the function `buyICO()` makes an external call to `crowdSale` using `call.value()`, which transfers control to the `crowdSale` contract before the state is updated. This allows an attacker to potentially call back into the `buyICO()` function before the state changes take effect, leading to multiple unauthorized Ether transfers.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by using a malicious contract as the `crowdSale` address. They could call the `buyICO()` function, resulting in the ability to withdraw more Ether than intended by making recursive calls before the contract's internal state is updated, effectively draining the contract of Ether.",
+            "fixedCode": "uint256 purchaseAmount = Math.min256(this.balance, purchaseCap);\nICOPurchased(purchaseAmount);\nrequire(crowdSale.call.value(purchaseAmount)()); // Ensure call to crowdSale happens after the state change."
+        }
+    ]
+}

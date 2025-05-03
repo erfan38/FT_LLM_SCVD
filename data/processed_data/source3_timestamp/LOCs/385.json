@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "143-143",
+            "vulnerableCode": [
+                "timestamp: block.timestamp"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the function collectAndUpdate allows miners to influence the recorded historical price data by slightly manipulating the block timestamp.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamp to create a misleading historical price record, potentially allowing them to exploit price differentials.",
+            "fixedCode": "timestamp: now // use now with an appropriate buffer or safeguard to reduce dependency on miner-controlled timestamps."
+        },
+        {
+            "vulnerableLines": "239-239",
+            "vulnerableCode": [
+                "return (sub(now, timestamp) <= VALIDITY);"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp to ensure price validity exposes the contract logic to potential manipulation by miners, as they can adjust the perceived passage of time for prices.",
+            "potentialSecurityRisk": "Miners could manipulate prices by setting favorable timestamps, allowing them to bypass price validation checks or obtain discounts improperly.",
+            "fixedCode": "return (sub(block.timestamp, timestamp + TIME_TOLERANCE) <= VALIDITY); // use a buffer like TIME_TOLERANCE to safeguard against manipulation."
+        }
+    ]
+}

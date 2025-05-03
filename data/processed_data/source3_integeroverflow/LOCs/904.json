@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-6",
+            "vulnerableCode": [
+                "uint256 rewardReduction = block.number - 100;",
+                "return startingReward - rewardReduction;"
+            ],
+            "vulnerabilityReason": "The assignment of 'rewardReduction' subtracts 100 from 'block.number', which can lead to an underflow if 'block.number' is less than 100. Additionally, subtracting 'rewardReduction' from 'startingReward' may also cause an underflow if 'rewardReduction' is greater than 'startingReward'. This can lead to negative values when these values are unsigned integers, resulting in incorrect calculations.",
+            "potentialSecurityRisk": "If the underflow occurs, it can result in an erroneous reward amount being calculated and returned, potentially allowing users to receive rewards greater than the contract's intended logic. This could lead to exploitation or manipulation of rewards, resulting in unintended financial loss for the contract owner.",
+            "fixedCode": "require(block.number >= 100, \"block.number must be at least 100\");\nuint256 rewardReduction = block.number - 100;\nrequire(startingReward >= rewardReduction, \"Insufficient startingReward\");\nreturn startingReward - rewardReduction;"
+        }
+    ]
+}

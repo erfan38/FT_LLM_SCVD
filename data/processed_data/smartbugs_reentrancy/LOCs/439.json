@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "218-220",
+            "vulnerableCode": [
+                "delete balances[investor];",
+                "if(!(investor.call.value(amount)())) throw;"
+            ],
+            "vulnerabilityReason": "The external call to `investor.call.value(amount)()` occurs before the state change of deleting `balances[investor]`. This allows a malicious contract to execute recursive calls to the `refund()` function before the state is updated, potentially withdrawing more funds than intended.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that, when receiving Ether, calls back into the `refund()` function, allowing them to drain the contract's funds repeatedly before the balance is reset.",
+            "fixedCode": "balances[investor] = 0;  // Set the balance to 0 before sending funds\nif(!(investor.call.value(amount)())) throw; // Send funds after the state change."
+        }
+    ]
+}

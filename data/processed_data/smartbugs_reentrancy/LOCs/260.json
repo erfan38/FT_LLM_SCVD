@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "145-145",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "This line uses `.call()` to invoke a fallback function on a potential contract receiver which may allow it to recursively call back into this contract before the sender's balance is updated, leading to a reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain funds from the contract by continuously calling back into the contract, allowing for multiple withdrawals before the state is updated.",
+            "fixedCode": "// Use a checks-effects-interactions pattern. Update the state before making any external call.\nrequire(balanceOf[msg.sender] >= _value);\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nrequire(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data)); // This should now be safe."
+        },
+        {
+            "vulnerableLines": "406-406",
+            "vulnerableCode": [
+                "if(msg.value > 0) owner.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The use of `transfer` allows the recipient of Ether to execute code upon receipt (through fallback functions). This can lead to reentrancy because the recipient could call back into the contract before the balance update is finalized.",
+            "potentialSecurityRisk": "If the recipient is a malicious contract, they could manipulate state changes or execute additional withdrawals during the execution of `autoDistribute`, draining the contract of funds.",
+            "fixedCode": "// Replace msg.value transfer operation with proper checks and state updates.\nif(msg.value > 0) {\n    // Store the amount transferred to the contract state first. \n    uint256 amountTransferred = msg.value;\n    balanceOf[owner] = balanceOf[owner].sub(amountTransferred);\n    owner.transfer(amountTransferred); // Use a safer pattern."
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "11-12",
+            "vulnerableCode": [
+                "uint256 vestedPercentage = vestingPeriod / (365 days) * 25;",
+                "return beneficiaries[msg.sender]._totalAmount * vestedPercentage / 100;"
+            ],
+            "vulnerabilityReason": "The multiplications in the `calculateVestedAmount` function are susceptible to integer overflow. If `vestingPeriod` is significantly large, the expression `vestingPeriod / (365 days) * 25` can exceed the maximum allowable value for a uint256, leading to an overflow. Similarly, multiplying `beneficiaries[msg.sender]._totalAmount` with `vestedPercentage` could also overflow if both values are large enough, resulting in incorrect calculations.",
+            "potentialSecurityRisk": "An overflow could lead to a situation where the vested amount calculated is significantly lower than expected or even a negative value due to wrap-around behavior. This can result in beneficiaries receiving fewer funds than entitled, leading to loss of trust and potential financial losses.",
+            "fixedCode": "uint256 vestedPercentage = (vestingPeriod / (365 days)) * 25; require(vestedPercentage >= 0 && vestedPercentage <= 100, \"Invalid vestedPercentage\"); // Ensure it stays within range return (beneficiaries[msg.sender]._totalAmount * vestedPercentage) / 100; // Use SafeMath library or similar checks to prevent overflow."
+        }
+    ]
+}

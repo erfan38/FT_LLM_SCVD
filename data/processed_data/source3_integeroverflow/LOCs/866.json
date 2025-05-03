@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalPoints = totalPoints + points;"
+            ],
+            "vulnerabilityReason": "The contract adds `points` to `totalPoints` without checking if the result exceeds the maximum value for the `uint` type, which can lead to integer overflow. If `points` is large enough, it will cause `totalPoints` to wrap around to a smaller number, thus resulting in a loss of accuracy in the total points.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by submitting a large value for `points`, causing `totalPoints` to overflow. This would result in inaccurate total points, allowing manipulation of the loyalty system, potentially enabling the attacker to claim more benefits than they legitimately earned.",
+            "fixedCode": "require(totalPoints + points >= totalPoints, \"Addition overflow\");\ntotalPoints = totalPoints + points; // Safely adding points with overflow check."
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "59-59",
+            "vulnerableCode": [
+                "assert(block.timestamp >= STARTDATE);"
+            ],
+            "vulnerabilityReason": "This line checks if the current block timestamp meets the minimum sale date requirement, potentially allowing miners to influence when the sale is valid.",
+            "potentialSecurityRisk": "Miners could manipulate the block.timestamp to allow or disable participation in the sale, unfairly benefitting certain participants.",
+            "fixedCode": "assert(block.timestamp + TIME_TOLERANCE >= STARTDATE); // Adding a safety buffer for timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "71-71",
+            "vulnerableCode": [
+                "|| weiRaised >= MINSALESCAP && block.timestamp >= ENDDATE"
+            ],
+            "vulnerabilityReason": "This condition allows termination of the sale based on current time, which could be manipulated by miners influencing when the sale closes.",
+            "potentialSecurityRisk": "Miners may adjust timestamps to artificially meet conditions for closing the sale, risking financial losses or unfair advantages.",
+            "fixedCode": "|| weiRaised >= MINSALESCAP && (block.timestamp + TIME_TOLERANCE) >= ENDDATE"
+        },
+        {
+            "vulnerableLines": "175-176",
+            "vulnerableCode": [
+                "if ((block.timestamp >= ENDDATE && state == State.Running)",
+                "|| (block.timestamp >= ENDDATE && weiRaised < MINSALESCAP))"
+            ],
+            "vulnerabilityReason": "These checks define when the sale is considered expired and hinge on block.timestamp, which could be manipulated to affect sale status unjustly.",
+            "potentialSecurityRisk": "Manipulations can lead to a state of the sale being inaccurately reported, allowing invalid transactions or refund clauses to trigger incorrectly.",
+            "fixedCode": "if ((block.timestamp + TIME_TOLERANCE) >= ENDDATE && state == State.Running) // Use TIME_TOLERANCE to reduce manipulation impact."
+        },
+        {
+            "vulnerableLines": "187-199",
+            "vulnerableCode": [
+                "if (block.timestamp <= 1535241660) {",
+                "if (_weiAmount >= 1700 ether) {",
+                "discount = 30;",
+                "} else if (_weiAmount > 0.2 ether) {",
+                "discount = 25;",
+                "}",
+                "} else if (block.timestamp <= 1537747260) {",
+                "discount = 15;",
+                "} else if (block.timestamp <= 1540339260) {",
+                "discount = 10;",
+                "} else if (block.timestamp <= 1543536060) {",
+                "discount = 5;"
+            ],
+            "vulnerabilityReason": "These conditions for discount calculations are directly based on block.timestamp, exposing them to miner manipulation.",
+            "potentialSecurityRisk": "Miners could artificially adjust timestamps to gain eligibility for better discount prices, leading to profit loss for the token sale.",
+            "fixedCode": "if ((block.timestamp + TIME_TOLERANCE) <= 1535241660) { // Use TIME_TOLERANCE in discount checks"
+        }
+    ]
+}

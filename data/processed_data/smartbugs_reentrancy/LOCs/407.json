@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "418-418",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The `transfer` function is called before the player's earnings are reset, allowing an attacker to re-enter the `withdraw` function during the `transfer`, which can lead to multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker could exploit this by calling the `withdraw` function recursively during the execution of the `transfer` function, allowing them to withdraw more funds than intended, potentially draining the contract's balance.",
+            "fixedCode": "// Store the amount to withdraw and reset earnings before placing a transfer\nif (_eth > 0) {\n    uint256 withdrawAmount = _eth;\n    plyr_[_pID].win = 0; // Reset earnings\n    plyr_[_pID].gen = 0;\n    plyr_[_pID].aff = 0;\n    plyr_[_pID].addr.transfer(withdrawAmount); // Transfer after state changes\n}\n"
+        },
+        {
+            "vulnerableLines": "447-447",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, the transfer occurs before resetting the player's earnings, leading to potential reentrancy if the recipient is a contract that can call back into the `withdraw` function.",
+            "potentialSecurityRisk": "An attacker could use the same strategy as described above, draining more funds from the contract than intended by triggering multiple withdrawals within a single `transfer` call.",
+            "fixedCode": "// Store withdrawal amount and reset earnings before transfer\nif (_eth > 0) {\n    uint256 withdrawAmount = _eth;\n    plyr_[_pID].win = 0; // Reset earnings\n    plyr_[_pID].gen = 0;\n    plyr_[_pID].aff = 0;\n    plyr_[_pID].addr.transfer(withdrawAmount); // Transfer after state change\n}\n"
+        },
+        {
+            "vulnerableLines": "742-742",
+            "vulnerableCode": [
+                "            core(_rID, _pID, msg.value, _affID, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "The call to `core` occurs before the player's earnings are updated, which can lead to a reentrancy attack if `core` calls a function in this contract which allows recursion.",
+            "potentialSecurityRisk": "If `core` makes further calls that can lead back to `withdraw` or any state-changing function, it may result in unintended state changes and withdrawal of funds before the player’s earnings are updated.",
+            "fixedCode": "// Update earnings before external call to core\nplyr_[_pID].gen = plyr_[_pID].gen.add(msg.value); // Updates must happen before pushing external calls\ncore(_rID, _pID, msg.value, _affID, _team, _eventData_); // Call to core after internal state updates\n"
+        },
+        {
+            "vulnerableLines": "801-801",
+            "vulnerableCode": [
+                "            core(_rID, _pID, _eth, _affID, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "The `core` function is activated before updating earnings for the player, which allows for potential reentrancy vulnerabilities if calls to `core` cause a callback that re-enters the contract.",
+            "potentialSecurityRisk": "Similar to the prior example, if `core` allows for another call back to a function in this contract that modifies state, attackers could drain funds before their earnings are accurately updated.",
+            "fixedCode": "// Ensure earnings are updated before the core call\nplyr_[_pID].gen = plyr_[_pID].gen.add(_eth); // Update earnings first\ncore(_rID, _pID, _eth, _affID, _team, _eventData_); // Call core after adjustments\n"
+        }
+    ]
+}

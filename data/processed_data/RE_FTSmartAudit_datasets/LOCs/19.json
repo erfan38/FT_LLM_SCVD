@@ -1,0 +1,16 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "48-51",
+            "vulnerableCode": [
+                "            if(msg.sender.call.value(_am)())",
+                "            {",
+                "                balances[msg.sender]-=_am;",
+                "                Log.AddMessage(msg.sender,_am,\"Collect\");"
+            ],
+            "vulnerabilityReason": "The function sends Ether to `msg.sender` using `call.value(_am)()` before updating the balance, which allows for reentrancy attacks. If `msg.sender` is a contract, it can re-enter the `Collect` function during the Ether transfer, potentially allowing it to withdraw more than its actual balance.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability, creating a malicious contract that reenters the `Collect` function multiple times, withdrawing more Ether than intended and potentially draining the contract's funds.",
+            "fixedCode": "            balances[msg.sender] -= _am; // Update balance before transfer\n            if (!msg.sender.call.value(_am)()) { // Check for successful transfer\n                balances[msg.sender] += _am; // Revert balance on failure\n            } else {\n                Log.AddMessage(msg.sender,_am,\"Collect\");\n            } // Fixed: Update the balance first, and check the success of the transfer."
+        }
+    ]
+}

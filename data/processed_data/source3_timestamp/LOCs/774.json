@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "if (block.timestamp < releaseTime)"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to check if the current time has reached the releaseTime introduces a dependency on the miner-controlled timestamp, allowing the miner to influence the fund release timing.",
+            "potentialSecurityRisk": "Miners can manipulate the block timestamp to either delay or expedite the release of funds, potentially disrupting the intended functionality of the contract and allowing for unfair advantages in fund access.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE < releaseTime) { revert(); } // Use a buffer like TIME_TOLERANCE to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "38-38",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "This function directly returns the value of block.timestamp, which is fallible due to miner manipulation and can misrepresent the actual current time during pivotal contract logic execution.",
+            "potentialSecurityRisk": "Exposing the timestamp to external functions could encourage dependency on a potentially manipulated input, which could affect accuracy in transactions relying on precise time measurements.",
+            "fixedCode": "return block.timestamp + TIME_TOLERANCE; // Consider adjusting with a fixed buffer which indicates a safe time range."
+        },
+        {
+            "vulnerableLines": "41-41",
+            "vulnerableCode": [
+                "return releaseTime - block.timestamp;"
+            ],
+            "vulnerabilityReason": "Calculating remaining seconds based on block.timestamp enables manipulation by miners, which could mislead users about the actual time remaining until funds can be released.",
+            "potentialSecurityRisk": "If a miner speeds up or slows down the apparent 'current time', it could misinform users about when they would be able to access their funds, leading to scheduling issues or undesired reactions.",
+            "fixedCode": "return releaseTime - (block.timestamp + TIME_TOLERANCE); // Adjust with a time buffer to decrease dependency on block.timestamp."
+        }
+    ]
+}

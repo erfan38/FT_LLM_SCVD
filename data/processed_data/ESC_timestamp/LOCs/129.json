@@ -1,0 +1,51 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1182-1182",
+            "vulnerableCode": [
+                "chronus.starting_time = uint32(block.timestamp);"
+            ],
+            "vulnerabilityReason": "The assignment to chronus.starting_time relies on block.timestamp, which can be influenced by miners who can manipulate the timestamp of the blocks they mine.",
+            "potentialSecurityRisk": "Miners could set a block timestamp in the past to manipulate the starting time of the betting, potentially allowing them to affect the outcome or interact with the contract in unintended ways, such as placing winning bets without adherence to the intended start time.",
+            "fixedCode": "chronus.starting_time = uint32(block.timestamp + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "1188-1188",
+            "vulnerableCode": [
+                "chronus.betting_duration = uint32(delay);"
+            ],
+            "vulnerabilityReason": "The betting duration is set based on a value that may be influenced by the manipulation of the starting time. This can result in unintended behavior in the betting process.",
+            "potentialSecurityRisk": "If a miner influences the starting time, they could effectively extend or shorten the betting duration, impacting the fairness of the betting process and potentially allowing them or their associates to take advantage of manipulated timing.",
+            "fixedCode": "chronus.betting_duration = uint32(delay + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "1210-1210",
+            "vulnerableCode": [
+                "chronus.race_duration = uint32(delay);"
+            ],
+            "vulnerabilityReason": "This line sets the race duration based on a delay that can also be influenced by manipulated timestamps.",
+            "potentialSecurityRisk": "Similar to the betting duration, the manipulation of the race duration allows miners to alter the parameters of the race, which could unfairly benefit them or their participants.",
+            "fixedCode": "chronus.race_duration = uint32(delay + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "1345-1350",
+            "vulnerableCode": [
+                "require(now > chronus.starting_time + chronus.race_duration);",
+                "chronus.voided_timestamp=uint32(now);"
+            ],
+            "vulnerabilityReason": "The refund function checks if now is past the race duration which can be manipulated by miners to trigger refunds prematurely.",
+            "potentialSecurityRisk": "Miners can manipulate timestamp to prematurely trigger a refund, benefiting themselves if they place bets shortly before the refunds can be processed.",
+            "fixedCode": "require(now + TIME_TOLERANCE > chronus.starting_time + chronus.race_duration); chronus.voided_timestamp=uint32(now + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "1356-1358",
+            "vulnerableCode": [
+                "require((chronus.race_end && now > chronus.starting_time + chronus.race_duration + (30 days))",
+                "|| (chronus.voided_bet && now > chronus.voided_timestamp + (30 days)));"
+            ],
+            "vulnerabilityReason": "These conditions rely on timestamps to enforce a time limit for retrieving funds, making them vulnerable to miner timestamp manipulation.",
+            "potentialSecurityRisk": "Miners could manipulate when they validate the end of races or void bets, leading to potential exploits in keeping funds beyond the intended durations and affecting overall security and trust in the contract.",
+            "fixedCode": "require((chronus.race_end && now + TIME_TOLERANCE > chronus.starting_time + chronus.race_duration + (30 days)) || (chronus.voided_bet && now + TIME_TOLERANCE > chronus.voided_timestamp + (30 days))); // Introduce a buffer to mitigate manipulation."
+        }
+    ]
+}

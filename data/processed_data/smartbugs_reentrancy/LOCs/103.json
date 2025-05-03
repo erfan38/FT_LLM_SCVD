@@ -1,0 +1,25 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "663-669",
+            "vulnerableCode": [
+                "            admin.transfer(_com);",
+                "            admin.transfer(_p3d.sub(_p3d / 2));",
+                "            round_[_rID].pot = _pot.add(_p3d / 2);"
+            ],
+            "vulnerabilityReason": "The use of `transfer` to send funds to the `admin` happens before updating the state variables, which allows for reentrancy attacks. An attacker could call back into the contract before the state update, resulting in multiple withdrawals without proper deduction of the funds.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability by making recursive calls to withdraw funds before the state variables are updated, allowing it to deplete the contract's funds without proper accounting.",
+            "fixedCode": "// Update the contract state before any funds are transferred\nround_[_rID].pot = _pot.add(_p3d / 2);\nadmin.transfer(_com);\nadmin.transfer(_p3d.sub(_p3d / 2));"
+        },
+        {
+            "vulnerableLines": "831-444",
+            "vulnerableCode": [
+                "            if (_eth > 0)",
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The `transfer` to the player's address occurs without proper checks and state updates beforehand. This allows for a reentrant call to occur during the transfer, enabling an attacker to exploit this function to withdraw more than their allocated earnings.",
+            "potentialSecurityRisk": "An attacker could invoke a malicious contract that calls the `withdraw` function, allowing them to drain the contract's funds before the actual earnings of the user are properly updated and set to zero.",
+            "fixedCode": "// Ensure the player's earnings are updated before transferring funds\nuint256 earnings = withdrawEarnings(_pID);\nif (earnings > 0) {\n    plyr_[_pID].addr.transfer(earnings);\n}"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_amount)()) {"
+            ],
+            "vulnerabilityReason": "The use of `call.value(_amount)()` allows an external contract (the sender) to execute arbitrary code before the balance is updated. This creates a reentrancy vulnerability since the function does not ensure that the state is updated (the balance decrease) before the external call is made.",
+            "potentialSecurityRisk": "A malicious actor could deploy a contract that calls the `withdraw` function repeatedly before the balance of the victim contract is updated. This could lead to multiple withdrawals and potentially drain the entire balance of the contract.",
+            "fixedCode": "if(balances[msg.sender] >= _amount) {\n    balances[msg.sender] -= _amount;  // Update state before external call\n    bool success = msg.sender.call.value(_amount)();\n    require(success, \"Transfer failed\");  // Ensure the transfer was successful\n}"
+        }
+    ]
+}

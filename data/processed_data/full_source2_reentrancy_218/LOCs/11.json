@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-9",
+            "vulnerableCode": [
+                "require(msg.sender.call.value(amountRaised)());",
+                "balances[msg.sender] = balances[msg.sender] - amountRaised;"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value(amountRaised)()`, allowing the receiving contract (`msg.sender`) to execute arbitrary code before the state is updated. This opens the door for reentrancy attacks, where a malicious contract can call back into `finishDistribution` before `balances[msg.sender]` is updated, enabling it to repeatedly withdraw funds.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by creating a malicious contract that triggers a reentrancy. By calling `finishDistribution` multiple times before the balance is decreased, the attacker could drain the contract's funds entirely, bypassing the intended checks and balances.",
+            "fixedCode": "//  First, update the balance before any external calls\nbalances[msg.sender] = balances[msg.sender] - amountRaised;\n//  Then, perform the external call\n(bool success, ) = msg.sender.call{value: amountRaised}();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

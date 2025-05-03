@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "10-10",
+            "vulnerableCode": [
+                "uint256 yearsOfService = (currentDate - companyFoundingDate) / (365 days);"
+            ],
+            "vulnerabilityReason": "If 'currentDate' is less than 'companyFoundingDate', the subtraction will result in an underflow, leading to unexpected behavior or incorrect calculations of years of service.",
+            "potentialSecurityRisk": "This can lead to unauthorized or inflated bonuses, as it may result in negative values for years of service, allowing employees to receive bonuses they are not entitled to.",
+            "fixedCode": "require(currentDate >= companyFoundingDate, 'Current date cannot be before founding date');\nuint256 yearsOfService = (currentDate - companyFoundingDate) / (365 days);"
+        },
+        {
+            "vulnerableLines": "11-11",
+            "vulnerableCode": [
+                "return employees[msg.sender]._baseSalary * yearsOfService / 10;"
+            ],
+            "vulnerabilityReason": "The multiplication of '_baseSalary' and 'yearsOfService' can lead to an overflow if both values are large enough to exceed the uint256 limit.",
+            "potentialSecurityRisk": "An overflow can result in a drastically reduced bonus calculation, potentially zero, which undermines the purpose of the bonus system, leading to massive errors in payroll.",
+            "fixedCode": "uint256 bonus = employees[msg.sender]._baseSalary * yearsOfService;\nrequire(bonus / yearsOfService == employees[msg.sender]._baseSalary, 'Overflow detected');\nreturn bonus / 10;"
+        }
+    ]
+}

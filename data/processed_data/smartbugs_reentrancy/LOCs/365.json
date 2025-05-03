@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "107-107",
+            "vulnerableCode": [
+                "_bankroller.call.value(_amount)(_sig);"
+            ],
+            "vulnerabilityReason": "The contract calls `_bankroller` with `call.value()` after modifying the state (updating the bankroll). This allows reentrant calls to occur before the state is securely updated, enabling an attacker to withdraw funds multiple times in the event of a reentrant attack.",
+            "potentialSecurityRisk": "An attacker could exploit this function by deploying a malicious contract that calls `removeBankroll()` again during the execution of the external call, allowing them to withdraw more funds than intended, potentially draining the contract's balance.",
+            "fixedCode": "// Update the bankroll state before making the external call to avoid reentrancy\nuint amountToWithdraw = _amount;\nbankroll = ledger.total(); // Ensure this state is updated first\nrequire(_bankroller.call.value(amountToWithdraw)(_sig), \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "123-123",
+            "vulnerableCode": [
+                "_tr.call.value(_profits)();"
+            ],
+            "vulnerabilityReason": "The contract calls `_tr` with `call.value()` to send profits without ensuring that the state updates for `profitsSent` are committed before the transfer. This allows a window for reentrancy attacks similar to the previous case, where the attacker can re-enter during the send operation.",
+            "potentialSecurityRisk": "An attacker could call `sendProfits()` with a malicious contract and recursively invoke `sendProfits()` during the external call before the state change is recorded, again potentially siphoning off funds from the contract that should have been secured.",
+            "fixedCode": "// Ensure profits are properly processed before transferring\nuint profitsToSend = _profits;\nrequire(profitsToSend <= address(this).balance, \"Insufficient contract balance\");\n// Update the profits before external call to avoid reentrancy\nprofitsSent += profitsToSend;\nrequire(_tr.call.value(profitsToSend)(), \"Transfer failed\");"
+        }
+    ]
+}

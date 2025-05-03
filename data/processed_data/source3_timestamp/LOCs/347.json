@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "21-21",
+            "vulnerableCode": [
+                "require(_releaseTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The constructor checks if '_releaseTime' is greater than 'block.timestamp', which can be manipulated by miners who may game the time constraints to set an inappropriate release time.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp to a future time, they can allow the contract to be initialized with a release time that is not effectively in the future, leading to potential immediate access to the locked tokens by specified beneficiaries.",
+            "fixedCode": "require(_releaseTime > block.timestamp + TIME_TOLERANCE); // Adding a buffer to the timestamp check"
+        },
+        {
+            "vulnerableLines": "30-30",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "The 'release' function checks if 'block.timestamp' is greater than or equal to 'releaseTime'. This allows miners to potentially manipulate when the tokens become available for withdrawal based on their control over block timestamps.",
+            "potentialSecurityRisk": "Miners may choose to manipulate the block timestamp to release the tokens at a more convenient or advantageous time for certain parties, undermining the intended lock-up period.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Adding a buffer to the release time check"
+        }
+    ]
+}

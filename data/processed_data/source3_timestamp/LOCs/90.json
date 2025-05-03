@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "77-80",
+            "vulnerableCode": [
+                "stages[0].date = vestingStartUnixTimestamp + halfOfYear;",
+                "stages[1].date = vestingStartUnixTimestamp + year;",
+                "stages[2].date = vestingStartUnixTimestamp + year + halfOfYear;",
+                "stages[3].date = vestingStartUnixTimestamp + (year * 2);"
+            ],
+            "vulnerabilityReason": "The vestingRules function sets future timestamps for each vesting stage based on block.timestamp, making this logic susceptible to manipulation by miners.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamps to artificially trigger vesting events sooner than intended, enabling early withdrawal of tokens and undermining the token vesting schedule.",
+            "fixedCode": "stages[0].date = vestingStartUnixTimestamp + halfOfYear + TIME_TOLERANCE;\nstages[1].date = vestingStartUnixTimestamp + year + TIME_TOLERANCE;\nstages[2].date = vestingStartUnixTimestamp + year + halfOfYear + TIME_TOLERANCE;\nstages[3].date = vestingStartUnixTimestamp + (year * 2) + TIME_TOLERANCE;"
+        },
+        {
+            "vulnerableLines": "121-121",
+            "vulnerableCode": [
+                "if (now >= stages[i].date) {"
+            ],
+            "vulnerabilityReason": "Using 'now' (block.timestamp) in the getTokensUnlockedPercentage function creates a vulnerability as it allows miners to manipulate the condition under which tokens are considered unlocked.",
+            "potentialSecurityRisk": "This manipulation could allow miners to claim more tokens than they should be eligible for, especially if they can adjust the timestamp to meet vesting release conditions.",
+            "fixedCode": "if (block.timestamp >= stages[i].date + TIME_TOLERANCE) {"
+        },
+        {
+            "vulnerableLines": "105-105",
+            "vulnerableCode": [
+                "emit Withdraw(tokensToSend, now);"
+            ],
+            "vulnerabilityReason": "The use of 'now' in the emit statement provides a timestamp for the withdrawal event, which can be controlled by miners; they can manipulate the block timestamp to affect event records.",
+            "potentialSecurityRisk": "An attacker could manipulate the timestamps for transactions that are later verified on event logs, potentially affecting transparency and trust in the contract.",
+            "fixedCode": "emit Withdraw(tokensToSend, block.timestamp);"
+        }
+    ]
+}

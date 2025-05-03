@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "206-206",
+            "vulnerableCode": [
+                "if(!giveEthCharityAddress.call.value(ethToPay).gas(400000) {",
+                "}"
+            ],
+            "vulnerabilityReason": "The function `payCharity()` sends Ether using `call.value()` before any state variable is updated. This allows the recipient contract to call back the function before the total is adjusted.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that, upon receiving Ether, triggers another call back to `payCharity()`, allowing them to drain funds repeatedly before the contract updates its state.",
+            "fixedCode": "totalEthCharityRecieved = SafeMath.add(totalEthCharityRecieved, ethToPay);\nrequire(giveEthCharityAddress.call.value(ethToPay).gas(400000)(), \"Charity transfer failed\");"
+        },
+        {
+            "vulnerableLines": "270-270",
+            "vulnerableCode": [
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "The `withdraw()` function transfers Ether to the user using `transfer()`, which can still invoke a fallback function in a receiving smart contract, potentially resulting in reentrancy if proper state checks aren't implemented beforehand.",
+            "potentialSecurityRisk": "If the `_customerAddress` is a malicious contract, it could exploit this by re-entering `withdraw()` to withdraw more funds than intended before the state is updated, leading to possible contract balance depletion.",
+            "fixedCode": "payoutsTo_[_customerAddress] += (int256)(_dividends * magnitude);\n_customerAddress.transfer(_dividends);\nrequire(myDividends(false) <= address(this).balance, \"Insufficient contract balance for withdrawal\");"
+        }
+    ]
+}
