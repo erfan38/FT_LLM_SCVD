@@ -1,2 +1,0 @@
-contract modularLastUnicorn is RSEvents {}
-

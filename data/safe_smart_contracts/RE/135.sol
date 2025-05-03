@@ -1,1 +1,0 @@
-contract Testtoken5 is StandardToken { // CHANGE THIS. Update the 
