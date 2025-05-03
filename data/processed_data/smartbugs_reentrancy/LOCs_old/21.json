@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 102,
-        "end_line": 102,
-        "code": [
-            "if (!founder.call.value(msg.value)()) revert();"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 265,
-        "end_line": 265,
-        "code": [
-            "if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data))"
-        ]
-    }
-]

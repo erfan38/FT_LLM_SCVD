@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "uint256 tokensToRelease = totalTokens * period / vestingPeriods;"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 56,
-        "end_line": 56,
-        "code": [
-            "require(status == 0 && price > 0 && gameTime > block.timestamp);"
-        ]
-    }
-]

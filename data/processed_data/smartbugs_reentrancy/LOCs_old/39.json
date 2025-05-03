@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 105,
-        "end_line": 105,
-        "code": [
-            "wallet.call.value(amount)();"
-        ]
-    }
-]

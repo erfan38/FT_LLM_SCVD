@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 4,
-        "end_line": 4,
-        "code": [
-            "result *= factor;"
-        ]
-    }
-]

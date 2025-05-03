@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 288,
-        "end_line": 288,
-        "code": [
-            "else if (block.timestamp <= endsAt && !isCrowdsaleFull()) return State.Funding;"
-        ]
-    }
-]

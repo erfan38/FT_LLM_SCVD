@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 121,
-        "end_line": 121,
-        "code": [
-            "assert(crowdSale.call.value(purchaseAmount)());"
-        ]
-    }
-]

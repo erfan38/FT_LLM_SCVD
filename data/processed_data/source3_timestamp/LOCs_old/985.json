@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 11,
-        "end_line": 11,
-        "code": [
-            "uint256 stakingDuration = block.timestamp - stakingTime[user];"
-        ]
-    }
-]

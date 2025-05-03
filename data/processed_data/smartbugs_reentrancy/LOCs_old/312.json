@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 36,
-        "end_line": 36,
-        "code": [
-            "msg.sender.call.value(amount);"
-        ]
-    }
-]

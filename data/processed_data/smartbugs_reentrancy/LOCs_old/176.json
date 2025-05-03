@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 235,
-        "end_line": 235,
-        "code": [
-            "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
-        ]
-    }
-]

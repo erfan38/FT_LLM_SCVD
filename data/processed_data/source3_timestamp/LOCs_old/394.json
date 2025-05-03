@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 206,
-        "end_line": 206,
-        "code": [
-            "require(block.timestamp >= tokenLock.releaseTime);"
-        ]
-    }
-]

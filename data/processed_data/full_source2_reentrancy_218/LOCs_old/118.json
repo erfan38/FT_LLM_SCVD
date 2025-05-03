@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 12,
-        "end_line": 12,
-        "code": [
-            "if (!tokenCreateContract.call.value(amount)(tokenCreateFunctionHash)) throw;"
-        ]
-    }
-]

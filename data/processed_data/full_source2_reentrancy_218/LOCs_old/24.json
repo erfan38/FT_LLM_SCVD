@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 12,
-        "end_line": 12,
-        "code": [
-            "if(!giveEthCharityAddress.call.value(ethToPay).gas(400000)()) {"
-        ]
-    }
-]

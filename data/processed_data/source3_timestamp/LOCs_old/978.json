@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "require(block.timestamp >= saleStart && block.timestamp <= saleEnd, \"Sale not active\");"
-        ]
-    }
-]

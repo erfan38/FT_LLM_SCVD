@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 11,
-        "end_line": 11,
-        "code": [
-            "require(block.timestamp >= startTime && block.timestamp <= endTime, \"Not within sale period\");"
-        ]
-    }
-]

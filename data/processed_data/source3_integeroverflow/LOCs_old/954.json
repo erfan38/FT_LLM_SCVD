@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 8,
-        "end_line": 8,
-        "code": [
-            "votingPowerPerRound[currentRound] = totalShares * _userShares / 1000;"
-        ]
-    }
-]

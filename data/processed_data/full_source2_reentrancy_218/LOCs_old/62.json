@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 9,
-        "end_line": 9,
-        "code": [
-            "_addr.call.value(_wei)();"
-        ]
-    }
-]

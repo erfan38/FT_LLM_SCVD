@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 3,
-        "end_line": 3,
-        "code": [
-            "uint totalTokens = _tokens * _multiplier;"
-        ]
-    }
-]

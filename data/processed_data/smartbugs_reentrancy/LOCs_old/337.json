@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 54,
-        "end_line": 54,
-        "code": [
-            "if (_recipient.call.value(_amount)()) {"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 79,
-        "end_line": 79,
-        "code": [
-            "(bool executed, bytes memory responseData) = destination.call.value(value)(data);"
-        ]
-    }
-]

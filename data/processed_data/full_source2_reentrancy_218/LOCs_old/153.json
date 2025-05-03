@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "if (!(msg.sender.call.value(userBalances[msg.sender])())) { throw ; }"
-        ]
-    }
-]

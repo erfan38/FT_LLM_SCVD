@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "endTime = startTime + durationInDays * 1 days;"
-        ]
-    }
-]

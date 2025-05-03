@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 3,
-        "end_line": 3,
-        "code": [
-            "uint reward = _baseReward + (_blockNumber * 100);"
-        ]
-    }
-]

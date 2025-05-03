@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 346,
-        "end_line": 346,
-        "code": [
-            "require (date_ < block.timestamp);"
-        ]
-    }
-]

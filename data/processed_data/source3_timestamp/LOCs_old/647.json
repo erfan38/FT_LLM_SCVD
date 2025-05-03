@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 20,
-        "end_line": 20,
-        "code": [
-            "vault.deposit.value(msg.value)(msg.sender);"
-        ]
-    }
-]

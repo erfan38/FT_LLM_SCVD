@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 319,
-        "end_line": 319,
-        "code": [
-            "if (walletTransaction.destination.call.value(walletTransaction.value)(walletTransaction.data))"
-        ]
-    }
-]

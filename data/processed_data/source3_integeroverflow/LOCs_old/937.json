@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 6,
-        "end_line": 6,
-        "code": [
-            "unlockTime[msg.sender] = block.timestamp + LOCK_DURATION;"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 53,
-        "end_line": 53,
-        "code": [
-            "smartolution.call.value(msg.value)();"
-        ]
-    }
-]

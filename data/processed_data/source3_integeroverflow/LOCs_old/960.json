@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 8,
-        "end_line": 8,
-        "code": [
-            "reputationPerAction[currentAction] = totalReputation * _actionWeight / 1000;"
-        ]
-    }
-]

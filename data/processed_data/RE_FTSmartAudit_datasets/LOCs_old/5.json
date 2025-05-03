@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 88,
-        "end_line": 88,
-        "code": [
-            "            if(_addr.call.value(_wei)())"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 79,
-        "end_line": 79,
-        "code": [
-            "require(_to.call.value(_value)(_data), \"MSW: External call failed\");"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 78,
-        "end_line": 78,
-        "code": [
-            "uint256 randomValue = uint256(keccak256(block.timestamp, uint256(randomSeed * block.difficulty)));"
-        ]
-    }
-]

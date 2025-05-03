@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 3,
-        "end_line": 3,
-        "code": [
-            "uint interest = _principal * _rate * _time / 100;"
-        ]
-    }
-]

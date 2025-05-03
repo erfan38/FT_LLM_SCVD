@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 7,
-        "end_line": 7,
-        "code": [
-            "    return block.timestamp >= 1546300800;"
-        ]
-    }
-]

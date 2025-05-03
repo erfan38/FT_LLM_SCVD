@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 56,
-        "end_line": 56,
-        "code": [
-            "(success, returnValue) = _contract.call.value(_value)(_data);"
-        ]
-    }
-]

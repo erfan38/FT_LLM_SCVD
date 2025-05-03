@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 236,
-        "end_line": 236,
-        "code": [
-            "if (tx.destination.call.value(tx.value)(tx.data))"
-        ]
-    }
-]

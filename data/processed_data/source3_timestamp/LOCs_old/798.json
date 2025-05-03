@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 22,
-        "end_line": 22,
-        "code": [
-            "require( (msg.value >= 0.1 ether) &&  block.timestamp >= start && block.timestamp <= deadline && amountRaised < maxAmount && ( (msg.value <= 100 ether) || (msg.value > 100 ether && whitelist[msg.sender]==true) ) );"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 65,
-        "end_line": 65,
-        "code": [
-            "return _receiver.call.value(_amount)();"
-        ]
-    }
-]

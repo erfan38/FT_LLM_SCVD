@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 11,
-        "end_line": 11,
-        "code": [
-            "        (bool success, ) = msg.sender.call.value(amountToWithdraw)(\"\"); "
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 216,
-        "end_line": 216,
-        "code": [
-            "require(p.recipient.call.value(p.amount)(transactionBytecode));"
-        ]
-    }
-]

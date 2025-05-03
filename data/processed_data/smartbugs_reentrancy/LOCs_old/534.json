@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 378,
-        "end_line": 378,
-        "code": [
-            "bool isTransferDone = wallet.call.value(msg.value).gas(gasAmount)();"
-        ]
-    }
-]

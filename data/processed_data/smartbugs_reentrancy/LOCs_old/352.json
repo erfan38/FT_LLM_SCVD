@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 81,
-        "end_line": 81,
-        "code": [
-            "if (!msg.sender.call.value(amount)()) throw;"
-        ]
-    }
-]

@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 12,
-        "end_line": 12,
-        "code": [
-            "require(block.timestamp > 1601510400 && msg.sender == owner);"
-        ]
-    }
-]

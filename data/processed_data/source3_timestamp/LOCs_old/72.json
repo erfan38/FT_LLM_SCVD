@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 23,
-        "end_line": 23,
-        "code": [
-            "require(block.timestamp < deadline"
-        ]
-    }
-]

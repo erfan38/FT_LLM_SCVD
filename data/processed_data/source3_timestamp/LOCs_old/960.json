@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 3,
-        "end_line": 3,
-        "code": [
-            "return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, msg.sender)));"
-        ]
-    }
-]

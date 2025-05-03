@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 6,
-        "end_line": 6,
-        "code": [
-            "require(msg.value >= highestBid + BID_INCREMENT, \"Bid too low\");"
-        ]
-    }
-]

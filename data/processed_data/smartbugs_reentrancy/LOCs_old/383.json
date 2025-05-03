@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 62,
-        "end_line": 62,
-        "code": [
-            "            var x= m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
-        ]
-    }
-]

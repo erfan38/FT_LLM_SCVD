@@ -1,9 +1,0 @@
-[
-    {
-        "start_line": 5,
-        "end_line": 5,
-        "code": [
-            "votesReceived[candidate] += votes;"
-        ]
-    }
-]
