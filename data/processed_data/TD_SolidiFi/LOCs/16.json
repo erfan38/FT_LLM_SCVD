@@ -1,0 +1,522 @@
+[
+    {
+        "vulnerableLines": "29-37",
+        "vulnerabilityReason": "The function receiveEther uses now (alias of block.timestamp) to handle critical operations such as transferring balance based on the current timestamp.",
+        "potentialSecurityRisk": "Miners can manipulate the block timestamp to trigger the transfer condition improperly, leading to potential unauthorized fund transfers.",
+        "fixedCode": "function receiveEther() public payable { uint pastBlockTime; require(msg.value == 10 ether); require(now != pastBlockTime); pastBlockTime = now; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther() public payable {",
+            "    uint pastBlockTime; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime); ",
+            "        pastBlockTime = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "40-43",
+        "vulnerabilityReason": "The function playAddress11 uses block.timestamp to compare against a calculated future time. This can lead to exploiters manipulating the block timestamp to gain an unintended advantage.",
+        "potentialSecurityRisk": "A miner could set the timestamp to match the winning condition, allowing them or a colluding party to win instantly, leading to potential loss of funds for other players.",
+        "fixedCode": "function playAddress11(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress11 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress11(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress11 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "45-47",
+        "vulnerabilityReason": "The function checkTime uses block.timestamp directly in a conditional check which can be manipulated by miners.",
+        "potentialSecurityRisk": "This makes it possible for a miner to influence the state of the contract based on their ability to set the block.timestamp value.",
+        "fixedCode": "function checkTime() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "50-52",
+        "vulnerabilityReason": "The function playAddress2 uses block.timestamp directly for a critical condition, allowing it to be influenced by miners.",
+        "potentialSecurityRisk": "Miners can manipulate block.timestamp to meet the condition and improperly change the state of the game or contract.",
+        "fixedCode": "function playAddress2(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress2 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress2(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress2 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "54-56",
+        "vulnerabilityReason": "Like other instances, checkTime17 relies on block.timestamp which can be manipulated by miners.",
+        "potentialSecurityRisk": "Critical contract state decisions might be influenced by miner-controlled timestamps.",
+        "fixedCode": "function checkTime17() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime17() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "58-60",
+        "vulnerabilityReason": "The function checkTime37 also depends on block.timestamp for logical conditions which can be manipulated.",
+        "potentialSecurityRisk": "Allows miners to influence the contract state based on the block timestamp.",
+        "fixedCode": "function checkTime37() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime37() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "62-64",
+        "vulnerabilityReason": "The function checkTime13 uses block.timestamp, allowing conditions to be manipulated by miners.",
+        "potentialSecurityRisk": "Miners can influence the state of the contract and any conditionally allowed operations.",
+        "fixedCode": "function checkTime13() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "  function checkTime13() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "66-66",
+        "vulnerabilityReason": "Declaring and assigning block.timestamp to a storage variable can expose the contract to unexpected logic influenced by miner-controlled timestamps.",
+        "potentialSecurityRisk": "Miners can utilize timestamp discrepancies to exploit the contract's statements and pseudo-randomness.",
+        "fixedCode": "uint256 currentBlockTimestamp5 = now;",
+        "vulnerableCode": [
+            "  uint256 currentBlockTimestamp5 = block.timestamp;"
+        ]
+    },
+    {
+        "vulnerableLines": "72-80",
+        "vulnerabilityReason": "Like the previous functions, receiveEther16 relies on now (block.timestamp) which can be manipulated by miners to trigger unintended balance transfers.",
+        "potentialSecurityRisk": "Exploitation risk through manipulated timestamps resulting in unauthorized fund transfers.",
+        "fixedCode": "function receiveEther16() public payable { uint pastBlockTime16; require(msg.value == 10 ether); require(now != pastBlockTime16); pastBlockTime16 = now; if (block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "  function receiveEther16() public payable {",
+            "    uint pastBlockTime16; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime16); ",
+            "        pastBlockTime16 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "82-82",
+        "vulnerabilityReason": "Assigning block.timestamp to a public storage variable creates potential vulnerability as it allows timestamp manipulation by miners.",
+        "potentialSecurityRisk": "Information based on manipulated block timestamps can lead to incorrect assumptions and potentially exploitative behavior.",
+        "fixedCode": "uint256 currentBlockTimestamp1 = now;",
+        "vulnerableCode": [
+            "  uint256 currentBlockTimestamp1 = block.timestamp;"
+        ]
+    },
+    {
+        "vulnerableLines": "89-92",
+        "vulnerabilityReason": "The function playAddress3 relies on the now (block.timestamp), making it susceptible to miners manipulating the timestamp.",
+        "potentialSecurityRisk": "A miner could manipulate the block timestamp to meet the condition and win the game reward unfairly.",
+        "fixedCode": "function playAddress3(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress3 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress3(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress3 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "104-106",
+        "vulnerabilityReason": "The function checkTime9 uses block.timestamp directly for logical checks which can be influenced by miners.",
+        "potentialSecurityRisk": "This can result in the wrongful alteration of contract states based on the miner's control of the timestamp.",
+        "fixedCode": "function checkTime9() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime9() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "114-122",
+        "vulnerabilityReason": "The function receiveEther24 relies on now (block.timestamp) for transferring balance based on current timestamp calculations.",
+        "potentialSecurityRisk": "Manipulation of block.timestamp by miners may trigger balance transfers resulting in unauthorized fund withdrawals.",
+        "fixedCode": "function receiveEther24() public payable { uint pastBlockTime24; require(msg.value == 10 ether); require(now != pastBlockTime24); pastBlockTime24 = now; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "  function receiveEther24() public payable {",
+            "    uint pastBlockTime24; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime24); ",
+            "        pastBlockTime24 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "124-126",
+        "vulnerabilityReason": "The function checkTime5 uses block.timestamp to make a direct comparison for a conditional return.",
+        "potentialSecurityRisk": "Miners can manipulate block timestamps to falsely satisfy the condition and force an incorrect state.",
+        "fixedCode": "function checkTime5() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "  function checkTime5() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "130-133",
+        "vulnerabilityReason": "The function playAddress15 uses block.timestamp to compare against a calculated future time. This can be exploited by miners.",
+        "potentialSecurityRisk": "A miner could set the timestamp to match the condition, allowing them or a colluding party to win unfairly, leading to potential loss of funds for other players.",
+        "fixedCode": "function playAddress15(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress15 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress15(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress15 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "135-142",
+        "vulnerabilityReason": "The function receiveEther28 uses block.timestamp to indirectly control the flow of funds.",
+        "potentialSecurityRisk": "By manipulating block.timestamp, an attacker can potentially trigger the payment transfer inappropriately, allowing them to drain the contract.",
+        "fixedCode": "function receiveEther28() public payable { require(msg.value == 10 ether); uint256 pastBlockTime28 = now; require(pastBlockTime28 != now); if (now % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "  function receiveEther28() public payable {",
+            "    uint pastBlockTime28; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime28); ",
+            "        pastBlockTime28 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "146-148",
+        "vulnerabilityReason": "The function playAddress34 uses block.timestamp for time-based condition checks which are vulnerable to miner manipulation.",
+        "potentialSecurityRisk": "A miner can set the timestamp to match the winning condition, allowing them to win prematurely and unfairly.",
+        "fixedCode": "function playAddress34(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress34 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress34(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress34 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "150-152",
+        "vulnerabilityReason": "The function checkTime21 uses block.timestamp for a direct comparison, making it dependent on miner-influenced timestamps.",
+        "potentialSecurityRisk": "Miners can manipulate timestamps to trigger or prevent certain contract states or behaviors unjustly.",
+        "fixedCode": "function checkTime21() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "  function checkTime21() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "156-158",
+        "vulnerabilityReason": "The function playAddress10 also utilizes block.timestamp for time-based logic, making it susceptible to manipulation.",
+        "potentialSecurityRisk": "Miners could set timestamps to win or access the contract's functionality prematurely, leading to potential losses.",
+        "fixedCode": "function playAddress10(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress10 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress10(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress10 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "162-164",
+        "vulnerabilityReason": "The function playAddress22 relies on block.timestamp, making it vulnerable to timestamp manipulation by miners.",
+        "potentialSecurityRisk": "Such manipulation allows miners to circumvent the intended time constraints, potentially gaining unauthorized access or rewards.",
+        "fixedCode": "function playAddress22(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress22 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress22(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress22 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "177-179",
+        "vulnerabilityReason": "The function checkTime25 makes use of block.timestamp for a conditional return, making it subject to timestamp dependence.",
+        "potentialSecurityRisk": "Manipulated timestamps by miners can trigger or prevent conditions incorrectly, leading to adverse effects on the contract's state.",
+        "fixedCode": "function checkTime25() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime25() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "185-188",
+        "vulnerabilityReason": "The function playAddress19 uses block.timestamp to determine specific action conditions, introducing timestamp dependence.",
+        "potentialSecurityRisk": "Timestamp manipulation may allow miners an unfair advantage or access to functionalities meant to be time-constrained.",
+        "fixedCode": "function playAddress19(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress19 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress19(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress19 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "195-197",
+        "vulnerabilityReason": "The function playAddress26 similar to others, directly compares block.timestamp against a future time, susceptible to miner manipulation.",
+        "potentialSecurityRisk": "Miners could exploit this to prematurely trigger conditions, leading to potential unfair advantage or gains.",
+        "fixedCode": "function playAddress26(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress26 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress26(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress26 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "202-209",
+        "vulnerabilityReason": "Function receiveEther20 checks block.timestamp for conditional payment execution, vulnerable to miners' control over timestamps.",
+        "potentialSecurityRisk": "An attacker can manipulate the contract state via timestamps to trigger conditions and transfer funds incorrectly.",
+        "fixedCode": "function receiveEther20() public payable { require(msg.value == 10 ether); uint256 pastBlockTime20 = now; require(pastBlockTime20 != now); if (now % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther20() public payable {",
+            "    uint pastBlockTime20; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime20); ",
+            "        pastBlockTime20 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "220-227",
+        "vulnerabilityReason": "The receiveEther32 function, like other instances, uses timestamp-based conditions which can be manipulated.",
+        "potentialSecurityRisk": "Miners can exploit the timestamp to prematurely or incorrectly trigger fund transfers, resulting in potential financial loss.",
+        "fixedCode": "function receiveEther32() public payable { require(msg.value == 10 ether); uint256 pastBlockTime32 = now; require(pastBlockTime32 != now); if (now % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther32() public payable {",
+            "    uint pastBlockTime32; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime32); ",
+            "        pastBlockTime32 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "239-241",
+        "vulnerabilityReason": "The playAddress38 function uses block.timestamp to compare against a preset future time, allowing for miner manipulation.",
+        "potentialSecurityRisk": "It enables miners to forge timestamps and achieve unfair conditions leading to unintended or premature wins.",
+        "fixedCode": "function playAddress38(uint startTime) public { require(startTime + (5 * 1 days) <= block.timestamp, 'Game not started or already finished'); winnerAddress38 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress38(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress38 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "246-253",
+        "vulnerabilityReason": "The function receiveEther4 uses block.timestamp (now) to manipulate timing conditions for funds distribution, which is susceptible to miner influence.",
+        "potentialSecurityRisk": "A miner could manipulate block timestamps to trigger the transfer condition and unfairly drain the contract's funds.",
+        "fixedCode": "function receiveEther4() public payable { uint pastBlockTime4 = block.number; require(msg.value == 10 ether); require(block.number != pastBlockTime4); pastBlockTime4 = block.number; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther4() public payable {",
+            "    uint pastBlockTime4; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime4); ",
+            "        pastBlockTime4 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "261-264",
+        "vulnerabilityReason": "The function playAddress7 relies on block.timestamp to determine the winning condition, allowing for timestamp manipulation by miners.",
+        "potentialSecurityRisk": "A miner could adjust the block timestamp to exploit the game and claim the reward unfairly, leading to potential financial losses.",
+        "fixedCode": "function playAddress7(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress7 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress7(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress7 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "273-276",
+        "vulnerabilityReason": "The function playAddress23 depends on block.timestamp for determining the winning condition, making it vulnerable to manipulation by miners.",
+        "potentialSecurityRisk": "By adjusting the block timestamp, a miner could exploit this vulnerability to win the game unfairly and claim undeserved rewards.",
+        "fixedCode": "function playAddress23(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress23 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress23(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress23 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "282-284",
+        "vulnerabilityReason": "Using block.timestamp to determine the winning condition within playAddress14 makes the function susceptible to miner manipulation.",
+        "potentialSecurityRisk": "Miners could exploit the timestamp dependency to unfairly win the game, resulting in an abuse of the contract's logic.",
+        "fixedCode": "function playAddress14(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress14 = msg.sender; }",
+        "vulnerableCode": [
+            "function playAddress14(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress14 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "290-293",
+        "vulnerabilityReason": "The function playAddress30 uses block.timestamp to check the winning condition, which can be influenced by miners to their advantage.",
+        "potentialSecurityRisk": "Miners could manipulate the block timestamp to trigger the winning condition and claim the reward illegally.",
+        "fixedCode": "function playAddress30(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress30 = msg.sender; }",
+        "vulnerableCode": [
+            "address winnerAddress30;",
+            "function playAddress30(uint startTime) public {",
+            "    if (startTime + (5 * 1 days) == block.timestamp){",
+            "        winnerAddress30 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "300-307",
+        "vulnerabilityReason": "The function receiveEther8 utilizes block.timestamp (now) for critical operations, opening up the possibility of timestamp-based attacks.",
+        "potentialSecurityRisk": "Timestamp manipulation by miners could lead to unauthorized transfers from the contract, resulting in potential financial losses.",
+        "fixedCode": "function receiveEther8() public payable { uint pastBlockTime8 = block.number; require(msg.value == 10 ether); require(block.number != pastBlockTime8); pastBlockTime8 = block.number; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther8() public payable {",
+            "    uint pastBlockTime8; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime8); ",
+            "        pastBlockTime8 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "315-319",
+        "vulnerabilityReason": "playAddress39 function uses block.timestamp to determine the winning condition, making it vulnerable to miner timestamp manipulation.",
+        "potentialSecurityRisk": "A miner could alter the block timestamp to trigger the win condition, claiming the reward unjustly.",
+        "fixedCode": "function playAddress39(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress39 = msg.sender; }",
+        "vulnerableCode": [
+            "address winnerAddress39;",
+            "function playAddress39(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress39 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "324-331",
+        "vulnerabilityReason": "The function receiveEther36 employs block.timestamp (now) for critical operations, making it vulnerable to miner manipulation.",
+        "potentialSecurityRisk": "By manipulating timestamps, miners can trigger transfer conditions and drain the contract's funds.",
+        "fixedCode": "function receiveEther36() public payable { uint pastBlockTime36 = block.number; require(msg.value == 10 ether); require(block.number != pastBlockTime36); pastBlockTime36 = block.number; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther36() public payable {",
+            "    uint pastBlockTime36; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime36); ",
+            "        pastBlockTime36 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "339-343",
+        "vulnerabilityReason": "The function playAddress35 uses block.timestamp to determine the winning condition, which can be manipulated by miners to their advantage.",
+        "potentialSecurityRisk": "Miners might exploit this vulnerability to manipulate the block timestamp and win the game unfairly.",
+        "fixedCode": "function playAddress35(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress35 = msg.sender; }",
+        "vulnerableCode": [
+            "address winnerAddress35;",
+            "function playAddress35(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress35 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "349-356",
+        "vulnerabilityReason": "The function receiveEther40 uses block.timestamp (now) in critical conditions, making it susceptible to manipulation by miners.",
+        "potentialSecurityRisk": "Timestamp manipulation can trigger unauthorized fund transfers, leading to potential financial losses for the contract.",
+        "fixedCode": "function receiveEther40() public payable { uint pastBlockTime40 = block.number; require(msg.value == 10 ether); require(block.number != pastBlockTime40); pastBlockTime40 = block.number; if(block.number % 15 == 0) { msg.sender.transfer(address(this).balance); } }",
+        "vulnerableCode": [
+            "function receiveEther40() public payable {",
+            "    uint pastBlockTime40; ",
+            "    require(msg.value == 10 ether); ",
+            "        require(now != pastBlockTime40); ",
+            "        pastBlockTime40 = now;       ",
+            "        if(now % 15 == 0) { ",
+            "            msg.sender.transfer(address(this).balance);",
+            "        }"
+        ]
+    },
+    {
+        "vulnerableLines": "366-368",
+        "vulnerabilityReason": "The function checkTime33 uses block.timestamp to check if a certain date has passed. This can be influenced by miners to some extent.",
+        "potentialSecurityRisk": "Miners might manipulate the block.timestamp to force the condition to be true, potentially allowing unauthorized access or triggering events prematurely.",
+        "fixedCode": "function checkTime33() view public returns (bool) { return now >= 1546300800; }",
+        "vulnerableCode": [
+            "function checkTime33() view public returns (bool) {",
+            "    return block.timestamp >= 1546300800;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "376-380",
+        "vulnerabilityReason": "The function playAddress27 uses block.timestamp to determine if a certain time has passed, which can be manipulated by miners.",
+        "potentialSecurityRisk": "A miner could set the timestamp to claim the winner status unfairly, leading to an advantage over others.",
+        "fixedCode": "function playAddress27(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress27 = msg.sender; }",
+        "vulnerableCode": [
+            "address winnerAddress27;",
+            "function playAddress27(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress27 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "387-391",
+        "vulnerabilityReason": "The function playAddress31 relies on block.timestamp to determine if a certain period has passed. Miners can manipulate the block.timestamp.",
+        "potentialSecurityRisk": "Miners could set the timestamp to gain an unfair win by meeting the condition artificially.",
+        "fixedCode": "function playAddress31(uint startTime) public { require(startTime + (5 * 1 days) <= now, 'Game not started or already finished'); winnerAddress31 = msg.sender; }",
+        "vulnerableCode": [
+            "address winnerAddress31;",
+            "function playAddress31(uint startTime) public {",
+            "    uint currentTime = block.timestamp;",
+            "    if (startTime + (5 * 1 days) == currentTime){",
+            "        winnerAddress31 = msg.sender;}}"
+        ]
+    },
+    {
+        "vulnerableLines": "393-393",
+        "vulnerabilityReason": "The assignment of block.timestamp to a public variable currentBlockTimestamp2 can be manipulated by miners, exposing incorrect state timings.",
+        "potentialSecurityRisk": "Users might be misled by the incorrect time states, leading to inappropriate actions based on misleading information.",
+        "fixedCode": "uint256 currentBlockTimestamp2 = now;",
+        "vulnerableCode": [
+            "  uint256 currentBlockTimestamp2 = block.timestamp;"
+        ]
+    },
+    {
+        "vulnerableLines": "395-395",
+        "vulnerabilityReason": "Assigning block.timestamp to a public variable currentBlockTimestamp3 exposes it to potential misuse based on miner manipulation of timestamps.",
+        "potentialSecurityRisk": "Misleading time state exposure can lead to incorrect assumptions about contract behavior or timing, affecting user decisions.",
+        "fixedCode": "uint256 currentBlockTimestamp3 = now;",
+        "vulnerableCode": [
+            "  uint256 currentBlockTimestamp3 = block.timestamp;"
+        ]
+    },
+    {
+        "vulnerableLines": "397-397",
+        "vulnerabilityReason": "Like other instances, using block.timestamp to set currentBlockTimestamp4 exposes it to being influenced by miners, leading to incorrect state assumptions.",
+        "potentialSecurityRisk": "Incorrect timing states can mislead users, resulting in inappropriate actions affecting contract interactions.",
+        "fixedCode": "uint256 currentBlockTimestamp4 = now;",
+        "vulnerableCode": [
+            "  uint256 currentBlockTimestamp4 = block.timestamp;"
+        ]
+    }
+]
