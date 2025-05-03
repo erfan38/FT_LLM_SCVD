@@ -1,0 +1,789 @@
+[
+    {
+        "vulnerableLines": "5-7",
+        "vulnerabilityReason": "The variable 'params1' is incremented by 'p_24' without checks, potentially causing an overflow.",
+        "potentialSecurityRisk": "This allows 'params1' to exceed the maximum uint8 value, leading to unintended behavior in subsequent logic.",
+        "fixedCode": "function updates_24(uint8 p_24) public { uint8 params1 = 0; require(params1 + p_24 >= params1); params1 = params1 + p_24; }",
+        "vulnerableCode": [
+            "  function updates_24(uint8 p_24) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_24;   "
+        ]
+    },
+    {
+        "vulnerableLines": "14-16",
+        "vulnerabilityReason": "The variable 'params' starts at 0 and is decremented by 10 without checks, causing an underflow.",
+        "potentialSecurityRisk": "This allows 'params' to wrap around to a large positive number, which could manipulate logic and lead to unintended behavior.",
+        "fixedCode": "function updates_11() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "function updates_11() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "30",
+        "vulnerabilityReason": "The 'lockTime_1' mapping can result in an overflow when '_secondsToIncrease' is large.",
+        "potentialSecurityRisk": "An attacker could increase the lock time beyond intended limits, causing the contract to behave incorrectly.",
+        "fixedCode": "function increaseLockTime_1(uint _secondsToIncrease) public { require(lockTime_1[msg.sender] + _secondsToIncrease >= lockTime_1[msg.sender]); lockTime_1[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "        lockTime_1[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "41-43",
+        "vulnerabilityReason": "The variable 'params' starts at 0 and is decremented by 10 without checks, causing an underflow.",
+        "potentialSecurityRisk": "This allows 'params' to wrap around to a large positive number, leading to unintended manipulation.",
+        "fixedCode": "function updates_39() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_39() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "46-48",
+        "vulnerabilityReason": "The variable 'params1' is incremented by 'p_36' without checks, potentially causing an overflow.",
+        "potentialSecurityRisk": "This allows 'params1' to exceed the maximum uint8 value, leading to unintended behavior in subsequent logic.",
+        "fixedCode": "function updates_36(uint8 p_36) public { uint8 params1 = 0; require(params1 + p_36 >= params1); params1 = params1 + p_36; }",
+        "vulnerableCode": [
+            "  function updates_36(uint8 p_36) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_36;   "
+        ]
+    },
+    {
+        "vulnerableLines": "57-62",
+        "vulnerabilityReason": "The 'balances_2' mapping can result in an underflow when '_value' is greater than the sender's balance.",
+        "potentialSecurityRisk": "An attacker could manipulate balances to allow unlimited withdrawals.",
+        "fixedCode": "function transfer_2(address _to, uint _value) public returns (bool) { require(balances_2[msg.sender] >= _value); balances_2[msg.sender] -= _value; balances_2[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "mapping(address => uint) balances_2;",
+            "",
+            "function transfer_2(address _to, uint _value) public returns (bool) {",
+            "    require(balances_2[msg.sender] - _value >= 0);  ",
+            "    balances_2[msg.sender] -= _value;  ",
+            "    balances_2[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "71",
+        "vulnerabilityReason": "The 'lockTime_17' mapping can result in an overflow when '_secondsToIncrease' is large.",
+        "potentialSecurityRisk": "An attacker could increase the lock time beyond intended limits, causing the contract to behave incorrectly.",
+        "fixedCode": "function increaseLockTime_17(uint _secondsToIncrease) public { require(lockTime_17[msg.sender] + _secondsToIncrease >= lockTime_17[msg.sender]); lockTime_17[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "function increaseLockTime_17(uint _secondsToIncrease) public {"
+        ]
+    },
+    {
+        "vulnerableLines": "96-97",
+        "vulnerabilityReason": "The variable 'params' starts at 0 and is decremented by 10 without checks, causing an underflow.",
+        "potentialSecurityRisk": "This allows 'params' to wrap around to a large positive number, leading to unintended manipulation.",
+        "fixedCode": "function updates_3() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "103",
+        "vulnerabilityReason": "The 'lockTime_9' mapping can result in an overflow when '_secondsToIncrease' is large.",
+        "potentialSecurityRisk": "An attacker could increase the lock time beyond intended limits, causing the contract to behave incorrectly.",
+        "fixedCode": "function increaseLockTime_9(uint _secondsToIncrease) public { require(lockTime_9[msg.sender] + _secondsToIncrease >= lockTime_9[msg.sender]); lockTime_9[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "        lockTime_9[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "113-114",
+        "vulnerabilityReason": "The 'lockTime_25' mapping can result in an overflow when '_secondsToIncrease' is large.",
+        "potentialSecurityRisk": "An attacker could increase the lock time beyond intended limits, causing the contract to behave incorrectly.",
+        "fixedCode": "function increaseLockTime_25(uint _secondsToIncrease) public { require(lockTime_25[msg.sender] + _secondsToIncrease >= lockTime_25[msg.sender]); lockTime_25[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "function increaseLockTime_25(uint _secondsToIncrease) public {",
+            "        lockTime_25[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "122-124",
+        "vulnerabilityReason": "The variable 'params' is initialized to 0 and then decremented by 10 without any checks, leading to an underflow.",
+        "potentialSecurityRisk": "This underflow can manipulate the contract's state variables, causing unexpected behavior.",
+        "fixedCode": "function updates_19() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "function updates_19() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "129-132",
+        "vulnerabilityReason": "In the 'transfer_26' function, there is no check on the subtraction operation which may cause an underflow if '_value' is greater than 'balances_26[msg.sender]'.",
+        "potentialSecurityRisk": "An attacker could exploit this vulnerability to withdraw more than their balance, leading to a negative balance and exploiting the contract.",
+        "fixedCode": "function transfer_26(address _to, uint _value) public returns (bool) { require(balances_26[msg.sender] >= _value); balances_26[msg.sender] -= _value; balances_26[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_26(address _to, uint _value) public returns (bool) {",
+            "    require(balances_26[msg.sender] - _value >= 0);  ",
+            "    balances_26[msg.sender] -= _value;  ",
+            "    balances_26[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "136-138",
+        "vulnerabilityReason": "The function 'updates_20' adds 'p_20' to 'params1' without checking the potential for overflow.",
+        "potentialSecurityRisk": "This could cause an overflow, leading to unexpected and potentially exploitable behavior.",
+        "fixedCode": "function updates_20(uint8 p_20) public { uint8 params1 = 0; require(params1 + p_20 >= params1); params1 = params1 + p_20; }",
+        "vulnerableCode": [
+            "function updates_20(uint8 p_20) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_20;   "
+        ]
+    },
+    {
+        "vulnerableLines": "188-189",
+        "vulnerabilityReason": "The 'increaseLockTime_5' function adds '_secondsToIncrease' to 'lockTime_5[msg.sender]' without overflow checks.",
+        "potentialSecurityRisk": "This could result in an overflow, leading to an incorrect lock time and potential exploitation.",
+        "fixedCode": "function increaseLockTime_5(uint _secondsToIncrease) public { lockTime_5[msg.sender] = lockTime_5[msg.sender].add(_secondsToIncrease); }",
+        "vulnerableCode": [
+            "function increaseLockTime_5(uint _secondsToIncrease) public {",
+            "        lockTime_5[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "197-199",
+        "vulnerabilityReason": "'params' is initialized to 0 and decremented by 10 without checks, leading to underflow.",
+        "potentialSecurityRisk": "This will lead to erroneous values and potential manipulation of subsequent logic.",
+        "fixedCode": "function updates_15() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_15() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "202-204",
+        "vulnerabilityReason": "The function 'updates_28' adds 'p_28' to 'params1' without validating for overflow potential.",
+        "potentialSecurityRisk": "An overflow could occur, causing unexpected manipulation of the contract's state.",
+        "fixedCode": "function updates_28(uint8 p_28) public { uint8 params1 = 0; require(params1 + p_28 >= params1); params1 = params1 + p_28; }",
+        "vulnerableCode": [
+            "  function updates_28(uint8 p_28) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_28;   "
+        ]
+    },
+    {
+        "vulnerableLines": "209-212",
+        "vulnerabilityReason": "In the 'transfer_34' function, the subtraction may cause an underflow if '_value' is greater than 'balances_34[msg.sender]', which is not checked.",
+        "potentialSecurityRisk": "This presents an opportunity for exploits where negative balances could be used.",
+        "fixedCode": "function transfer_34(address _to, uint _value) public returns (bool) { require(balances_34[msg.sender] >= _value); balances_34[msg.sender] -= _value; balances_34[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_34(address _to, uint _value) public returns (bool) {",
+            "    require(balances_34[msg.sender] - _value >= 0);  ",
+            "    balances_34[msg.sender] -= _value;  ",
+            "    balances_34[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "218-219",
+        "vulnerabilityReason": "The function 'increaseLockTime_21' adds '_secondsToIncrease' to 'lockTime_21[msg.sender]' without overflow checks.",
+        "potentialSecurityRisk": "An integer overflow could lead to unintended lock times being set, making the contract easier to exploit.",
+        "fixedCode": "function increaseLockTime_21(uint _secondsToIncrease) public { lockTime_21[msg.sender] = lockTime_21[msg.sender].add(_secondsToIncrease); }",
+        "vulnerableCode": [
+            "function increaseLockTime_21(uint _secondsToIncrease) public {",
+            "        lockTime_21[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "229-232",
+        "vulnerabilityReason": "'transfer_10' function does not properly safeguard against arithmetic underflow during the balance update.",
+        "potentialSecurityRisk": "An attacker could exploit this to withdraw more than their balance, potentially leading to a negative balance.",
+        "fixedCode": "function transfer_10(address _to, uint _value) public returns (bool) { require(balances_10[msg.sender] >= _value); balances_10[msg.sender] -= _value; balances_10[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_10(address _to, uint _value) public returns (bool) {",
+            "    require(balances_10[msg.sender] - _value >= 0);  ",
+            "    balances_10[msg.sender] -= _value;  ",
+            "    balances_10[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "238-242",
+        "vulnerabilityReason": "The subtraction operation on 'balances_22[msg.sender]' can lead to an underflow if '_value' exceeds the sender's balance. No check exists to prevent this.",
+        "potentialSecurityRisk": "An attacker can cause an underflow, leading to incorrect balance and potential loss of funds.",
+        "fixedCode": "function transfer_22(address _to, uint _value) public returns (bool) { require(balances_22[msg.sender] >= _value); balances_22[msg.sender] -= _value; balances_22[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_22(address _to, uint _value) public returns (bool) {",
+            "    require(balances_22[msg.sender] - _value >= 0);  ",
+            "    balances_22[msg.sender] -= _value;  ",
+            "    balances_22[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "246-248",
+        "vulnerabilityReason": "The addition operation on 'params1' can lead to an overflow if 'p_12' is large enough, without a safeguard.",
+        "potentialSecurityRisk": "Overflow can result in unexpected behavior and potential vulnerabilities in the contract logic.",
+        "fixedCode": "function updates_12(uint8 p_12) public { uint8 params1 = 0; require(params1 + p_12 >= params1); params1 = params1 + p_12; }",
+        "vulnerableCode": [
+            "  function updates_12(uint8 p_12) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_12;   "
+        ]
+    },
+    {
+        "vulnerableLines": "252-254",
+        "vulnerabilityReason": "The subtraction operation 'params = params - 10' causes underflow as 'params' is initially set to 0.",
+        "potentialSecurityRisk": "Underflow results in 'params' wrapping around to a maximum value, causing potential logical issues.",
+        "fixedCode": "function updates_35() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_35() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "257-259",
+        "vulnerabilityReason": "The addition operation on 'params1' can lead to an overflow if 'p_40' is large enough, without a safeguard.",
+        "potentialSecurityRisk": "Overflow can result in unexpected behavior and potential vulnerabilities in the contract logic.",
+        "fixedCode": "function updates_40(uint8 p_40) public { uint8 params1 = 0; require(params1 + p_40 >= params1); params1 = params1 + p_40; }",
+        "vulnerableCode": [
+            "  function updates_40(uint8 p_40) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_40;   "
+        ]
+    },
+    {
+        "vulnerableLines": "264-265",
+        "vulnerabilityReason": "The addition operation on 'lockTime_33[msg.sender]' can lead to an overflow if '_secondsToIncrease' is large enough, without a safeguard.",
+        "potentialSecurityRisk": "Overflow can result in incorrect lock times and potential bypassing of intended delays.",
+        "fixedCode": "function increaseLockTime_33(uint _secondsToIncrease) public { require(lockTime_33[msg.sender] + _secondsToIncrease >= lockTime_33[msg.sender]); lockTime_33[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "function increaseLockTime_33(uint _secondsToIncrease) public {",
+            "        lockTime_33[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "273-275",
+        "vulnerabilityReason": "The subtraction operation 'params = params - 10' causes underflow as 'params' is initially set to 0.",
+        "potentialSecurityRisk": "Underflow results in 'params' wrapping around to a maximum value, causing potential logical issues.",
+        "fixedCode": "function updates_27() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_27() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "278-280",
+        "vulnerabilityReason": "The subtraction operation 'params = params - 10' causes underflow as 'params' is initially set to 0.",
+        "potentialSecurityRisk": "Underflow results in 'params' wrapping around to a maximum value, causing potential logical issues.",
+        "fixedCode": "function updates_31() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_31() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "285-286",
+        "vulnerabilityReason": "The addition operation on 'lockTime_13[msg.sender]' can lead to an overflow if '_secondsToIncrease' is large enough, without a safeguard.",
+        "potentialSecurityRisk": "Overflow can result in incorrect lock times and potential bypassing of intended delays.",
+        "fixedCode": "function increaseLockTime_13(uint _secondsToIncrease) public { require(lockTime_13[msg.sender] + _secondsToIncrease >= lockTime_13[msg.sender]); lockTime_13[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "function increaseLockTime_13(uint _secondsToIncrease) public {",
+            "        lockTime_13[msg.sender] += _secondsToIncrease;  "
+        ]
+    },
+    {
+        "vulnerableLines": "327-329",
+        "vulnerabilityReason": "The addition operation on 'params1' can lead to an overflow if 'p_32' is large enough, without a safeguard.",
+        "potentialSecurityRisk": "Overflow can result in unexpected behavior and potential vulnerabilities in the contract logic.",
+        "fixedCode": "function updates_32(uint8 p_32) public { uint8 params1 = 0; require(params1 + p_32 >= params1); params1 = params1 + p_32; }",
+        "vulnerableCode": [
+            "function updates_32(uint8 p_32) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_32;   "
+        ]
+    },
+    {
+        "vulnerableLines": "339-345",
+        "vulnerabilityReason": "The subtraction operation on 'balances_38[msg.sender]' can lead to an underflow if '_value' exceeds the sender's balance. No check exists to prevent this.",
+        "potentialSecurityRisk": "An attacker can cause an underflow, leading to incorrect balance and potential loss of funds.",
+        "fixedCode": "function transfer_38(address _to, uint _value) public returns (bool) { require(balances_38[msg.sender] >= _value); balances_38[msg.sender] -= _value; balances_38[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "mapping(address => uint) balances_38;",
+            "",
+            "function transfer_38(address _to, uint _value) public returns (bool) {",
+            "    require(balances_38[msg.sender] - _value >= 0);  ",
+            "    balances_38[msg.sender] -= _value;  ",
+            "    balances_38[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "363",
+        "vulnerabilityReason": "Variable 'params1' is incremented by 'p_4' without check which can lead to overflow if 'p_4' is large.",
+        "potentialSecurityRisk": "Overflow can cause unpredicted and potentially malicious contract behavior due to value overflow.",
+        "fixedCode": "function updates_4(uint8 p_4) public { uint8 params1 = 0; require(params1 + p_4 >= params1); params1 = params1 + p_4; }",
+        "vulnerableCode": [
+            "    params1 = params1 + p_4;   "
+        ]
+    },
+    {
+        "vulnerableLines": "394",
+        "vulnerabilityReason": "Variable 'params' is decremented by 10 without check, leading to underflow.",
+        "potentialSecurityRisk": "This causes 'params' to wrap around to a large positive number, leading to potential misuse or errors.",
+        "fixedCode": "function updates_7() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "412",
+        "vulnerabilityReason": "Variable 'params' is decremented by 10 without validation, resulting in underflow.",
+        "potentialSecurityRisk": "It causes 'params' to wrap around to a large positive number, leading to unforeseen contract behavior.",
+        "fixedCode": "function updates_23() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "435-437",
+        "vulnerabilityReason": "Subtracting '_value' from 'balances_14[msg.sender]' without additional check for underflow risk.",
+        "potentialSecurityRisk": "An attacker could exploit the contract to withdraw more funds than available, causing a negative balance.",
+        "fixedCode": "function transfer_14(address _to, uint _value) public returns (bool) { require(balances_14[msg.sender] >= _value); balances_14[msg.sender] -= _value; balances_14[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "    require(balances_14[msg.sender] - _value >= 0);  ",
+            "    balances_14[msg.sender] -= _value;  ",
+            "    balances_14[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "462-464",
+        "vulnerabilityReason": "Subtracting '_value' from 'balances_30[msg.sender]' without additional check for underflow risk.",
+        "potentialSecurityRisk": "Creates possibility of manipulating funds to exceed the maximum balance thereby allowing withdrawals more than funds available.",
+        "fixedCode": "function transfer_30(address _to, uint _value) public returns (bool) { require(balances_30[msg.sender] >= _value); balances_30[msg.sender] -= _value; balances_30[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "    require(balances_30[msg.sender] - _value >= 0);  ",
+            "    balances_30[msg.sender] -= _value;  ",
+            "    balances_30[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "509-512",
+        "vulnerabilityReason": "The 'params1' variable is incremented by 'p_8' without any checks, potentially leading to an overflow if 'p_8' is large.",
+        "potentialSecurityRisk": "This overflow could be exploited to manipulate internal states incorrectly, causing subsequent logic calculations to fail or be exploited.",
+        "fixedCode": "function updates_8(uint8 p_8) public { uint8 params1 = 0; require(params1 + p_8 >= params1); params1 = params1 + p_8; }",
+        "vulnerableCode": [
+            "function updates_8(uint8 p_8) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_8;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "518-521",
+        "vulnerabilityReason": "Similar to updates_8, the 'params1' variable is incremented by 'p_24' without checks, leading to a potential overflow.",
+        "potentialSecurityRisk": "Unchecked overflows could result in incorrect state manipulation, leading to faults or exploitable contract states.",
+        "fixedCode": "function updates_24(uint8 p_24) public { uint8 params1 = 0; require(params1 + p_24 >= params1); params1 = params1 + p_24; }",
+        "vulnerableCode": [
+            "  function updates_24(uint8 p_24) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_24;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "527-530",
+        "vulnerabilityReason": "'params' starts at 0 and is decremented by 10 without any checks, leading to an integer underflow.",
+        "potentialSecurityRisk": "This underflow wraps the variable to a large value, causing potential misuse or logical errors in subsequent contract executions.",
+        "fixedCode": "function updates_11() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "function updates_11() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "542-544",
+        "vulnerabilityReason": "The 'lockTime_1[msg.sender]' value is incremented without any checks, leading to potential overflow.",
+        "potentialSecurityRisk": "Unchecked, this overflow may lead to bypassing lock times, allowing premature or unauthorized withdrawals.",
+        "fixedCode": "function increaseLockTime_1(uint _secondsToIncrease) public { require(lockTime_1[msg.sender] + _secondsToIncrease >= lockTime_1[msg.sender]); lockTime_1[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "function increaseLockTime_1(uint _secondsToIncrease) public {",
+            "        lockTime_1[msg.sender] += _secondsToIncrease;  ",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "545-549",
+        "vulnerabilityReason": "The 'transferValue_1' assignment does not check the balance of the contract, leading to potential underflows.",
+        "potentialSecurityRisk": "This can be exploited to drain more funds than exist in the contract, leading to loss of funds.",
+        "fixedCode": "function withdraw_1() public { require(now > lockTime_1[msg.sender]); uint transferValue_1 = 10; require(address(this).balance >= transferValue_1); msg.sender.transfer(transferValue_1); }",
+        "vulnerableCode": [
+            "function withdraw_1() public {",
+            "        require(now > lockTime_1[msg.sender]);    ",
+            "        uint transferValue_1 = 10;           ",
+            "        msg.sender.transfer(transferValue_1);",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "554-557",
+        "vulnerabilityReason": "The 'params' variable starts at 0 and is decremented by 10, leading to an integer underflow.",
+        "potentialSecurityRisk": "Can cause the variable to wrap to a large, incorrect value, potentially breaking contract logic.",
+        "fixedCode": "function updates_39() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_39() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "559-562",
+        "vulnerabilityReason": "The 'params1' variable is incremented by 'p_36' without checks, leading to potential overflow.",
+        "potentialSecurityRisk": "Without validation, this could result in logical errors or manipulation of contract states.",
+        "fixedCode": "function updates_36(uint8 p_36) public { uint8 params1 = 0; require(params1 + p_36 >= params1); params1 = params1 + p_36; }",
+        "vulnerableCode": [
+            "  function updates_36(uint8 p_36) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_36;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "570-576",
+        "vulnerabilityReason": "The 'balances_2' mapping may result in an underflow, as there's no prior check before subtraction.",
+        "potentialSecurityRisk": "An attacker can manipulate this to withdraw more than allowed, leading to negative balances and potential fund loss.",
+        "fixedCode": "function transfer_2(address _to, uint _value) public returns (bool) { require(balances_2[msg.sender] >= _value); balances_2[msg.sender] -= _value; balances_2[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "mapping(address => uint) balances_2;",
+            "",
+            "function transfer_2(address _to, uint _value) public returns (bool) {",
+            "    require(balances_2[msg.sender] - _value >= 0);  ",
+            "    balances_2[msg.sender] -= _value;  ",
+            "    balances_2[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "582-586",
+        "vulnerabilityReason": "The 'lockTime_17[msg.sender]' value is incremented without checks, potentially causing overflow.",
+        "potentialSecurityRisk": "Overflowing the lock time could allow unauthorized, premature access to funds.",
+        "fixedCode": "function increaseLockTime_17(uint _secondsToIncrease) public { require(lockTime_17[msg.sender] + _secondsToIncrease >= lockTime_17[msg.sender]); lockTime_17[msg.sender] += _secondsToIncrease; }",
+        "vulnerableCode": [
+            "mapping(address => uint) public lockTime_17;",
+            "",
+            "function increaseLockTime_17(uint _secondsToIncrease) public {",
+            "        lockTime_17[msg.sender] += _secondsToIncrease;  ",
+            "    }"
+        ]
+    },
+    {
+        "vulnerableLines": "608-611",
+        "vulnerabilityReason": "The variable 'params' is initialized to 0 and decremented by 10, without any checks, leading to an underflow.",
+        "potentialSecurityRisk": "This allows 'params' to wrap around to a large positive number, which could be exploited by an attacker to manipulate subsequent logic.",
+        "fixedCode": "function updates_3() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "function updates_3() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "635-638",
+        "vulnerabilityReason": "Similar to the previous function, 'params' starts at 0 and is decremented by 10, creating an underflow.",
+        "potentialSecurityRisk": "This underflow allows 'params' to roll over to a large positive value, potentially causing issues in future calculations or logic.",
+        "fixedCode": "function updates_19() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "function updates_19() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "642-646",
+        "vulnerabilityReason": "The 'balances_26' mapping can result in an underflow since subtraction occurs without prior validation.",
+        "potentialSecurityRisk": "An attacker can manipulate balances to allow unlimited withdrawals, leading to potential loss of funds.",
+        "fixedCode": "function transfer_26(address _to, uint _value) public returns (bool) { require(balances_26[msg.sender] >= _value); balances_26[msg.sender] -= _value; balances_26[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_26(address _to, uint _value) public returns (bool) {",
+            "    require(balances_26[msg.sender] - _value >= 0);  ",
+            "    balances_26[msg.sender] -= _value;  ",
+            "    balances_26[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "649-652",
+        "vulnerabilityReason": "'params1' is being incremented without sufficient checks, potentially leading to overflow if 'p_20' is large.",
+        "potentialSecurityRisk": "This can manipulate logic elsewhere in the contract, as 'params1' could exceed the maximum allowable uint8 value.",
+        "fixedCode": "function updates_20(uint8 p_20) public { uint8 params1 = 0; require(params1 + p_20 >= params1); params1 = params1 + p_20; }",
+        "vulnerableCode": [
+            "function updates_20(uint8 p_20) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_20;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "706-707",
+        "vulnerabilityReason": "No validation on 'transferValue_5' balance which could potentially lead to unauthorized fund transfers.",
+        "potentialSecurityRisk": "An attacker could withdraw funds without restrictions leading to contract balance exploitation.",
+        "fixedCode": "function withdraw_5() public { require(now > lockTime_5[msg.sender]); uint transferValue_5 = 10; require(address(this).balance >= transferValue_5, 'Insufficient contract balance'); msg.sender.transfer(transferValue_5); }",
+        "vulnerableCode": [
+            "        uint transferValue_5 = 10;           ",
+            "        msg.sender.transfer(transferValue_5);"
+        ]
+    },
+    {
+        "vulnerableLines": "710-712",
+        "vulnerabilityReason": "'params' is initialized to 0 and decremented by 10 without any checks, leading to underflow.",
+        "potentialSecurityRisk": "Leads to 'params' becoming a significantly large number, which may affect other contract logic.",
+        "fixedCode": "function updates_15() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "  function updates_15() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "715-717",
+        "vulnerabilityReason": "'params1' is incremented by 'p_28' without any validation, which can lead to overflow if 'p_28' is large.",
+        "potentialSecurityRisk": "This can cause 'params1' to wrap around, resulting in incorrect and potentially exploitable state.",
+        "fixedCode": "function updates_28(uint8 p_28) public { uint8 params1 = 0; require(params1 + p_28 >= params1); params1 = params1 + p_28; }",
+        "vulnerableCode": [
+            "  function updates_28(uint8 p_28) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_28;   "
+        ]
+    },
+    {
+        "vulnerableLines": "722-726",
+        "vulnerabilityReason": "Possible underflow on 'balances_34[msg.sender]' during subtraction operation as require statement allows zero balances.",
+        "potentialSecurityRisk": "An attacker could enable balance manipulations without adequate validation leading to unauthorized fund transfers.",
+        "fixedCode": "function transfer_34(address _to, uint _value) public returns (bool) { require(balances_34[msg.sender] >= _value); balances_34[msg.sender] -= _value; balances_34[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_34(address _to, uint _value) public returns (bool) {",
+            "    require(balances_34[msg.sender] - _value >= 0);  ",
+            "    balances_34[msg.sender] -= _value;  ",
+            "    balances_34[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "736-737",
+        "vulnerabilityReason": "Same issue as previous withdraw function without checking available balance.",
+        "potentialSecurityRisk": "Potential unauthorized or unintended withdrawal exceeding contract balance.",
+        "fixedCode": "function withdraw_21() public { require(now > lockTime_21[msg.sender]); uint transferValue_21 = 10; require(address(this).balance >= transferValue_21, 'Insufficient contract balance'); msg.sender.transfer(transferValue_21); }",
+        "vulnerableCode": [
+            "        uint transferValue_21 = 10;           ",
+            "        msg.sender.transfer(transferValue_21);"
+        ]
+    },
+    {
+        "vulnerableLines": "742-746",
+        "vulnerabilityReason": "Possible underflow due to subtraction without sufficient validation.",
+        "potentialSecurityRisk": "Allows manipulation by causing negative balances to wrap around leading to unauthorized fund access.",
+        "fixedCode": "function transfer_10(address _to, uint _value) public returns (bool) { require(balances_10[msg.sender] >= _value); balances_10[msg.sender] -= _value; balances_10[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "function transfer_10(address _to, uint _value) public returns (bool) {",
+            "    require(balances_10[msg.sender] - _value >= 0);  ",
+            "    balances_10[msg.sender] -= _value;  ",
+            "    balances_10[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "752-754",
+        "vulnerabilityReason": "Possible underflow on 'balances_22[msg.sender]' during subtraction operation as require statement allows zero balances.",
+        "potentialSecurityRisk": "Potentially leads to unauthorized manipulation of funds through withdrawal, imbalance creation.",
+        "fixedCode": "function transfer_22(address _to, uint _value) public returns (bool) { require(balances_22[msg.sender] >= _value); balances_22[msg.sender] -= _value; balances_22[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "    require(balances_22[msg.sender] - _value >= 0);  ",
+            "    balances_22[msg.sender] -= _value;  ",
+            "    balances_22[_to] += _value;  "
+        ]
+    },
+    {
+        "vulnerableLines": "760-761",
+        "vulnerabilityReason": "Possible overflow due to unrestricted increment by unknown 'p_12' parameter.",
+        "potentialSecurityRisk": "Can lead to unexpected out-of-bounds states making the contract misbehave.",
+        "fixedCode": "function updates_12(uint8 p_12) public { uint8 params1 = 0; require(params1 + p_12 >= params1); params1 = params1 + p_12; }",
+        "vulnerableCode": [
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_12;   "
+        ]
+    },
+    {
+        "vulnerableLines": "766-767",
+        "vulnerabilityReason": "'params' initialization to 0 and followed by decrement can create underflow issues.",
+        "potentialSecurityRisk": "Can severely impact logic where 'params' becomes unexpectedly large affecting the integrity checks.",
+        "fixedCode": "function updates_35() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    uint8 params =0;",
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "771-772",
+        "vulnerabilityReason": "Potential overflow due to 'params1 + p_40' operation being unbounded.",
+        "potentialSecurityRisk": "May cause unwanted behavior by wrapping around through overflow issues.",
+        "fixedCode": "function updates_40(uint8 p_40) public { uint8 params1 = 0; require(params1 + p_40 >= params1); params1 = params1 + p_40; }",
+        "vulnerableCode": [
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_40;   "
+        ]
+    },
+    {
+        "vulnerableLines": "782-783",
+        "vulnerabilityReason": "Like previous withdrawal functions, this lacks validation for sufficient balance.",
+        "potentialSecurityRisk": "Promotes unauthorized withdrawals while bypassing valid balance checks, leading to potential fraud.",
+        "fixedCode": "function withdraw_33() public { require(now > lockTime_33[msg.sender]); uint transferValue_33 = 10; require(address(this).balance >= transferValue_33, 'Insufficient contract balance'); msg.sender.transfer(transferValue_33); }",
+        "vulnerableCode": [
+            "        uint transferValue_33 = 10;           ",
+            "        msg.sender.transfer(transferValue_33);"
+        ]
+    },
+    {
+        "vulnerableLines": "788",
+        "vulnerabilityReason": "'params' starts at 0 and is decreased by 10 without validation, causing underflow.",
+        "potentialSecurityRisk": "Underflow can manipulate further logic with unintended values likely impacting other functionalities.",
+        "fixedCode": "function updates_27() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "793",
+        "vulnerabilityReason": "Potential underflow scenario from setting 'params' to 0 and subsequent decrement without checks.",
+        "potentialSecurityRisk": "Results may wrap around to large values, causing inconsistencies or unintended behavior within smart contract.",
+        "fixedCode": "function updates_31() public { uint8 params = 0; require(params >= 10); params = params - 10; }",
+        "vulnerableCode": [
+            "    params = params -10;   "
+        ]
+    },
+    {
+        "vulnerableLines": "802-804",
+        "vulnerabilityReason": "No validation on 'transferValue_13' similar to previous functions making it unverified.",
+        "potentialSecurityRisk": "Allows potential unauthorized withdrawals with unchecked balance, risking contract funds.",
+        "fixedCode": "function withdraw_13() public { require(now > lockTime_13[msg.sender]); uint transferValue_13 = 10; require(address(this).balance >= transferValue_13, 'Insufficient contract balance'); msg.sender.transfer(transferValue_13); }",
+        "vulnerableCode": [
+            "        require(now > lockTime_13[msg.sender]);    ",
+            "        uint transferValue_13 = 10;           ",
+            "        msg.sender.transfer(transferValue_13);"
+        ]
+    },
+    {
+        "vulnerableLines": "840-843",
+        "vulnerabilityReason": "The 'params1' variable is incremented by 'p_32' without checks, which can cause overflow if 'p_32' is large.",
+        "potentialSecurityRisk": "This can lead to incorrect contract behavior because the 'params1' could exceed the maximum value for uint8.",
+        "fixedCode": "function updates_32(uint8 p_32) public {\n    uint8 params1 = 0;\n    require(params1 + p_32 >= params1, 'Overflow detected');\n    params1 = params1 + p_32;\n}",
+        "vulnerableCode": [
+            "function updates_32(uint8 p_32) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_32;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "854-858",
+        "vulnerabilityReason": "The 'balances_38' mapping can result in an underflow since subtraction occurs without prior validation.",
+        "potentialSecurityRisk": "An attacker can manipulate balances to allow unlimited withdrawals, leading to potential loss of funds.",
+        "fixedCode": "function transfer_38(address _to, uint _value) public returns (bool) {\n    require(balances_38[msg.sender] >= _value, 'Underflow detected');\n    balances_38[msg.sender] -= _value;\n    balances_38[_to] += _value;\n    return true;\n}",
+        "vulnerableCode": [
+            "function transfer_38(address _to, uint _value) public returns (bool) {",
+            "    require(balances_38[msg.sender] - _value >= 0);  ",
+            "    balances_38[msg.sender] -= _value;  ",
+            "    balances_38[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "874-877",
+        "vulnerabilityReason": "The 'params1' variable is incremented by 'p_4' without checks, leading to potential overflow similar to the first function.",
+        "potentialSecurityRisk": "Overflow could make 'params1' to wrap around resulting in abnormal states.",
+        "fixedCode": "function updates_4(uint8 p_4) public {\n    uint8 params1 = 0;\n    require(params1 + p_4 >= params1, 'Overflow detected');\n    params1 = params1 + p_4;\n}",
+        "vulnerableCode": [
+            "function updates_4(uint8 p_4) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_4;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "905-908",
+        "vulnerabilityReason": "The 'params' variable is initialized to 0 and then decremented by 10, causing an underflow.",
+        "potentialSecurityRisk": "This allows 'params' to wrap around to a large positive number, leading to potential misuse or manipulation in future contract logic.",
+        "fixedCode": "function updates_7() public {\n    uint8 params = 0;\n    require(params >= 10, 'Underflow detected');\n    params = params - 10;\n}",
+        "vulnerableCode": [
+            "function updates_7() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "923-926",
+        "vulnerabilityReason": "The 'params' variable is decremented by 10 from 0 leading to an underflow risk similar to the previous function.",
+        "potentialSecurityRisk": "This underflow can lead to improper state alteration.",
+        "fixedCode": "function updates_23() public {\n    uint8 params = 0;\n    require(params >= 10, 'Underflow detected');\n    params = params - 10;\n}",
+        "vulnerableCode": [
+            "function updates_23() public{",
+            "    uint8 params =0;",
+            "    params = params -10;   ",
+            "}"
+        ]
+    },
+    {
+        "vulnerableLines": "947-951",
+        "vulnerabilityReason": "The 'balances_14' mapping can cause an underflow since subtraction happens without proper validation.",
+        "potentialSecurityRisk": "An attacker could manipulate these balances for unauthorized withdrawals leading to potential fund loss.",
+        "fixedCode": "function transfer_14(address _to, uint _value) public returns (bool) {\n    require(balances_14[msg.sender] >= _value, 'Underflow detected');\n    balances_14[msg.sender] -= _value;\n    balances_14[_to] += _value;\n    return true;\n}",
+        "vulnerableCode": [
+            "function transfer_14(address _to, uint _value) public returns (bool) {",
+            "    require(balances_14[msg.sender] - _value >= 0);  ",
+            "    balances_14[msg.sender] -= _value;  ",
+            "    balances_14[_to] += _value;  ",
+            "    return true;"
+        ]
+    },
+    {
+        "vulnerableLines": "968",
+        "vulnerabilityReason": "The 'voteID + 1' operation could result in an overflow if 'voteID' is at maximum uint value.",
+        "potentialSecurityRisk": "Overflow could result in 'numberOfVotes' being improperly incremented, leading to incorrect vote tallying and potential manipulation.",
+        "fixedCode": "p.numberOfVotes = SafeMath.add(voteID, 1);",
+        "vulnerableCode": [
+            "        p.numberOfVotes = voteID +1;"
+        ]
+    },
+    {
+        "vulnerableLines": "972-979",
+        "vulnerabilityReason": "The subtraction on line 21 can cause an underflow if 'balances_30[msg.sender]' is less than '_value'.",
+        "potentialSecurityRisk": "This can lead to manipulating balances to create infinite tokens, enabling unauthorized transfers and depletion of funds.",
+        "fixedCode": "function transfer_30(address _to, uint _value) public returns (bool) { require(balances_30[msg.sender] >= _value); balances_30[msg.sender] -= _value; balances_30[_to] += _value; return true; }",
+        "vulnerableCode": [
+            "mapping(address => uint) balances_30;",
+            "",
+            "function transfer_30(address _to, uint _value) public returns (bool) {",
+            "    require(balances_30[msg.sender] - _value >= 0);  ",
+            "    balances_30[msg.sender] -= _value;  ",
+            "    balances_30[_to] += _value;  ",
+            "    return true;",
+            "  }"
+        ]
+    },
+    {
+        "vulnerableLines": "1022-1024",
+        "vulnerabilityReason": "Incrementing 'params1' by 'p_8' without checks can lead to overflow if 'p_8' is large.",
+        "potentialSecurityRisk": "Overflow can result in 'params1' wrapping around, leading to incorrect logic and potential contract state manipulation.",
+        "fixedCode": "function updates_8(uint8 p_8) public { uint8 params1 = 0; require(params1 + p_8 >= params1); params1 = params1 + p_8; }",
+        "vulnerableCode": [
+            "function updates_8(uint8 p_8) public{",
+            "    uint8 params1=0;",
+            "    params1 = params1 + p_8;   "
+        ]
+    }
+]
