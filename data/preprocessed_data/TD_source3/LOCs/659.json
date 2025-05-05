@@ -1,0 +1,18 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "80-85",
+            "vulnerableCode": [
+                "if (block.timestamp < cliff) {",
+                "  return 0;",
+                "} else if (block.timestamp >= start.add(duration) || revoked[token]) {",
+                "  return totalBalance;",
+                "} else {",
+                "  return totalBalance.mul(block.timestamp.sub(start)).div(duration);"
+            ],
+            "vulnerabilityReason": "The function utilizes block.timestamp to determine the amount of tokens that have vested. This reliance on block timestamp introduces a risk because miners can manipulate the timestamp, potentially allowing them to alter the vesting schedule.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamp to influence when tokens are considered vested. This could allow them to manipulate the total vested amount, resulting in unfair access to tokens or unfair advantages in a token sale.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE < cliff) { // Add a tolerance to account for miner manipulation\n  return 0;\n} else if (block.timestamp >= start.add(duration) || revoked[token]) {\n  return totalBalance;\n} else {\n  return totalBalance.mul(block.timestamp.sub(start)).div(duration);\n} // Adding TIME_TOLERANCE offsets the risk of minor timestamp manipulations."
+        }
+    ]
+}

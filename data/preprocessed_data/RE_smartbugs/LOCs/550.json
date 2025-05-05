@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "148-151",
+            "vulnerableCode": [
+                "function invoke(address _target, uint _value, bytes _data) external moduleOnly {",
+                "require(_target.call.value(_value)(_data), \"BW: call to target failed\");",
+                "emit Invoked(msg.sender, _target, _value, _data);"
+            ],
+            "vulnerabilityReason": "The function uses low-level `call.value()` to send Ether to the target address before it emits the invocation event and before the contract state is updated. This order of operations allows a malicious contract to execute a reentrant call back into the `invoke()` function before the event is emitted and before the state is updated, which poses a significant risk.",
+            "potentialSecurityRisk": "An attacker could exploit the reentrancy by repeatedly invoking `invoke()` while the state has not yet been updated, potentially draining the contract of its funds in multiple iterations before the initial transaction concludes.",
+            "fixedCode": "function invoke(address _target, uint _value, bytes _data) external moduleOnly {\n    emit Invoked(msg.sender, _target, _value, _data); // Emit the event first\n    require(_target.call.value(_value)(_data), \"BW: call to target failed\"); // Perform external call after state update\n}"
+        }
+    ]
+}

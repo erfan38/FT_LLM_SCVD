@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "15-15",
+            "vulnerableCode": [
+                "\t\tif (!(msg.sender.call.value(amountToWithdraw)())) { throw; }"
+            ],
+            "vulnerabilityReason": "The contract uses `msg.sender.call.value(amountToWithdraw)()` to send Ether before updating the user's balance. This creates a reentrancy vulnerability as the receiving contract (if it is malicious) can call back into `withdrawBalance` before the balance is updated, allowing it to withdraw an amount greater than intended.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that, when sent Ether, re-invokes the `withdrawBalance` function multiple times before the original call completes. This could allow the attacker to withdraw more Ether than they actually have in their balance, draining the contract's funds.",
+            "fixedCode": "uint amountToWithdraw = userBalances[msg.sender];\nuserBalances[msg.sender] = 0;  // Update balance before transfer\nif (!msg.sender.call.value(amountToWithdraw)()) { userBalances[msg.sender] = amountToWithdraw; throw; } // Revert balance if transfer fails."
+        }
+    ]
+}

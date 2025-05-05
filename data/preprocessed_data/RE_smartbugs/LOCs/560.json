@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "188-193",
+            "vulnerableCode": [
+                "if(!pendingBets[i].bettorAddress.send(1)){",
+                "playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);"
+            ],
+            "vulnerabilityReason": "The contract uses .send() to transfer Ether to the user before updating the state variable playerPendingWithdrawals. This allows for a reentrant attack where the user can withdraw again before the withdrawal balance is updated, leading to unauthorized extra withdrawals.",
+            "potentialSecurityRisk": "An attacker can exploit the contract to withdraw more Ether than they are supposed to by recursively calling the function during the transfer process, resulting in a loss of funds for the contract.",
+            "fixedCode": "if (pendingBets[i].bettorAddress.call.value(1)()){ // Use call to handle successful transfer\n  playerPendingWithdrawals[pendingBets[i].bettorAddress] = safeAdd(playerPendingWithdrawals[pendingBets[i].bettorAddress], 1);\n} else {\n  // handle failure (log, revert, etc.)\n}"
+        }
+    ]
+}

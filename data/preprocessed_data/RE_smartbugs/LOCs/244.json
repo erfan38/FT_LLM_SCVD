@@ -1,0 +1,21 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "46-58",
+            "vulnerableCode": [
+                "function executeTransaction(uint transactionId)",
+                "Transaction tx = transactions[transactionId];",
+                "bool _confirmed = isConfirmed(transactionId);",
+                "if (_confirmed || tx.data.length == 0 && isUnderLimit(tx.value)) {",
+                "    tx.executed = true;",
+                "    if (!_confirmed)",
+                "        spentToday += tx.value;",
+                "    if (tx.destination.call.value(tx.value)(tx.data))",
+                "        Execution(transactionId);"
+            ],
+            "vulnerabilityReason": "The function executes an external call using call.value() before properly updating the state variable 'spentToday'. If the destination contract reverts, the spentToday value could still be incremented, allowing an attacker to drain more funds than intended through reentrancy due to state update occurring after the external call.",
+            "potentialSecurityRisk": "An attacker could control the destination address, allowing them to re-enter executeTransaction before the state is updated. This could result in draining the contract's funds beyond the daily limit, as the contract does not account for these additional withdrawals until after the initial call completes.",
+            "fixedCode": "function executeTransaction(uint transactionId) {\n    Transaction tx = transactions[transactionId];\n    bool _confirmed = isConfirmed(transactionId);\n    if (_confirmed || (tx.data.length == 0 && isUnderLimit(tx.value))) {\n        if (!_confirmed) {\n            require(spentToday + tx.value <= dailyLimit, \"Exceeds daily limit\");\n            spentToday += tx.value; // Update state first\n        }\n        tx.executed = true;\n        if (tx.destination.call.value(tx.value)(tx.data)) {\n            Execution(transactionId);\n        } else {\n            ExecutionFailure(transactionId);\n            tx.executed = false;\n            if (!_confirmed)\n                spentToday -= tx.value; // Revert the update on failure\n        }\n    }\n}"
+        }
+    ]
+}

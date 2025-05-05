@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "324-325",
+            "vulnerableCode": [
+                "        suicide(DX);",
+                "        contractCleared = true;"
+            ],
+            "vulnerabilityReason": "The use of `suicide(DX)` sends all remaining Ether to the specified address before checking if `contractCleared` is true. An attacker could manipulate the contract during the `suicide` call through a fallback function, leading to potential reentrancy with respect to contract state changes.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to perform a malicious withdrawal, disabling the contract and gaining control over its funds by manipulating the contract state during the execution of `suicide` before it permanently halts further interaction.",
+            "fixedCode": "if(!contractCleared) { throw; }\ncontractCleared = true;\nsuicide(DX);"
+        },
+        {
+            "vulnerableLines": "332-334",
+            "vulnerableCode": [
+                "        if (!ADMIN_CONTRACT.call.value(currentBankroll - initialBankroll)()) throw;",
+                "        suicide(DX);"
+            ],
+            "vulnerabilityReason": "The function calls `call.value()` to send funds to `ADMIN_CONTRACT` before performing critical state updates, such as calling `suicide`. This allows an attacker with control over `ADMIN_CONTRACT` to invoke reentrancy during the fund transfer.",
+            "potentialSecurityRisk": "If `ADMIN_CONTRACT` is controlled by an attacker, they can execute a reentrancy attack, potentially leading to double withdrawals or manipulation of the contract state during the execution of `suicide` that follows.",
+            "fixedCode": "require(currentBankroll > initialBankroll, \"Insufficient funds\");\nif (!ADMIN_CONTRACT.call.value(currentBankroll - initialBankroll)()) throw;\ncurrentBankroll -= (currentBankroll - initialBankroll);\nsuicide(DX);"
+        },
+        {
+            "vulnerableLines": "343-344",
+            "vulnerableCode": [
+                "        if (!ADMIN_CONTRACT.call.value(profit)()) throw;",
+                "        currentBankroll -= profit;"
+            ],
+            "vulnerabilityReason": "The contract transfers profits to the `ADMIN_CONTRACT` using `call.value()` before updating the `currentBankroll` state. This order of operations leaves the contract vulnerable to reentrancy attacks, as an external contract can manipulate balances before the state changes occur.",
+            "potentialSecurityRisk": "An attacker controlling `ADMIN_CONTRACT` can exploit this vulnerability by re-invoking the shareProfits function or other functions to gain additional profit from the contract's balance before the contract's internal state is updated, potentially draining funds.",
+            "fixedCode": "uint256 profit = currentBankroll - initialBankroll;\nrequire(profit > 0, \"No profits available\");\ncurrentBankroll -= profit;\nif (!ADMIN_CONTRACT.call.value(profit)()) throw;"
+        }
+    ]
+}

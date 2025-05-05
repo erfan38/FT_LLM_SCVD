@@ -1,0 +1,32 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "9-10",
+            "vulnerableCode": [
+                "modifier onlyWhileOpen {",
+                "require(block.timestamp >= openingTime && block.timestamp <= closingTime);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in the onlyWhileOpen modifier introduces a dependency on miner-controlled timestamps, which can be adjusted by miners to potentially manipulate the crowdsale opening and closing times.",
+            "potentialSecurityRisk": "Miners could exploit this by closing the crowdsale prematurely or extending it without consent, ultimately affecting token pricing and distribution fairness.",
+            "fixedCode": "modifier onlyWhileOpen { require(now >= openingTime && now <= closingTime); } // Use 'now' as a reference but consider using SafeMath for time calculations."
+        },
+        {
+            "vulnerableLines": "17-17",
+            "vulnerableCode": [
+                "require(_openingTime >= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the _openingTime parameter is in the future compared to block.timestamp. If miners manipulate the timestamp, it could allow unwanted opening times.",
+            "potentialSecurityRisk": "It could lead to an authorized opening time being overridden due to miner manipulation, thereby making the crowdsale susceptible to exploitation or premature opening.",
+            "fixedCode": "require(_openingTime >= now + TIME_TOLERANCE); // Apply a buffer to mitigate premature opening."
+        },
+        {
+            "vulnerableLines": "27-27",
+            "vulnerableCode": [
+                "return block.timestamp > closingTime;"
+            ],
+            "vulnerabilityReason": "The hasClosed function relies on block.timestamp to determine if the crowdsale is closed, making it vulnerable to miner manipulation which can alter the closure state.",
+            "potentialSecurityRisk": "An attacker might keep the crowdsale open longer by manipulating the timestamp, leading to unfair advantages in acquiring tokens at a given price.",
+            "fixedCode": "return now > closingTime; // Using 'now' here but ensuring more robust checks with time buffers."
+        }
+    ]
+}

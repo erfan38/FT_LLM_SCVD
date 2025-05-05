@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "4-5",
+            "vulnerableCode": [
+                "currentTimestamp += _seconds;",
+                "currentTimestamp += _minutes;"
+            ],
+            "vulnerabilityReason": "The function performs arithmetic additions on the `currentTimestamp` variable without any overflow checks. If the total of `_seconds` and `_minutes` exceeds the maximum value that can be stored in a `uint`, it will lead to an integer overflow, causing `currentTimestamp` to wrap around and produce an incorrect value.",
+            "potentialSecurityRisk": "An overflow in timestamp calculation could lead to incorrect time-dependent logic within the contract, affecting functionalities that rely on precise time calculations, such as time locking, expiration of events, or deadlines. This can result in unintended behaviors, exploitation, or loss of funds.",
+            "fixedCode": "require(currentTimestamp + _seconds <= type(uint).max, \"Timestamp overflow\");\ncurrentTimestamp += _seconds;\nrequire(currentTimestamp + _minutes <= type(uint).max, \"Timestamp overflow\");\ncurrentTimestamp += _minutes;"
+        }
+    ]
+}

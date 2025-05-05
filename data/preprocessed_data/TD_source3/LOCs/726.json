@@ -1,0 +1,42 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "26-28",
+            "vulnerableCode": [
+                "require(expiry > block.timestamp);",
+                "require(expiry <= (block.timestamp + 30 days));"
+            ],
+            "vulnerabilityReason": "Both conditions rely on block.timestamp to validate the expiry of transfer authorization, making it susceptible to miner manipulation.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to set an expiry that is either too early or too late, allowing unauthorized transactions or preventing valid ones.",
+            "fixedCode": "require(expiry > block.timestamp + TIME_TOLERANCE); require(expiry <= (block.timestamp + TIME_TOLERANCE + 30 days)); // add a buffer like TIME_TOLERANCE to make it more resilient against manipulation."
+        },
+        {
+            "vulnerableLines": "115-115",
+            "vulnerableCode": [
+                "return expiry > block.timestamp;"
+            ],
+            "vulnerabilityReason": "This function simply checks if the expiry is greater than the current block timestamp, which is manipulable by miners.",
+            "potentialSecurityRisk": "An attacker could manipulate timestamps to make it appear as if an expired authorization is still valid, potentially leading to unauthorized transfers.",
+            "fixedCode": "return expiry > (block.timestamp + TIME_TOLERANCE); // include a buffer to reduce the vulnerability on this check."
+        },
+        {
+            "vulnerableLines": "139-140",
+            "vulnerableCode": [
+                "bool fromIsAffiliate = affiliateList.inListAsOf(_from, block.timestamp);",
+                "bool toIsAffiliate = affiliateList.inListAsOf(_to, block.timestamp);"
+            ],
+            "vulnerabilityReason": "Both conditions are based on block.timestamp, allowing miners to influence membership checking in the affiliate list.",
+            "potentialSecurityRisk": "Manipulating the timestamp can allow or disallow certain addresses in the affiliate list unexpectedly, affecting transfer authorizations.",
+            "fixedCode": "bool fromIsAffiliate = affiliateList.inListAsOf(_from, (block.timestamp + TIME_TOLERANCE)); bool toIsAffiliate = affiliateList.inListAsOf(_to, (block.timestamp + TIME_TOLERANCE)); // use a buffer for these timestamp checks."
+        },
+        {
+            "vulnerableLines": "203-203",
+            "vulnerableCode": [
+                "uint lockoutTime = block.timestamp - lockoutPeriod;"
+            ],
+            "vulnerabilityReason": "Calculating lockoutTime based on block.timestamp makes it vulnerable to manipulations as well.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamp to alter the lockout period, potentially allowing or disallowing transfers at inappropriate times.",
+            "fixedCode": "uint lockoutTime = (block.timestamp + TIME_TOLERANCE) - lockoutPeriod; // ensure that block.timestamp is adjusted by a TIME_TOLERANCE."
+        }
+    ]
+}

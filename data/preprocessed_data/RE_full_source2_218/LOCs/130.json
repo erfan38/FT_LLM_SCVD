@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "13-13",
+            "vulnerableCode": [
+                "if (!ADMIN_CONTRACT.call.value(profit)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of 'call.value(profit)()' allows arbitrary code execution in the receiving contract. This can lead to re-entrancy since if the receiving contract calls back into the 'shareProfits' function, it can execute the withdrawal before the state is updated, leading to potential exploitation.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract as 'ADMIN_CONTRACT' that re-enters the 'shareProfits' function multiple times, allowing repeated withdrawal of funds before the balance is updated, eventually draining the contract's balance.",
+            "fixedCode": "// Change the order of operations to prevent re-entrancy\nrequire(currentBankroll > initialBankroll, \"Insufficient bankroll\");\nuint256 profit = currentBankroll - initialBankroll;\ncurrentBankroll -= profit; // Update the state before making the external call\n(bool success, ) = ADMIN_CONTRACT.call{value: profit}();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

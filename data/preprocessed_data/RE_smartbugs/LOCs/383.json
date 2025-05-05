@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "62-62",
+            "vulnerableCode": [
+                "            var x= m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` executes an external call to an address derived from the transaction mapping. This call occurs before the transaction state is marked as completed, which allows a malicious contract to re-enter the `confirm` function (or other functions) and manipulate the contract state or withdraw more funds before the state change happens.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain funds from the contract repeatedly, leading to a potential loss of funds. Because the external call is made before the transaction state deletion, an attacker may leverage this to execute arbitrary code through reentrancy.",
+            "fixedCode": "function confirm(bytes32 _h) onlymanyowners(_h) returns (bool) {\\n    if (m_txs[_h].to != 0) {\\n        // Updates the transaction state before making the external call to prevent reentrancy\\n        address to = m_txs[_h].to;\\n        uint value = m_txs[_h].value;\\n        bytes memory data = m_txs[_h].data;\\n        delete m_txs[_h]; // Clear transaction state before the call\\n        var x= to.call.value(value)(data); // External call\\n        MultiTransact(msg.sender, _h, value, to, data);\\n        return true;\\n    }\\n}"
+        }
+    ]
+}

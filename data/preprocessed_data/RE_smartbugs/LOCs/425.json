@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) revert();"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` after updating the balance in the `withdraw` function, meaning that an attacker could re-enter the contract before the balance is updated, allowing for repeated withdrawals.",
+            "potentialSecurityRisk": "This vulnerability can lead to a loss of funds as an attacker can exploit the reentrancy and drain the contract by repeatedly calling the function before the state is properly updated.",
+            "fixedCode": "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\n(bool success, ) = msg.sender.call.value(amount)();\nrequire(success, 'Transfer failed');\nemit Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        },
+        {
+            "vulnerableLines": "90-90",
+            "vulnerableCode": [
+                "if (!Token(token).transfer(msg.sender, amount)) revert();"
+            ],
+            "vulnerabilityReason": "The contract calls `transfer` after deducting the amount from the user's balance in the `withdrawToken` function. If the token contract is malicious, it can also make a call back to this contract, leading to potential reentrancy.",
+            "potentialSecurityRisk": "An attacker may exploit this by re-entering the contract before the balance update, allowing for improper withdrawals and loss of funds.",
+            "fixedCode": "tokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount);\nrequire(Token(token).transfer(msg.sender, amount), 'Transfer failed');\nemit Withdraw(token, msg.sender, amount, tokens[token][msg.sender]);"
+        }
+    ]
+}

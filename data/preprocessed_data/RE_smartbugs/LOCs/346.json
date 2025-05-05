@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "564-564",
+            "vulnerableCode": [
+                "        receiver.tokenFallback(_from, _value, _data);"
+            ],
+            "vulnerabilityReason": "The external call to the `tokenFallback` function of the `receiver` contract happens before the state changes are made. This allows a malicious contract to exploit the situation by re-entering the `transferToContract` function before the state has been updated, leading to a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker can control the receiving contract and will be able to re-enter `transferToContract` before the `subFromAddressBalancesInfo` call completes, allowing them to withdraw tokens multiple times before the contract's balance is properly updated, potentially draining contract resources.",
+            "fixedCode": "ContractReceiver receiver = ContractReceiver(_to);\n        // Perform state updates first\n        subFromAddressBalancesInfo(_from, _value);\n        addToAddressBalancesInfo(_to, _value);\n        // Now make the external call\n        receiver.tokenFallback(_from, _value, _data);"
+        }
+    ]
+}

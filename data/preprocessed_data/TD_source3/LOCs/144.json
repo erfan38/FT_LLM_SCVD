@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "59-59",
+            "vulnerableCode": [
+                "msg.sender.send((block.timestamp*1000)*1000*40);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp is critical in determining payout amounts. Given that miners can manipulate this value, it introduces a vulnerability where they could adjust the timestamp to artificially inflate or reduce payout values.",
+            "potentialSecurityRisk": "By manipulating the timestamp, a miner could increase the payout to themselves or cause a loss of funds for others, thus undermining the intended economic mechanism of the contract.",
+            "fixedCode": "uint256 currentTime = block.timestamp; msg.sender.send((currentTime * 1000) * 1000 * 40); // Assign block.timestamp to a variable before usage"
+        }
+    ]
+}

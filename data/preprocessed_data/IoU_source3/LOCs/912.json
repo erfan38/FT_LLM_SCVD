@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "return supply ** CURVE_EXPONENT;"
+            ],
+            "vulnerabilityReason": "The code raises 'supply' to the power of 'CURVE_EXPONENT'. If 'supply' is a large value, this operation can exceed the maximum value of uint256, resulting in an overflow. In Solidity versions prior to 0.8.0, such operations do not automatically check for overflow, potentially causing the price calculation to yield incorrect results.",
+            "potentialSecurityRisk": "If the calculation results in an overflow, the returned price could be an unexpectedly low value (due to wraparound), which could disrupt the bonding curve mechanism. This could lead to serious economic implications such as token theft, incorrect pricing, or abuse of the system.",
+            "fixedCode": "require(supply < 2**(256 / CURVE_EXPONENT), \"Supply too large to calculate price safely.\");\nreturn supply ** CURVE_EXPONENT; // Using the check above to ensure safe operation."
+        }
+    ]
+}

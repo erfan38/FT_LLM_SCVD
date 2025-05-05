@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "240-253",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract performs an ether transfer directly to the player's address before updating the state variable. This can allow an attacker to exploit the code by calling the withdraw function multiple times before the state is updated, leading to repeated withdrawals.",
+            "potentialSecurityRisk": "An attacker could drain the contract's funds by exploiting this vulnerability, resulting in potential financial loss for the contract and its users.",
+            "fixedCode": "if (_eth > 0) {\n    uint256 amountToWithdraw = _eth;\n    plyr_[_pID].win = 0; // Setting state before transfer\n    plyr_[_pID].addr.transfer(amountToWithdraw);\n}"
+        },
+        {
+            "vulnerableLines": "339-343",
+            "vulnerableCode": [
+                "flushDivs.transfer(_POOH.sub(_POOH / 3).mul(2));"
+            ],
+            "vulnerabilityReason": "The contract executes a transfer to the `flushDivs` address without updating any state variables. If the `flushDivs` address is a contract, it could trigger reentrancy attacks as it can call back into this contract before the state changes are finalized.",
+            "potentialSecurityRisk": "If an attacker controls the `flushDivs` address, they can repeatedly invoke functions that rely on this state not being updated, leading to conditional reentrancy issues and potential funds being drained.",
+            "fixedCode": "uint256 amountToFlush = (_POOH.sub(_POOH / 3).mul(2));\n// Ensure state is updated before transfer\nround_[_rID].pot = round_[_rID].pot.add(amountToFlush);\nflushDivs.transfer(amountToFlush);"
+        }
+    ]
+}

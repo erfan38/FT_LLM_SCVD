@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "78-81",
+            "vulnerableCode": [
+                "modifier onlyUnlocked() {",
+                "uint nowtime = block.timestamp;",
+                "uint futuretime = 1550537591;"
+            ],
+            "vulnerabilityReason": "The `onlyUnlocked` modifier checks if the current timestamp (via `block.timestamp`) is greater than a hardcoded future timestamp. This reliance on `block.timestamp` can be exploited by miners who can manipulate the timestamps of the blocks they mine, thus affecting the unlocking logic.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to unlock addresses prematurely, potentially allowing banned or blacklisted addresses to execute operations unintentionally. This can lead to unfair advantages and compromise the security of the contract by exposing it to unauthorized operations.",
+            "fixedCode": "modifier onlyUnlocked() {uint nowtime = block.timestamp; require(nowtime >= futuretime, 'Contract is still locked'); // Consider implementing a more robust time check. Alternatively, use block numbers instead of timestamps for critical operations."
+        }
+    ]
+}

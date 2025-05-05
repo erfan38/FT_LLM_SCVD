@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint matchingFunds = _donation * _matchingRate / 100;"
+            ],
+            "vulnerabilityReason": "The multiplication of `_donation` and `_matchingRate` can result in an integer overflow if the product exceeds the maximum value that a `uint` can hold (i.e., `2**256 - 1`). If this occurs, the value of `matchingFunds` will not reflect the true intended calculation, leading to incorrect matching funds being computed.",
+            "potentialSecurityRisk": "An attacker could exploit this overflow to manipulate the donation matching process, potentially leading to under-funding for matching amounts, or create errors in contract behavior that could mismanage funds.",
+            "fixedCode": "uint matchingFunds = (_donation * _matchingRate) / 100;\nrequire(matchingFunds >= 0, 'Overflow in matching funds calculation'); // Assuming `matchingFunds` cannot be negative;\n// Alternatively, use a safe math library to handle calculations properly."
+        }
+    ]
+}

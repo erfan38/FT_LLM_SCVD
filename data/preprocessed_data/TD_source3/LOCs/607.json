@@ -1,0 +1,70 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "62-67",
+            "vulnerableCode": [
+                "uint256 unlockTime = crowdSaleEndTime + 1 years;",
+                "if (crowdSaleEndTime == 0 || block.timestamp < unlockTime) {",
+                "    return false;",
+                "}"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to determine if a transfer is allowed relies on a value that miners can manipulate, making it unreliable for enforcing transfer restrictions.",
+            "potentialSecurityRisk": "Miners can alter the block timestamp to manipulate the condition for allowing transfers, which could enable unauthorized access to locked tokens.",
+            "fixedCode": "uint256 unlockTime = crowdSaleEndTime + 1 years;\nif (crowdSaleEndTime == 0 || now < unlockTime) { return false; } // consider using block.number or a defined TIME_TOLERANCE for gap checks."
+        },
+        {
+            "vulnerableLines": "108-108",
+            "vulnerableCode": [
+                "require((crowdSaleEndTime <= block.timestamp) && isTransferAllowed(_from, _value));"
+            ],
+            "vulnerabilityReason": "This line directly compares block.timestamp against crowdSaleEndTime to enforce transfer restrictions, making it vulnerable to timestamp manipulation.",
+            "potentialSecurityRisk": "A miner could modify the timestamp to pass this require statement prematurely, allowing token transfers during the locked period.",
+            "fixedCode": "require((crowdSaleEndTime <= now) && isTransferAllowed(_from, _value)); // change block.timestamp to now for clarity."
+        },
+        {
+            "vulnerableLines": "116-116",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "Like the previous example, this requires a check against block.timestamp which is subject to miner manipulation.",
+            "potentialSecurityRisk": "If miners adjust the time, it can circumvent restrictions for approvals or similar operations at unintended moments.",
+            "fixedCode": "require(crowdSaleEndTime <= now); // change block.timestamp to now."
+        },
+        {
+            "vulnerableLines": "124-124",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This condition relies on the block.timestamp, which may be manipulated by miners to affect approval processes.",
+            "potentialSecurityRisk": "Miners could exploit this to approve transfers that should have been invalidated by timing constraints.",
+            "fixedCode": "require(crowdSaleEndTime <= now); // change block.timestamp to now."
+        },
+        {
+            "vulnerableLines": "132-132",
+            "vulnerableCode": [
+                "require(crowdSaleEndTime <= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This also checks against block.timestamp, making it vulnerable as previously mentioned.",
+            "potentialSecurityRisk": "As before, miners' manipulation can allow actions that are intended to be restricted.",
+            "fixedCode": "require(crowdSaleEndTime <= now); // change block.timestamp to now."
+        },
+        {
+            "vulnerableLines": "147-147",
+            "vulnerableCode": [
+                "require(block.timestamp > crowdSaleEndTime);"
+            ],
+            "vulnerabilityReason": "This line checks if the current timestamp exceeds the end time for the crowd sale, making it susceptible to miner alteration.",
+            "potentialSecurityRisk": "Miners could extend the time window for burning tokens, leading to unintended token destruction or manipulation of supply.",
+            "fixedCode": "require(now > crowdSaleEndTime); // change block.timestamp to now."
+        },
+        {
+            "vulnerableLines": "162-162",
+            "vulnerableCode": [
+                "require(block.timestamp > crowdSaleEndTime);"
+            ],
+            "vulnerabilityReason": "Another instance checking against the block timestamp to validate the burning of unsold tokens, subject to manipulation.",
+            "potentialSecurityRisk": "Miners could prevent the burn function from executing as intended, allowing unsold tokens to remain unnecessarily in circulation or through an unwanted manipulation.",
+            "fixedCode": "require(now > crowdSaleEndTime); // change block.timestamp to now."
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "inflationPerYear[currentYear] = totalSupply * _inflationRate / 10000;"
+            ],
+            "vulnerabilityReason": "The multiplication operation between `totalSupply` and `_inflationRate` lacks checks for overflow. If `_inflationRate` is sufficiently large, the result of the multiplication can exceed the maximum value that a uint256 can hold, causing an overflow and resulting in an incorrect value being assigned to `inflationPerYear[currentYear]`.",
+            "potentialSecurityRisk": "This overflow can lead to unintended inflation calculations, resulting in erroneous and potentially catastrophic adjustments to the total supply, allowing for either too much or too little inflation in annual supply, which could disrupt economic stability within the contract.",
+            "fixedCode": "inflationPerYear[currentYear] = (totalSupply * _inflationRate) / 10000; require(inflationPerYear[currentYear] >= totalSupply, \"Inflation calculation resulted in overflow\"); // or use SafeMath to protect against overflow."
+        }
+    ]
+}

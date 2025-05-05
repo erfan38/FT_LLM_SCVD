@@ -1,0 +1,44 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "391-414",
+            "vulnerableCode": [
+                "function getCurrentFgcCap() public constant returns (uint) {",
+                "if (block.timestamp < startsAt)",
+                "return maxEthPerAddress;",
+                "uint timeSinceStart = block.timestamp.sub(startsAt);",
+                "uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1);",
+                "if (currentPeriod < 2) {",
+                "return 5000 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 2 && currentPeriod < 5) {",
+                "return 1000 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 4 && currentPeriod < 6) {",
+                "return 500 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 5 && currentPeriod < 9) {",
+                "return 200 * 10**token.decimals();",
+                "}",
+                "if (currentPeriod > 8 && currentPeriod < 11) {",
+                "return 100 * 10**token.decimals();",
+                "}",
+                "return maxEthPerAddress;"
+            ],
+            "vulnerabilityReason": "The function 'getCurrentFgcCap()' calculates the current cap based on block.timestamp which miners can manipulate. Thus, they can increase the token cap by manipulating the time.",
+            "potentialSecurityRisk": "If miners manipulate the timestamp, it could lead to an artificial increase in the current cap, allowing specific contributors to invest beyond intended limits, affecting fairness and trust in the crowd sale mechanism.",
+            "fixedCode": "function getCurrentFgcCap() public constant returns (uint) { require(block.timestamp >= startsAt); // Ensure startsAt is in the past uint timeSinceStart = block.timestamp.sub(startsAt); uint currentPeriod = timeSinceStart.div(TIME_PERIOD_IN_SEC).add(1); // Adjust conditions and use a buffer for time checks to avoid miner manipulation."
+        },
+        {
+            "vulnerableLines": "609-612",
+            "vulnerableCode": [
+                "else if (block.timestamp < startsAt) ",
+                "return State.PreFunding;",
+                "else if (block.timestamp <= endsAt && !isCrowdsaleFull()) "
+            ],
+            "vulnerabilityReason": "Using block.timestamp to determine the crowdsale state is vulnerable to miner manipulation. Miners can set timestamps to influence when the crowdsale is viewed as being in 'PreFunding' or 'Funding' states.",
+            "potentialSecurityRisk": "Miners can force the contract into premature funding or alter the fundraising milestones, which could lead to unintended and unfair distributions of tokens and funds.",
+            "fixedCode": "else if (now < startsAt) return State.PreFunding; // Use 'now' for clearer comparisons and ensure it won't be manipulated as a timestamp."
+        }
+    ]
+}

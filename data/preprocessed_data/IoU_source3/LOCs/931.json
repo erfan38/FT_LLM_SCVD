@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "lockTime[msg.sender] = block.timestamp + LOCK_DURATION;"
+            ],
+            "vulnerabilityReason": "The line performs an addition of 'block.timestamp' and 'LOCK_DURATION'. If the resulting value exceeds the maximum value for uint256, this operation will overflow, causing the lock time to become inaccurate (potentially a smaller value than expected).",
+            "potentialSecurityRisk": "This could allow an attacker to unlock their assets earlier than intended, bypassing the lock duration protections put in place by the smart contract, which could lead to unintended access to locked funds.",
+            "fixedCode": "require(block.timestamp + LOCK_DURATION > block.timestamp, 'Overflow detected');\nlockTime[msg.sender] = block.timestamp + LOCK_DURATION;"
+        }
+    ]
+}

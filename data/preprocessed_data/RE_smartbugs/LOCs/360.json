@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "371-371",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The use of call.value() to send ether to the admin address occurs before the contract state is updated, allowing a malicious contract to re-enter this function and potentially drain funds before the state is modified.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by tricking the contract into sending funds multiple times before the state reflects the correct balance, resulting in the contract losing more funds than intended.",
+            "fixedCode": "require(_com <= address(this).balance, 'Insufficient contract balance'); uint256 amountToSend = _com; _com = 0; (bool success, ) = address(admin).call.value(amountToSend)(); require(success, 'Transfer failed');"
+        },
+        {
+            "vulnerableLines": "224-224",
+            "vulnerableCode": [
+                "_eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "In the withdraw function, the withdrawEarnings function is called, and ether is transferred to the player via plyr_[_pID].addr.transfer(_eth) before the player's state is updated. This timing allows attackers to re-enter and withdraw more funds than owed.",
+            "potentialSecurityRisk": "A malicious contract can repeatedly call the withdraw function before the player's earnings are reset, leading to multiple unauthorized withdrawals and draining of the contract.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); if (earnings > 0) { plyr_[_pID].addr.transfer(earnings); }"
+        },
+        {
+            "vulnerableLines": "414-414",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The transfer of earnings occurs before the player's state is updated, which opens a window for reentrancy attacks where an attacker could invoke the withdraw function again.",
+            "potentialSecurityRisk": "An attacker could exploit this by calling back into the contract during the transfer, manipulating the contract's state and allowing additional unauthorized withdrawals.",
+            "fixedCode": "if (_eth > 0) { (bool success, ) = plyr_[_pID].addr.call.value(_eth)(); require(success, 'Transfer failed'); }"
+        },
+        {
+            "vulnerableLines": "443-443",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The transfer to the player's address is executed without updating the player's pending earnings state first, enabling possible reentrancy during this transfer.",
+            "potentialSecurityRisk": "An attacker could exploit the timing by re-entering the function before the player's state is effectively updated, leading to loss of more funds from the contract than intended.",
+            "fixedCode": "if (_eth > 0) { (bool success, ) = plyr_[_pID].addr.call.value(_eth)(); require(success, 'Transfer failed'); }"
+        }
+    ]
+}

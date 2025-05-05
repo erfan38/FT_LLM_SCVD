@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "68-68",
+            "vulnerableCode": [
+                "require(uint64(block.timestamp) > head);"
+            ],
+            "vulnerabilityReason": "Using block.timestamp directly for comparison allows miners to manipulate the transaction's inclusion time. This can lead to situations where a miner could delay the execution of this function and consequently manipulate when funds are released.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to prematurely release funds or to delay the release, potentially causing financial harm to users who rely on the expected timing of fund releases.",
+            "fixedCode": "require(uint64(block.timestamp + TIME_TOLERANCE) > head); // Using a time buffer to reduce vulnerability."
+        },
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "while (release != 0 && block.timestamp > release) {"
+            ],
+            "vulnerabilityReason": "This loop relies on block.timestamp to determine when to release funds. If miners manipulate the block timestamp, they can control the timing and execution of released funds, causing an unfair advantage.",
+            "potentialSecurityRisk": "Miners could extend the conditions under which funds are released, allowing them to exploit this mechanism for financial gain or to create unfair advantages in token releases.",
+            "fixedCode": "while (release != 0 && block.timestamp + TIME_TOLERANCE > release) { // Introduce a time buffer to decrease the impact of timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "111-111",
+            "vulnerableCode": [
+                "require(_until > block.timestamp);"
+            ],
+            "vulnerabilityReason": "This condition directly compares block.timestamp to the _until parameter, which allows miners to influence when funds can be released, potentially allowing for premature releases.",
+            "potentialSecurityRisk": "Miners can adjust the block timestamp to expedite the release of funds before the intended time, leading to potential financial exploitation.",
+            "fixedCode": "require(_until > block.timestamp + TIME_TOLERANCE); // Adding a buffer to mitigate the vulnerability."
+        }
+    ]
+}

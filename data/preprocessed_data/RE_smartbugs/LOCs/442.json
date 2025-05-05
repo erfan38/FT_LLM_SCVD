@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "105-105",
+            "vulnerableCode": [
+                "require(_bankroller.call.value(_amount)(_sig));"
+            ],
+            "vulnerabilityReason": "The function removeBankroll() makes an external call using _bankroller.call.value() to transfer Ether before updating the ledger which contains the total amounts for each user. This allows the potential for reentrancy attacks, where a malicious contract could call back into the removeBankroll function before the ledger is updated, allowing the attacker to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by repeatedly calling removeBankroll through a malicious contract, draining the contract's funds as the ledger has not been updated before the call to transfer funds.",
+            "fixedCode": "uint256 _amountTo withdraw = ledger.subtract(_bankroller, _amount); // Update the ledger before sending the amount\nrequire(_bankroller.call.value(_amountToWithdraw)(_sig)); // Call the bankroller after state update if appointment is valid or add a check that ensures the current bankroller has sufficient balance to proceed\nemit BankrollRemoved(now, _bankroller, _amountWithdrawn, bankroll);"
+        }
+    ]
+}

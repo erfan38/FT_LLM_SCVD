@@ -1,0 +1,18 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "24-29",
+            "vulnerableCode": [
+                "if (block.timestamp < startTime) {",
+                "return 0;",
+                "} else if (block.timestamp >= startTime + duration) {",
+                "return totalAmount;",
+                "} else {",
+                "return totalAmount * (block.timestamp - startTime) / duration;"
+            ],
+            "vulnerabilityReason": "The vestedAmount function uses block.timestamp to determine the amount of tokens that should be vested at any given time. Relying on block.timestamp makes the vesting calculations sensitive to miner manipulation, whereby miners can slightly influence the timestamp reported for blocks they mine.",
+            "potentialSecurityRisk": "This could allow miners to accelerate the vesting schedule (prematurely releasing tokens) or delay it (preventing intended releases). This introduces potential unfairness, as users might not receive their tokens as expected, undermining the economic integrity of the token distribution.",
+            "fixedCode": "uint256 currentTime = block.timestamp; // Assign block.timestamp to a local variable\nif (currentTime < startTime) {\n    return 0;\n} else if (currentTime >= startTime + duration) {\n    return totalAmount;\n} else {\n    return totalAmount * (currentTime - startTime) / duration;\n}"
+        }
+    ]
+}

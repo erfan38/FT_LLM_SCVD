@@ -1,0 +1,26 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "271-273",
+            "vulnerableCode": [
+                "_dividends += referralBalance_[_customerAddress];",
+                "referralBalance_[_customerAddress] = 0;",
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "The transfer of funds to `_customerAddress` occurs before resetting the `referralBalance_[_customerAddress]` to zero. This allows an attacker to re-enter the contract to withdraw funds before their state is updated, resulting in a potential reentrancy attack.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to repeatedly withdraw funds before the contract updates the balance, leading to a depletion of the contract's funds.",
+            "fixedCode": "uint256 totalDividends = _dividends + referralBalance_[_customerAddress];\nreferralBalance_[_customerAddress] = 0;\n_customerAddress.transfer(totalDividends);"
+        },
+        {
+            "vulnerableLines": "218-220",
+            "vulnerableCode": [
+                "uint256 _tokens = _amountOfTokens;",
+                "uint256 _ethereum = tokensToEthereum_(_tokens);",
+                "uint256 _dividends = SafeMath.div(SafeMath.mul(_ethereum, dividendFee_), 100);"
+            ],
+            "vulnerabilityReason": "In the 'sell' function, `_customerAddress.transfer(_dividends)` happens before updating the token balances. If this happens, an attacker could call this function multiple times and drain the funds before the state reflects those changes.",
+            "potentialSecurityRisk": "An attacker could exploit this to withdraw more funds than allowed by repeatedly invoking the `sell` function before the internal state updates the balance, thereby gaining unauthorized funds.",
+            "fixedCode": "uint256 _ethereum = tokensToEthereum_(_tokens);\nuint256 _dividends = SafeMath.div(SafeMath.mul(_ethereum, dividendFee_), 100);\n_customerAddress.transfer(_dividends);"
+        }
+    ]
+}

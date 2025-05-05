@@ -1,0 +1,26 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "238-240",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {",
+                "  totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);",
+                "}"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` to transfer Ether occurs before the internal state variable `totalEthFundRecieved` is updated. This allows an attacker to call back into the contract during the fund transfer, potentially allowing reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that calls `payFund()`. This can allow the attacker to recursively withdraw funds multiple times before the state is updated, resulting in an increased withdrawal beyond what their balance should allow.",
+            "fixedCode": "require(ethToPay <= address(this).balance, \"Insufficient contract balance\"); // Ensure the contract has enough balance before proceeding\n totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay); // Update state before sending funds\n if(!giveEthFundAddress.call.value(ethToPay).gas(400000)()) {\n   totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay); // Only update on failure to transfer\n}"
+        },
+        {
+            "vulnerableLines": "249-251",
+            "vulnerableCode": [
+                "function reinvest()",
+                "    onlyStronghands()",
+                "    public"
+            ],
+            "vulnerabilityReason": "Although not directly susceptible to reentrancy due to lack of fund transfer in this function, it is leveraged in conjunction with the previous function that is vulnerable. Particularly, if an attacker can re-enter `payFund()` and subsequently `reinvest()`, it may allow for unintended financial manipulation within the contract.",
+            "potentialSecurityRisk": "As the `reinvest()` function grants dividends based on the balance, if it were to be invoked recursively before actual state changes from the fund payout occurred, it could lead to improper fund distribution and potentially drain the contract of funds.",
+            "fixedCode": "// This function itself requires no changes for reentrancy but should be called with caution post-stabilization of funds.\n function reinvest() onlyStronghands() public {"
+        }
+    ]
+}

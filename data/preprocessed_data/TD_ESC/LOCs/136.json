@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "138-138",
+            "vulnerableCode": [
+                "if (block.timestamp > TimingTarget){"
+            ],
+            "vulnerabilityReason": "The contract uses block.timestamp to check if the current time exceeds a specific target time, which introduces a potential vulnerability; miners can control block timestamps to alter the timing of payouts.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to trigger payouts before the actual target time, leading to premature releases of payouts, which could be exploited for financial gain.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE > TimingTarget) {"
+        },
+        {
+            "vulnerableLines": "155-155",
+            "vulnerableCode": [
+                "if (UsedItem.owner != address(0) && block.timestamp > (add(UsedItem.timestamp, UsedItem.timer))){"
+            ],
+            "vulnerabilityReason": "The check relies on block.timestamp for determining if a payout can occur based on an item's ownership and timer, which makes the contract susceptible to miner manipulation.",
+            "potentialSecurityRisk": "A miner could set the block timestamp to process the payout early or prevent a payout from occurring, disrupting the intended functionality of the contract.",
+            "fixedCode": "if (UsedItem.owner != address(0) && block.timestamp + TIME_TOLERANCE > (add(UsedItem.timestamp, UsedItem.timer))){"
+        },
+        {
+            "vulnerableLines": "196-196",
+            "vulnerableCode": [
+                "UsedItem.timestamp = block.timestamp;"
+            ],
+            "vulnerabilityReason": "This line sets the used item timestamp based on block.timestamp, directly impacting the time dependency of other functions, which could be manipulated by miners.",
+            "potentialSecurityRisk": "If a miner can manipulate the timestamp here, it may affect the timing for future payouts or prize claims in a way that undermines the contract's intended logic.",
+            "fixedCode": "UsedItem.timestamp = block.timestamp + TIME_TOLERANCE;"
+        }
+    ]
+}

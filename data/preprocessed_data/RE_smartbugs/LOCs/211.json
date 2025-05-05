@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "117-117",
+            "vulnerableCode": [
+                "            assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of call.value() allows an external contract to be called, which can be exploited to execute reentrant calls before the balance of the calling contract is updated. This could allow a malicious attacker to withdraw more funds than they should by recursively calling back into this function before the state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a contract that triggers the callback, enabling multiple withdrawals before the balance updates, potentially draining the contract's funds.",
+            "fixedCode": "(bool success,) = _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data); require(success, 'Transfer failed');"
+        },
+        {
+            "vulnerableLines": "341-341",
+            "vulnerableCode": [
+                "        if(msg.value > 0) ownerCMIT.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The direct call to transfer Ether to ownerCMIT without checking the contract's balance first poses a risk, especially if msg.value does not correspond to the amount available, allowing for potential reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could repeatedly send Ether through recursive calls, exploiting the balance check being performed after the Ether transfer has occurred, which could lead to a denial of service or draining of funds from the contract.",
+            "fixedCode": "require(msg.value <= address(this).balance, 'Insufficient balance'); if(msg.value > 0) ownerCMIT.transfer(msg.value);"
+        }
+    ]
+}

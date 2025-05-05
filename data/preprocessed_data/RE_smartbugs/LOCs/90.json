@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "415-415",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The external call to `transfer()` is made before any state updates regarding the player's balance have been finalized. An attacker could exploit this to make reentrant calls before the player’s balance is correctly updated, allowing them to withdraw multiple times before the contract state reflects the changes.",
+            "potentialSecurityRisk": "An attacker can continuously call the withdraw function through a fallback function of a malicious contract, draining funds from the contract before state changes take effect, thereby potentially allowing them to withdraw more Ether than they are entitled to.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); // Ensure all earnings are calculated first\nplyr_[_pID].addr.transfer(earnings); // Transfer after state updates"
+        },
+        {
+            "vulnerableLines": "444-444",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The external call to `transfer()` executes after the conditional check and potential changes to the player's state, which may not reflect the accurate balance available for withdrawal due to possible preceding manipulations through reentrant calls.",
+            "potentialSecurityRisk": "If an attacker exploits this by manipulating the order of execution, they could end up withdrawing funds unintendedly multiple times through a reentrancy attack.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); // Ensure earnings are fully calculated before transfer\nplyr_[_pID].addr.transfer(earnings); // Transfer after state updates"
+        },
+        {
+            "vulnerableLines": "172-172",
+            "vulnerableCode": [
+                "buyCore(_pID, _affCode, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "The function `buyCore()` is called, which may include external calls that affect the contract’s state. If reentrancy is exploited, the state might be altered or funds drained before internal updates are made.",
+            "potentialSecurityRisk": "An attacker can exploit the external call in `buyCore()` to execute additional transactions before balances are updated, allowing potential fund manipulation.",
+            "fixedCode": "// Ensure proper handling within buyCore function\nuint256 earned = calculateEarnings(_pID); // Ensure all states are verified before calling buyCore\nbuyCore(_pID, _affCode, _team, _eventData_);"
+        },
+        {
+            "vulnerableLines": "297-297",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "This call could potentially invoke external functions where state changes might occur. Should reentrancy be triggered here, an attacker can manipulate the caller's balance before the state is settled.",
+            "potentialSecurityRisk": "An attacker could execute a transaction before the state within `reLoadCore()` completes, allowing multiple earnings manipulations rather than the intended single transaction.",
+            "fixedCode": "uint256 updatedBalance = auditPlayerBalance(_pID); // Conduct an audit before reLoadCore\nreLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+        },
+        {
+            "vulnerableLines": "336-336",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affID, _team, _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "Similar to the previous instances, this function allows external calls that could invite reentrancy, leading to inconsistent updates to the player's balance.",
+            "potentialSecurityRisk": "An attacker can repeatedly exploit this function during their execution phase, causing the contract to distribute excessive funds before the state is set properly.",
+            "fixedCode": "uint256 newBalance = calculatePendingWithdrawals(_pID); // Perform checks and call adjustments prior to reLoadCore\nreLoadCore(_pID, _affID, _team, _eth, _eventData_);"
+        }
+    ]
+}

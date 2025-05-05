@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalPoints = totalPoints + points;"
+            ],
+            "vulnerabilityReason": "The addition operation `totalPoints + points` does not check for integer overflow. If a large value for `points` is passed, the operation could exceed the maximum value of uint, causing `totalPoints` to wrap around and potentially leading to unintended behavior.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by passing an excessively large value for `points`, resulting in an incorrect total points calculation. This could allow manipulation of the points system, leading to unauthorized rewards or allowances.",
+            "fixedCode": "require(totalPoints + points >= totalPoints, 'Overflow detected');\ntotalPoints = totalPoints + points; // using require statement to check for overflow."
+        }
+    ]
+}

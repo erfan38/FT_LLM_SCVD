@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "185-185",
+            "vulnerableCode": [
+                "uint256 amount = uint256(cnt) * _value;"
+            ],
+            "vulnerabilityReason": "The multiplication of `cnt` (which equals `_receivers.length`) and `_value` is not checked for overflow, leading to potential integer overflow if both values are large enough. While `cnt` is limited to a maximum of 20 by a later check, if the check is bypassed or if `cnt` gets incorrectly manipulated, the multiplication can overflow and result in an unintended large value for `amount`.",
+            "potentialSecurityRisk": "An attacker could exploit the overflow to bypass the necessary balance checks, potentially allowing them to transfer more tokens than they should or execute unintended actions by misleading the contract to accept more receivers than it should handle.",
+            "fixedCode": " uint256 amount = cnt * _value; // Check and confirm safety of the multiplication after cnt is validated.\nrequire(amount > 0 && amount <= balances[msg.sender], \"Invalid amount\"); // Ensures validity without overflow."
+        }
+    ]
+}

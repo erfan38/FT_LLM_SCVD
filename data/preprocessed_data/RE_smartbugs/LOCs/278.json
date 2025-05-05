@@ -1,0 +1,26 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "119-125",
+            "vulnerableCode": [
+                "function genericCall(address _contract, bytes memory _data, uint256 _value)",
+                "public",
+                "onlyOwner",
+                "returns(bool success, bytes memory returnValue) {",
+                "    (success, returnValue) = _contract.call.value(_value)(_data);"
+            ],
+            "vulnerabilityReason": "The function uses `call.value()` to send Ether to an external contract without ensuring that the state is updated first. This can lead to reentrancy attacks, where a malicious contract could call back into the `Avatar` contract before the function completes, causing unintended consequences or exploitation.",
+            "potentialSecurityRisk": "An attacker could craft a malicious contract that, when called, re-enters the `Avatar` contract during the execution of `genericCall`, potentially allowing the attacker to drain funds by repeatedly invoking the function before the state changes are committed, leading to loss of funds.",
+            "fixedCode": "function genericCall(address _contract, bytes memory _data, uint256 _value) public onlyOwner returns(bool success, bytes memory returnValue) {  require(address(this).balance >= _value, 'Insufficient balance for transfer');  emit GenericCall(_contract, _data, _value, false);  (success, returnValue) = _contract.call.value(_value)(_data);  emit GenericCall(_contract, _data, _value, success);}"
+        },
+        {
+            "vulnerableLines": "134-134",
+            "vulnerableCode": [
+                "_to.transfer(_amountInWei);"
+            ],
+            "vulnerabilityReason": "The function uses `transfer()`, which can also potentially lead to reentrancy if `_to` is a contract that has a fallback function. Although `transfer()` imposes a gas limit, it is still susceptible if the contract performs operations that would allow reentrant calls.",
+            "potentialSecurityRisk": "If the `_to` address is a malicious contract, it could invoke a callback during the Ether transfer, allowing the contract to call back into this function before the state has been updated, which can lead to reentrancy issues if not handled correctly.",
+            "fixedCode": "require(address(this).balance >= _amountInWei, 'Insufficient balance'); // Ensure there is enough balance before transfer  (bool success, ) = _to.call.value(_amountInWei)(''); require(success, 'Transfer failed'); // Ensure that the transfer was successful."
+        }
+    ]
+}

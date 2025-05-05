@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint timeDifference = _endTime - _startTime;"
+            ],
+            "vulnerabilityReason": "The subtraction operation between `_endTime` and `_startTime` does not validate if `_startTime` is greater than `_endTime`. If `_startTime` is larger, the result will underflow, yielding a large unsigned integer instead of a negative value, leading to incorrect calculations of time difference.",
+            "potentialSecurityRisk": "An underflow could lead to returning a very large number for `timeDifference`, which could mislead users of the contract into believing that the time difference is valid. This can cause unexpected behaviors in subsequent calculations and decisions based on that value.",
+            "fixedCode": "require(_endTime >= _startTime, 'End time must be greater than or equal to start time');\nuint timeDifference = _endTime - _startTime;"
+        }
+    ]
+}

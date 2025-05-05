@@ -1,0 +1,52 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "219-221",
+            "vulnerableCode": [
+                "if(!bondFundAddress.call.value(_bondEthToPay).gas(400000) {",
+                " totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _bondEthToPay);"
+            ],
+            "vulnerabilityReason": "The contract uses call.value() to send funds to bondFundAddress before updating the totalEthFundRecieved balance, which allows an attacker to re-enter the contract during this call, potentially causing multiple withdrawals.",
+            "potentialSecurityRisk": "An attacker can exploit this function by re-entering during the Ether transfer, allowing them to withdraw more funds than intended before the totalEthFundRecieved is updated, leading to a loss of funds.",
+            "fixedCode": "totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);\nrequire(bondFundAddress.call.value(_bondEthToPay).gas(400000)());"
+        },
+        {
+            "vulnerableLines": "224-226",
+            "vulnerableCode": [
+                "if(altEthToPay > 0){",
+                " if(!altFundAddress.call.value(altEthToPay).gas(400000) {",
+                " totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, altEthToPay);"
+            ],
+            "vulnerabilityReason": "The use of call.value() to send funds to altFundAddress happens before totalEthFundRecieved is updated, allowing for reentrancy if the altFundAddress is malicious and calls back into the contract during the Ether transfer.",
+            "potentialSecurityRisk": "An attacker can call back into the contract during this transfer, potentially allowing them to drain funds before the contract updates the state to account for the transfer, resulting in a financial loss for the contract.",
+            "fixedCode": "if(altEthToPay > 0){\n require(altFundAddress.call.value(altEthToPay).gas(400000)(), \"Transfer failed\"); // Ensures transfer succeeded\n totalEthFundRecieved = SafeMath.add(totalEthFundRecieved, altEthToPay);"
+        },
+        {
+            "vulnerableLines": "290-290",
+            "vulnerableCode": [
+                "_customerAddress.transfer(_dividends);"
+            ],
+            "vulnerabilityReason": "The contract directly transfers Ether to _customerAddress without first updating the state to reflect the payout or withdrawal, which exposes the contract to a reentrancy attack.",
+            "potentialSecurityRisk": "A malicious contract could re-enter the withdraw function using a callback, withdrawing additional funds before the state is reset, leading to possible loss of funds from the contract.",
+            "fixedCode": "require(_customerAddress.call.value(_dividends)()); // Ensures transfer is made after updating state and requires success."
+        },
+        {
+            "vulnerableLines": "180-181",
+            "vulnerableCode": [
+                "purchaseTokens(msg.value, _referredBy);"
+            ],
+            "vulnerabilityReason": "The function purchaseTokens() uses call.value() internally, and if the callee (that is being called) has a fallback, it may lead to reentrancy issues if state updates occur post-calling rather than pre.",
+            "potentialSecurityRisk": "Attackers can exploit reentrancy if this function calls malicious contracts that re-enter the contract before state variables are updated, draining funds.",
+            "fixedCode": "require(purchaseTokens(msg.value, _referredBy) > 0, \"Token purchase failed\");"
+        },
+        {
+            "vulnerableLines": "193-194",
+            "vulnerableCode": [
+                "purchaseTokens(msg.value, 0x0);"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this function also calls purchaseTokens(), which may have vulnerabilities due to not properly guarding against reentrancy attacks by updating state before making external calls.",
+            "potentialSecurityRisk": "As with the other functions, an attacker could exploit reentrancy vulnerabilities, withdrawing more funds than allowed, potentially causing financial losses.",
+            "fixedCode": "require(purchaseTokens(msg.value, 0x0) > 0, \"Token purchase failed\");"
+        }
+    ]
+}

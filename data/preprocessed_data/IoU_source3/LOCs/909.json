@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "return rewardRate * (block.number - stakingPeriod);"
+            ],
+            "vulnerabilityReason": "Subtracting `stakingPeriod` from `block.number` can lead to an underflow if `stakingPeriod` is greater than `block.number`. As a result, this will yield a negative value, and when multiplied by `rewardRate`, it could lead to incorrect reward calculations or even unintended behavior in the contract.",
+            "potentialSecurityRisk": "If `stakingPeriod` is greater than `block.number`, the calculation will underflow, potentially allowing for negative rewards or unexpected large rewards due to the multiplication with `rewardRate`. This could be exploited to manipulate reward payouts.",
+            "fixedCode": "require(block.number >= stakingPeriod, \"Staking period must not exceed current block number\");\nreturn rewardRate * (block.number - stakingPeriod);"
+        }
+    ]
+}

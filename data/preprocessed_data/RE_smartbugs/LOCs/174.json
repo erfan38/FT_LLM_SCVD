@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "76-76",
+            "vulnerableCode": [
+                "require(!msg.sender.call.value(amount)());"
+            ],
+            "vulnerabilityReason": "The use of `call.value(amount)` allows the recipient to call back into the `withdraw` function before the user's balance is updated, which creates a reentrancy vulnerability. An attacker can exploit this by creating a malicious contract that withdraws funds repeatedly.",
+            "potentialSecurityRisk": "This could lead to multiple unauthorized fund withdrawals, draining the contract's balance and potentially leading to significant financial losses.",
+            "fixedCode": "require(address(this).balance >= amount, \"Insufficient contract balance\"); tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); (bool success, ) = msg.sender.call.value(amount)(''); require(success, \"Transfer failed\"); Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        },
+        {
+            "vulnerableLines": "92-92",
+            "vulnerableCode": [
+                "require(!Token(token).transfer(msg.sender, amount));"
+            ],
+            "vulnerabilityReason": "Using `Token(token).transfer(...)` directly after the state update can allow reentrancy into the token contract if it is vulnerable itself. If the token contract allows reentrancy, the funds could be drained before the user's balance is correctly updated.",
+            "potentialSecurityRisk": "An attacker could exploit a reentrancy vulnerability in the token contract to repeatedly initiate transfers of funds, allowing them to withdraw more tokens than they should be allowed to access, causing financial losses to the contract.",
+            "fixedCode": "require(Token(token).transfer(msg.sender, amount), \"Transfer failed\"); tokens[token][msg.sender] = safeSub(tokens[token][msg.sender], amount); Withdraw(token, msg.sender, amount, tokens[token][msg.sender]);"
+        }
+    ]
+}

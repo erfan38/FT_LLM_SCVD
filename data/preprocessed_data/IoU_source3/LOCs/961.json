@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "dividendsPerQuarter[currentQuarter] = totalShares * _profitPercentage / 100;"
+            ],
+            "vulnerabilityReason": "The multiplication operation between `totalShares` and `_profitPercentage` can lead to integer overflow if `_profitPercentage` is a sufficiently large number. Since both are of type uint256, exceeding the maximum value can wrap around to zero or a lower number, leading to inaccurate calculations.",
+            "potentialSecurityRisk": "If an overflow occurs, the calculation of dividends per quarter could result in distributing excessive dividends or none at all, potentially leading to financial loss for the contract or the stakeholders involved.",
+            "fixedCode": "require(_profitPercentage <= (type(uint256).max / totalShares), 'Profit percentage too high to calculate safely.');\ndividendsPerQuarter[currentQuarter] = (totalShares * _profitPercentage) / 100;"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "54-56",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "acc.balance-=_am;"
+            ],
+            "vulnerabilityReason": "The usage of 'call.value()' allows the recipient to execute code before the state is updated. This lets an attacker invoke the 'Collect' function recursively. Since the balance is updated only after sending Ether, it leaves the contract vulnerable to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by invoking the 'Collect' function inside their own contract's fallback function, allowing them to withdraw funds multiple times, draining the contract completely.",
+            "fixedCode": "require(acc.balance >= _am, \"Insufficient balance\");\nrequire(now > acc.unlockTime, \"Funds are still locked\");\nacc.balance -= _am; // Update the state before external call\n(bool success, ) = msg.sender.call{value: _am}(\"...\");\nrequire(success, \"Transfer failed\");\nLogFile.AddMessage(msg.sender,_am,\"Collect\"); // Log the transaction"
+        }
+    ]
+}

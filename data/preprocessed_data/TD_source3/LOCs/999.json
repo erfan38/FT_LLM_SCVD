@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-9",
+            "vulnerableCode": [
+                "lockTime[msg.sender] = block.timestamp + 1 weeks;",
+                "require(block.timestamp > lockTime[msg.sender], \"Still locked\");"
+            ],
+            "vulnerabilityReason": "The `lock` function uses `block.timestamp` to set the lock time for the sender, while the `withdraw` function checks if the current time exceeds this lock time. Since `block.timestamp` can be manipulated by miners, this introduces a risk where the lock duration may not be respected due to minor adjustments in the block timestamp.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to unlock funds earlier than intended, allowing users to withdraw before they should have access. This undermines the purpose of the time lock and could lead to financial losses for those relying on this mechanism for secure asset locking.",
+            "fixedCode": "lockTime[msg.sender] = block.timestamp + 1 weeks; // Original line of code\n\n// Proposed fix could involve using block.number or an alternative method to achieve time-based locks without directly relying on miner-manipulable timestamps."
+        }
+    ]
+}

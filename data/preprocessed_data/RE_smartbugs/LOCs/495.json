@@ -1,0 +1,94 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "399-399",
+            "vulnerableCode": [
+                "if (!address(coin_base).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` here does not update the state before transferring Ether, potentially allowing reentrant calls that can exploit the state before it is finalized.",
+            "potentialSecurityRisk": "An attacker could recursively call this function before the state updates occur, draining funds from the contract by repeatedly executing the transfer.",
+            "fixedCode": "require(address(coin_base).call.value(_com)(), \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "415-415",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The use of `transfer()` sends Ether without checking if the state was updated correctly beforehand, leading to a vulnerability that allows reentrancy.",
+            "potentialSecurityRisk": "An attacker can exploit the lack of state updates before this call is made, leading to potential repeated withdrawal of funds.",
+            "fixedCode": "uint256 amountToWithdraw = _eth; require(amountToWithdraw <= address(this).balance, \"Insufficient balance\"); plyr_[_pID].addr.transfer(amountToWithdraw);"
+        },
+        {
+            "vulnerableLines": "444-444",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to previous vulnerabilities, this transfer call does not perform a check or state update beforehand, making it susceptible to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker may manipulate the state by triggering this call multiple times before the intended limits are enforced, leading to fund loss.",
+            "fixedCode": "uint256 amountToWithdraw = _eth; require(amountToWithdraw <= address(this).balance, \"Insufficient balance\"); plyr_[_pID].addr.transfer(amountToWithdraw);"
+        },
+        {
+            "vulnerableLines": "129-129",
+            "vulnerableCode": [
+                "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
+            ],
+            "vulnerabilityReason": "This function calls `buyCore()` which may internally invoke other transfer mechanisms without proper state checks beforehand, leading to vulnerabilities if recursive calls happen.",
+            "potentialSecurityRisk": "The state may not reflect the changes expected after this call due to potential reentrancy, allowing an attacker to inflate their rewards or gains.",
+            "fixedCode": "// Ensure that necessary checks are performed before engaging with buyCore."
+        },
+        {
+            "vulnerableLines": "172-172",
+            "vulnerableCode": [
+                "buyCore(_pID, _affCode, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "Just like before, this call may leverage transfer functions internally that do not prevent reentrancy, leading to potential fund exploitation.",
+            "potentialSecurityRisk": "A malicious actor could exploit this to make several recursive calls, potentially withdrawing more than intended.",
+            "fixedCode": "// Ensure appropriate state checks are in place before invoking buyCore."
+        },
+        {
+            "vulnerableLines": "213-213",
+            "vulnerableCode": [
+                "buyCore(_pID, _affID, _team, _eventData_);"
+            ],
+            "vulnerabilityReason": "Calling `buyCore()` without prior checks on state allows for a lapse in security, risking the state during Ether transfers in this call.",
+            "potentialSecurityRisk": "Repeat withdrawals or manipulation by an attacker can occur if state changes are not properly secured or handled.",
+            "fixedCode": "// Ensure checks are performed before engaging with buyCore."
+        },
+        {
+            "vulnerableLines": "296-296",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affCode, _team, _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "The call to `reLoadCore()` can invoke Ether transfers without handling state integrity, making it susceptible to attacks.",
+            "potentialSecurityRisk": "Recursive calls can drain the contract by allowing for withdrawals before the state is adequately updated or secured.",
+            "fixedCode": "// Guard clause to check for proper state before calling reLoadCore."
+        },
+        {
+            "vulnerableLines": "336-336",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affID, _team, _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "Without ensuring that state is updated before this function call, repeated attacks can lead to exploitation.",
+            "potentialSecurityRisk": "As with other instances, attackers can execute multiple withdrawals manipulating the expected state.",
+            "fixedCode": "// Implement checks ensuring state integrity prior to calling reLoadCore."
+        },
+        {
+            "vulnerableLines": "412-412",
+            "vulnerableCode": [
+                "_eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "This withdrawal mechanism retrieves funds without ensuring that the state is locked or protected from duplicative execution.",
+            "potentialSecurityRisk": "Repeated attacks on this function could allow malicious actors to earn rewards multiple times unnecessarily.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); require(earnings <= address(this).balance, \"Insufficient funds\");"
+        },
+        {
+            "vulnerableLines": "440-440",
+            "vulnerableCode": [
+                "_eth = withdrawEarnings(_pID);"
+            ],
+            "vulnerabilityReason": "Again, the order of operations where state is not locked can permit reentrancy exploits, returning more funds than intended potentially.",
+            "potentialSecurityRisk": "Attackers can exploit this to withdraw additional funds repeatedly, manipulating the smart contract’s expectations of state.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); require(earnings <= address(this).balance, \"Insufficient funds\");"
+        }
+    ]
+}

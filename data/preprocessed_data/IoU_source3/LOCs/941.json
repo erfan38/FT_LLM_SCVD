@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "stakingFinish = stakingBegin + stakingLength;"
+            ],
+            "vulnerabilityReason": "The addition of 'stakingBegin' and 'stakingLength' could lead to an integer overflow if their sum exceeds the maximum value of uint256, resulting in incorrect calculation for 'stakingFinish'. This could cause the staking period to end prematurely or to be set to a very early timestamp, allowing for unintended staking behavior.",
+            "potentialSecurityRisk": "If an overflow occurs, it might result in the contract erroneously calculating the finish time, which could enable users to stake when they shouldn't or allow for premature termination of staking periods, leading to potential fund losses.",
+            "fixedCode": "require(stakingBegin + stakingLength >= stakingBegin, \"Overflow detected while calculating staking finish time\"); stakingFinish = stakingBegin + stakingLength; // Ensuring no overflow occurs before assigning"
+        }
+    ]
+}

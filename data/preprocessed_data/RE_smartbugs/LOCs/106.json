@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "168-168",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The use of 'call.value' allows for external calls that can potentially invoke fallback functions in malicious contracts, leading to a reentrancy vulnerability if those contracts can influence state before the current transaction completes.",
+            "potentialSecurityRisk": "If 'receiverAddress' is a contract, a malicious actor could implement a fallback function that calls back into the contract (e.g., re-invoking 'submitPool'), manipulating the state before the value transfer is confirmed, potentially allowing funds to be drained.",
+            "fixedCode": "(bool success, ) = receiverAddress.call{value: amountInWei, gas: msg.gas - 5000}(); require(success, \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "192-191",
+            "vulnerableCode": [
+                "msg.sender.transfer(amountToTransfer);",
+                "c.balance = 0;"
+            ],
+            "vulnerabilityReason": "The transfer of ether happens before the state variable 'c.balance' is reset. This allows an attacker to call back into `withdraw` after they have received ether but before their recorded balance is updated, leaving the internal state vulnerable.",
+            "potentialSecurityRisk": "An attacker could recursively withdraw funds before the internal state is updated, causing the contract to send more ether than it should, leading to a potential loss of contract funds.",
+            "fixedCode": "uint amountToTransfer = c.balance; c.balance = 0; msg.sender.transfer(amountToTransfer);"
+        },
+        {
+            "vulnerableLines": "225-225",
+            "vulnerableCode": [
+                "receiver.transfer(ethAmount);"
+            ],
+            "vulnerabilityReason": "The transfer of ether occurs before updating any state related to the contributor's balance or refund claims, which allows for a reentrancy exploit before internal state is finalized.",
+            "potentialSecurityRisk": "Similar to other transfer cases, an attacker could control the receiving contract allowing them to trigger further calls back into the PresalePool contract, thus siphoning off more ether than allowed based on the previous state.",
+            "fixedCode": "if (ethAmount > 0) { (bool success, ) = receiver.call{value: ethAmount}(); require(success, \"Transfer failed\"); EthRefunded(receiver, ethAmount); }"
+        },
+        {
+            "vulnerableLines": "235-235",
+            "vulnerableCode": [
+                "require(d.token.transfer(receiver,tokenAmount));"
+            ],
+            "vulnerabilityReason": "The token transfer is executed before any state updates related to that transfer, including balances or allowances, allowing a malicious contract to revert control and potentially exploit the contract's state before completion of the transaction.",
+            "potentialSecurityRisk": "This sequence allows for manipulation, as attacking contracts could arrange their state by calling back into the PresalePool, leading to unauthorized token transfers or double withdrawals.",
+            "fixedCode": "require(d.token.transfer(receiver, tokenAmount), \"Token transfer failed\"); d.balanceRemaining = d.balanceRemaining.sub(tokenAmount); TokensWithdrawn(receiver, tokenAddr, tokenAmount);"
+        }
+    ]
+}

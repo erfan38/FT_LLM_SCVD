@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "742-742",
+            "vulnerableCode": [
+                "chronus.starting_time = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The function 'setup_race' sets the starting_time based on block.timestamp, which can be manipulated by miners when they mine the block. This can lead to incorrect scheduling of races and oraclize queries.",
+            "potentialSecurityRisk": "A miner could alter the timestamp to set the starting time of the race to a past time or modify it to their advantage, leading to exploits like invalid race schedules or manipulation of the betting process.",
+            "fixedCode": "chronus.starting_time = block.timestamp + TIME_TOLERANCE; // Add a small buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "805-805",
+            "vulnerableCode": [
+                "require(now > chronus.starting_time + chronus.race_duration);"
+            ],
+            "vulnerabilityReason": "The 'void_race' function checks if the current time exceeds starting_time plus race duration, using now (which is equivalent to block.timestamp). This introduces a risk since miners can manipulate the block timestamp.",
+            "potentialSecurityRisk": "If manipulated, a miner could void a race prematurely or prevent the proper execution of the race process, affecting the fairness of bets.",
+            "fixedCode": "require(now + TIME_TOLERANCE > chronus.starting_time + chronus.race_duration); // Using a buffer to reduce timestamp dependency."
+        },
+        {
+            "vulnerableLines": "815-815",
+            "vulnerableCode": [
+                "require(now > chronus.starting_time + chronus.race_duration + claim_period);"
+            ],
+            "vulnerabilityReason": "The 'recover_unclaimed_bets' function depends on the precision of now for timing, which can be manipulated to control bet claims and payouts.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp to prematurely allow or disallow bet claims, potentially allowing them or their friends to exploit this timing attack to their advantage.",
+            "fixedCode": "require(now + TIME_TOLERANCE > chronus.starting_time + chronus.race_duration + claim_period); // Add a buffer to safeguard against timestamp manipulation."
+        }
+    ]
+}

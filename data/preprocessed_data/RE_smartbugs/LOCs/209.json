@@ -1,0 +1,37 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "198-200",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The function decreases the balance of the sender before making a low-level call to the recipient. If the recipient is a contract, it can make a recursive call to the `transfer` function before the sender's balance is fully deducted, potentially allowing it to withdraw funds more than once.",
+            "potentialSecurityRisk": "If a malicious contract is the recipient, it can drain the sender's funds by recursively calling the `transfer` function, leading to underflow and loss of funds for the original sender.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nTransfer(msg.sender, _to, _value, _data);\n\nif (isContract(_to)) {\n    ContractReceiver receiver = ContractReceiver(_to);\n    receiver.tokenFallback(msg.sender, _value, _data);\n}"
+        },
+        {
+            "vulnerableLines": "265-268",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "ContractReceiver receiver = ContractReceiver(_to);"
+            ],
+            "vulnerabilityReason": "The balance of the sender is decreased before interacting with the recipient contract, which can lead to reentrancy if an external call is made. This allows the recipient to call back into the `transfer` function, exploiting the state of the sender's balance before it is updated correctly.",
+            "potentialSecurityRisk": "Similar to the previous instance, this could allow an attacker to repeatedly withdraw funds by exploiting a malicious contract as the recipient, leading to potential fund loss.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nTransfer(msg.sender, _to, _value);\n\nif (isContract(_to)) {\n    ContractReceiver receiver = ContractReceiver(_to);\n    receiver.tokenFallback(msg.sender, _value, _data);\n}"
+        },
+        {
+            "vulnerableLines": "463-465",
+            "vulnerableCode": [
+                "balanceOf[activityFunds] = balanceOf[activityFunds].sub(distributeAmount);",
+                "balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);",
+                "Transfer(activityFunds, msg.sender, distributeAmount);"
+            ],
+            "vulnerabilityReason": "The distribution amount is deducted from the `activityFunds` balance before tokens are transferred to the sender. If the transfer triggers a fallback function that re-enters the `autoDistribute` function, it can exploit the order of operations, resulting in losses.",
+            "potentialSecurityRisk": "A malicious contract could drain the `activityFunds` by re-entering the `autoDistribute` function, allowing an attacker to claim more distributions than they should be entitled to.",
+            "fixedCode": "require(balanceOf[activityFunds] >= distributeAmount);\nbalanceOf[activityFunds] = balanceOf[activityFunds].sub(distributeAmount);\nbalanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);\nTransfer(activityFunds, msg.sender, distributeAmount);\n\nif (msg.sender.call.value(distributeAmount)()) {\n    // Further checks can be implemented here to handle success or failure properly.\n} else {\n    balanceOf[msg.sender] = balanceOf[msg.sender].sub(distributeAmount);\n    balanceOf[activityFunds] = balanceOf[activityFunds].add(distributeAmount);\n}"
+        }
+    ]
+}

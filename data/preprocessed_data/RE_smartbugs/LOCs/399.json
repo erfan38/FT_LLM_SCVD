@@ -1,0 +1,43 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1008-1012",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)()) {",
+                "    _p3d = _com;",
+                "    _com = 0;",
+                "}"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows for an external call to the `admin` address before updating the internal state. This can lead to reentrancy where an attacker can trigger a callback to manipulate contract state before the contract properly processes the withdrawal.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to repeatedly withdraw funds before the contract updates the state to reflect the amounts already taken, potentially draining the contract's balance.",
+            "fixedCode": "(bool success, ) = address(admin).call.value(_com)();\nrequire(success, \"Transfer failed\");\n_p3d = success ? 0 : _com;"
+        },
+        {
+            "vulnerableLines": "1008-1008",
+            "vulnerableCode": [
+                "uint256 _p3d = distributeAff(_rID,_pID,_eth,_affID);"
+            ],
+            "vulnerabilityReason": "This line could cause a reentrancy vulnerability since the external call to distribute affiliate earnings happens before ensuring Ether transfers are complete and the state variables are updated.",
+            "potentialSecurityRisk": "An attacker could manipulate the contract's state by re-entering during this call to `distributeAff`, leading to potential fund draining before the balances are updated correctly.",
+            "fixedCode": "uint256 _p3d = distributeAff(_rID, _pID, _eth, _affID);\nrequire(_p3d >= 0, \"Affiliate distribution failed\");"
+        },
+        {
+            "vulnerableLines": "1010-1010",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth.sub(_withdrawFee));"
+            ],
+            "vulnerabilityReason": "The transfer occurs before the state variable associated with the player's earnings is reset, allowing for potential reentrancy and manipulation of the player's balance.",
+            "potentialSecurityRisk": "A malicious player could trigger this function again before the contract has time to process the transaction, leading to multiple withdrawals of funds that are not truly theirs.",
+            "fixedCode": "uint256 finalAmount = _eth.sub(_withdrawFee);\nrequire(finalAmount <= address(this).balance, \"Insufficient balance\");\nplyr_[_pID].addr.transfer(finalAmount);"
+        },
+        {
+            "vulnerableLines": "1012-1012",
+            "vulnerableCode": [
+                "admin.transfer(_p2);"
+            ],
+            "vulnerabilityReason": "Using `transfer()` to send Ether prior to updating any state can allow an attacker to exploit the contract through reentrancy, potentially taking extra funds before the contract state reflects proper accounting.",
+            "potentialSecurityRisk": "If an attacker controls the `admin` address or can manipulate its balance, they could exploit this to withdraw multiple times before the contract's state is updated appropriately, resulting in significant fund loss.",
+            "fixedCode": "(bool success, ) = admin.call.value(_p2)();\nrequire(success, \"Admin transfer failed\");"
+        }
+    ]
+}

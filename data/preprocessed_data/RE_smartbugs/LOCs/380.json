@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "275-276",
+            "vulnerableCode": [
+                "if(!giveEthFundAddress.call.value(ethToPay).gas(400000) {",
+                "totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, ethToPay);"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows sending Ether to an external contract without updating the contract state before the call. If the `giveEthFundAddress` is a contract, it can execute a callback to the original function, causing potential state inconsistencies and reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker controlling the `giveEthFundAddress` could exploit this by repeatedly invoking the function before the state is updated, leading to a situation where the contract could be drained of funds by allowing the caller to withdraw more Ether than they are entitled to.",
+            "fixedCode": "require(ethToPay <= address(this).balance, \"Insufficient contract balance\"); // Ensure contract has enough Ether before proceeding\nuint256 previousTotal = totalEthFundRecieved; // Keep the original value\n// Update the state before the external call to prevent reentrancy\ntotalEthFundRecieved = SafeMath.add(totalEthFundRecieved, ethToPay);\n(bool success,) = giveEthFundAddress.call.value(ethToPay).gas(400000)();\nif (!success) {\n   totalEthFundRecieved = previousTotal; // Restore original state if the call fails\n}"
+        }
+    ]
+}

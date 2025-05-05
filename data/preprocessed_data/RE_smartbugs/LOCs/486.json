@@ -1,0 +1,63 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "177-180",
+            "vulnerableCode": [
+                "if(!FundEIF.call.value(fundEIF)()) {",
+                "    revert();",
+                "}",
+                "totalEIF = totalEIF.add(fundEIF); fundEIF = 0;"
+            ],
+            "vulnerabilityReason": "The function sends Ether to the 'FundEIF' address using .call.value() before updating the state variable. This allows an attacker to execute 'payFund()' multiple times before the 'fundEIF' value is set to 0, draining the contract's funds.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that accepts Ether and then calls 'payFund()' again, allowing them to withdraw funds multiple times before the state changes take effect, potentially draining all available Ether from the contract.",
+            "fixedCode": "require(fundEIF > 0, \"No funds available to send\");\nfundEIF = 0; // Set fundEIF to 0 before external call\nif(!FundEIF.call.value(fundEIF)()) { revert(); }\ntotalEIF = totalEIF.add(fundEIF);"
+        },
+        {
+            "vulnerableLines": "1361-1362",
+            "vulnerableCode": [
+                "address(PoEIFContract).call.value(_PoEIF.sub((_PoEIF / 2)))(bytes4(keccak256(\"donateDivs()\")));",
+                "fundEIF = fundEIF.add(_PoEIF / 2);"
+            ],
+            "vulnerabilityReason": "Ether is sent to 'PoEIFContract' using .call.value() before updating the local state variable 'fundEIF', leaving a window for reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker who controls 'PoEIFContract' could re-enter the contract and manipulate state or delete funds by making recursive calls before 'fundEIF' is updated.",
+            "fixedCode": "require(_PoEIF > 0, \"No funds to send\");\nuint256 halfPoEIF = _PoEIF / 2;\nfundEIF = fundEIF.add(halfPoEIF); // Update fundEIF before external call\nif(!PoEIFContract.call.value(_PoEIF.sub(halfPoEIF))(bytes4(keccak256(\"donateDivs()\"))) { revert(); }"
+        },
+        {
+            "vulnerableLines": "1467-1469",
+            "vulnerableCode": [
+                "address(PoEIFContract).call.value(_PoEIF.sub(_EIFamount))(bytes4(keccak256(\"donateDivs()\")));",
+                "fundEIF = fundEIF.add(_EIFamount);"
+            ],
+            "vulnerabilityReason": "Similar to the previous instance, the contract sends Ether to a possibly untrusted contract before updating the local state variable, leading to a reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker could exploit the opportunity to withdraw funds multiple times from the contract before the state is properly updated, draining funds leading to potential loss of Ether from the contract.",
+            "fixedCode": "require(_PoEIF.sub(_EIFamount) > 0, \"No funds to send\");\nuint256 toSend = _PoEIF.sub(_EIFamount);\nfundEIF = fundEIF.add(_EIFamount);\nif(!PoEIFContract.call.value(toSend)(bytes4(keccak256(\"donateDivs()\"))) { revert(); }"
+        },
+        {
+            "vulnerableLines": "1040-1041",
+            "vulnerableCode": [
+                "plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);"
+            ],
+            "vulnerabilityReason": "This line updates the player's generated earnings based on the incoming value before potentially interacting with external contracts that may cause reentrancy.",
+            "potentialSecurityRisk": "There exists a risk of double-spending or multiple withdrawals due to the updates in this function, where reentrancy could allow an attacker to exploit the state before it's fully updated or validated.",
+            "fixedCode": "// Update player earnings safely using Checks-Effects-Interactions pattern\nuint256 initialGen = plyr_[_pID].gen;\nplyr_[_pID].gen = initialGen.add(msg.value);"
+        },
+        {
+            "vulnerableLines": "571-571",
+            "vulnerableCode": [
+                "reLoadCore(_pID, _affCode,  _eth, _eventData_);"
+            ],
+            "vulnerabilityReason": "Calling 'reLoadCore()' which may contain Ether transfers and thus is susceptible to reentrancy since it does not ensure state changes before the external call.",
+            "potentialSecurityRisk": "An attacker can execute this function recursively, potentially augmenting their earnings or depleting the contract due to improperly sequenced state updates against external calls.",
+            "fixedCode": "// Use Checks-Effects-Interactions pattern to securely handle external calls\nuint256 pendingEth = _eth;\nreLoadCore(_pID, _affCode, pendingEth, _eventData_);"
+        },
+        {
+            "vulnerableLines": "1153-1153",
+            "vulnerableCode": [
+                "_eventData_ = distributeExternal(_rID, _pID, _eth, _affID, 0, _eventData_);"
+            ],
+            "vulnerabilityReason": "This function transfers Ether to external contracts before ensuring state updates are finalized, risking funds to reentrant attacks.",
+            "potentialSecurityRisk": "A malicious external contract could abuse vulnerability by making recursive calls that could result in financial losses or disruption to the contracts operation.",
+            "fixedCode": "uint256 storedEth = _eth;\n_eventData_ = distributeExternal(_rID, _pID, storedEth, _affID, 0, _eventData_);"
+        }
+    ]
+}

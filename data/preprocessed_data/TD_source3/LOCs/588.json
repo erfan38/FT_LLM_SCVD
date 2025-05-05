@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "require(block.timestamp < pubEnd);"
+            ],
+            "vulnerabilityReason": "The 'buy' function checks if the current block timestamp is less than 'pubEnd', which is not a fixed point in time but susceptible to miner manipulation.",
+            "potentialSecurityRisk": "Miners can manipulate block.timestamp to prevent or allow transactions based on the current blockchain time, potentially allowing them to purchase tokens at advantageous times or prevent others from doing so.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < pubEnd); // Use TIME_TOLERANCE to reduce timestamp reliance."
+        },
+        {
+            "vulnerableLines": "118-118",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "The withdrawal function checks that the current block timestamp is greater than 'pubEnd', allowing potential abuse during the closing period of token sales.",
+            "potentialSecurityRisk": "A miner could manipulate the block timestamp after the sale has 'technically' ended, allowing their chosen participants to withdraw or punish others inappropriately.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Use TIME_TOLERANCE to account for the manipulation."
+        },
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "This check is similar to the withdrawPUB function and relies on block.timestamp in a way that can be exploited by miners.",
+            "potentialSecurityRisk": "Miners could manipulate timestamps to permit or deny withdrawals unfairly, undermining trust in the process.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Use TIME_TOLERANCE to account for the manipulation."
+        }
+    ]
+}

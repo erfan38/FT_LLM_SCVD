@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 reward = block.timestamp - miningStart;"
+            ],
+            "vulnerabilityReason": "The code performs a subtraction operation between `block.timestamp` (current time) and `miningStart` without checking if `miningStart` is greater than `block.timestamp`. If `miningStart` is set to a future timestamp, this will lead to an underflow, resulting in an unexpectedly large value for `reward` (due to underflow in uint256).",
+            "potentialSecurityRisk": "An attacker could manipulate the `miningStart` variable to be a future timestamp, allowing them to create very high mining rewards. This could lead to an unfair distribution of rewards and potentially cause economic exploitation of the system.",
+            "fixedCode": "require(miningStart <= block.timestamp, \"Mining start timestamp cannot be in the future\"); \nuint256 reward = block.timestamp - miningStart; // This ensures the calculation remains valid."
+        }
+    ]
+}

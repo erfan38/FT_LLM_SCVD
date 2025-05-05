@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "15-15",
+            "vulnerableCode": [
+                "require(_releaseTime > block.timestamp);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to compare against _releaseTime introduces vulnerability as miners can manipulate block.timestamp to set a release time that favors them.",
+            "potentialSecurityRisk": "Miners might exploit this by setting a block timestamp shortly before the intended release to access tokens prematurely, resulting in potential financial loss for the beneficiaries and unfair distribution.",
+            "fixedCode": "require(_releaseTime > block.timestamp + TIME_TOLERANCE); // Use a buffer like TIME_TOLERANCE to reduce timestamp manipulation"
+        },
+        {
+            "vulnerableLines": "24-24",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "Relying on block.timestamp for conditions such as token release makes the contract sensitive to miner manipulation; they can influence the block timestamp within acceptable limits.",
+            "potentialSecurityRisk": "If miners manipulate block timestamps, they could release tokens earlier than intended, undermining the contract's purpose and providing unfair advantages.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Use a buffer like TIME_TOLERANCE to maintain a fair release logic"
+        }
+    ]
+}

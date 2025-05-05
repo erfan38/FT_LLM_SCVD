@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "11-11",
+            "vulnerableCode": [
+                "require(block.timestamp < auctionEndTime, \"Auction has ended\");"
+            ],
+            "vulnerabilityReason": "This line uses block.timestamp to determine whether the auction has ended, creating a dependency on miner-controlled timestamps. Miners can manipulate the block timestamp, leading to the possibility of accepting bids when they should not be allowed.",
+            "potentialSecurityRisk": "By manipulating the timestamp, a miner could allow bids to be placed after the auction has officially ended, compromising the integrity of the auction process and potentially leading to financial losses for both bidders and the seller.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < auctionEndTime, \"Auction has ended\"); // Adding a tolerance buffer to protect against minor timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "18-18",
+            "vulnerableCode": [
+                "require(block.timestamp >= auctionEndTime, \"Auction not yet ended\");"
+            ],
+            "vulnerabilityReason": "This line also relies on block.timestamp to check if the auction has ended, making it susceptible to the same manipulation issues as the previous vulnerability.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp to report an end time that is earlier than intended, allowing the auction to be prematurely ended and possibly benefiting the miner or others at the expense of the proper auction end conditions.",
+            "fixedCode": "require(block.timestamp >= auctionEndTime + TIME_TOLERANCE, \"Auction not yet ended\"); // Implementing a buffer to mitigate manipulation risks."
+        }
+    ]
+}

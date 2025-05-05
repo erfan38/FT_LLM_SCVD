@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "80-83",
+            "vulnerableCode": [
+                "if (tokens[0][msg.sender] < amount) throw;",
+                "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' allows an attacker to invoke a callback to the contract before the state has been updated. In this case, the tokens are deducted after the Ether is sent, which means an attacker could drain more funds than what they are entitled to in the 'withdraw' function.",
+            "potentialSecurityRisk": "An attacker could re-enter the contract during the Ether transfer process, allowing them to withdraw multiple times before the state is effectively updated, draining the contract's funds.",
+            "fixedCode": "function withdraw(uint amount) {\n    if (tokens[0][msg.sender] < amount) throw;\n    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\n    (bool success, ) = msg.sender.call.value(amount)('');\n    require(success, 'Transfer failed');\n    Withdraw(0, msg.sender, amount, tokens[0][msg.sender]);\n}"
+        }
+    ]
+}

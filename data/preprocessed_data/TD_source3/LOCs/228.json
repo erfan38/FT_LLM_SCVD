@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "require(block.timestamp >= openingTime && block.timestamp <= closingTime);"
+            ],
+            "vulnerabilityReason": "The onlyWhileOpen modifier relies on block.timestamp to enforce time restrictions on contract functions, making it susceptible to manipulation by miners who can affect the block timestamp.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to ensure transactions are processed during unauthorized times, leading to potential revenue loss or unfair advantages in the crowdsale.",
+            "fixedCode": "require(block.timestamp >= openingTime + TIME_TOLERANCE && block.timestamp <= closingTime - TIME_TOLERANCE); // Adding TIME_TOLERANCE for security."
+        },
+        {
+            "vulnerableLines": "19-19",
+            "vulnerableCode": [
+                "return block.timestamp > closingTime;"
+            ],
+            "vulnerabilityReason": "The hasClosed function also relies on block.timestamp to determine whether the crowdsale has closed, introducing a risk that miners can manipulate the outcome by adjusting the timestamp.",
+            "potentialSecurityRisk": "If a miner manipulates the timestamp, they can alter the perceived closing status of the crowdsale, potentially allowing further purchases or disrupting expected contract behavior.",
+            "fixedCode": "return block.timestamp > closingTime + TIME_TOLERANCE; // Adding TIME_TOLERANCE to mitigate manipulation risk."
+        }
+    ]
+}

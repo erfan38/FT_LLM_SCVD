@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "49-51",
+            "vulnerableCode": [
+                "if(_addr.call.value(_wei)())",
+                "Holders[_addr]-=_wei;"
+            ],
+            "vulnerabilityReason": "The contract makes an external call using `call.value()` to transfer Ether to `_addr` before updating the state variable `Holders[_addr]`. This allows an attacker to exploit reentrancy by invoking this function again before the `Holders` balance is decremented, leading to multiple unauthorized withdrawals.",
+            "potentialSecurityRisk": "An attacker could set up a contract that calls `WithdrawToHolder` repeatedly, draining the contract's balance by exploiting the reentrancy vulnerability, as the user's `Holders` balance isn't updated until after the Ether transfer succeeds.",
+            "fixedCode": "require(Holders[_addr] >= _wei, \"Insufficient balance\");\nHolders[_addr] -= _wei;  // Update state before sending Ether\n(bool success, ) = _addr.call.value(_wei)();  // Send Ether\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful."
+        }
+    ]
+}

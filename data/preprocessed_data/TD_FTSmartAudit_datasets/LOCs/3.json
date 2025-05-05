@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "20-20",
+            "vulnerableCode": [
+                "lastInvestmentTimestamp = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The variable 'lastInvestmentTimestamp' is assigned the value of 'block.timestamp', which is subject to manipulation by miners who have some latitude in setting the block's timestamp. This reliance on block.timestamp poses a vulnerability in timing checks related to investment periods.",
+            "potentialSecurityRisk": "A malicious miner could manipulate the block timestamp within a small range to reset their investment time or trigger timing-based funding opportunities. For instance, they could quickly invest again just before the one-minute limit, allowing them to exploit the resetInvestment() function and potentially withdraw funds before the intended cooldown period expires.",
+            "fixedCode": "lastInvestmentTimestamp = now; // or use a variable with more reliable time management, such as block.number."
+        }
+    ]
+}

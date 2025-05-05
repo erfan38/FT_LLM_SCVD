@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "368-368",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The contract uses transfer after updating the player's earnings, which can allow an attacker to call withdraw multiple times before the state change takes effect, leading to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can repeatedly invoke the withdraw function via a fallback function in a malicious contract, draining the funds before the state updates are effective.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID); require(_eth > 0, 'No earnings to withdraw'); plyr_[_pID].addr.transfer(_eth); withdrawAddr_[plyr_[_pID].addr] = 1; shareAddr_[plyr_[_pID].addr] = 0;"
+        },
+        {
+            "vulnerableLines": "402-402",
+            "vulnerableCode": [
+                "                plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "Similar to the previous case, this external call is made after updating states. If a malicious contract receives this Ether, it could exploit the state before it is correctly updated.",
+            "potentialSecurityRisk": "Again, a malicious contract could exploit this by calling withdraw before the player's earnings are reset, allowing for multiple withdrawals.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID); require(_eth > 0, 'No earnings to withdraw'); plyr_[_pID].addr.transfer(_eth); withdrawAddr_[plyr_[_pID].addr] = 1; shareAddr_[plyr_[_pID].addr] = 0;"
+        },
+        {
+            "vulnerableLines": "1170-1170",
+            "vulnerableCode": [
+                "        if (!address(DogKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "A low-level call is made to DogKingCorp without checking if the call was successful, which may allow malicious actors to influence the state of DogKingCorp and thus affect future calls.",
+            "potentialSecurityRisk": "An attacker could take advantage of this by manipulating the state of DogKingCorp and potentially affect the funds, or the correct functionality of the contract.",
+            "fixedCode": "(bool success, ) = address(DogKingCorp).call.value(_com)(bytes4(keccak256(\"deposit()\"))); require(success, 'Transfer to DogKingCorp failed');"
+        }
+    ]
+}

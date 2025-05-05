@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "131-142",
+            "vulnerableCode": [
+                "function transfer(address _to, uint _value, bytes _data, string _custom_fallback) public returns (bool success) {",
+                "require(_value > 0",
+                "&& frozenAccount[msg.sender] == false ",
+                "&& frozenAccount[_to] == false",
+                "&& now > unlockUnixTime[msg.sender] ",
+                "&& now > unlockUnixTime[_to]);",
+                "if (isContract(_to)) {",
+                "require(balanceOf[msg.sender] >= _value);",
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);",
+                "balanceOf[_to] = balanceOf[_to].add(_value);",
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The function updates the balance of the sender and receiver before making an external call to `_to` using `call.value()`. This allows an attacker to exploit the reentrancy vulnerability because they could recursively call this function before the state law updates take effect, effectively allowing them to withdraw more funds than they are entitled to.",
+            "potentialSecurityRisk": "An attacker can deploy a malicious contract that calls back into the `transfer` function. This could lead to the draining of funds from the sender's balance multiple times before the state is properly updated.",
+            "fixedCode": "// Apply Checks-Effects-Interactions pattern\nrequire(balanceOf[msg.sender] >= _value);\nbalanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);\nbalanceOf[_to] = balanceOf[_to].add(_value);\nif(isContract(_to)) {\n    assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n}  // Call after the state updates\nTransfer(msg.sender, _to, _value, _data);\nTransfer(msg.sender, _to, _value);\nreturn true;"
+        },
+        {
+            "vulnerableLines": "390-400",
+            "vulnerableCode": [
+                "function autoDistribute() payable public {",
+                "require(distributeAmount > 0",
+                "&& balanceOf[owner] >= distributeAmount",
+                "&& frozenAccount[msg.sender] == false",
+                "&& now > unlockUnixTime[msg.sender]);",
+                "if(msg.value > 0) owner.transfer(msg.value);",
+                "balanceOf[owner] = balanceOf[owner].sub(distributeAmount);",
+                "balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);",
+                "Transfer(owner, msg.sender, distributeAmount);"
+            ],
+            "vulnerabilityReason": "Similar to the `transfer` function, the `autoDistribute` function updates the balances of `owner` and `msg.sender` before performing an external call to transfer Ether back to `owner`. If reentrancy occurs, the malicious contract can modify the state before it is properly updated, leading to unauthorized withdrawals.",
+            "potentialSecurityRisk": "If an attacker exploits the lack of controls here, they can manipulate the distribution process to siphon off more tokens than intended, even depleting balances entirely before the contract's update logic can execute properly.",
+            "fixedCode": "// Apply Checks-Effects-Interactions pattern\nrequire(distributeAmount > 0 && balanceOf[owner] >= distributeAmount);\nif(msg.value > 0) { owner.transfer(msg.value); } // should be after the state updates\n\n// Update state before the function returns\nbalanceOf[owner] = balanceOf[owner].sub(distributeAmount);\nbalanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);\nTransfer(owner, msg.sender, distributeAmount);"
+        }
+    ]
+}

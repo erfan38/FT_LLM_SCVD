@@ -1,0 +1,50 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "106-111",
+            "vulnerableCode": [
+                "function withdraw(uint _amount) {",
+                "    require(tokens[0][msg.sender] >= _amount);",
+                "    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], _amount);",
+                "    if (!msg.sender.call.value(_amount)()) {",
+                "        revert();",
+                "    }"
+            ],
+            "vulnerabilityReason": "The contract uses msg.sender.call.value() to send Ether after deducting the sender's balance. An attacker can exploit this by re-entering the withdraw function during the call, allowing them to manipulate their balance before the state change is finalized.",
+            "potentialSecurityRisk": "An attacker could recursively call withdraw() while the Ether transfer is still being executed, effectively draining the contract funds before the user balance is properly reflected.",
+            "fixedCode": "    require(tokens[0][msg.sender] >= _amount); \n    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], _amount);\n    (bool success, ) = msg.sender.call.value(_amount)();\n    require(success, \"Transfer failed\");\n    Withdraw(0, msg.sender, _amount, tokens[0][msg.sender]);"
+        },
+        {
+            "vulnerableLines": "284-290",
+            "vulnerableCode": [
+                "function depositForUser(address _user) payable deprecable {",
+                "    require(_user != address(0));",
+                "    require(msg.value > 0);",
+                "    TokenStore caller = TokenStore(msg.sender);",
+                "    require(caller.version() > 0);",
+                "    tokens[0][_user] = safeAdd(tokens[0][_user], msg.value);"
+            ],
+            "vulnerabilityReason": "The depositForUser function does not verify the source of the call (msg.sender), allowing untrusted contracts to invoke it repeatedly without any checks on prior deposits or any reentrancy guard.",
+            "potentialSecurityRisk": "A malicious contract can call this method multiple times, potentially leading to an unintended increase in the balance of the user account without actually transferring value, especially if combined with other poorly designed functions.",
+            "fixedCode": "require(_user != address(0));\nrequire(msg.value > 0);\nTokenStore caller = TokenStore(msg.sender);\nrequire(caller.version() > 0);\n// Assuming msg.sender must be a valid trusted contract\nrequire(verifyCaller(msg.sender), \"Invalid Caller\");\ntokens[0][_user] = safeAdd(tokens[0][_user], msg.value);"
+        },
+        {
+            "vulnerableLines": "292-301",
+            "vulnerableCode": [
+                "function depositTokenForUser(address _token, uint _amount, address _user) deprecable {",
+                "    require(_token != address(0));",
+                "    require(_user != address(0));",
+                "    require(_amount > 0);",
+                "    TokenStore caller = TokenStore(msg.sender);",
+                "    require(caller.version() > 0);",
+                "    if (!Token(_token).transferFrom(msg.sender, this, _amount)) {",
+                "        revert();",
+                "    }",
+                "    tokens[_token][_user] = safeAdd(tokens[_token][_user], _amount);"
+            ],
+            "vulnerabilityReason": "Similar to depositForUser, depositTokenForUser allows untrusted contracts to call this method without verifying their identity, allowing potential repeat transactions in an unintended state of the contract and enabling reentrancy problems.",
+            "potentialSecurityRisk": "An attacker could continuously transfer tokens repeatedly without actual value moving, exploiting the lack of integrity checks on the msg.sender and resulting in the draining of tokens from the contract.",
+            "fixedCode": "require(_token != address(0));\nrequire(_user != address(0));\nrequire(_amount > 0);\nTokenStore caller = TokenStore(msg.sender);\nrequire(caller.version() > 0);\n// Ensure the caller is from a trusted source\nrequire(verifyCaller(msg.sender), \"Invalid Caller\"); \nrequire(Token(_token).transferFrom(msg.sender, this, _amount), \"Transfer failed\");\ntokens[_token][_user] = safeAdd(tokens[_token][_user], _amount);"
+        }
+    ]
+}

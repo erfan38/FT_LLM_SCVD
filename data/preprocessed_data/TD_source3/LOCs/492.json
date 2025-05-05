@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "latestUnstakeTime[msg.sender] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to set latestUnstakeTime can be manipulated by miners, allowing them to influence the timing of withdrawable stakes.",
+            "potentialSecurityRisk": "An attacker miner could manipulate the block timestamp to prematurely satisfy the withdrawal delay condition in withdrawStake, allowing users to withdraw their stakes before the intended period has passed.",
+            "fixedCode": "latestUnstakeTime[msg.sender] = block.timestamp + TIME_TOLERANCE; // adding a buffer to mitigate minor timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "93-93",
+            "vulnerableCode": [
+                "pre_cond(block.timestamp >= latestUnstakeTime[msg.sender] + withdrawalDelay)"
+            ],
+            "vulnerabilityReason": "This condition relies on block.timestamp, making it vulnerable to manipulation by miners to satisfy the required condition prematurely.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to allow early withdrawal of stakes, defeating the purpose of setting a delay to safeguard funds.",
+            "fixedCode": "pre_cond(block.timestamp + TIME_TOLERANCE >= latestUnstakeTime[msg.sender] + withdrawalDelay); // using a buffer to protect against timestamp manipulation."
+        }
+    ]
+}

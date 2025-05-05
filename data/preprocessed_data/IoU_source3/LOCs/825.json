@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "return --counter;"
+            ],
+            "vulnerabilityReason": "The function decrements the variable 'counter' until it reaches 0, but attempts to decrement again with '--counter'. When 'counter' is already 0, this results in an integer underflow, wrapping the value to 255 in Solidity versions prior to 0.8.0. This silent underflow can lead to unexpected behavior or vulnerabilities in contract logic.",
+            "potentialSecurityRisk": "An attacker could exploit this underflow, potentially causing the function to return a value that is not intended, which may affect the integrity of the contract's state or logic leading to unauthorized behaviors or denial of service.",
+            "fixedCode": "require(counter > 0, \"Counter must be greater than 0\");\nreturn --counter; // Safely decrement only when counter is above 0."
+        }
+    ]
+}

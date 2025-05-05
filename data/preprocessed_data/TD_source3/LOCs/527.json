@@ -1,0 +1,32 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "64-65",
+            "vulnerableCode": [
+                "latestApply[token][msg.sender] = block.timestamp;",
+                "ApplyWithdraw(token, msg.sender, amount, block.timestamp);"
+            ],
+            "vulnerabilityReason": "The assignment of block.timestamp to latestApply introduces a timestamp dependence vulnerability, allowing manipulation by miners.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to falsely reset the withdrawal waiting period, enabling early withdrawals.",
+            "fixedCode": "latestApply[token][msg.sender] = block.timestamp + TIME_TOLERANCE; // Use a buffer to mitigate precision risks"
+        },
+        {
+            "vulnerableLines": "78-78",
+            "vulnerableCode": [
+                "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp, latestApply[token][msg.sender]) > applyWait);"
+            ],
+            "vulnerabilityReason": "This condition checks the elapsed time using block.timestamp, which can be manipulated by miners, potentially allowing withdrawals before the designated wait period has expired.",
+            "potentialSecurityRisk": "An attacker could exploit this to withdraw funds earlier than permitted, undermining the contract's security and intended time safeguards.",
+            "fixedCode": "require(latestApply[token][msg.sender] != 0 && safeSub(block.timestamp + TIME_TOLERANCE, latestApply[token][msg.sender]) > applyWait); // Use a buffer like TIME_TOLERANCE to reduce timestamp dependence"
+        },
+        {
+            "vulnerableLines": "190-190",
+            "vulnerableCode": [
+                "require(makerOrder.expires >= block.number && takerOrder.expires >= block.number);"
+            ],
+            "vulnerabilityReason": "Using block.number for expiration checks can also be vulnerable as miners can influence the block timestamp or order of block production, leading to potential manipulation of order validity times.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamps to extend or shorten the effective life of orders, which could lead to unfair trading advantages or denial of service for specific trades.",
+            "fixedCode": "require(makerOrder.expires >= block.number + TIME_TOLERANCE && takerOrder.expires >= block.number + TIME_TOLERANCE); // Add a buffer to mitigate manipulation risks"
+        }
+    ]
+}

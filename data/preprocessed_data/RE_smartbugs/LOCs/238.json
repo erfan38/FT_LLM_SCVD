@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "236-236",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The function uses low-level `call.value()` for transferring Ether to an external address, which allows an attacker to perform a reentrant call back into the `MultiSigWallet` contract. The state change `tx.executed = true` is made after the external call, enabling recursive executions before the state is updated, which is a pattern commonly exploited in reentrancy attacks.",
+            "potentialSecurityRisk": "This vulnerability could lead to an attacker being able to repeatedly call the `executeTransaction` function before the internal state reflects the changes, causing unexpected and unauthorized transfers of Ether, potentially draining the contract's funds completely.",
+            "fixedCode": "// First update the transaction state before making any external call\n    tx.executed = true;\n    // Ensure to use a require statement to check for successful call\n    require(tx.destination.call.value(tx.value)(tx.data), \"Failed to execute transaction\");"
+        }
+    ]
+}

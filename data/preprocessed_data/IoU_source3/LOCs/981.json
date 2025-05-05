@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint cost = tokenPrice * amount;"
+            ],
+            "vulnerabilityReason": "The calculation of 'cost' in the 'buyTokens' function performs multiplication without any checks for overflow. If both 'tokenPrice' and 'amount' are sufficiently large, the result could exceed the maximum value of uint, resulting in an overflow which might lead to a lower than expected 'cost'.",
+            "potentialSecurityRisk": "If the overflow occurs, users could potentially buy tokens for much less than intended, leading to financial losses for the contract owner, as users may exploit this to acquire large amounts of tokens at a bargain price.",
+            "fixedCode": "uint cost = tokenPrice * amount; require(cost >= tokenPrice && cost / tokenPrice == amount, \"Overflow detected\");"
+        }
+    ]
+}

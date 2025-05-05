@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "134-135",
+            "vulnerableCode": [
+                "randomSeed = block.timestamp;",
+                "return uint8(uint256(keccak256(randomSeed, block.difficulty))%seed)+1;"
+            ],
+            "vulnerabilityReason": "This line uses block.timestamp to set the random seed, directly linking the randomness of lottery outcomes to a potentially manipulable source. Miners can alter the timestamp of newly mined blocks, which compromises the integrity and fairness of the random number generation.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to favor certain outcomes in the lottery, leading to potential exploitation where the outcome can be influenced by players collaborating with miners. This could result in unfair advantages in the lottery and erode trust in the game.",
+            "fixedCode": "randomSeed = block.number; // Use block.number instead of block.timestamp for better predictability"
+        },
+        {
+            "vulnerableLines": "393-393",
+            "vulnerableCode": [
+                "require(totalAmount > 0 && isReward == false && openBlock > (block.number-duration));"
+            ],
+            "vulnerabilityReason": "This line uses block.number to determine if the lottery is open based on elapsed blocks, which can be manipulated in conjunction with timestamp. If miners collude to manipulate the block timestamp, they can delay the opening or closing of the lottery.",
+            "potentialSecurityRisk": "Manipulating timings could enable miners to set favorable conditions, undermining the integrity of the lottery. This could disadvantage legitimate players and distort the fair distribution of rewards.",
+            "fixedCode": "require(totalAmount > 0 && isReward == false && openBlock + duration <= block.number); // Adding a buffer or condition to check past the duration."
+        },
+        {
+            "vulnerableLines": "419-419",
+            "vulnerableCode": [
+                "require(openBlock > 0 && openBlock < (block.number-duration));"
+            ],
+            "vulnerabilityReason": "This line relies on block.number for determining if the lottery is active, which can be influenced by miners if they manipulate the timestamps around when the blocks are mined.",
+            "potentialSecurityRisk": "This can lead to lottery conditions being exploited by miners who can manipulate the status of the lottery for an unfair advantage, affecting the overall fairness and randomness that the lottery aims to achieve.",
+            "fixedCode": "require(openBlock > 0 && openBlock + duration <= block.number); // Careful condition to ensure block number checks don't allow manipulation."
+        },
+        {
+            "vulnerableLines": "192-192",
+            "vulnerableCode": [
+                "return uint256(uint256(keccak256(block.timestamp, block.difficulty))%uint256(dogCore.totalSupply()) + 1);"
+            ],
+            "vulnerabilityReason": "Relies on block.timestamp to generate a pseudo-random number, which opens a loophole for miners to influence the value of the returned lottery numbers.",
+            "potentialSecurityRisk": "Miners could exploit the ability to influence the lottery numbers by setting particular timestamps in their favor, undermining the legitimacy of the token distribution process.",
+            "fixedCode": "return uint256(uint256(keccak256(block.number, block.difficulty))%uint256(dogCore.totalSupply()) + 1); // Using block.number for randomness generation."
+        }
+    ]
+}

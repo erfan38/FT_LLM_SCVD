@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "188-188",
+            "vulnerableCode": [
+                "(success, returnValue) = _contract.call.value(_value)(_data);"
+            ],
+            "vulnerabilityReason": "This line uses `call.value()` to send Ether to an external contract without adhering to the Checks-Effects-Interactions pattern. State changes (if any) occur after the external call, exposing the contract to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could re-enter the contract during the execution of the external call, potentially manipulating the state and draining funds from the contract before it can properly update its state.",
+            "fixedCode": "function genericCall(address _contract, bytes memory _data, uint256 _value) public onlyOwner returns(bool success, bytes memory returnValue) {\n    require(address(this).balance >= _value, \"Insufficient contract balance.\");\n    (success, returnValue) = _contract.call.value(_value)(_data);\n    require(success, \"External call failed.\");\n    emit GenericCall(_contract, _data, _value, success);\n}"
+        }
+    ]
+}

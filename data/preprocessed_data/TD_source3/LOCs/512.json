@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "76-76",
+            "vulnerableCode": [
+                "bool withinPeriod = now >= startTime && now <= endTime;"
+            ],
+            "vulnerabilityReason": "The 'validPurchase' function checks if the current time (now) is within the defined startTime and endTime range. This direct reliance on block.timestamp (now) introduces a vulnerability as miners can manipulate the block timestamp to trigger conditions for valid purchases that might otherwise be invalid.",
+            "potentialSecurityRisk": "Manipulation of block.timestamp could allow miners to gain an advantage by making purchases outside the intended time frame, leading to unauthorized access to tokens at discounted rates or allowing a buyer to make purchases after the sale has ended.",
+            "fixedCode": "bool withinPeriod = block.timestamp >= startTime && block.timestamp <= endTime; // Using block.timestamp to lessen miners' influence."
+        },
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "return now > endTime;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp (now) to check if the crowdsale has ended makes the function vulnerable to timestamp manipulation by miners, who could alter the block timestamp to extend the sale period unfairly.",
+            "potentialSecurityRisk": "Miners could manipulate block.timestamp to extend the sale period, allowing them or their associates to purchase tokens at advantageous rates after the intended closing time.",
+            "fixedCode": "return block.timestamp > endTime; // Updating the check to block.timestamp to reduce miner influence."
+        }
+    ]
+}

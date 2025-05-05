@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "9-10",
+            "vulnerableCode": [
+                "_h.call.value(value)(data);",
+                "m_txs[_h] -= value;"
+            ],
+            "vulnerabilityReason": "The contract uses `_h.call.value(value)(data);`, which sends Ether to the address `_h` without updating the state beforehand. This allows `_h` to execute arbitrary code and potentially call back into the `confirm` function before the balance has been updated, leading to a reentrancy attack.",
+            "potentialSecurityRisk": "A malicious contract at address `_h` could re-enter the `confirm` function immediately after receiving Ether, allowing it to withdraw funds multiple times before the original transaction completes, potentially draining the contract's balance.",
+            "fixedCode": "require(m_txs[_h] >= value, \"Insufficient funds\");\nm_txs[_h] -= value;\nbool success = _h.call.value(value)(data);\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

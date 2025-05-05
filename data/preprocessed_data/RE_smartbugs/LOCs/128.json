@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "54-54",
+            "vulnerableCode": [
+                "            bool rc = _to.call.value(_value)(_data);"
+            ],
+            "vulnerabilityReason": "The use of call.value() transfers value to an external address before updating the state. This means an attacker may call back into the contract before state changes, allowing them to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could exploit this by re-entering the execute function during the external call, withdrawing funds multiple times before the state reflects the deductions, draining the entire contract's balance.",
+            "fixedCode": "if (underLimit(_value)) {\n    SingleTransact(msg.sender, _value, _to, _data);\n    // Update the state before the external call\n    m_txs[keccak256(msg.data, block.number)].to = _to;\n    m_txs[keccak256(msg.data, block.number)].value = _value;\n    m_txs[keccak256(msg.data, block.number)].data = _data;\n    bool rc = _to.call.value(_value)(_data);\n    require(rc, \"Transfer failed\"); // Ensure successful transfer\n    return 0;\n}"
+        },
+        {
+            "vulnerableLines": "71-71",
+            "vulnerableCode": [
+                "            bool rc = m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
+            ],
+            "vulnerabilityReason": "Similar to the previous function, call.value() is used here to send Ether before the transaction is deleted from the mapping. This allows for re-entrance into the contract before the state reflects the transaction deletion, creating a vulnerability.",
+            "potentialSecurityRisk": "An attacker could exploit this by invoking the confirm function again before the transaction is deleted, allowing them to withdraw multiple times, leading to potential loss of funds.",
+            "fixedCode": "if (m_txs[_h].to != 0) {\n    // Update the state before sending Ether\n    uint amount = m_txs[_h].value;\n    address to = m_txs[_h].to;\n    // Delete transaction info before external call\n    delete m_txs[_h];\n    bool rc = to.call.value(amount)(m_txs[_h].data);\n    require(rc, \"Transfer failed\"); // Ensure successful transfer\n    MultiTransact(msg.sender, _h, amount, to, m_txs[_h].data);\n    return true;\n}"
+        }
+    ]
+}

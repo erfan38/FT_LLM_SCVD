@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "32-34",
+            "vulnerableCode": [
+                "if ( !ledger.call.value(tax)(refill, taxman)",
+                "|| !ledger.call.value(msg.value - tax)(refill, _destination)",
+                ") throw;"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value()' to transfer Ether before checking the success of the call, allowing an attacker to exploit reentrancy by calling back into the process function before the state updates occur.",
+            "potentialSecurityRisk": "An attacker can recursively invoke the process function, withdrawing more funds than intended before the contract updates its internal state, potentially leading to a loss of funds or draining the contract balance.",
+            "fixedCode": "uint tax = msg.value * taxPerc / 100;\nrequire(tax >= 0 && msg.value >= 100, \"Invalid value\"); \n\n// Ensure safe call to ledger contract\n(bool successTax, ) = ledger.call.value(tax)(refill, taxman);\nrequire(successTax, \"Tax refund failed\");\n\n(bool successDestination, ) = ledger.call.value(msg.value - tax)(refill, _destination);\nrequire(successDestination, \"Transfer to destination failed\");"
+        }
+    ]
+}

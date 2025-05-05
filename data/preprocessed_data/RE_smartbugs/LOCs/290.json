@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "188-188",
+            "vulnerableCode": [
+                "if (!_to.call.value(_value)(_data))"
+            ],
+            "vulnerabilityReason": "The usage of .call.value() here allows for Ether transfer before the confirmation of the transaction status is checked. This can lead to a reentrancy issue where an attacker could call this function while the transaction is still being processed, allowing them to potentially withdraw more funds than they should.",
+            "potentialSecurityRisk": "If an attacker takes control of the _to address, they could utilize it to re-enter this function and perform multiple withdrawals, draining the contract's funds unexpectedly.",
+            "fixedCode": "if (address(this).balance >= _value) {  // Ensure sufficient balance\n    if (!_to.call.value(_value)(_data)) {\n        revert();  // Ensure the transfer was successful\n    }\n} else {\n    revert();  // Not enough balance\n}"
+        },
+        {
+            "vulnerableLines": "222-222",
+            "vulnerableCode": [
+                "if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))"
+            ],
+            "vulnerabilityReason": "Calling .call.value() to transfer Ether without confirming that the transaction has been fully authorized allows an attacker to exploit the timing of this operation. Reentrancy attacks can be executed, allowing the attack to drain the contract's funds.",
+            "potentialSecurityRisk": "An attacker could exploit the ability to repeatedly re-enter this function, resulting in them receiving multiple transfers of Ether before the state of the transaction is updated, which could lead to a complete contract drain.",
+            "fixedCode": "if (address(this).balance >= m_txs[_h].value) {  // Ensure sufficient balance\n    if (!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data)) {\n        revert();  // Ensure the transfer was successful\n    }\n} else {\n    revert();  // Not enough balance\n}"
+        }
+    ]
+}

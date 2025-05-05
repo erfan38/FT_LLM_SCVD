@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "183-201",
+            "vulnerableCode": [
+                "uint256 tokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender);",
+                "if(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+            ],
+            "vulnerabilityReason": "The use of `call.value()`'s external call to send Ether occurs before updating the state variables that reflect the participant payouts, which allows for reentrancy attacks if an attacker controls the `etherAddress`. They could re-enter the contract through their fallback function before the state updates are completed, leading to unauthorized fund withdrawals.",
+            "potentialSecurityRisk": "An attacker could execute a reentrant call during the payout process, allowing them to withdraw more funds than they should be entitled to, potentially draining the contract's balance.",
+            "fixedCode": "// Update state variables before making external calls\n// Ensure to send investment to buy tokens after updating any state dependent on the balance\ntokens = weak_hands.buy.value(investment).gas(1000000)(msg.sender); // Move call to buy tokens here\nif(participants[payoutOrder].etherAddress.call.value(payoutToSend).gas(1000000)()){"
+        },
+        {
+            "vulnerableLines": "252-252",
+            "vulnerableCode": [
+                "weak_hands.withdraw.gas(1000000)();"
+            ],
+            "vulnerabilityReason": "The function `withdraw()` makes a low-level call to `weak_hands.withdraw` without checking for success and without securing the state. This allows for the possibility of reentrancy if a malicious recipient is able to exploit it before the state variables are updated post withdrawal.",
+            "potentialSecurityRisk": "Similar to the payout function, an attacker could exploit this by calling `withdraw()` and, through a proper fallback function, causing multiple withdrawals before the state reflects the correct balance.",
+            "fixedCode": "// Ensure the balance is maintained and the participant's withdrawal amount is updated before making external calls\nuint256 originalBalance = address(this).balance;\nweak_hands.withdraw.gas(1000000)(); // Perform the withdrawal call\nuint256 dividendsPaid = address(this).balance - originalBalance;\ndividends += dividendsPaid; // Update dividends only after confirm active withdrawal\nemit Dividends(dividendsPaid);"
+        }
+    ]
+}

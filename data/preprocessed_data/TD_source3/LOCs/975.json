@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "require(block.timestamp >= lastMintTime + MINT_COOLDOWN, \"Minting is on cooldown\");"
+            ],
+            "vulnerabilityReason": "The mint function uses block.timestamp to check whether the cooldown period has passed before allowing another mint operation. This creates a dependency on the block timestamp, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners can manipulate the block timestamp to bypass the cooldown check. This could lead to users being able to mint tokens more frequently than intended, which undermines the integrity of the minting process and could be exploited for financial gain.",
+            "fixedCode": "require(block.timestamp >= lastMintTime + MINT_COOLDOWN + TIME_BUFFER, \"Minting is on cooldown\"); // Adding a buffer to reduce reliance on exact block timestamp."
+        }
+    ]
+}

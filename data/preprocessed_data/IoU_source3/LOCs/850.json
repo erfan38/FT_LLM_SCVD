@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "count++;"
+            ],
+            "vulnerabilityReason": "In the 'increment' function, when 'count' reaches its maximum value of 255 (the maximum for uint8), incrementing it again will cause an overflow, resulting in count reverting to 0. This is a typical integer overflow vulnerability in contracts using unsigned integers.",
+            "potentialSecurityRisk": "This overflow could potentially lead to logic errors or unexpected behavior in the contract where the count value may need to represent a valid state. Consequently, it could allow a user to increment the count indefinitely, leading to unintended behavior or security issues.",
+            "fixedCode": "if(count < 255) { count++; } else { revert('Count overflow'); }"
+        },
+        {
+            "vulnerableLines": "9-9",
+            "vulnerableCode": [
+                "count--;"
+            ],
+            "vulnerabilityReason": "In the 'decrement' function, decreasing 'count' when it is already at 0 will cause an underflow, resulting in count jumping to 255. This is a typical integer underflow vulnerability in contracts using unsigned integers.",
+            "potentialSecurityRisk": "This underflow could lead to logic errors or unintended interactions with other functions that depend on count being non-negative. A negative count could mislead contract logic or affect calculations leading to unauthorized behavior.",
+            "fixedCode": "if(count > 0) { count--; } else { revert('Count underflow'); }"
+        }
+    ]
+}

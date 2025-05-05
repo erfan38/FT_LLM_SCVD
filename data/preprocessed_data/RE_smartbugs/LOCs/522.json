@@ -1,0 +1,17 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "45-49",
+            "vulnerableCode": [
+                "if (!feeAccount.call.value(safeMul(tokens,fee)/(1 ether))()) throw;",
+                "if (!resolved) {",
+                "yesToken.destroy(msg.sender, tokens);",
+                "noToken.destroy(msg.sender, tokens);",
+                "if (!msg.sender.call.value(safeMul(tokens,(1 ether)-fee)/(1 ether))()) throw;"
+            ],
+            "vulnerabilityReason": "The contract uses low-level calls to transfer Ether with `msg.sender.call.value()` before updating the state. This enables an attacker to trigger reentrant calls before the state changes (specifically before destroying the tokens), allowing them to withdraw more than intended.",
+            "potentialSecurityRisk": "If a malicious actor manages to call the `redeem` function recursively during the Ether transfer, they could repeatedly withdraw funds before their token balances are properly updated, leading to potential loss of funds for the contract.",
+            "fixedCode": "require(feeAccount.send(safeMul(tokens, fee)/(1 ether)), 'Fee transfer failed'); // Check fee transfer success\nif (!resolved) {\n    yesToken.destroy(msg.sender, tokens);\n    noToken.destroy(msg.sender, tokens);\n    require(msg.sender.send(safeMul(tokens, (1 ether) - fee)/(1 ether)), 'Transfer failed'); // Check successful Ether transfer\n    Redeem(msg.sender, tokens, tokens, tokens);\n}"
+        }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "58-58",
+            "vulnerableCode": [
+                "require(raffleEndTime >= block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the raffle end time has not elapsed by comparing it with block.timestamp. Since block.timestamp can be manipulated by miners, this creates a risk that the condition may not reflect actual time, allowing miners to influence the outcome.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to extend the raffle period fraudulently, allowing them to buy tickets and potentially win unfairly, distorting fairness in the raffle system.",
+            "fixedCode": "require(raffleEndTime >= now); // Use 'now' carefully; in more secure contracts, include a tolerance factor."
+        },
+        {
+            "vulnerableLines": "93-93",
+            "vulnerableCode": [
+                "require(block.timestamp < endTime);"
+            ],
+            "vulnerabilityReason": "This condition ensures the raffle can start only if the current timestamp is less than the end time specified. Relying on block.timestamp again opens the door for miners to manipulate the starting conditions.",
+            "potentialSecurityRisk": "If miners manipulate the timestamp to enable an earlier start, they could benefit from purchasing raffle tickets at advantageous times.",
+            "fixedCode": "require(now < endTime + TIME_TOLERANCE); // Adding a time tolerance to mitigate miner influence."
+        },
+        {
+            "vulnerableLines": "111-111",
+            "vulnerableCode": [
+                "require(raffleEndTime < block.timestamp);"
+            ],
+            "vulnerabilityReason": "This line checks if the raffle end time has passed, using block.timestamp. This check can be influenced by miners and may lead to unintended actions based on manipulated timestamps.",
+            "potentialSecurityRisk": "Manipulating timestamps could allow miners to claim prizes or influence the drawing of the winner unfairly, undermining the integrity of the raffle.",
+            "fixedCode": "require(raffleEndTime < now); // Preferably evaluate with a time buffer."
+        },
+        {
+            "vulnerableLines": "169-169",
+            "vulnerableCode": [
+                "require(raffleEndTime < block.timestamp);"
+            ],
+            "vulnerabilityReason": "Similar to previous checks, it confirms that the raffle has ended by comparing it with block.timestamp. This is subject to miner manipulation, compromising the contract's reliability.",
+            "potentialSecurityRisk": "Miner manipulations could influence the timing of the prize drawing, affecting fairness in prize assignments.",
+            "fixedCode": "require(raffleEndTime < now); // Replace block.timestamp with a more reliable method."
+        },
+        {
+            "vulnerableLines": "172-172",
+            "vulnerableCode": [
+                "uint256 seed = SafeMath.add(raffleTicketsBought , block.timestamp);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp to generate a random seed exposes the function to manipulation, as the outcome of the raffle's winner could be influenced by miners.",
+            "potentialSecurityRisk": "Miners could predict the random value and exploit it to influence the drawing outcome, leading to unfair chances of winning for themselves or their accomplices.",
+            "fixedCode": "uint256 seed = SafeMath.add(raffleTicketsBought , now); // Consider using a combination of sources for randomness."
+        }
+    ]
+}

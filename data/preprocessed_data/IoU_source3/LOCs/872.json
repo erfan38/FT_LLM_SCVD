@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "totalStaked = totalStaked - amount;"
+            ],
+            "vulnerabilityReason": "The line performs a subtraction operation without verifying if 'totalStaked' is greater than or equal to 'amount'. If 'amount' exceeds 'totalStaked', this results in an integer underflow, causing 'totalStaked' to wrap around to a large value instead of being a valid positive balance.",
+            "potentialSecurityRisk": "An attacker could call the 'unstake' function with an amount greater than the staked amount, leading to an inflated 'totalStaked' value. This could allow the attacker to withdraw or unstake more than they have truly staked, resulting in unauthorized withdrawal of funds.",
+            "fixedCode": "require(totalStaked >= amount, \"Insufficient staked amount\");\ntotalStaked = totalStaked - amount;"
+        }
+    ]
+}

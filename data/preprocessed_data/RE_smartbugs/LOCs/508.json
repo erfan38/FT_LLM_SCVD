@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "287-287",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "This line uses a low-level call to transfer Ether to 'receiverAddress' before changing the state of the contract. If 'receiverAddress' is a contract, it can execute a fallback function and call 'submitPool' again before the state variable 'contractStage' is updated, allowing for reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by causing the contract to send Ether repeatedly before the balance is updated, leading to potential fund drain from the contract.",
+            "fixedCode": "require (this.balance >= amountInWei, \"Insufficient contract balance\"); // Ensure sufficient balance before sending Ether\ncontractStage = 3; // Update the state to prevent reentrancy\n(bool success, ) = receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))(); // Use a safer transfer method, or ensure state changes before this line\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful"
+        }
+    ]
+}

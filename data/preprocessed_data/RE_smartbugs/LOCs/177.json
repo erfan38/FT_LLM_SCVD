@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "45-47",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "balances[msg.sender]-=_am;"
+            ],
+            "vulnerabilityReason": "The function uses `call.value()` to send Ether before deducting the amount from the user's balance. This allows the `msg.sender` to re-enter the `CashOut` function before the user's balance is updated, enabling multiple withdrawals for a single balance amount.",
+            "potentialSecurityRisk": "An attacker can exploit this by creating a malicious contract that calls `CashOut`, causing it to repeatedly withdraw funds before the `balances` mapping is updated, which can ultimately drain the entire contract's Ether balance.",
+            "fixedCode": "if(_am <= balances[msg.sender]) {\n    balances[msg.sender] -= _am; // Deduct balance first\n    require(msg.sender.call.value(_am)()); // Send ether after state change\n    TransferLog.AddMessage(msg.sender, _am, \"CashOut\");\n}"
+        }
+    ]
+}

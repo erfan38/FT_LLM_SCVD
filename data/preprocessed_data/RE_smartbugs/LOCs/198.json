@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "227-228",
+            "vulnerableCode": [
+                "transactionId = addTransaction(destination, value, data);",
+                "confirmTransaction(transactionId);"
+            ],
+            "vulnerabilityReason": "The contract calls `confirmTransaction` immediately after adding a new transaction, but the external call in `executeTransaction` is made before updating the transaction's executed status, allowing for a reentrant call before the function state updates.",
+            "potentialSecurityRisk": "An attacker could exploit this sequence to re-enter the `executeTransaction()` function, allowing them to drain funds repeatedly before the executed status is set correctly.",
+            "fixedCode": "transactionId = addTransaction(destination, value, data);\\nconfirmTransaction(transactionId); // Confirm transaction first then handle execution in a separate safe internal function."
+        },
+        {
+            "vulnerableLines": "264-266",
+            "vulnerableCode": [
+                "transactions[transactionId].executed = true;",
+                "if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data)) {"
+            ],
+            "vulnerabilityReason": "The contract marks the transaction as executed right before making the external call. If the call fails or is made to a malicious contract, the attacker can manipulate the transaction state before the state is updated.",
+            "potentialSecurityRisk": "An attacker could potentially re-enter and affect the contract's state or withdraw funds multiple times before the executed flag is set to true, leading to fund drainage.",
+            "fixedCode": "require(transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data), \"Transfer failed\");\\ntransactions[transactionId].executed = true; // Only mark it as executed after successful transfer."
+        }
+    ]
+}

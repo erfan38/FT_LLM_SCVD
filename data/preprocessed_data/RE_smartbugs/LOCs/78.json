@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "234-235",
+            "vulnerableCode": [
+                "Transactions[TransHash].executed = true;",
+                "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));"
+            ],
+            "vulnerabilityReason": "The state is updated after making the external call, allowing a malicious contract called via `Transactions[TransHash].destination` to execute a reentrant call before the state change is finalized.",
+            "potentialSecurityRisk": "This allows an attacker to recursively invoke the `executeTransaction` function, withdrawing more than their entitled share of funds before the contract's state acknowledges the transaction has been executed, leading to drainage of resources.",
+            "fixedCode": "require(Transactions[TransHash].destination.call.value(Transactions[TransHash].value)(Transactions[TransHash].data));\nTransactions[TransHash].executed = true;"
+        },
+        {
+            "vulnerableLines": "189-189",
+            "vulnerableCode": [
+                "function execute(address _to, uint _value, bytes _data) notNull(_to) onlyOwner external returns (bytes32 _r) {"
+            ],
+            "vulnerabilityReason": "The use of `notNull(_to)` does not adequately restrict access, as it only checks if the address is not zero, potentially allowing unauthorized users (non-owners) to execute wrong transactions.",
+            "potentialSecurityRisk": "Unauthorized execution could allow an attacker to call the function, leading to unauthorized fund transfers or contract states getting altered negatively.",
+            "fixedCode": "function execute(address _to, uint _value, bytes _data) onlyOwner external returns (bytes32 _r) { // Ensure only the contract owner can call this function."
+        }
+    ]
+}

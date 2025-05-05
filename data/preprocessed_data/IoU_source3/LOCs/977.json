@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "uint interest = _principal * _rate * _time / 100;"
+            ],
+            "vulnerabilityReason": "The multiplication operation '_principal * _rate * _time' does not check for overflow. Since these values are all unsigned integers, multiplying them together can easily exceed the maximum value for a uint256, leading to arithmetic overflow and thus resulting in an incorrect interest calculation.",
+            "potentialSecurityRisk": "If an overflow occurs, the calculated interest could be misleadingly low or even zero, potentially causing financial losses, incorrect state changes, or unintended behavior in the smart contract.",
+            "fixedCode": "uint interest = (_principal * _rate * _time) / 100; // Using SafeMath library to prevent overflow."
+        }
+    ]
+}

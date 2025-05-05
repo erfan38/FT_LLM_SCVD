@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "78-78",
+            "vulnerableCode": [
+                "uint256 randomValue = uint256(keccak256(block.timestamp, uint256(randomSeed * block.difficulty)));"
+            ],
+            "vulnerabilityReason": "Using block.timestamp in the random() function makes the random number generated easily manipulatable by miners. They can control the timestamp within a small range, affecting the outcome of the generated randomValue and thus compromising the fairness of the lottery mechanism.",
+            "potentialSecurityRisk": "A malicious miner could adjust the timestamp to produce predictable outputs for the random number generation, allowing them to influence the lottery results and potentially exploit the system for unfair gains.",
+            "fixedCode": "//Addition of a time tolerance to mitigate miner timestamp manipulation\nuint256 randomValue = uint256(keccak256(abi.encodePacked(block.timestamp + TIME_TOLERANCE, uint256(randomSeed * block.difficulty))));"
+        }
+    ]
+}

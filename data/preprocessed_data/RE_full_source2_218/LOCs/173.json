@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-9",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(balances[msg.sender])()) {",
+                "totalSupply -= balances[msg.sender];"
+            ],
+            "vulnerabilityReason": "The code uses `msg.sender.call.value(balances[msg.sender])()`, allowing the external contract (msg.sender) to execute arbitrary code before the state is updated. If the calling address is a malicious contract, it can re-enter the `refund` function before the balance is reset, enabling multiple refunds from a single call.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain the contract's totalSupply by repeatedly invoking the refund function within the context of a fallback function, potentially withdrawing more than their balance and depleting the contract's funds.",
+            "fixedCode": "uint256 refundAmount = balances[msg.sender];\nrequire(refundAmount > 0, \"No funds to refund\");\nbalances[msg.sender] = 0; // Set the balance to zero before the transfer\ntotalSupply -= refundAmount; // Update the total supply before transfer\nto(msg.sender).call{value: refundAmount}(); // Now perform the transfer."
+        }
+    ]
+}

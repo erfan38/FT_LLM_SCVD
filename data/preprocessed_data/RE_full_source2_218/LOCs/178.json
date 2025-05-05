@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "msg.sender.call.value(balances[msg.sender])();"
+            ],
+            "vulnerabilityReason": "The function uses 'call.value' to send Ether to msg.sender before updating the balance. This allows a malicious contract to execute its fallback function, possibly re-entering the redeem function multiple times before the balance is set to zero, leading to reentrant calls and draining the contract's funds.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that calls the redeem function, and through the fallback function, invoke redeem again before the balance is updated. This may result in the attacker draining the entire balance of the Vault contract.",
+            "fixedCode": "require(balances[msg.sender] > 0, \"No balance to redeem\");\nbalances[msg.sender] = 0; // Update balance first\n(bool success, ) = msg.sender.call.value(balances[msg.sender])(\"\");\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

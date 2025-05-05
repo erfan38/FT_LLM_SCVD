@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)()) {"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value(_am)()' to send Ether to msg.sender. This allows the recipient to execute arbitrary code during the call, which can lead to reentrancy if the recipient is a contract. A malicious contract can re-enter the Collect function before the state (Accounts[msg.sender]) is updated, allowing it to withdraw funds multiple times.",
+            "potentialSecurityRisk": "A malicious actor can create a contract that calls back into the Collect function repeatedly, draining the funds from the contract before the account balance is updated, potentially leading to a complete loss of the contract's funds.",
+            "fixedCode": "require(Accounts[msg.sender] >= _am, \"Insufficient balance.\");\nAccounts[msg.sender] -= _am; // Update state before external call\n(bool success, ) = msg.sender.call{value: _am}();\nrequire(success, \"Transfer failed.\"); // Ensure the transfer was successful."
+        }
+    ]
+}

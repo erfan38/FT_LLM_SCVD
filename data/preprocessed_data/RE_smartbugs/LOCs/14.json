@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "60-60",
+            "vulnerableCode": [
+                "if(!_to.call.value(_value)(_data))"
+            ],
+            "vulnerabilityReason": "The use of call.value() is performed after checking the underLimit condition but before the state change that indicates the transaction was executed. This allows an attacker to make a reentrant call before the state change occurs, potentially allowing multiple withdrawals before the contract's state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by making a reentrant call with a malicious contract that takes control of the execution flow, leading to multiple transfers before the internal state reflects the actual state of the contract. This could drain the contract of funds by allowing the attacker to withdraw the same amount multiple times before the original transaction completes.",
+            "fixedCode": "if(underLimit(_value)) {\n    SingleTransact(msg.sender, _value, _to, _data);\n    require(_to.call.value(_value)(_data)); // Ensure successful execution of the call\n}"
+        },
+        {
+            "vulnerableLines": "77-77",
+            "vulnerableCode": [
+                "if(!m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data))"
+            ],
+            "vulnerabilityReason": "This call to send Ether occurs before the entry in m_txs is deleted, which means if this external call triggers a reentrant call back into the contract, the stored transaction data is still accessible and usable, potentially allowing for multiple withdrawals or undesired interactions.",
+            "potentialSecurityRisk": "A malicious caller could trigger this call again, gaining access to the transaction data that has yet to be cleared, resulting in funds being drained repeatedly before the state is updated correctly.",
+            "fixedCode": "if(m_txs[_h].to != 0) {\n    require(m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data));\n    delete m_txs[_h]; // Ensure delete is after the external call to prevent reentrancy\n    MultiTransact(msg.sender, _h, m_txs[_h].value, m_txs[_h].to, m_txs[_h].data);\n}"
+        }
+    ]
+}

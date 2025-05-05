@@ -1,0 +1,44 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "194-196",
+            "vulnerableCode": [
+                "if (boss1.send(value1)) {",
+                "            bossBalance -= value1;",
+                "            emit OnBossPayed(boss1, value1, now);"
+            ],
+            "vulnerabilityReason": "The contract makes an external call using `send()` to transfer funds to `boss1` before deducting the amount from `bossBalance`. This allows an attacker to re-enter the contract and call the `payBoss()` function again before the balance update occurs, potentially draining funds.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to repeatedly invoke the `payBoss()` function and withdraw funds before the contract can update the state of `bossBalance`, leading to unauthorized withdrawals and possible loss of funds.",
+            "fixedCode": "if (value1 > 0) { require(bossBalance >= value1, \"Insufficient boss balance\"); bossBalance -= value1; require(boss1.send(value1), \"Transfer to boss1 failed\"); emit OnBossPayed(boss1, value1, now);}"
+        },
+        {
+            "vulnerableLines": "217-219",
+            "vulnerableCode": [
+                "if (yearlyContract.call.value(jackpotBalance).gas(50000)()) {",
+                "            jackpotBalance = 0;",
+                "            emit OnYJPCharged(jackpotBalance);"
+            ],
+            "vulnerabilityReason": "The contract makes an external call to `yearlyContract` without ensuring that the `jackpotBalance` is set to zero before the transfer. This allows for reentrancy attacks where an attacker can exploit the contract during the external call.",
+            "potentialSecurityRisk": "An attacker could re-enter the `payYearlyJackpot()` function during the external call, potentially draining the funds associated with `jackpotBalance` before it gets set to zero.",
+            "fixedCode": "require(jackpotBalance > 0, \"No funds to distribute\"); uint256 amountToTransfer = jackpotBalance; jackpotBalance = 0; require(yearlyContract.call.value(amountToTransfer).gas(50000)(), \"Transfer failed\"); emit OnYJPCharged(amountToTransfer);"
+        },
+        {
+            "vulnerableLines": "146-146",
+            "vulnerableCode": [
+                "            refPayStation.put.value(refBonus)(ref, msg.sender);"
+            ],
+            "vulnerabilityReason": "The contract executes an external call to `put` in the `refPayStation` contract to transfer funds without prior adjustments to state variables. This could lead to reentrancy vulnerabilities.",
+            "potentialSecurityRisk": "If `refPayStation` is designed maliciously, an attacker could call back into the contract and exploit this to withdraw or manipulate funds before the state changes occur.",
+            "fixedCode": "uint256 bonusAmount = refBonus; require(bonusAmount > 0, \"No referral bonus to send\"); refPayStation.put.value(bonusAmount)(ref, msg.sender);"
+        },
+        {
+            "vulnerableLines": "184-184",
+            "vulnerableCode": [
+                "        refPayStation.put.value(value)(ref, player);"
+            ],
+            "vulnerabilityReason": "The external call to `refPayStation.put` occurs before the state of the contract is adjusted. This puts the contract at risk of reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could exploit this call to manipulate the contract state before the function execution completes, potentially leading to unauthorized fund withdrawals.",
+            "fixedCode": "require(value > 0, \"Amount must be greater than zero\"); refPayStation.put.value(value)(ref, player);"
+        }
+    ]
+}

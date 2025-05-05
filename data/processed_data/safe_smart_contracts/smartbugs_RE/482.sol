@@ -1,1 +1,0 @@
-contract WellnessToken is StandardToken { // CHANGE THIS. Update the 

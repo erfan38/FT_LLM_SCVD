@@ -1,0 +1,16 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "56-59",
+            "vulnerableCode": [
+                "function withdraw(uint amount) {",
+                "    if (tokens[0][msg.sender] < amount) throw;",
+                "    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+                "    if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The contract uses msg.sender.call.value(amount)() to send Ether to the user before updating the user's token balance to zero, making it susceptible to reentrancy attacks. An attacker can exploit this by calling the withdraw function recursively before the token balance is deducted, resulting in multiple fund withdrawals.",
+            "potentialSecurityRisk": "An attacker could drain the contract's funds by repeatedly invoking the withdraw function before the state is updated, leading to significant financial loss.",
+            "fixedCode": "function withdraw(uint amount) { \n    if (tokens[0][msg.sender] < amount) throw; \n    // Ensure sufficient balance is available before the state is updated\n    tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); \n    // Use a local variable to store the amount\n    uint withdrawalAmount = amount; \n    // Perform the external call after state update\n    if (!msg.sender.call.value(withdrawalAmount)()) throw;\n    Withdraw(0, msg.sender, withdrawalAmount, tokens[0][msg.sender]); \n}"
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "266-273",
+            "vulnerableCode": [
+                "if (!playerTempAddress[diceRollHash].send(jackpotTmp)) {",
+                "    LogJpPayment(playerBetDiceRollHash[diceRollHash], playerTempAddress[diceRollHash],",
+                "        playerRollResult[diceRollHash], jackpotTmp, 1);",
+                "    playerPendingWithdrawals[playerTempAddress[diceRollHash]] =",
+                "    safeAdd(playerPendingWithdrawals[playerTempAddress[diceRollHash]], jackpotTmp);",
+                "}"
+            ],
+            "vulnerabilityReason": "The function makes an external call using .send() before updating state variables, allowing a malicious contract to call back into the function and withdraw funds repeatedly without the state being updated correctly.",
+            "potentialSecurityRisk": "An attacker could exploit the reentrancy vulnerability to drain the jackpot funds from the contract by iterating multiple withdraw calls within the send function, leading to potentially significant losses.",
+            "fixedCode": "uint jackpotTmp = jackpot;\njackpot = 0;\nif (!playerTempAddress[diceRollHash].send(jackpotTmp)) {\n    LogJpPayment(...);\n    playerPendingWithdrawals[playerTempAddress[diceRollHash]] = safeAdd(playerPendingWithdrawals[playerTempAddress[diceRollHash]], jackpotTmp);\n}"
+        },
+        {
+            "vulnerableLines": "344-348",
+            "vulnerableCode": [
+                "if (msg.sender.call.value(withdrawAmount)()) {",
+                "    return true;",
+                "} else {",
+                "    playerPendingWithdrawals[msg.sender] = withdrawAmount;",
+                "    return false;"
+            ],
+            "vulnerabilityReason": "The function directly calls .call.value() to transfer funds directly to the msg.sender without protecting against reentrancy, which allows an attacker to exploit this call and repeatedly invoke the withdrawal before updating the state.",
+            "potentialSecurityRisk": "An attacker could repeatedly call the withdraw function using a malicious contract before the player's pending withdrawals are reset, draining the funds from the contract.",
+            "fixedCode": "uint withdrawAmount = playerPendingWithdrawals[msg.sender];\nrequire(withdrawAmount <= address(this).balance, \"Insufficient contract balance\");\nplayerPendingWithdrawals[msg.sender] = 0;\nif (msg.sender.call.value(withdrawAmount)()) {\n    return true;\n} else {\n    playerPendingWithdrawals[msg.sender] = withdrawAmount;\n    return false;\n}"
+        }
+    ]
+}

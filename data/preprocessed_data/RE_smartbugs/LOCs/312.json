@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "36-36",
+            "vulnerableCode": [
+                "msg.sender.call.value(amount);"
+            ],
+            "vulnerabilityReason": "The contract calls 'msg.sender.call.value(amount)' to transfer Ether to the user's address before updating the state variable 'accountBalances[msg.sender]'. This allows for a potential reentrancy attack, as the user's contract can execute the fallback function and call the withdraw function again before the balance is updated, allowing the user to withdraw more funds than they have.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that calls the withdraw function recursively, potentially draining the contract of its entire balance before the initial withdrawal logic can complete and updating the state correctly.",
+            "fixedCode": "accountBalances[msg.sender] -= amount; // Update balance first\n(bool success, ) = msg.sender.call.value(amount)(); // Send funds after updating state\nrequire(success, \"Transfer failed\"); // Ensure the transfer was successful"
+        }
+    ]
+}

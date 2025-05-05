@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "287-287",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The function uses `call.value()` to send Ether without ensuring that it updates the contract's state before making the external call. If `receiverAddress` is a contract, it may trigger a fallback function which can call back into this contract, potentially allowing for reentrancy attacks before the function execution completes.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that, upon receiving Ether, calls back into the `submitPool()` function before it has completed its execution, allowing potentially multiple funds withdrawals or manipulation of the contract state before it is updated.",
+            "fixedCode": "(bool success, ) = receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))();\nrequire(success, \"Transfer failed\");\nif (this.balance > 0) ethRefundAmount.push(this.balance);\ncontractStage = 3;\nPoolSubmitted(receiverAddress, amountInWei);"
+        },
+        {
+            "vulnerableLines": "172-175",
+            "vulnerableCode": [
+                "c.balance = 0;",
+                "ContributorBalanceChanged(msg.sender, 0);"
+            ],
+            "vulnerabilityReason": "The contributor's balance is updated to zero before the actual transfer of funds is executed. This allows for a reentrant attack where the contributor may call `withdraw()` recursively, extracting more funds than allowed before the state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by repeatedly calling back into the `withdraw()` before updating their balance to zero, hence withdrawing more than their actual balance.",
+            "fixedCode": "uint amountToTransfer = c.balance;\nc.balance = 0;\nmsg.sender.transfer(amountToTransfer);\nContributorBalanceChanged(msg.sender, 0);"
+        },
+        {
+            "vulnerableLines": "205-205",
+            "vulnerableCode": [
+                "receiver.transfer(ethAmount);"
+            ],
+            "vulnerabilityReason": "The `transfer()` method sends Ether before updating the contributor's state, which can lead to unexpected behaviors if the recipient is a contract capable of calling back into this contract before the state changes finish executing.",
+            "potentialSecurityRisk": "A malicious recipient could reenter the contract after sending Ether, allowing the attacker to claim additional funds or execute other harmful actions while state variables are in an inconsistent state.",
+            "fixedCode": "(bool success,) = receiver.call.value(ethAmount)();\nrequire(success, \"Transfer failed\");\nEthRefunded(receiver, ethAmount);"
+        },
+        {
+            "vulnerableLines": "216-216",
+            "vulnerableCode": [
+                "require (d.token.transfer(receiver, tokenAmount));"
+            ],
+            "vulnerabilityReason": "Similar to other functions, this line performs an external call to transfer tokens before ensuring that the contributor's state is updated. If an external contract is malicious, it can re-enter the function before the balance update is complete.",
+            "potentialSecurityRisk": "This could allow an attacker to manipulate the contract state and cause multiple withdrawals or exploit token balances before they reflect the actual claims.",
+            "fixedCode": "require (d.token.transfer(receiver, tokenAmount), \"Transfer failed\");\nd.balanceRemaining = d.balanceRemaining.sub(tokenAmount);\nTokensWithdrawn(receiver, tokenAmount);"
+        }
+    ]
+}

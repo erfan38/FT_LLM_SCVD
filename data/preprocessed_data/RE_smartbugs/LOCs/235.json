@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "402-402",
+            "vulnerableCode": [
+                "if(msg.value > 0) owner.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The line transfers Ether to the owner before updating state variables. If the owner is a contract that performs a fallback function, it can call back into this contract, potentially executing multiple withdrawals before the balance is updated.",
+            "potentialSecurityRisk": "An attacker might exploit this by creating a malicious contract that calls back into the `autoDistribute` function, allowing them to withdraw more than intended and draining the contract's Ether reserves.",
+            "fixedCode": "if(msg.value > 0) require(owner.send(msg.value), 'Transfer to owner failed');"
+        },
+        {
+            "vulnerableLines": "333-333",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(totalAmount);"
+            ],
+            "vulnerabilityReason": "This line updates the sender's balance after performing an external call. If a reentrant call occurs during this external call, the original balance is not correctly tracked, leading to potential over-extraction of funds.",
+            "potentialSecurityRisk": "A reentrant call could exploit this vulnerability, allowing an attacker to withdraw more funds than they should be able to, effectively draining the contract's balance.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].sub(totalAmount); // Ensure this update occurs AFTER all external calls have been completed."
+        },
+        {
+            "vulnerableLines": "206-206",
+            "vulnerableCode": [
+                "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value);"
+            ],
+            "vulnerabilityReason": "Balance updates occur after external calls like calls to contracts via `_custom_fallback`. This allows for reentrancy attacks where the state can change unexpectedly during the call.",
+            "potentialSecurityRisk": "Attackers could repeatedly withdraw Ether or tokens before the state updates are finalized, potentially leading to multiple unauthorized extractions.",
+            "fixedCode": "balanceOf[msg.sender] = balanceOf[msg.sender].sub(_value); // This should be done after ensuring no external calls are pending."
+        },
+        {
+            "vulnerableLines": "140-140",
+            "vulnerableCode": [
+                "balanceOf[_to] = balanceOf[_to].add(_value);"
+            ],
+            "vulnerabilityReason": "Updating the receiver's balance after external function calls may expose the contract to reentrancy vulnerabilities, as the contract will be in an inconsistent state during the transaction.",
+            "potentialSecurityRisk": "If the receiving address is a contract that executes a callback, it can lead to reentrant attacks allowing it to manipulate its own balance or call back into this contract unexpectedly, allowing for money extraction.",
+            "fixedCode": "balanceOf[_to] = balanceOf[_to].add(_value); // Ensure this happens after all external calls have been completed to prevent inconsistencies."
+        }
+    ]
+}

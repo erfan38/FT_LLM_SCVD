@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 unlocked = block.timestamp - stakeTime;"
+            ],
+            "vulnerabilityReason": "The contract performs a subtraction operation between `block.timestamp` and `stakeTime`. If `stakeTime` is greater than `block.timestamp`, this will result in an integer underflow, leading to an incorrectly calculated `unlocked` value that could be excessively high.",
+            "potentialSecurityRisk": "This vulnerability can compromise the stake unlocking mechanism, allowing users to unlock more than they should. It could facilitate unauthorized withdrawals, potentially leading to financial loss for the contract's users.",
+            "fixedCode": "require(stakeTime <= block.timestamp, 'stakeTime cannot be in the future');\nuint256 unlocked = block.timestamp - stakeTime; // Only calculated if above check passes."
+        }
+    ]
+}

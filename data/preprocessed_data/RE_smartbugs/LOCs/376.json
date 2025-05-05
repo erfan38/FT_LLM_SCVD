@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "106-106",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "This line uses a low-level call to `transfer` to send Ether without ensuring that the contract's state is updated before this call. If an attacker has control over `plyr_[_pID].addr`, they can call this function recursively, allowing them to withdraw funds repeatedly before the internal state tracks those withdrawals, leading to a reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker could drain the contract of funds by causing multiple withdrawals in a single transaction, as the balance is not updated before the Ether is sent.",
+            "fixedCode": "uint256 _currentBalance = address(this).balance; if (_currentBalance >= _eth) { plyr_[_pID].addr.transfer(_eth); } else { revert('Insufficient contract balance'); }"
+        },
+        {
+            "vulnerableLines": "233-233",
+            "vulnerableCode": [
+                "_affID = plyr_[_pID].laff;"
+            ],
+            "vulnerabilityReason": "Using `_affID = plyr_[_pID].laff;` before potentially making any external calls to withdraw or distribute funds can expose the function to similar risks. If the value from this assignment leads to an external action where an attacker can exploit the state before this variable can be updated, it can also cause issues.",
+            "potentialSecurityRisk": "If there are subsequent external calls that rely on `_affID`, those could be manipulated in a reentrant manner, giving attackers excess capabilities over their earnings or related actions.",
+            "fixedCode": "// Ensure this is set securely after validating transactions and state changes, or manage through proper function flow."
+        },
+        {
+            "vulnerableLines": "351-351",
+            "vulnerableCode": [
+                "_eth = withdrawEarnings(_pID).sub(_eth);"
+            ],
+            "vulnerabilityReason": "The line excludes handling of the withdrawal state before making the call. If this line is followed immediately by a call that executes something outside the current function scope, it could cause unintended effects without the necessary state verification.",
+            "potentialSecurityRisk": "This pattern could lead to an attacker exploiting the state before it has a chance to be modified, potentially allowing them to withdraw more than intended by triggering recursive withdrawals.",
+            "fixedCode": "uint256 earnings = withdrawEarnings(_pID); if (earnings >= _eth) { _eth = earnings.sub(_eth); } else { revert('Insufficient earnings'); }"
+        },
+        {
+            "vulnerableLines": "1250-1250",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "This uses `call` for sending Ether without handling potential reverts or the need for proper state management, which can allow for a reentrancy attack, especially if 'admin' is a contract that could implement callbacks that interfere with the flow.",
+            "potentialSecurityRisk": "An external contract can take advantage of this call, potentially modifying internal states or causing repeated interactions that exploit logical vulnerabilities, which can drain funds or corrupt state data.",
+            "fixedCode": "require(address(admin).send(_com), 'Failed to send funds'); // Use send to limit gas and prevent complex calls."
+        },
+        {
+            "vulnerableLines": "1146-1146",
+            "vulnerableCode": [
+                "action.redistribution.value(_p3d).gas(1000000)();"
+            ],
+            "vulnerabilityReason": "Similar to other cases, invoking `value` before internal state updates allows an attacker to exploit the lack of state protection during the distribution process.",
+            "potentialSecurityRisk": "This creates a path for attackers to re-enter methods and manipulate balances or distributions that should remain secure, potentially locking or draining funds.",
+            "fixedCode": "uint256 redistributionAmount = _p3d; require(action.redistribution.send(redistributionAmount), 'Failed redistribution');"
+        }
+    ]
+}

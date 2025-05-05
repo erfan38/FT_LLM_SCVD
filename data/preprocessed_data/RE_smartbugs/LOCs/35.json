@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "37-37",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The contract uses `call.value()` for sending Ether, which is known to be vulnerable to reentrancy attacks. An attacker could exploit this by re-entering the contract before the state change that reduces the balance occurs, allowing them to withdraw more funds than intended.",
+            "potentialSecurityRisk": "An attacker could recursively call the withdraw function while the original call is still being executed, potentially draining the entire balance of the contract before the state is correctly updated.",
+            "fixedCode": "if (tokens[0][msg.sender] < amount) throw; \\n// Set the pending withdrawal before the call\\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\\nif (!msg.sender.call.value(amount)()) throw; // This effectively sends the amount after state is updated."
+        }
+    ]
+}

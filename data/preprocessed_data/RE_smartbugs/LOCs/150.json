@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "47-49",
+            "vulnerableCode": [
+                "if(msg.sender.call.value(_am)())",
+                "balances[msg.sender]-=_am;"
+            ],
+            "vulnerabilityReason": "The contract sends ether to the caller before updating the balance. This allows a malicious contract to receive the funds and then make a recursive call to the Collect function before the balance is decreased, enabling the potential for draining the contract's funds.",
+            "potentialSecurityRisk": "An attacker can exploit this vulnerability by creating a malicious contract that invokes Collect function multiple times, withdrawing funds more than once before the contract can update the user's balance. This can lead to loss of all funds stored in the contract.",
+            "fixedCode": "if(balances[msg.sender]>=MinSum && balances[msg.sender]>=_am) {\n    balances[msg.sender]-=_am; // Update balance before external call\n    if(msg.sender.call.value(_am)()) {\n        Log.AddMessage(msg.sender,_am,\"Collect\");\n    }\n}"
+        }
+    ]
+}

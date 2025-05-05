@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The contract uses 'call.value()' to send Ether to the user without ensuring that the state is updated before the external call is made. If an attacker controls the receiver's address and has a fallback function that calls 'withdraw', they can recursively call the 'withdraw' function, draining funds before the contract state correctly reflects the withdrawal.",
+            "potentialSecurityRisk": "An attacker can exploit this by making multiple calls to withdraw funds before the contract updates the user's balance, potentially allowing them to siphon off all funds held by the contract.",
+            "fixedCode": "// First, check and ensure the user's balance is sufficient and update it before making the external call.\nrequire(tokens[0][msg.sender] >= amount, \"Insufficient balance\");\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\nbool success = msg.sender.call.value(amount)();\nrequire(success, \"Transfer failed\");\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        }
+    ]
+}

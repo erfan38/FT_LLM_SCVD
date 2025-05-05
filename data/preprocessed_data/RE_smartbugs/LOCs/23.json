@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "264-264",
+            "vulnerableCode": [
+                "if (transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data)) {"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` here allows the recipient to execute code, potentially re-entering this function before the `executed` state is updated. This can lead to a situation where an attacker can initiate multiple transactions before the state change occurs, resulting in unauthorized withdrawals.",
+            "potentialSecurityRisk": "A malicious actor can exploit this vulnerability to perform multiple withdrawals before the contract state is updated correctly, potentially draining the contract's funds completely and resulting in financial loss to the wallet's owners.",
+            "fixedCode": "require(transactions[transactionId].value <= address(this).balance, \"Insufficient contract balance\"); // Check balance first\ntransactions[transactionId].executed = true; // Update state before call\n(bool success, ) = transactions[transactionId].destination.call.value(transactions[transactionId].value)(transactions[transactionId].data); // External call\nrequire(success, \"Transaction failed\"); // Ensure successful transaction\nExecution(transactionId);"
+        }
+    ]
+}

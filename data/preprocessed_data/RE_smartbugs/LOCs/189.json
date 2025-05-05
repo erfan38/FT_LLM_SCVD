@@ -1,0 +1,42 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "238-444",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The function `withdraw` performs an external call to transfer Ether to the player's address before resetting the corresponding state variables. This enables a potential attacker to re-enter this function before the user's balance is updated, allowing them to withdraw more funds than they are entitled to.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to drain the contract's funds through reentrancy, repeatedly calling the withdraw function and bypassing balance updates.",
+            "fixedCode": "uint256 _eth = withdrawEarnings(_pID);\nif (_eth > 0) {\n    plyr_[_pID].win = 0;  // Reset winnings before transfer\n    plyr_[_pID].gen = 0;  // Reset generated value before transfer\n    plyr_[_pID].aff = 0;  // Reset affiliate earnings before transfer\n    plyr_[_pID].addr.transfer(_eth);\n}"
+        },
+        {
+            "vulnerableLines": "466-466",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The `distributeExternal` function uses `call.value()` to send Ether to the admin address without updating the contract's state first. This means if the admin address is a malicious contract, it could execute a reentrant call before the state changes complete, potentially exploiting the contract's funds.",
+            "potentialSecurityRisk": "A malicious admin contract could manipulate the contract state during the external call, allowing multiple inappropriate withdrawals or other harmful actions that compromise contract integrity.",
+            "fixedCode": "uint256 _com = _eth / 50;\ncom = com.add(_p1);\nif (!address(admin).send(_com)) {\n    // Handle the failure here safely\n}"
+        },
+        {
+            "vulnerableLines": "238-444",
+            "vulnerableCode": [
+                "if (_eth > 0)",
+                "    plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The `withdraw` function does not secure the state update before making the external transfer call, which exposes the contract to reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker could repeatedly call withdraw, resulting in draining the contract by exploiting the re-entrant nature of the transfer call which happens before state updates.",
+            "fixedCode": "if (_eth > 0) {\n    uint256 winnings = _eth;\n    plyr_[_pID].addr.transfer(winnings);\n    plyr_[_pID].win = 0;\n    plyr_[_pID].gen = 0;\n    plyr_[_pID].aff = 0;\n}"
+        },
+        {
+            "vulnerableLines": "466-466",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "Using `call.value()` exposes the contract to reentrancy risks if the admin's address is a contract that can potentially invoke the function again before the state is completely processed.",
+            "potentialSecurityRisk": "This could lead to unauthorized access to funds or manipulation of contract state by a malicious contract acting as an admin, resulting in losses for the other users of the contract.",
+            "fixedCode": "if (!address(admin).send(_com)) {\n    require(false, \"Transaction to admin failed\");\n}"
+        }
+    ]
+}

@@ -1,0 +1,59 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "129-130",
+            "vulnerableCode": [
+                "if (lSave > 0 && lSave < block.timestamp) {",
+                "return SafeMath.mul(getJadeProduction(player),SafeMath.div(SafeMath.sub(block.timestamp,lSave),100));"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp in this context allows miners to manipulate the unclaimed reward calculations by controlling the time of the blocks they mine. If a miner delays the block timestamp, they can reduce the amount of rewards calculated because it depends on the difference between block.timestamp and lSave.",
+            "potentialSecurityRisk": "This creates the potential for unfair manipulation where miners can increase their unclaimed rewards or adversely affect other users' rewards by adjusting the mining time. This can lead to significant financial impact on the fairness of the reward distribution.",
+            "fixedCode": "if (lSave > 0 && lSave < (block.timestamp + TIME_TOLERANCE)) { return SafeMath.mul(getJadeProduction(player),SafeMath.div(SafeMath.sub(block.timestamp + TIME_TOLERANCE, lSave),100)); }"
+        },
+        {
+            "vulnerableLines": "355-355",
+            "vulnerableCode": [
+                "nextSnapshotTime = block.timestamp + 24 hours;"
+            ],
+            "vulnerabilityReason": "The next snapshot time is set based on block.timestamp, which makes it vulnerable to miner manipulation. Miners can influence the snapshot timing, potentially disrupting the funding process or unfairly timing their own benefits.",
+            "potentialSecurityRisk": "This allows a miner to manipulate the next snapshot time, potentially impacting the timing of important contract functions that depend on this snapshot, such as funding calculations and distributions. Miners could strategically time snapshots to optimize their positions at the expense of others.",
+            "fixedCode": "nextSnapshotTime = (block.timestamp + TIME_TOLERANCE) + 24 hours; // Adding a buffer to mitigate manipulation risk."
+        },
+        {
+            "vulnerableLines": "173-173",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Setting lastJadeSaveTime directly to block.timestamp means that the timestamp can be controlled by the miner, which can negatively impact subsequent token reward calculations and distributions.",
+            "potentialSecurityRisk": "Miners can exploit this to manipulate time recorded in the contract, possibly resulting in rewards being awarded or denied improperly for players, skewing the intended design of the contract's mechanics.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // Add a buffer to mitigate manipulation."
+        },
+        {
+            "vulnerableLines": "181-181",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Similar to above, assigning block.timestamp directly makes this reliant on potentially manipulated timestamps, allowing miners to affect the timing of rewards or actions associated with player contributions.",
+            "potentialSecurityRisk": "The manipulation of this timestamp could result in players receiving improper amounts of jade or being denied rewards entirely if a miner controls the timing during critical actions.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // Use a buffer to reduce timestamp dependency."
+        },
+        {
+            "vulnerableLines": "233-233",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "Assigning the last save time to block.timestamp opens the door for miner exploitation, leading to potential incorrect calculations of unclaimed rewards.",
+            "potentialSecurityRisk": "A malicious actor can exploit this setup to alter rewards or claim advantages based on manipulated timestamps, undermining the integrity of the reward system.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // Mitigating manipulation by adding a layer of safety."
+        },
+        {
+            "vulnerableLines": "266-266",
+            "vulnerableCode": [
+                "lastJadeSaveTime[player] = block.timestamp;"
+            ],
+            "vulnerabilityReason": "This line makes the last save time dependent on block.timestamp, which can be adjusted by the miner to influence the rewards system adversely.",
+            "potentialSecurityRisk": "Allowing miners control over this timestamp can lead to skewed or unfair outcomes for users in terms of rewards, as miners could optimize gains at the expenses of normal users.",
+            "fixedCode": "lastJadeSaveTime[player] = block.timestamp + TIME_TOLERANCE; // Provides a simple way to safeguard against timestamp manipulation."
+        }
+    ]
+}

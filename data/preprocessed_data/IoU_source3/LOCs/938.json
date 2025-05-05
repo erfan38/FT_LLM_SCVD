@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "8-8",
+            "vulnerableCode": [
+                "closingTime = openingTime + duration;"
+            ],
+            "vulnerabilityReason": "The addition operation combines `openingTime` and `duration` without checking for overflow. If their sum exceeds the maximum value of uint256, it will wrap around and produce an incorrect value for `closingTime`, which could lead to unintended outcomes.",
+            "potentialSecurityRisk": "An overflow could cause the closing time to be set incorrectly, potentially allowing the crowdsale to end too early or too late, thereby affecting the overall fundraising goals and investor participation.",
+            "fixedCode": "require(openingTime + duration > openingTime, 'Overflow detected in closingTime calculation.'); // Ensure that the sum does not cause overflow\nclosingTime = openingTime + duration;"
+        }
+    ]
+}

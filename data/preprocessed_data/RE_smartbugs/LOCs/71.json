@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "414-414",
+            "vulnerableCode": [
+                "plyr_[_pID].addr.transfer(_eth);"
+            ],
+            "vulnerabilityReason": "The function uses `transfer()` to send Ether without updating the state of the player's pending withdrawals first. If the recipient is a malicious contract, it can re-enter the `withdraw()` function before the state updates, thereby allowing the attacker to withdraw multiple times before the initial balance is deducted.",
+            "potentialSecurityRisk": "This can lead to loss of funds, as attackers can exploit this vulnerability to repeatedly withdraw more Ether than they are entitled to.",
+            "fixedCode": "function withdraw() public { require(activated_ && msg.sender == plyr_[_pID].addr, 'Not allowed'); uint256 _earnings = withdrawEarnings(_pID); if(_earnings > 0) { plyr_[_pID].addr.transfer(_earnings); } emit F3Devents.onWithdraw(_pID, msg.sender, plyr_[_pID].name, _earnings, now); }"
+        },
+        {
+            "vulnerableLines": "1255-1255",
+            "vulnerableCode": [
+                "if (!address(admin).call.value(_com)())"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` can accept a fallback and does not revert if the call fails. If the `admin` address is a contract, it could execute code that may modify the contract's state before the original function execution finishes, allowing for reentrancy attacks.",
+            "potentialSecurityRisk": "If an attacker controls the `admin` contract address, they can potentially create side effects during this external call, leading to unexpected behaviors such as draining funds or manipulating contract state.",
+            "fixedCode": "uint256 _com; if (address(admin).send(_com)) { _com = 0; } else { // handle failure }"
+        },
+        {
+            "vulnerableLines": "1287-1287",
+            "vulnerableCode": [
+                "admin.transfer(_p3d.sub(_potAmount));"
+            ],
+            "vulnerabilityReason": "The function transfers Ether without ensuring that all state changes are made first. An attacker could call back into this function before it finishes executing, manipulating state and causing multiple transfers.",
+            "potentialSecurityRisk": "This could lead to draining the contract of funds if a malicious contract manages to call back to this function multiple times before it completes execution, thus potentially receiving multiple unauthorized fund transfers.",
+            "fixedCode": "if (admin.send(_p3d.sub(_potAmount))) { // handle successful transfer } else { // handle failure }"
+        }
+    ]
+}

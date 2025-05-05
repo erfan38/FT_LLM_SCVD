@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "uint256 elapsedTime = block.timestamp - openingTime;"
+            ],
+            "vulnerabilityReason": "The subtraction of `openingTime` from `block.timestamp` can lead to an integer underflow if `block.timestamp` is less than `openingTime`. This could happen if the contract is interacted with before the defined opening time, resulting in an unintended negative value that wraps around to a large positive number due to the nature of unsigned integers in Solidity.",
+            "potentialSecurityRisk": "An attacker could exploit this underflow by manipulating the interaction with the contract before the `openingTime`, potentially allowing them to obtain a manipulated and incorrect `elapsedTime` which could be utilized for financial gain or other advantages, leading to incorrect pricing or payout calculations.",
+            "fixedCode": "require(block.timestamp >= openingTime, \"Contract not yet open\");\nuint256 elapsedTime = block.timestamp - openingTime; // Safe subtraction after the check."
+        }
+    ]
+}

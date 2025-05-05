@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "3-3",
+            "vulnerableCode": [
+                "return a + b;"
+            ],
+            "vulnerabilityReason": "The 'add' function performs the addition of two unsigned integers 'a' and 'b' without any checks for overflow. If the result exceeds the maximum value for uint256 (2**256 - 1), it will wrap around and result in a value starting from zero, causing potential unexpected behavior.",
+            "potentialSecurityRisk": "An attacker can exploit this by providing values for 'a' and 'b' that cause an overflow when added, leading to a condition where the function could return a value that does not reflect the actual sum of the two numbers, potentially leading to loss of funds or incorrect contract logic.",
+            "fixedCode": "function add(uint a, uint b) public pure returns (uint) {\n    require(a + b >= a, \"Addition overflow occurred\");\n    return a + b;\n}"
+        },
+        {
+            "vulnerableLines": "7-7",
+            "vulnerableCode": [
+                "return a - b;"
+            ],
+            "vulnerabilityReason": "The 'subtract' function performs a subtraction of 'b' from 'a' without any checks for underflow. If 'b' is greater than 'a', this operation will underflow and result in a very large number instead of a negative value.",
+            "potentialSecurityRisk": "An attacker can exploit this by providing values for 'a' and 'b' where 'b' exceeds 'a', causing an underflow. This could lead to unexpected and incorrect behavior when relying on the output of the function.",
+            "fixedCode": "function subtract(uint a, uint b) public pure returns (uint) {\n    require(b <= a, \"Subtraction underflow occurred\");\n    return a - b;\n}"
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "191-192",
+            "vulnerableCode": [
+                "tx.executed = true;",
+                "if (!tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The order of operations allows the potential for reentrancy because the transaction is marked as executed before the external call is made. An attacker can re-enter the contract before the state is updated, which can lead to multiple withdrawals before the state is synchronized.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by repeatedly calling back into `executeTransaction`, causing the contract to send more Ether than it intended, potentially draining the entire balance of the contract.",
+            "fixedCode": "if (isConfirmed(transactionHash)) {\n    Transaction storage tx = transactions[transactionHash];\n    if (!tx.executed) {\n        tx.executed = true;\n        // Call should be the last action to avoid reentrancy\n        require(tx.destination.call.value(tx.value)(tx.data));\n        Execution(transactionHash);\n    }\n}"
+        },
+        {
+            "vulnerableLines": "191-192",
+            "vulnerableCode": [
+                "tx.executed = true;",
+                "if (!tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The contract marks the transaction as executed before performing the external call with `call.value()`. This allows an attacker to exploit the state of the contract before it is updated to prevent further transactions.",
+            "potentialSecurityRisk": "An attacker can manipulate the transaction flow such that they can drain funds by re-invoking the transaction before the `executed` state is finalized, leading to undesired financial loss.",
+            "fixedCode": "if (isConfirmed(transactionHash)) {\n    Transaction storage tx = transactions[transactionHash];\n    require(!tx.executed, \"Transaction already executed\");\n    // Execute only if the confirmation is valid\n    tx.executed = true;\n    require(tx.destination.call.value(tx.value)(tx.data), \"Execution failed\");\n    Execution(transactionHash);\n}"
+        }
+    ]
+}

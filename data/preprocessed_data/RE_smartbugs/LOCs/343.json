@@ -1,0 +1,49 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "1245-1245",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "The contract makes an external call to `Jekyll_Island_Inc` before updating any internal state related to the transaction. This allows an attacker to re-enter the contract during the execution of this call, potentially leading to unauthorized access to funds.",
+            "potentialSecurityRisk": "A malicious contract could craft a fallback function that calls back into this contract, allowing it to withdraw more funds than intended before the contract state is updated to reflect the outgoing transfer.",
+            "fixedCode": "uint256 _com = _eth / 50;\nif (_com > 0) {\n    // Ensure internal state is updated first before making the external call\n    // Potentially log or handle the deposit amount here.\n    _eth = _eth.sub(_com);\n    require(address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"External call failed\");\n}"
+        },
+        {
+            "vulnerableLines": "1272-1272",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "The contract calls the external `deposit()` function of the `Divies` contract before updating its internal state, which could allow a reentrancy attack if the `Divies` contract is compromised or behaves unexpectedly.",
+            "potentialSecurityRisk": "An attacker can exploit this call by making reentrant calls to withdraw funds before the state updates are complete, leading to multiple withdrawals from the contract without proper state management.",
+            "fixedCode": "require(_p3d > 0, \"No funds to deposit\");\nif (_p3d > 0) {\n    uint256 fundsToDeposit = _p3d;\n    _p3d = 0;\n    Divies.deposit.value(fundsToDeposit)();\n}"
+        },
+        {
+            "vulnerableLines": "1278-1278",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this call occurs before any state updates are made that should reflect the changes that occur due to the deposit function in the `Divies` contract.",
+            "potentialSecurityRisk": "Exploits similar to the last one apply here, enabling attackers to exploit the asynchronous nature of external calls, potentially withdrawing funds multiple times before the internal state reflects these transactions accurately.",
+            "fixedCode": "require(_p3d > 0, \"No funds to deposit\");\n    if (_p3d > 0) {\n    uint256 fundsToDeposit = _p3d;\n    _p3d = 0;\n    Divies.deposit.value(fundsToDeposit)();\n}"
+        },
+        {
+            "vulnerableLines": "1517-1517",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Just like lines 1245 and 1272, this instance involves an external call made before updating internal state variables, leaving it susceptible to reentrancy vulnerabilities.",
+            "potentialSecurityRisk": "Allows attackers with control over the `Jekyll_Island_Inc` address to perform manipulations and withdraw funds multiple times before the state reflects accurate balances and withdrawals.",
+            "fixedCode": "uint256 _com = _eth / 50;\nif (_com > 0) {\n    // First update internal balances before making the external call\n    _eth = _eth.sub(_com);\n    require(address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))), \"External call failed\");\n}"
+        },
+        {
+            "vulnerableLines": "1402-1402",
+            "vulnerableCode": [
+                "Divies.deposit.value(_p3d)();"
+            ],
+            "vulnerabilityReason": "Same scenario as mentioned earlier, where the call to external `Divies` contract happens before updating the internal balances.",
+            "potentialSecurityRisk": "The risk remains that a malicious user could take advantage of reentrancy to withdraw-like funds repeatedly before the contract state is appropriately updated.",
+            "fixedCode": "require(_p3d > 0, \"No funds to deposit\");\nif (_p3d > 0) {\n    uint256 fundsToDeposit = _p3d;\n    _p3d = 0;\n    Divies.deposit.value(fundsToDeposit)();\n}"
+        }
+    ]
+}

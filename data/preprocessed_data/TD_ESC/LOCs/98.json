@@ -1,0 +1,51 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "552-552",
+            "vulnerableCode": [
+                "require(!judgeIsReachDailyLimit(mintAmount, timestamp));"
+            ],
+            "vulnerabilityReason": "Using `block.timestamp` in the minting process allows miners to manipulate the minting limits by adjusting the block's timestamp, which could lead to unfair advantages and exploitations of the daily mint limits.",
+            "potentialSecurityRisk": "Miners could exploit the ability to control the timestamp to manipulate when minting can take place, potentially leading to a situation where certain users or miners can mint tokens exceeding the daily limits, impacting the token economy.",
+            "fixedCode": "require(!judgeIsReachDailyLimit(mintAmount, block.timestamp + TIME_TOLERANCE)); // using a buffer to limit timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "560-580",
+            "vulnerableCode": [
+                "function judgeIsReachDailyLimit(uint256 mintAmount, uint256 timestamp) internal returns(bool _exist) {",
+                "    bool reached = false;",
+                "    if ((timestamp.parseTimestamp().year == lastMintTime.parseTimestamp().year)",
+                "        && (timestamp.parseTimestamp().month == lastMintTime.parseTimestamp().month)",
+                "        && (timestamp.parseTimestamp().day == lastMintTime.parseTimestamp().day)) {",
+                "        if (dailyLimitLeft < mintAmount) {",
+                "            reached = true;",
+                "        } else {",
+                "            dailyLimitLeft = dailyLimitLeft.sub(mintAmount);",
+                "            lastMintTime = timestamp;",
+                "        }",
+                "    } else {",
+                "        dailyLimitLeft = standardDailyLimit;",
+                "        lastMintTime = timestamp;",
+                "        if (dailyLimitLeft < mintAmount) {",
+                "            reached = true;",
+                "        } else {",
+                "            dailyLimitLeft = dailyLimitLeft.sub(mintAmount);",
+                "        }",
+                "    }",
+                "    return reached;"
+            ],
+            "vulnerabilityReason": "The function logic depends heavily on parsed timestamps and block.timestamp for daily limits, which can be easily manipulated by miners to bypass daily mint limits or alter the state of the contract.",
+            "potentialSecurityRisk": "If miners manipulate timestamps, they can mint tokens in excess of the limits. This opens doors to potential token inflation or economic exploits, affecting fairness among token holders.",
+            "fixedCode": "function judgeIsReachDailyLimit(uint256 mintAmount, uint256 timestamp) internal returns(bool _exist) { if ((timestamp + TIME_TOLERANCE).parseTimestamp().year == lastMintTime.parseTimestamp().year && (timestamp + TIME_TOLERANCE).parseTimestamp().month == lastMintTime.parseTimestamp().month && (timestamp + TIME_TOLERANCE).parseTimestamp().day == lastMintTime.parseTimestamp().day) {... } // use TIME_TOLERANCE to mitigate miner manipulation"
+        },
+        {
+            "vulnerableLines": "587-587",
+            "vulnerableCode": [
+                "emit SetDailyLimit(msg.sender, block.timestamp);"
+            ],
+            "vulnerabilityReason": "The emission of `SetDailyLimit` relies on block.timestamp which can be controlled by miners, allowing them to potentially manipulate the setting of the daily limit.",
+            "potentialSecurityRisk": "A miner could influence the record of when the daily limit was set, possibly coordinating with other malicious actors to exploit this information indirectly to gain token benefits.",
+            "fixedCode": "emit SetDailyLimit(msg.sender, block.timestamp + TIME_TOLERANCE); // adjust to add a buffer to reduce timestamp manipulation risks."
+        }
+    ]
+}

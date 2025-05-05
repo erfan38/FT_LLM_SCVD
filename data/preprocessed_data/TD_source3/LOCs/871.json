@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "11-12",
+            "vulnerableCode": [
+                "uint256 public startTime;",
+                "uint256 public endTime;"
+            ],
+            "vulnerabilityReason": "The contract explicitly declares 'startTime' and 'endTime' as public variables without any inherent validation or control. This allows miners to potentially manipulate the timing of blocks within certain limits, which can impact the intended start and end of the ICO campaign.",
+            "potentialSecurityRisk": "An attacker, by manipulating the block timestamp, could set the start time of the ICO to benefit certain parties or drastically alter the end time, allowing for unfair participation or manipulation of token sales which could distort the market value of the tokens.",
+            "fixedCode": "// Consider using a more secure method or access control to set startTime and endTime and enforce that they fall within a secure range."
+        }
+    ]
+}

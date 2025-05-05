@@ -1,0 +1,23 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "60-61",
+            "vulnerableCode": [
+                "tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);",
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows for the potential of reentrant calls before the state change occurs. An attacker could withdraw repeatedly since the balance check occurs after the Ether transfer, enabling multiple withdrawals of the same funds.",
+            "potentialSecurityRisk": "An attacker can drain the contract of its funds by making a recursive call back to the `withdraw` function before the state variable `tokens[0][msg.sender]` is updated, allowing them to withdraw more than their allowed balance.",
+            "fixedCode": "require(tokens[0][msg.sender] >= amount, 'Insufficient balance'); // Ensure sufficient balance before any operations\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); // Update balance first\n(bool success, ) = msg.sender.call.value(amount)(''); // Use safe transfer method\nrequire(success, 'Transfer failed'); // Ensure transfer was successful"
+        },
+        {
+            "vulnerableLines": "95-95",
+            "vulnerableCode": [
+                "tradeBalances(tokenGet, amountGet, tokenGive, amountGive, user, amount);"
+            ],
+            "vulnerabilityReason": "The function `trade` calls `tradeBalances` to adjust the token balances after performing an external operation, which can also be exploited for reentrancy if the operation involves any external call to another contract.",
+            "potentialSecurityRisk": "Similar to the `withdraw` function, an attacker could use a reentrancy exploit to manipulate the state across multiple transactions, which may lead to improper balance tracking and possible theft of funds.",
+            "fixedCode": "// Update balances safely first before making external calls \n// Ensure that `tradeBalances` does not trigger any external calls before all checks and state updates."
+        }
+    ]
+}

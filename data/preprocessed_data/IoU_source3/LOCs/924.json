@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "totalSupply = totalSupply + amount;"
+            ],
+            "vulnerabilityReason": "The code performs an arithmetic addition on `totalSupply` without checking for overflow. If `totalSupply` is close to the maximum value of `uint256`, adding `amount` could result in an overflow, making `totalSupply` a very small value due to the wraparound effect of unsigned integers.",
+            "potentialSecurityRisk": "An overflow could lead to an incorrect total supply calculation, allowing more tokens to be minted than intended. This could bypass the intended limit imposed by `MAX_SUPPLY` and result in excessive token inflation.",
+            "fixedCode": "require(totalSupply + amount <= MAX_SUPPLY, \"Max supply reached\");\ntotalSupply = totalSupply + amount; // Structurally, keep this line but ensure the require check comes first."
+        }
+    ]
+}

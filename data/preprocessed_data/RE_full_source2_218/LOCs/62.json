@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "9-9",
+            "vulnerableCode": [
+                "_addr.call.value(_wei)();"
+            ],
+            "vulnerabilityReason": "The use of `_addr.call.value(_wei)();` allows external calls to a potentially malicious contract. This can enable a reentrancy attack, where the called contract can execute arbitrary code before the withdrawal state (specifically, the balance update) is completed.",
+            "potentialSecurityRisk": "A malicious contract could repeatedly re-enter the `WithdrawToHolder` function by calling back into it during the whole execution of the external call, potentially allowing it to withdraw more funds than it should, leading to a drain of the contract's balance.",
+            "fixedCode": "// Check if the holder has enough balance before the external call\nrequire(Holders[_addr] >= _wei, \"Insufficient balance in Holder\");\n// Update the holder's balance before the external call to prevent reentrancy\nHolders[_addr] -= _wei;\n// Perform the transfer after updating the state\n(bool success, ) = _addr.call{value: _wei}();\nrequire(success, \"Transfer failed\");"
+        }
+    ]
+}

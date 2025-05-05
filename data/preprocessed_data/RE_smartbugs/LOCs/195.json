@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The line uses 'call.value()' to send Ether, which makes an external call to msg.sender before the state variable tokens[0][msg.sender] is updated. This allows an attacker to potentially execute a reentrant call to withdraw funds again before the state is altered, which is a known reentrancy vulnerability.",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a malicious contract that re-calls the withdraw function during the execution of the call, allowing the attacker to withdraw more funds than they are entitled to, potentially draining the entire balance of the contract.",
+            "fixedCode": "require(tokens[0][msg.sender] >= amount, \"Insufficient balance\"); // Check if the user has enough tokens \ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); // Update state before calling external transfer\n(bool success, ) = msg.sender.call.value(amount)(); // Use a safe method to send value\nrequire(success, \"Transfer failed\"); // Ensure that the transfer was successful\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]); // Emit withdrawal event."
+        }
+    ]
+}

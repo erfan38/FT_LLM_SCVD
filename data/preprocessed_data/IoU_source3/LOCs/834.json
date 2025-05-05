@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "5-5",
+            "vulnerableCode": [
+                "power = power ** _exponent;"
+            ],
+            "vulnerabilityReason": "The 'exponentiate' function performs exponentiation on the variable 'power' without checking if the resulting value will exceed the maximum allowable value for a uint64. Exponentiation grows very quickly, and values can easily surpass this limit, leading to unexpected results or overflow.",
+            "potentialSecurityRisk": "If 'power' exceeds the maximum value for a uint64, it will wrap around to a smaller number, which can lead to incorrect logic and potential exploits, such as allowing unauthorized calculations or states in the contract. In Solidity versions <0.8.0, this would happen silently, leading to unintentional behaviors without any error message.",
+            "fixedCode": "require(power ** _exponent <= type(uint64).max, 'Exponentiation would overflow');\npower = power ** _exponent;"
+        }
+    ]
+}

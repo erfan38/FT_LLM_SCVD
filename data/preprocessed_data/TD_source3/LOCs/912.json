@@ -1,0 +1,53 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "60-62",
+            "vulnerableCode": [
+                "require(_time > block.timestamp);",
+                "require(isReleased == false);",
+                "releaseTime = _time;"
+            ],
+            "vulnerabilityReason": "The setReleaseTime function relies on block.timestamp to validate the release time. By comparing it against the current block timestamp, the function could be exploited by miners who manipulate timestamps to set a release time in their favor.",
+            "potentialSecurityRisk": "Miners could potentially manipulate the block timestamp to set a release time that benefits them, allowing token releases earlier than intended, which could result in unauthorized token distributions or financial loss.",
+            "fixedCode": "require(_time > block.timestamp + TIME_TOLERANCE); // Ensure the time provided is in the future by adding a tolerance period"
+        },
+        {
+            "vulnerableLines": "71-73",
+            "vulnerableCode": [
+                "if (isReleased == false && _now() > releaseTime) {",
+                "isReleased = true;"
+            ],
+            "vulnerabilityReason": "The markReleased function uses block.timestamp through the _now() function to determine if the tokens can be released. This creates a risk of miners manipulating the block timestamp to trigger the release prematurely.",
+            "potentialSecurityRisk": "If miners manipulate the block timestamp, they can trigger the release of tokens earlier than intended, undermining the control over token distributions.",
+            "fixedCode": "if (isReleased == false && _now() > releaseTime + TIME_TOLERANCE) { // Add appropriate buffer to the release logic"
+        },
+        {
+            "vulnerableLines": "97-99",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);",
+                "require(fundingLowcapReached == true);"
+            ],
+            "vulnerabilityReason": "This check mandates that the funding must be lowcap reached only after the releaseTime has passed. The reliance on block.timestamp introduces a risk where miners could adjust the block timestamp to pass this requirement falsely.",
+            "potentialSecurityRisk": "An attacker could manipulate the timestamp to bypass the funding requirement, resulting in the potential for unfair token access or financial manipulation.",
+            "fixedCode": "require(_now() >= releaseTime + TIME_TOLERANCE); // Implement a buffer before release requirements"
+        },
+        {
+            "vulnerableLines": "176-176",
+            "vulnerableCode": [
+                "if (vestingRules[_address][i].processed == false && vestingRules[_address][i].unlockTime < _now()) {"
+            ],
+            "vulnerabilityReason": "The _processVestingRules function checks if the current time has passed the unlock time of vested tokens. Using block.timestamp creates a vulnerability to timestamp manipulation that could affect the unlocking of tokens.",
+            "potentialSecurityRisk": "If miners manipulate the timestamps, they could unlock tokens earlier than expected or intended, potentially undermining the vesting schedule and leading to loss of funds or unauthorized access to tokens.",
+            "fixedCode": "if (vestingRules[_address][i].processed == false && vestingRules[_address][i].unlockTime < _now() + TIME_TOLERANCE) { // Include TIME_TOLERANCE for safer unlocking"
+        },
+        {
+            "vulnerableLines": "186-186",
+            "vulnerableCode": [
+                "return block.timestamp;"
+            ],
+            "vulnerabilityReason": "The _now function directly returns block.timestamp. This direct reliance makes all functionality that utilizes _now susceptible to miner manipulation through block timestamps.",
+            "potentialSecurityRisk": "Using block.timestamp directly can lead to inaccuracies in time-based logic, creating avenues for manipulation that affect token release, distribution, or vesting periods.",
+            "fixedCode": "return block.number; // Replace with block.number to mitigate timestamp manipulation risks."
+        }
+    ]
+}

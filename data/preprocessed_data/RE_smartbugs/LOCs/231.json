@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "412-412",
+            "vulnerableCode": [
+                "if(msg.value > 0) activityFunds.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The contract calls `activityFunds.transfer(msg.value)` before updating the balances of `balanceOf[msg.sender]` and `balanceOf[activityFunds]`. This allows a malicious recipient contract to re-enter the `autoDistribute()` function and withdraw funds multiple times before the balance updates take effect.",
+            "potentialSecurityRisk": "This can lead to draining the funds from the contract if an attacker can call the fallback function of a malicious contract that receives Ether during the transfer process.",
+            "fixedCode": "if(msg.value > 0) { \n    // Ensure the sender's balance is updated before the transfer\n    balanceOf[activityFunds] = balanceOf[activityFunds].sub(distributeAmount);\n    balanceOf[msg.sender] = balanceOf[msg.sender].add(distributeAmount);\n    activityFunds.transfer(msg.value);\n}"
+        }
+    ]
+}

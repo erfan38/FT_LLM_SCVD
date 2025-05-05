@@ -1,0 +1,18 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "166-173",
+            "vulnerableCode": [
+                "    require(address(sale).call.value(netAmount)(this));",
+                "    tokensReceived = getToken().balanceOf(this);",
+                "    if (fee != 0) {",
+                "      manager.transfer(fee);",
+                "    }",
+                "    paid = true;"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` sends Ether to the sale contract and the manager before setting the `paid` variable to true. This allows a potential reentrant call from either address before the state variable is updated, making it possible for an attacker to recursively withdraw funds during this process.",
+            "potentialSecurityRisk": "An attacker could construct a malicious contract and manipulate it to re-enter the `pay()` function, draining the ICOStartReservation contract of its funds since the checks to prevent re-entrance are performed after the funds are sent.",
+            "fixedCode": "require(address(sale).call.value(netAmount)(this)); // Ensure the sale contract is valid and transfer amounts\n    tokensReceived = getToken().balanceOf(this);\n    if (fee != 0) {\n       manager.transfer(fee);\n    }\n    paid = true; // Set paid after all the transfers have occurred, ensuring state is secured before making external calls."
+        }
+    ]
+}

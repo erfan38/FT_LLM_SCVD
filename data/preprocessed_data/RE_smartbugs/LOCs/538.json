@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "52-52",
+            "vulnerableCode": [
+                "_to.call.value(_value)(_data);"
+            ],
+            "vulnerabilityReason": "The contract executes an external call to `_to` using `call.value()` before checking if the transaction is under the limit and updating the transaction status. This can allow an attacker to call back before these state updates occur, leading to potential reentrancy.",
+            "potentialSecurityRisk": "An attacker could exploit this by re-entering the `execute` function during the external call, bypassing limits and potentially draining funds through repeated withdrawals.",
+            "fixedCode": "if(underLimit(_value)) {\n    SingleTransact(msg.sender, _value, _to, _data);\n    require(_to.call.value(_value)(_data)); // Ensure the call was successful\n} else { /* handle failure */ }"
+        },
+        {
+            "vulnerableLines": "69-69",
+            "vulnerableCode": [
+                "m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
+            ],
+            "vulnerabilityReason": "In the `confirm` function, the call to `m_txs[_h].to` is made before deleting the transaction from the map. This allows for multiple confirmations of the same transaction if the recipient address is a contract that can invoke the `confirm` function again before state reset.",
+            "potentialSecurityRisk": "A malicious contract can manipulate the state by making repeated calls to this function before the mapping entry is deleted, allowing it to gain unauthorized funds from the wallet.",
+            "fixedCode": "if(m_txs[_h].to != 0) {\n    require(m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data)); // Check success\n    MultiTransact(msg.sender, _h, m_txs[_h].value, m_txs[_h].to, m_txs[_h].data);\n    delete m_txs[_h];\n    return true;\n} else { /* handle failure */ }"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "86-87",
+            "vulnerableCode": [
+                "require(_endTime > block.timestamp);",
+                "endDiscountTime = _endTime;"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to set the discount end time introduces a dependency on miner-controlled timestamps, which can be manipulated within a miner's discretion.",
+            "potentialSecurityRisk": "Miners could potentially manipulate the timestamp to allow themselves to set the discount period in their favor, potentially leading to financial losses for the contract owner or unfair pricing for users purchasing tokens.",
+            "fixedCode": "require(_endTime > block.timestamp + TIME_TOLERANCE); // Use a buffer like TIME_TOLERANCE to mitigate timestamp manipulation."
+        },
+        {
+            "vulnerableLines": "219-222",
+            "vulnerableCode": [
+                "if (block.timestamp <= endDiscountTime) {",
+                "require(_value == 0.64 ether);",
+                "} else {",
+                "require(_value == 0.99 ether);"
+            ],
+            "vulnerabilityReason": "The pricing decision for purchasing discounted tokens relies on the current timestamp, making it susceptible to miner manipulation.",
+            "potentialSecurityRisk": "Miners can exploit this timestamp check to arbitrarily affect which pricing tier a transaction falls under, by causing the timestamp to fall just inside or outside the discount period.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE <= endDiscountTime) { require(_value == 0.64 ether); } else { require(_value == 0.99 ether); } // Use a buffer to mitigate manipulations."
+        },
+        {
+            "vulnerableLines": "249-252",
+            "vulnerableCode": [
+                "if (block.timestamp <= endDiscountTime) {",
+                "require(_value == 0.585 ether);",
+                "} else {",
+                "require(_value == 0.90 ether);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this check also leverages block.timestamp to determine token pricing, exposing it to miner manipulation.",
+            "potentialSecurityRisk": "Miners could exploit the timestamp to manipulate the discounted pricing conditions for token purchases, resulting in potential financial benefits for them at the expense of the contract's integrity.",
+            "fixedCode": "if (block.timestamp + TIME_TOLERANCE <= endDiscountTime) { require(_value == 0.585 ether); } else { require(_value == 0.90 ether); } // Use a buffer to mitigate manipulations."
+        }
+    ]
+}

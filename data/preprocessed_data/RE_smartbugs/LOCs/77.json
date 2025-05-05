@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "50-51",
+            "vulnerableCode": [
+                "function send(address _to, uint _value, bytes _data) only_owner {",
+                "if (!_to.call.value(_value)(_data)) throw;"
+            ],
+            "vulnerabilityReason": "The use of `call.value()` allows for reentrancy attacks because the external call to `_to` happens before any state changes. An attacker can take advantage of this to re-enter the contract during the ether transfer, potentially modifying the contract state before it completes.",
+            "potentialSecurityRisk": "An attacker could deploy a malicious contract that, upon receiving ether, makes a call back to the `send()` function, allowing them to drain the contract's funds or manipulate its state before the original transaction completes.",
+            "fixedCode": "function send(address _to, uint _value, bytes _data) only_owner { \n    require(_to.send(_value)); // Using send instead and handling failure explicitly without allowing state manipulation.\n    Sent(_to, _value, _data);\n}"
+        }
+    ]
+}

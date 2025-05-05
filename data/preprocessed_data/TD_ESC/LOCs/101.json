@@ -1,0 +1,41 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "315-316",
+            "vulnerableCode": [
+                "function getRandom(uint _seed) constant public returns(uint) {",
+                "        return uint(keccak256(block.timestamp, block.difficulty)) ^ _seed;"
+            ],
+            "vulnerabilityReason": "The function relies on block.timestamp and block.difficulty to generate a random number. Miners can manipulate these values, particularly block.timestamp, to influence the outcome of the randomness, potentially allowing them to gain unfair advantages in the game mechanics.",
+            "potentialSecurityRisk": "Manipulation of the random number generation could lead to predictable outcomes in the game, such as consistently winning rewards or manipulating game events based on the miner's advantage, severely affecting game fairness and integrity.",
+            "fixedCode": "function getRandom(uint _seed) constant public returns(uint) { return uint(keccak256(abi.encodePacked(now, block.difficulty))) ^ _seed; // Using now along with a secure handling of randomness such as incorporating user actions or other non-manipulable variables."
+        },
+        {
+            "vulnerableLines": "328-328",
+            "vulnerableCode": [
+                "        fish.blockNumber = block.number;"
+            ],
+            "vulnerabilityReason": "Assigning block.number to the fish's blockNumber introduces susceptibility to miner manipulation. Miners could influence future deductions based on incorrect assumptions of game state due to block number manipulations.",
+            "potentialSecurityRisk": "This could allow miners to create scenarios where they manipulate game states through timing, impacting player fairness and overall game integrity.",
+            "fixedCode": "fish.blockNumber = block.number; // Consider using an alternative approach for storing game state without direct dependency on block numbers."
+        },
+        {
+            "vulnerableLines": "431-431",
+            "vulnerableCode": [
+                "                uint tempX = SafeDeduct(block.number, fish.blockNumber);"
+            ],
+            "vulnerabilityReason": "This line depends on block.number to assess the difference in states of aquatic creatures. As block number can be influenced by miners, this can lead to unfair advantages during gameplay.",
+            "potentialSecurityRisk": "Miners could manipulate the game state leading to potential exploits that disrupt the fairness of interactions in the game, especially regarding deductions impacting player actions.",
+            "fixedCode": "uint tempX = SafeDeduct(block.number, fish.blockNumber); // To mitigate, consider using alternative game mechanics that rely on non-manipulable factors instead."
+        },
+        {
+            "vulnerableLines": "551-551",
+            "vulnerableCode": [
+                "                uint tempX = SafeDeduct(block.number, fish.blockNumber);"
+            ],
+            "vulnerabilityReason": "Similar to previous instances, previously stated vulnerabilities apply here regarding the use of block.number for game operations. This can lead to manipulation and exploitation by miners due to timestamp versions used.",
+            "potentialSecurityRisk": "Exploitation by miners could lead to unexpected game mechanic manipulations, directly affecting player experience and potentially resulting in adversarial effects in gameplay and rewards.",
+            "fixedCode": "uint tempX = SafeDeduct(block.number, fish.blockNumber); // Replace with mechanisms that manage state without direct dependency on manipulative factors."
+        }
+    ]
+}

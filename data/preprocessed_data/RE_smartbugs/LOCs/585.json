@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "120-120",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "The use of .call() allows the recipient contract to execute arbitrary code before the function completes. If the recipient is a contract, they can trigger this function again before the state changes reflecting the balance deduction, leading to a potential reentrant call.",
+            "potentialSecurityRisk": "An attacker could exploit this by creating a contract that, upon receiving the 'call', would call the transfer function again before the original transfer state is finalized. This could lead to the attacker draining funds from the contract.",
+            "fixedCode": "// Safe practice: Implement Checks-Effects-Interactions pattern\n// First update balances, then make external call\nbalances[msg.sender] = balances[msg.sender].sub(_value);\nbalances[_to] = balances[_to].add(_value);\nTransfer(msg.sender, _to, _value, _data);\nTransfer(msg.sender, _to, _value); \n// Now make the external call\nif(isContract(_to)) {\n    require(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n}"
+        },
+        {
+            "vulnerableLines": "323-323",
+            "vulnerableCode": [
+                "if(!owner.send(etherValue))revert();"
+            ],
+            "vulnerabilityReason": "The send() method does not allow for checking the success of the transaction, and its execution may allow for a reentrant call back into the withdraw function, allowing attackers to drain funds.",
+            "potentialSecurityRisk": "A reentrant attack could allow an attacker to repeatedly call this function, withdrawing more funds than anticipated, leading to a loss of Ether held in the contract.",
+            "fixedCode": "// Safe practice: Using Checks-Effects-Interactions pattern\nrequire(etherValue <= address(this).balance, \"Insufficient contract balance\"); // Check before sending\nif(!owner.call.value(etherValue)()) revert(); // Use call for safe transfer"
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "194-206",
+            "vulnerableCode": [
+                "if(block.timestamp >= user.lockedTime)",
+                "if(user.lockedIdx == 1)",
+                "user.lockedIdx = 0;",
+                "user.lockedTokens = 0;",
+                "else",
+                "{",
+                "uint256 append = user.lockedTokens/user.lockedIdx;",
+                "user.lockedTokens -= append;",
+                "user.lockedIdx--;",
+                "user.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+                "lockedUsers[target] = user;"
+            ],
+            "vulnerabilityReason": "The unlocking of locked tokens is based on comparing block.timestamp with the user's lockedTime, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners could adjust the block timestamp, allowing users to unlock their tokens earlier than intended or manipulate token states.",
+            "fixedCode": "if(block.timestamp >= user.lockedTime + TIME_TOLERANCE) // A tolerance buffer can mitigate the impact of minor timestamp manipulations"
+        },
+        {
+            "vulnerableLines": "233-256",
+            "vulnerableCode": [
+                "uint day = uint((block.timestamp - lastUnlockMineBalanceTime) / ONE_DAY_TIME_LEN);",
+                "if(day > 0){",
+                "lastUnlockMineBalanceTime = block.timestamp;"
+            ],
+            "vulnerabilityReason": "The calculation of daily mining rewards is dependent on the difference between block.timestamp and lastUnlockMineBalanceTime, allowing miners to manipulate reward distributions.",
+            "potentialSecurityRisk": "Miners could influence the calculation of rewards by adjusting timestamps, potentially leading to inflated or incorrect mining rewards.",
+            "fixedCode": "uint day = uint((block.timestamp + TIME_TOLERANCE - lastUnlockMineBalanceTime) / ONE_DAY_TIME_LEN); // Adding a buffer to the timestamp calculation"
+        },
+        {
+            "vulnerableLines": "338-342",
+            "vulnerableCode": [
+                "lockUser.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+                "lockUser.lockedTokens += _value;",
+                "lockUser.lockedIdx = 2;"
+            ],
+            "vulnerabilityReason": "Setting lockedTime using block.timestamp creates dependency on miner-manipulable timestamps.",
+            "potentialSecurityRisk": "Attackers may manipulate their lock periods, impacting the availability of tokens and leading to exploitation of the lock mechanism.",
+            "fixedCode": "lockUser.lockedTime = block.timestamp + TIME_TOLERANCE + ONE_YEAR_TIME_LEN; // Using a buffer for safer locking behavior"
+        },
+        {
+            "vulnerableLines": "369-373",
+            "vulnerableCode": [
+                "lockUser.lockedTime = block.timestamp + ONE_YEAR_TIME_LEN;",
+                "lockUser.lockedTokens += _value;",
+                "lockUser.lockedIdx = 1;"
+            ],
+            "vulnerabilityReason": "Similar to previous cases, the reliance on block.timestamp introduces vulnerability to miner manipulation while setting lock parameters.",
+            "potentialSecurityRisk": "Users could potentially unlock funds and manipulate the contract's logic surrounding token handling through timestamp exploitation.",
+            "fixedCode": "lockUser.lockedTime = block.timestamp + TIME_TOLERANCE + ONE_YEAR_TIME_LEN; // Using a buffer for safer locking behavior"
+        }
+    ]
+}

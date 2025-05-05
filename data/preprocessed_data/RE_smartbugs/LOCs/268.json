@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "226-226",
+            "vulnerableCode": [
+                "if (tx.destination.call.value(tx.value)(tx.data))"
+            ],
+            "vulnerabilityReason": "The contract utilizes `call.value()` to send Ether, which conducts an external call to the `destination` address. This external call is made before updating the executed status of the transaction (`tx.executed`), potentially allowing a reentrant call before the contract state reflects that the transaction has been executed.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by sending a malicious transaction that calls back into the contract during the Ether transfer. This could allow the attacker to bypass the transaction confirmation steps, enabling unauthorized fund withdrawals and draining the MultiSigWallet's balance.",
+            "fixedCode": "// Update the executed status before making the external call to avoid reentrancy\nif (isConfirmed(transactionId)) {\n    Transaction tx = transactions[transactionId];\n    tx.executed = true;  // First update the executed status\n\n    require(tx.destination.call.value(tx.value)(tx.data));  // Perform the external call\n    Execution(transactionId);\n}"
+        }
+    ]
+}

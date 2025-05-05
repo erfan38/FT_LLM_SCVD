@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "19-19",
+            "vulnerableCode": [
+                "require(block.timestamp < _timestamp);"
+            ],
+            "vulnerabilityReason": "The contract relies on block.timestamp to validate that the new timestamp is set in the future. However, this opens up the function to potential manipulation, as miners can slightly alter the timestamp to create an advantage.",
+            "potentialSecurityRisk": "A miner could adjust the timestamp to validate fake state start times, which could unintentionally allow state transitions to occur at undesired times, potentially leading to vulnerabilities in state transitions or actions that depend on timing.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < _timestamp); // Using a TIME_TOLERANCE protects against minor manipulations."
+        },
+        {
+            "vulnerableLines": "31-31",
+            "vulnerableCode": [
+                "return startTime[_stateId] <= block.timestamp;"
+            ],
+            "vulnerabilityReason": "Checking if the current block time has surpassed a state start time relies directly on block.timestamp, making it susceptible to manipulation by a miner who can alter the perceived time.",
+            "potentialSecurityRisk": "Miners could manipulate the block timestamp to make it appear that the start time has passed prematurely or not passed at all, impacting the integrity of state transitions and possibly enabling unwanted actions or delays.",
+            "fixedCode": "return startTime[_stateId] <= (block.timestamp + TIME_TOLERANCE); // Using a TIME_TOLERANCE for safer comparisons."
+        }
+    ]
+}

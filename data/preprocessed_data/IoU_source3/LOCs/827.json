@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "balances[msg.sender] -= amount;"
+            ],
+            "vulnerabilityReason": "The contract performs subtraction on the sender's balance without checking if the balance is sufficient. If `amount` is greater than `balances[msg.sender]`, this will result in an integer underflow, which in earlier versions of Solidity would wrap around to a very large number, allowing unintended withdrawals. In Solidity 0.8.0 and later, it reverts the transaction, which although prevents the underflow, still indicates a vulnerability because of the lack of sufficient checks and potential denial of service risk.",
+            "potentialSecurityRisk": "An attacker could attempt to withdraw an amount greater than their current balance, which would either zero out their balance or potentially exploit the integer underflow to withdraw more than allowed, leading to loss of funds. In Solidity 0.8.0 and later, the revert would prevent the underflow, but it's still not a graceful error handling mechanism.",
+            "fixedCode": "require(balances[msg.sender] >= amount, 'Insufficient balance');\nbalances[msg.sender] -= amount;"
+        }
+    ]
+}

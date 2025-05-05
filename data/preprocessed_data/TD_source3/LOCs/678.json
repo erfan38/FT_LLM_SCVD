@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "94-94",
+            "vulnerableCode": [
+                "require(block.timestamp < pubEnd);"
+            ],
+            "vulnerabilityReason": "The buy() function uses block.timestamp to restrict token purchases to a certain timeframe. This allows miners to manipulate purchases by slightly adjusting the block timestamp.",
+            "potentialSecurityRisk": "Miners could manipulate the timestamp to buy tokens just before the intended sale period, thereby gaining an unfair advantage or blocking legitimate purchases.",
+            "fixedCode": "require(block.timestamp + TIME_TOLERANCE < pubEnd); // Introduce a buffer to reduce manipulation risk."
+        },
+        {
+            "vulnerableLines": "118-118",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "The withdrawPUB() function relies on block.timestamp to restrict withdrawals to after the public sale. This exposes the function to time manipulation by miners, potentially delaying withdrawals.",
+            "potentialSecurityRisk": "An attacker could delay the block timestamp, preventing users from withdrawing their funds when they should be allowed to do so, undermining user trust and contract integrity.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation risk."
+        },
+        {
+            "vulnerableLines": "149-149",
+            "vulnerableCode": [
+                "require(block.timestamp > pubEnd);"
+            ],
+            "vulnerabilityReason": "The EMGwithdraw() function also depends on block.timestamp for enabling withdrawals post-sale. This is similarly vulnerable to miner manipulation.",
+            "potentialSecurityRisk": "A manipulated timestamp could cause legitimate withdrawals to be delayed, impacting the financial operations of the contract and harming users who expect timely access to withdrawn funds.",
+            "fixedCode": "require(block.timestamp > pubEnd + TIME_TOLERANCE); // Introduce a buffer to mitigate manipulation risk."
+        }
+    ]
+}

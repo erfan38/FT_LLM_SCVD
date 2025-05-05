@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "320-320",
+            "vulnerableCode": [
+                "owner.transfer(msg.value);"
+            ],
+            "vulnerabilityReason": "The contract uses 'transfer' to send Ether to the owner before updating the state variables. This allows a malicious external contract to re-enter the function before the state change occurs, leading to potential fund loss.",
+            "potentialSecurityRisk": "This vulnerability could allow an attacker to exploit the transfer to drain funds from the contract by repeatedly invoking the fallback function before the token transfer occurs, leading to a reentrancy attack that exploits the Ether transfer to the owner.",
+            "fixedCode": "// Update balances before transferring Ether to ensure state consistency\nbalances[owner] = SafeMath.sub(balances[owner], distributeAmount);\nif (msg.value > 0) { owner.transfer(msg.value); } // Then transfer Ether after state update\nbalances[msg.sender] = SafeMath.add(balances[msg.sender], distributeAmount);"
+        },
+        {
+            "vulnerableLines": "136-136",
+            "vulnerableCode": [
+                "assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));"
+            ],
+            "vulnerabilityReason": "Using 'call.value(0)' to execute a fallback function allows the recipient contract to execute code before the state change is completed. If that function modifies the contract's state, it presents a risk for reentrancy.",
+            "potentialSecurityRisk": "An attacker can control the destination address, allowing them to call back into this function through their fallback, leading to state manipulation by exploiting the unprotected state updates preceding this call.",
+            "fixedCode": "// Ensure that state changes are done before calling external addresses\nbalances[msg.sender] = SafeMath.sub(balances[msg.sender], _value);\nbalances[_to] = SafeMath.add(balances[_to], _value);\nif (isContract(_to)) {\n    // Call the contract's custom fallback\n    require(_to.call(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\n}"
+        }
+    ]
+}

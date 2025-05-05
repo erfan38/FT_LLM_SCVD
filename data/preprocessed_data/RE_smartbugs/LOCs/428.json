@@ -1,0 +1,45 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "173-173",
+            "vulnerableCode": [
+                "sendFunds(beneficiary_, withdrawAmount, withdrawAmount);"
+            ],
+            "vulnerabilityReason": "The function 'sendFunds' is called after subtracting from the contract's state variables. If the recipient is a malicious contract, they could call back into the contract before the withdrawAmount is set to 0, allowing an attacker to withdraw additional funds potentially leading to a complete balance drain.",
+            "potentialSecurityRisk": "This could allow an attacker to exploit the contract by calling back into it during the external fund transfer, leading to multiple withdrawals before the amount is reset, effectively draining funds from the contract.",
+            "fixedCode": "require(withdrawAmount <= address(this).balance, \"Insufficient contract balance.\");\nlockedInBets -= withdrawAmount; // Move this before the sendFunds call\ndepositJackpotSize(withdrawAmount);\nsendFunds(beneficiary_, withdrawAmount, withdrawAmount);"
+        },
+        {
+            "vulnerableLines": "387-387",
+            "vulnerableCode": [
+                "sendFunds(gambler, diceWin + jackpotWin == 0 ? 1 wei : diceWin + jackpotWin, diceWin);"
+            ],
+            "vulnerabilityReason": "The 'sendFunds' call occurs after updating the jackpot size and locked in bets, but before setting the bet's amount to 0. This can create a reentrancy scenario that allows the gambler to exploit the updated state of the contract to withdraw more funds than intended.",
+            "potentialSecurityRisk": "The attacker could exploit the state update to execute a reentrancy attack whereby they'd call back into the function to withdraw even more funds after their initial call to 'sendFunds'.",
+            "fixedCode": "require(diceWin + jackpotWin <= address(this).balance, \"Insufficient funds to pay win.\");\nbet.amount = 0; // Set amount to zero before calling sendFunds\nsendFunds(gambler, diceWin + jackpotWin == 0 ? 1 wei : diceWin + jackpotWin, diceWin);"
+        },
+        {
+            "vulnerableLines": "416-416",
+            "vulnerableCode": [
+                "sendFunds(bet.gambler, amount, amount);"
+            ],
+            "vulnerabilityReason": "This sends Ether to the gambler after potentially modifying contract state variables. If the gambler is a contract, it can call back into the current context and manipulate the state before the 'amount' variable is set to zero.",
+            "potentialSecurityRisk": "The contract's state can be exploited for reentrancy attacks, enabling the attacker to drain funds by executing multiple withdrawals before the amount is scheduled to reset.",
+            "fixedCode": "require(amount <= address(this).balance, \"Not enough funds to withdraw.\");\nbet.amount = 0; // Clear the bet amount before sending funds\nsendFunds(bet.gambler, amount, amount);"
+        },
+        {
+            "vulnerableLines": "437-441",
+            "vulnerableCode": [
+                "function sendFunds(address beneficiary, uint amount, uint successLogAmount) private {",
+                "    if (beneficiary.call.value(amount)()) {",
+                "        emit Payment(beneficiary, successLogAmount);",
+                "    } else {",
+                "        emit FailedPayment(beneficiary, amount);",
+                "    }"
+            ],
+            "vulnerabilityReason": "The 'sendFunds' function uses call.value(), placing the external call before ensuring that state updates are guaranteed, allowing any recipient to re-enter and cause inconsistencies in contract state.",
+            "potentialSecurityRisk": "A malicious contract acting as the beneficiary could make recursive calls to its own fallback function, exploiting the incomplete state of the contract. This leads to the potential draining of funds.",
+            "fixedCode": "function sendFunds(address beneficiary, uint amount, uint successLogAmount) private {\n    require(amount <= address(this).balance, \"Not enough balance to send funds.\"); // Check balance before calling\n    if (beneficiary.call.value(amount)()) {\n        emit Payment(beneficiary, successLogAmount);\n    } else {\n        emit FailedPayment(beneficiary, amount);\n    }\n}"
+        }
+    ]
+}

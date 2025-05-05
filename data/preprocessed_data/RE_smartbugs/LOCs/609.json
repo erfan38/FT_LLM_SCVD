@@ -1,0 +1,40 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "434-434",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "This line uses call.value() to send Ether to another contract without updating any state variables first. If the receiving contract has a fallback function that calls back into this contract, it can exploit the state not being updated, leading to reentrancy.",
+            "potentialSecurityRisk": "An attacker could create a malicious contract that reenters this function, withdrawing more Ether than intended before the state updates are applied, potentially draining the contract's funds.",
+            "fixedCode": "// Ensure the state is updated before making the external call\n// Update state variable first\nuint256 _remainingCom = _com; // Ensure we track the remaining commission for the event\nif (_remainingCom > 0){\n    bool success = address(Jekyll_Island_Inc).call.value(_remainingCom)(bytes4(keccak256(\"deposit()\")));\n    require(success, \"Transfer failed\");\n}"
+        },
+        {
+            "vulnerableLines": "534-534",
+            "vulnerableCode": [
+                "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this external call is made before updating any local state. A reentrant call from the receiving contract can lead to multiple calls executing before the state reflects how much Ether has already been sent.",
+            "potentialSecurityRisk": "A reentrant contract can manipulate the state during the execution, allowing the attacker to withdraw the funds multiple times without the state being correctly modified to reflect each withdrawal.",
+            "fixedCode": "// Ensure the state updating occurs before sending funds\nif (_com > 0){\n    bool success = address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\")));\n    require(success, \"Transfer failed\");\n}"
+        },
+        {
+            "vulnerableLines": "604-604",
+            "vulnerableCode": [
+                "_addr.transfer(_bonus);"
+            ],
+            "vulnerabilityReason": "Using transfer() for sending Ether directly without state updates can allow reentrancy risks when external calls are made afterwards. If the _addr is a contract with a fallback that calls back into the contract, this could lead to unintended Ether withdrawals.",
+            "potentialSecurityRisk": "An attacking contract can cause its fallback function to be called when receiving Ether, which could execute further withdrawals while the original function has not yet reflected the current state, thereby draining funds.",
+            "fixedCode": "// Update balance state before sending funds if not safe\nif (customerBalance[msg.sender] < _bonus) {\n    revert(\"Insufficient funds.\");\n}\ncustombreBalance[msg.sender] = customerBalance[msg.sender].sub(_bonus);\n_addr.transfer(_bonus);"
+        },
+        {
+            "vulnerableLines": "419-419",
+            "vulnerableCode": [
+                "(bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXaddrFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);"
+            ],
+            "vulnerabilityReason": "This line uses call.value() to send Ether to the external PlayerBook contract before any state-related changes are done in this contract. If PlayerBook's function allows for manipulation, it can trigger reentrancy.",
+            "potentialSecurityRisk": "The external call facilitates the possibility of an attacker manipulating the contract’s state by calling back and causing multiple registrations or ether transfers, leading to a possible loss of funds.",
+            "fixedCode": "// Ensure updates to state prior to external calls\nuint256 senderBalance = customerBalance[msg.sender];\nrequire(senderBalance >= msg.value, \"Insufficient funds\");\ncustomerBalance[msg.sender] = senderBalance.sub(msg.value);\n(bool _isNewPlayer, uint256 _affID) = PlayerBook.registerNameXaddrFromDapp.value(msg.value)(msg.sender, _name, _affCode, _all);"
+        }
+    ]
+}

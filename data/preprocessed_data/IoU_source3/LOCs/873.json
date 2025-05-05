@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "uint256 stage = block.timestamp - lockStartTime;"
+            ],
+            "vulnerabilityReason": "The calculation 'block.timestamp - lockStartTime' directly subtracts 'lockStartTime' from 'block.timestamp' without checking if 'lockStartTime' is greater than 'block.timestamp'. This can result in an integer underflow, leading to a very large value for 'stage' if 'lockStartTime' is in the future compared to the current block timestamp.",
+            "potentialSecurityRisk": "An attacker could exploit this by providing a future 'lockStartTime', causing the 'stage' variable to produce an unexpectedly large value. This could break the vesting logic, allowing users to mistakenly believe they have reached a certain stage in their vesting schedule, potentially leading to unauthorized access to funds or rewards.",
+            "fixedCode": "require(lockStartTime <= block.timestamp, 'lockStartTime must not be in the future');\nuint256 stage = block.timestamp - lockStartTime;"
+        }
+    ]
+}

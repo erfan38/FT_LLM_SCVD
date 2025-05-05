@@ -1,0 +1,15 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "31-33",
+            "vulnerableCode": [
+                "modifier notTimeLocked() {",
+                "if (now < timelockEndTime && msg.sender != addressSCICO && msg.sender != addressSCEscrow) {",
+                "error('notTimeLocked: Timelock still active. Function is yet unavailable.');"
+            ],
+            "vulnerabilityReason": "The 'notTimeLocked' modifier uses 'now', which is equivalent to 'block.timestamp'. This makes the contract vulnerable to manipulation because miners can alter block timestamps within a certain range, affecting access control to critical functions.",
+            "potentialSecurityRisk": "A miner could manipulate the timestamp to either bypass the time lock by mining a block at the right time or trigger its expiration earlier than intended, potentially executing functions that should have been restricted.",
+            "fixedCode": "modifier notTimeLocked() { if (block.timestamp < timelockEndTime && msg.sender != addressSCICO && msg.sender != addressSCEscrow) { error('notTimeLocked: Timelock still active. Function is yet unavailable.'); } else { _; }}"
+        }
+    ]
+}

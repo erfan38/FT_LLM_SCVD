@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "14-16",
+            "vulnerableCode": [
+                "     require(balances[msg.sender] - _value >= 0);",
+                "     balances[msg.sender] -= _value;"
+            ],
+            "vulnerabilityReason": "The require statement checks for underflow by ensuring that the balance after subtraction is non-negative. However, this does not prevent underflow, because if balances[msg.sender] is less than _value, the subtraction will cause the balance to wrap around to a very large number due to the unsigned integer nature of the `balances` mapping.",
+            "potentialSecurityRisk": "An attacker could exploit this by having a negative balance (due to underflow) and transferring more tokens than they should, effectively gaining tokens without sufficient balance, compromising the integrity of the token system.",
+            "fixedCode": "require(balances[msg.sender] >= _value, \"Insufficient balance\"); // Prevents underflow\nbalances[msg.sender] -= _value; // Safe subtraction"
+        }
+    ]
+}

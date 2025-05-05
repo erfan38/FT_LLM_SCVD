@@ -1,0 +1,24 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "230-231",
+            "vulnerableCode": [
+                "tokens[0][msg.sender] = SafeMath.sub(tokens[0][msg.sender], amount);",
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The function uses 'call.value()' to send Ether after updating the user's balance. This order allows an attacker to make a reentrant call before the state change is complete, enabling multiple withdrawals before the contract registers the deduction.",
+            "potentialSecurityRisk": "A malicious contract could exploit this vulnerability to withdraw funds repeatedly, leading to a potential total drain of the contract's Ether reserves.",
+            "fixedCode": "tokens[0][msg.sender] = SafeMath.sub(tokens[0][msg.sender], amount);\nrequire(msg.sender.call.value(amount)(), \"Transfer failed\");"
+        },
+        {
+            "vulnerableLines": "282-283",
+            "vulnerableCode": [
+                "tokens[token][msg.sender] = SafeMath.sub(tokens[token][msg.sender], amount);",
+                "if (!IERC20(token).transfer(msg.sender, amount)) throw;"
+            ],
+            "vulnerabilityReason": "The external call to 'transfer()' is made after updating the balance in the contract. This means that if an attacker can call this function recursively, they could withdraw more than they are entitled to by continuously triggering the function before the balance updates are completed.",
+            "potentialSecurityRisk": "An attacker could provoke a reentrant call, withdrawing multiple times before the state updates, potentially allowing them to take more tokens than they should have access to.",
+            "fixedCode": "tokens[token][msg.sender] = SafeMath.sub(tokens[token][msg.sender], amount);\nrequire(IERC20(token).transfer(msg.sender, amount), \"Transfer failed\");"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "12-12",
+            "vulnerableCode": [
+                "require(block.timestamp > 1601510400 && msg.sender == owner);"
+            ],
+            "vulnerabilityReason": "The use of block.timestamp here allows miners to manipulate the time reported for their own profit by mining a block with a timestamp close to or beyond the specified value, which is a critical operation for refunds.",
+            "potentialSecurityRisk": "A malicious miner could manipulate the block timestamp to either enable or disable access to the refundTokens function, potentially allowing unauthorized token refunds or preventing legitimate ones.",
+            "fixedCode": "require(now > 1601510400 + TIME_TOLERANCE && msg.sender == owner); // Using a tolerance value to account for miner manipulation."
+        }
+    ]
+}

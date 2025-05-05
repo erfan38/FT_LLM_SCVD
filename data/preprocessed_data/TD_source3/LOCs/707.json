@@ -1,0 +1,31 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "62-62",
+            "vulnerableCode": [
+                "releaseTime = block.timestamp + interval;"
+            ],
+            "vulnerabilityReason": "The 'releaseTime' is set using 'block.timestamp', which can be manipulated by miners to delay or expedite the release of tokens.",
+            "potentialSecurityRisk": "Miners could manipulate block timestamps to unjustly accelerate or delay the release of tokens, which may affect fairness and potentially exploit contract logic regarding token distribution.",
+            "fixedCode": "releaseTime = block.timestamp + interval; //Consider using block.number or adding a TIME_TOLERANCE to mitigate miner manipulation."
+        },
+        {
+            "vulnerableLines": "72-72",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "This check relies directly on 'block.timestamp' to enforce token release timing, which can be manipulated by miners.",
+            "potentialSecurityRisk": "Miners could release tokens early or late by adjusting the timestamp, which could lead to loss of trust and financial exploitation.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Increments the required timestamp with a slight buffer to mitigate the risk of manipulation."
+        },
+        {
+            "vulnerableLines": "83-83",
+            "vulnerableCode": [
+                "require(block.timestamp >= releaseTime);"
+            ],
+            "vulnerabilityReason": "Similar to the previous vulnerability, this line checks if block.timestamp is greater than or equal to releaseTime to allow withdrawal, which is subject to manipulation.",
+            "potentialSecurityRisk": "An attacker could exploit manipulated timestamps to withdraw funds earlier than intended, potentially leading to financial loss for users or the contract owner.",
+            "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Introduce a buffer like TIME_TOLERANCE to counteract potential timestamp manipulations."
+        }
+    ]
+}

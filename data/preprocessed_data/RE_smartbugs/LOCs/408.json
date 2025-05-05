@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "74-74",
+            "vulnerableCode": [
+                "if (!msg.sender.call.value(amount)()) throw;"
+            ],
+            "vulnerabilityReason": "The contract performs an external call using `call.value()`, which allows the recipient's fallback function to execute potentially malicious code. This could enable a malicious contract to call back into the function before the state is updated, allowing the attacker to withdraw more funds than they are entitled to.",
+            "potentialSecurityRisk": "This situation allows for reentrancy attacks, where an attacker could repeatedly invoke the withdraw function, effectively draining the contract's funds before the original transaction has completed and the user's balance updated.",
+            "fixedCode": "require(amount <= tokens[0][msg.sender], 'Insufficient balance');\ntokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount);\n(bool success, ) = msg.sender.call.value(amount)('');\nrequire(success, 'Transfer failed');\nWithdraw(0, msg.sender, amount, tokens[0][msg.sender]);"
+        }
+    ]
+}

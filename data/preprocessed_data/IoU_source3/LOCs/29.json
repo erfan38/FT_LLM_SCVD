@@ -1,0 +1,22 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "29-29",
+            "vulnerableCode": [
+                "balances[msg.sender] -= _value;"
+            ],
+            "vulnerabilityReason": "The code performs a subtraction operation on `balances[msg.sender]` without checking if the result would be negative. If `_value` exceeds `balances[msg.sender]`, it will result in an underflow, wrapping around to a large positive number instead of resulting in zero or a negative value. This could incorrectly increase the total supply of tokens.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability to create tokens out of thin air, effectively increasing the total supply and potentially causing a loss of funds or devaluing other holders' tokens.",
+            "fixedCode": "require(balances[msg.sender] >= _value, \"Insufficient balance\");\nbalances[msg.sender] -= _value;"
+        },
+        {
+            "vulnerableLines": "41-41",
+            "vulnerableCode": [
+                "balances[_from] -= _value;"
+            ],
+            "vulnerabilityReason": "Similar to the previous issue, this line performs a subtraction on `balances[_from]` without ensuring that it does not lead to an underflow. If `_value` is greater than `balances[_from]`, this operation will wrap around and produce a large positive value instead.",
+            "potentialSecurityRisk": "This could allow someone to transfer more tokens than they actually have, potentially leading to unauthorized transfers and creating an opportunity for abuse of the token system.",
+            "fixedCode": "require(balances[_from] >= _value, \"Balance too low\");\nbalances[_from] -= _value;"
+        }
+    ]
+}

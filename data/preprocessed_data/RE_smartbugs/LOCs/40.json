@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "152-152",
+            "vulnerableCode": [
+                "require(_target.call.value(_value)(_data), \"BW: call to target failed\");"
+            ],
+            "vulnerabilityReason": "The use of 'call.value()' directly to transfer Ether allows the receiving contract to invoke a fallback function, which can call back into the original contract. Since the state is not updated before this call, an attacker can exploit this vulnerability for reentrancy attacks.",
+            "potentialSecurityRisk": "An attacker can create a malicious contract that receives the Ether and then calls back into the 'invoke()' function multiple times before the state change occurs, allowing them to withdraw more Ether than they should be able to access. This can lead to complete loss of funds from the contract.",
+            "fixedCode": "// Use Checks-Effects-Interactions pattern to mitigate reentrancy: \n// Store the amount to send and perform state updates before the external call.\nuint256 amountToSend = _value;\n// Perform the external call AFTER state updates to prevent reentrancy\nrequire(_target.call.value(amountToSend)(_data), \"BW: call to target failed\");"
+        }
+    ]
+}

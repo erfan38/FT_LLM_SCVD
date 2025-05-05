@@ -1,0 +1,44 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "195-195",
+            "vulnerableCode": [
+                "require(msg.sender.send(deals[msg.sender].sumEther));"
+            ],
+            "vulnerabilityReason": "The contract directly sends ether using 'send' before updating any state, which can allow an attacker to call this function recursively and withdraw funds repeatedly before the state is updated.",
+            "potentialSecurityRisk": "An attacker could exploit this by calling the function multiple times before the balance is updated, potentially draining the contract funds allocated for this withdrawal.",
+            "fixedCode": "require(deals[msg.sender].sumEther > 0, 'No ether to withdraw'); uint256 withdrawalAmount = deals[msg.sender].sumEther; deals[msg.sender].sumEther = 0; require(msg.sender.send(withdrawalAmount), 'Transfer failed');"
+        },
+        {
+            "vulnerableLines": "198-200",
+            "vulnerableCode": [
+                "require(projectWallet.send(ethForMilestone+postDisputeEth));",
+                "ethForMilestone = 0;",
+                "postDisputeEth = 0;"
+            ],
+            "vulnerabilityReason": "The operator can withdraw funds without checking the state of 'ethForMilestone' and 'postDisputeEth' beforehand, allowing for potential reentrancy if not managed properly.",
+            "potentialSecurityRisk": "Funds can be drained if an attacker manages to call 'withdrawEther()' before these variables are reset, resulting in excess funds being sent out of the contract.",
+            "fixedCode": "uint256 totalWithdrawal = ethForMilestone + postDisputeEth; require(totalWithdrawal > 0, 'No funds to withdraw'); require(projectWallet.send(totalWithdrawal), 'Transfer failed'); ethForMilestone = 0; postDisputeEth = 0;"
+        },
+        {
+            "vulnerableLines": "203-205",
+            "vulnerableCode": [
+                "require(juryOnlineWallet.send(etherAllowance));",
+                "require(swapper.call.value(jotAllowance)(abi.encodeWithSignature(\"swapMe()\")));",
+                "etherAllowance = 0;"
+            ],
+            "vulnerabilityReason": "The function sends funds directly to the jury wallet, and the second call can be exploited in a similar manner, leading to funds being sent out before the state is updated.",
+            "potentialSecurityRisk": "An attacker could recursively call 'withdrawEther()' or another function before the state resets, leading to an excess withdrawal or loss of funds set aside for the jury.",
+            "fixedCode": "uint256 allowance = etherAllowance; require(allowance > 0, 'No funds to withdraw'); require(juryOnlineWallet.send(allowance), 'Transfer failed'); etherAllowance = 0; require(swapper.call.value(jotAllowance)(abi.encodeWithSignature(\"swapMe()\")));"
+        },
+        {
+            "vulnerableLines": "209-209",
+            "vulnerableCode": [
+                "require(msg.sender.send(deals[msg.sender].sumEther - deals[msg.sender].etherUsed));"
+            ],
+            "vulnerabilityReason": "Directly sending ether before ensuring all state variables related to the deal are reset creates the risk for a recursive withdrawal before updates are made.",
+            "potentialSecurityRisk": "An attacker could exploit the situation by withdrawing more than intended due to the lack of proper state management before the ether is sent.",
+            "fixedCode": "uint256 withdrawalAmount = deals[msg.sender].sumEther - deals[msg.sender].etherUsed; require(withdrawalAmount > 0, 'No ether available for withdrawal'); deals[msg.sender].sumEther = 0; require(msg.sender.send(withdrawalAmount), 'Transfer failed');"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "11-12",
+            "vulnerableCode": [
+                "uint256 timePassed = block.timestamp - investmentTimes[msg.sender];",
+                "uint256 interest = (investments[msg.sender] * timePassed * 5) / (100 * 365 days);"
+            ],
+            "vulnerabilityReason": "Using block.timestamp to calculate the time passed since an investment creates a vulnerability as miners can manipulate the timestamp to influence the calculated interest.",
+            "potentialSecurityRisk": "Miners could inflate the interest amount by manipulating the block timestamp, resulting in users receiving more funds than intended, undermining the financial integrity of the contract.",
+            "fixedCode": "uint256 currentTime = block.timestamp; \nuint256 timePassed = currentTime - investmentTimes[msg.sender];\nuint256 interest = (investments[msg.sender] * timePassed * 5) / (100 * 365 days); // Safeguarding against manipulation by separating the current time from interest calculation"
+        }
+    ]
+}

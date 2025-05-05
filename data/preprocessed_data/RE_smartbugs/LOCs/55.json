@@ -1,0 +1,34 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "453-453",
+            "vulnerableCode": [
+                "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+            ],
+            "vulnerabilityReason": "The function transfers ether using `call.value()` before updating state variables. This means an attacker could re-enter the contract before `contractStage` is updated to 3, leading to potential multiple withdrawals before the state is adjusted.",
+            "potentialSecurityRisk": "An attacker could exploit this vulnerability by calling back into `submitPool()` recursively, causing the contract to send ether multiple times unintentionally and potentially drain its balance.",
+            "fixedCode": "finalBalance = this.balance; require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))()); contractStage = 3; PoolSubmitted(receiverAddress, amountInWei);"
+        },
+        {
+            "vulnerableLines": "191-192",
+            "vulnerableCode": [
+                "c.balance = 0;",
+                "msg.sender.transfer(amountToTransfer);"
+            ],
+            "vulnerabilityReason": "Ether is sent to `msg.sender` before the contributor's balance is reset to 0. This sequence can lead to reentrancy, allowing an attacker to withdraw more funds before the balance is updated.",
+            "potentialSecurityRisk": "An attacker could re-enter `withdraw()` while it is executing, allowing them to withdraw more than their actual balance before it is reset to zero, leading to loss of funds for the contract.",
+            "fixedCode": "uint amountToTransfer = c.balance; c.balance = 0; msg.sender.transfer(amountToTransfer); ContributorBalanceChanged(msg.sender, 0);"
+        },
+        {
+            "vulnerableLines": "222-224",
+            "vulnerableCode": [
+                "c.ethRefund = ethRefundAmount.length;",
+                "receiver.transfer(ethAmount);",
+                "EthRefunded(receiver,ethAmount);"
+            ],
+            "vulnerabilityReason": "The contract updates the `ethRefund` balance only after transferring funds. If an attacker exploits this and re-enters the function before the state changes, they could withdraw additional funds incorrectly.",
+            "potentialSecurityRisk": "This can lead to multiple unauthorized refunds being initiated from a single withdrawal request, allowing an attacker to withdraw more funds than intended, which compromises the integrity of the refund process.",
+            "fixedCode": "uint ethAmount = ...; c.ethRefund = ethRefundAmount.length; if (ethAmount > 0) { receiver.transfer(ethAmount); EthRefunded(receiver,ethAmount); }"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "vulnerabilities": [
+        {
+            "vulnerableLines": "6-6",
+            "vulnerableCode": [
+                "votingPower[voter] = tokens * POWER_MULTIPLIER;"
+            ],
+            "vulnerabilityReason": "The `calculateVotingPower` function multiplies `tokens` by `POWER_MULTIPLIER` without checking if the result exceeds the maximum value of `uint256`. In Solidity versions prior to 0.8.0, this could lead to an overflow if `tokens` is sufficiently large, causing the resulting `votingPower` to wrap around and yield an incorrect value.",
+            "potentialSecurityRisk": "This vulnerability could allow manipulation of the voting power calculations, leading to inaccurate results when determining the outcome of votes. If voting power is incorrectly calculated due to overflow, it can disrupt the democratic process intended by the voting system.",
+            "fixedCode": "require(tokens <= type(uint256).max / POWER_MULTIPLIER, \"Overflow detected\");\nvotingPower[voter] = tokens * POWER_MULTIPLIER;"
+        }
+    ]
+}
