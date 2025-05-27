@@ -10,7 +10,7 @@
             "fixedCode": "(bool success, ) = receiverAddress.call{value: amountInWei, gas: msg.gas - 5000}(); require(success, \"Transfer failed\");"
         },
         {
-            "vulnerableLines": "192-191",
+            "vulnerableLines": "192-193",
             "vulnerableCode": [
                 "msg.sender.transfer(amountToTransfer);",
                 "c.balance = 0;"
@@ -20,9 +20,10 @@
             "fixedCode": "uint amountToTransfer = c.balance; c.balance = 0; msg.sender.transfer(amountToTransfer);"
         },
         {
-            "vulnerableLines": "225-225",
+            "vulnerableLines": "224-225",
             "vulnerableCode": [
-                "receiver.transfer(ethAmount);"
+                "receiver.transfer(ethAmount);",
+                "EthRefunded(receiver,ethAmount);"
             ],
             "vulnerabilityReason": "The transfer of ether occurs before updating any state related to the contributor's balance or refund claims, which allows for a reentrancy exploit before internal state is finalized.",
             "potentialSecurityRisk": "Similar to other transfer cases, an attacker could control the receiving contract allowing them to trigger further calls back into the PresalePool contract, thus siphoning off more ether than allowed based on the previous state.",

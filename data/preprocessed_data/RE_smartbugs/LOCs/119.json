@@ -21,7 +21,7 @@
         {
             "vulnerableLines": "246-246",
             "vulnerableCode": [
-                "_game.sendPrize(2300);"
+                "if (!_game.isPaid()) _game.sendPrize(2300);"
             ],
             "vulnerabilityReason": "Calling an external contract function '_game.sendPrize(2300)' before updating the game status to 'ended' allows for a reentrant call from the recipient contract, potentially allowing for repeated withdrawals before status is updated.",
             "potentialSecurityRisk": "This vulnerability can allow an attacker to exploit the prize sending mechanism, calling back into the contract and withdrawing funds multiple times before the game state is updated, leading to a loss of funds.",

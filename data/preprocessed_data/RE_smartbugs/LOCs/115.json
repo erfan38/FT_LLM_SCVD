@@ -15,7 +15,8 @@
             "vulnerableLines": "256-258",
             "vulnerableCode": [
                 "delete balances[investor];",
-                "if(!(investor.call.value(amount)())) throw;"
+                "if(!(investor.call.value(amount)())) throw;",
+                "Refunded(investor, amount);"
             ],
             "vulnerabilityReason": "The balance of the investor is deleted after the external call to transfer Ether using `call.value()`, allowing an attacker to re-enter the contract and claim funds even after their balance has been deleted.",
             "potentialSecurityRisk": "This vulnerability allows an attacker to execute recursive calls, withdrawing funds multiple times before the investor's balance is fully processed and cleared, potentially draining all the funds from the contract.",

@@ -14,7 +14,7 @@
             "fixedCode": "]"
         },
         {
-            "vulnerableLines": "259-259",
+            "vulnerableLines": "258-258",
             "vulnerableCode": [
                 "FSBook.getPlayerAddr(_pID).transfer(_totalInvestment);"
             ],

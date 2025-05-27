@@ -1,0 +1,2986 @@
+[
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "188-194",
+    "vulnerableCode": [
+      "mapping(address => uint) balancesSecondaryFinal; // Changed from balances_intou26 to balancesSecondaryFinal",
+      "",
+      "function transferSecondaryFinal(address _to, uint _value) public returns (bool) { // Changed from transfer_intou26",
+      "    require(balancesSecondaryFinal[msg.sender] - _value >= 0);  ",
+      "    balancesSecondaryFinal[msg.sender] -= _value;  ",
+      "    balancesSecondaryFinal[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8; \n2: \n3: contract Ownable\n4: {\n5:   mapping(address => uin"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "223-229",
+    "vulnerableCode": [
+      "mapping(address => uint) balancesFinal; // Changed from balances_intou38 to balancesFinal",
+      "",
+      "function transferFinal(address _to, uint _value) public returns (bool) { // Changed from transfer_intou38",
+      "    require(balancesFinal[msg.sender] - _value >= 0);  ",
+      "    balancesFinal[msg.sender] -= _value;  ",
+      "    balancesFinal[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8; \n2: \n3: contract Ownable\n4: {\n5:   mapping(address => uin"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "160-161",
+    "vulnerableCode": [
+      "require(block.timestamp >= startDatetime && block.timestamp <= endDatetime);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.11;\n2: \n3: contract SafeMath {\n4:    \n5: \n6:   function safeMul("
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "6-13",
+    "vulnerableCode": [
+      "  mapping(address => uint) userBalance_33;",
+      "function withdrawBalance_33() public{",
+      "        (bool success,)= msg.sender.call.value(userBalance_33[msg.sender])(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        userBalance_33[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "20-27",
+    "vulnerableCode": [
+      "address payable lastPlayer_2;",
+      "      uint jackpot_2;",
+      "      function buyTicket_2() public{",
+      "        if (!(lastPlayer_2.send(jackpot_2)))",
+      "        revert();",
+      "      lastPlayer_2 = msg.sender;",
+      "      jackpot_2    = address(this).balance;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "34-40",
+    "vulnerableCode": [
+      "  mapping(address => uint) redeemableEther_11;",
+      "function claimReward_11() public {        ",
+      "        require(redeemableEther_11[msg.sender] > 0);",
+      "        uint transferValue_11 = redeemableEther_11[msg.sender];",
+      "        msg.sender.transfer(transferValue_11);   ",
+      "        redeemableEther_11[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "42-47",
+    "vulnerableCode": [
+      "  mapping(address => uint) balances_1;",
+      "    function withdraw_balances_1 () public {",
+      "       (bool success,) =msg.sender.call.value(balances_1[msg.sender ])(\"\");",
+      "       if (success)",
+      "          balances_1[msg.sender] = 0;",
+      "      }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "66-72",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_17;",
+      "function withdrawFunds_17 (uint256 _weiToWithdraw) public {",
+      "        require(balances_17[msg.sender] >= _weiToWithdraw);",
+      "        (bool success,)=msg.sender.call.value(_weiToWithdraw)(\"\");",
+      "        require(success);  ",
+      "        balances_17[msg.sender] -= _weiToWithdraw;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "78-85",
+    "vulnerableCode": [
+      "address payable lastPlayer_37;",
+      "      uint jackpot_37;",
+      "      function buyTicket_37() public{",
+      "        if (!(lastPlayer_37.send(jackpot_37)))",
+      "        revert();",
+      "      lastPlayer_37 = msg.sender;",
+      "      jackpot_37    = address(this).balance;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "93-99",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_3;",
+      "function withdrawFunds_3 (uint256 _weiToWithdraw) public {",
+      "        require(balances_3[msg.sender] >= _weiToWithdraw);",
+      "    (bool success,)= msg.sender.call.value(_weiToWithdraw)(\"\");",
+      "        require(success);  ",
+      "        balances_3[msg.sender] -= _weiToWithdraw;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "106-114",
+    "vulnerableCode": [
+      "address payable lastPlayer_9;",
+      "      uint jackpot_9;",
+      "      function buyTicket_9() public{",
+      "        (bool success,) = lastPlayer_9.call.value(jackpot_9)(\"\");",
+      "        if (!success)",
+      "            revert();",
+      "      lastPlayer_9 = msg.sender;",
+      "      jackpot_9    = address(this).balance;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "133-139",
+    "vulnerableCode": [
+      "mapping(address => uint) userBalance_19;",
+      "function withdrawBalance_19() public{",
+      "        if( ! (msg.sender.send(userBalance_19[msg.sender]) ) ){",
+      "            revert();",
+      "        }",
+      "        userBalance_19[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "144-151",
+    "vulnerableCode": [
+      "mapping(address => uint) userBalance_26;",
+      "function withdrawBalance_26() public{",
+      "        (bool success,)= msg.sender.call.value(userBalance_26[msg.sender])(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        userBalance_26[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "156-163",
+    "vulnerableCode": [
+      "bool callcount_20 = true;",
+      "function userbalances_20() public{",
+      "        require(callcount_20);",
+      "        if( ! (msg.sender.send(1 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        callcount_20 = false;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "168-174",
+    "vulnerableCode": [
+      "mapping(address => uint) redeemableEther_32;",
+      "function claimReward_32() public {        ",
+      "        require(redeemableEther_32[msg.sender] > 0);",
+      "        uint transferValue_32 = redeemableEther_32[msg.sender];",
+      "        msg.sender.transfer(transferValue_32);   ",
+      "        redeemableEther_32[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "201-206",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_38;",
+      "function withdrawFunds_38 (uint256 _weiToWithdraw) public {",
+      "        require(balances_38[msg.sender] >= _weiToWithdraw);",
+      "        require(msg.sender.send(_weiToWithdraw));  ",
+      "        balances_38[msg.sender] -= _weiToWithdraw;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "225-231",
+    "vulnerableCode": [
+      "mapping(address => uint) redeemableEther_4;",
+      "function claimReward_4() public {        ",
+      "        require(redeemableEther_4[msg.sender] > 0);",
+      "        uint transferValue_4 = redeemableEther_4[msg.sender];",
+      "        msg.sender.transfer(transferValue_4);   ",
+      "        redeemableEther_4[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "374-382",
+    "vulnerableCode": [
+      "  bool callcount_13 = true;",
+      "function userbalances_13() public{",
+      "        require(callcount_13);",
+      "        (bool success,)=msg.sender.call.value(1 ether)(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        callcount_13 = false;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "406-412",
+    "vulnerableCode": [
+      "mapping(address => uint) redeemableEther_39;",
+      "function claimReward_39() public {        ",
+      "        require(redeemableEther_39[msg.sender] > 0);",
+      "        uint transferValue_39 = redeemableEther_39[msg.sender];",
+      "        msg.sender.transfer(transferValue_39);   ",
+      "        redeemableEther_39[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "420-423",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_36;",
+      "    function withdraw_balances_36 () public {",
+      "       if (msg.sender.send(balances_36[msg.sender ]))",
+      "          balances_36[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "431-437",
+    "vulnerableCode": [
+      "uint256 counter_35 =0;",
+      "function callcheck_35() public{",
+      "        require(counter_35<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counter_35 += 1;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "445-451",
+    "vulnerableCode": [
+      "mapping(address => uint) userBalance_40;",
+      "function withdrawBalance_40() public{",
+      "        (bool success,)=msg.sender.call.value(userBalance_40[msg.sender])(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        userBalance_40[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: contract EventMetadata {\n5: \n6:   mapping(address => uint) us"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1017-1017",
+    "vulnerableCode": [
+      "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: contract MC2long is modularLong {\n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "579-579",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: contract MC2long is modularLong {\n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1151-1151",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: contract MC2long is modularLong {\n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "29-29",
+    "vulnerableCode": [
+      "  uint256 checkingv_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "31-31",
+    "vulnerableCode": [
+      "  uint256 checkingv_1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "58-62",
+    "vulnerableCode": [
+      "address winner_19;",
+      "function play_19(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_19 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "123-126",
+    "vulnerableCode": [
+      "address winner_38;",
+      "function play_38(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_38 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "146-150",
+    "vulnerableCode": [
+      "address winner_7;",
+      "function play_7(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_7 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "156-160",
+    "vulnerableCode": [
+      "address winner_23;",
+      "function play_23(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_23 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "168-171",
+    "vulnerableCode": [
+      "address winner_14;",
+      "function play_14(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_14 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "179-182",
+    "vulnerableCode": [
+      "address winner_30;",
+      "function play_30(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_30 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "204-208",
+    "vulnerableCode": [
+      "address winner_39;",
+      "function play_39(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_39 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "217-221",
+    "vulnerableCode": [
+      "  address winner_3;",
+      "function play_3(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_3 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "224-228",
+    "vulnerableCode": [
+      "  uint256 checkingv_2 = block.timestamp;",
+      "  event SetAddress(string account, string btcAddress, address ethAddress);",
+      "  uint256 checkingv_3 = block.timestamp;",
+      "  event UpdateAddress(string from, string to);",
+      "  uint256 checkingv_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "249-253",
+    "vulnerableCode": [
+      "address winner_35;",
+      "function play_35(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_35 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "300-304",
+    "vulnerableCode": [
+      "address winner_27;",
+      "function play_27(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_27 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.8;\n2: \n3: contract Ownable\n4: {\n5:   function checking_1() view "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "30-30",
+    "vulnerableCode": [
+      "require(_startTime >= now);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Crowdsale {\n2:     using SafeMath for uint256;\n3: \n4:      \n5:     HoldToken"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "37-37",
+    "vulnerableCode": [
+      "endTime = _endTime;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Crowdsale {\n2:     using SafeMath for uint256;\n3: \n4:      \n5:     HoldToken"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "270-272",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:     \n4:     \n5:     \n6:     \n7: contract FomoXP is modularShort "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "278-280",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:     \n4:     \n5:     \n6:     \n7: contract FomoXP is modularShort "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1217-1217",
+    "vulnerableCode": [
+      "if (!address(admin).call.value(_com)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:     \n4:     \n5:     \n6:     \n7: contract FomoXP is modularShort "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1251-1251",
+    "vulnerableCode": [
+      "_eth = _eth.sub(((_eth.mul(25)) / 100).add((_eth.mul(fees_[_team].p3d)) / 100));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:     \n4:     \n5:     \n6:     \n7: contract FomoXP is modularShort "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "294-299",
+    "vulnerableCode": [
+      "        if (msg.sender.call.value(withdrawAmount)()) {",
+      "            return true;",
+      "        } else {",
+      "            playerPendingWithdrawals[msg.sender] = withdrawAmount;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.22;\n2: \n3: pragma solidity ^0.4.22;\n4: \n5: \n6: \n7: \n8: library SafeMath {\n9"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "414-414",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "443-443",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1255-1255",
+    "vulnerableCode": [
+      "if (!address(admin).call.value(_com)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1287-1287",
+    "vulnerableCode": [
+      "admin.transfer(_p3d.sub(_potAmount));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1150-1150",
+    "vulnerableCode": [
+      "admin.transfer(_p3d.sub(_p3d / 2));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1439-1439",
+    "vulnerableCode": [
+      "require(msg.sender == admin, \"only admin can activate\");"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3Dshort is modularShort {\n4:     using SafeMath for"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "110-110",
+    "vulnerableCode": [
+      "Shares(withName, \"MLNF\", 18, now)"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "149-149",
+    "vulnerableCode": [
+      "timestamp: now"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "206-206",
+    "vulnerableCode": [
+      "timestamp: now"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "335-335",
+    "vulnerableCode": [
+      "expiresAt = add(now, ORDER_EXPIRATION_TIME)"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "366-366",
+    "vulnerableCode": [
+      "timestamp: block.timestamp"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "434-434",
+    "vulnerableCode": [
+      "uint timePassed = sub(now, atLastUnclaimedFeeAllocation.timestamp);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "593-593",
+    "vulnerableCode": [
+      "emit Redeemed(msg.sender, now, shareQuantity);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Fund is DSMath, DBC, Owned, Shares, FundInterface {\n2: \n3:     event OrderUp"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "5-5",
+    "vulnerableCode": [
+      "votingEnd = block.timestamp + _duration;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract TimedVoting {\n2:  uint256 public votingEnd;\n3: \n4:  constructor(uint256 _dur"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "312-454",
+    "vulnerableCode": [
+      "uint256 _eth;",
+      "if (_now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0)",
+      "F3Ddatasets.EventReturns memory _eventData_;",
+      "round_[_rID].ended = true;",
+      "_eth = withdrawEarnings(_pID);",
+      "if (_eth > 0)",
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "186-211",
+    "vulnerableCode": [
+      "buyCore(_pID, _affCode, _team, _eventData_);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "217-252",
+    "vulnerableCode": [
+      "buyCore(_pID, _affID, _team, _eventData_);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "381-335",
+    "vulnerableCode": [
+      "updateMasks(_rID, _pID, _gen, _keys);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "57",
+    "vulnerableCode": [
+      "            if(msg.sender.call.value(_am)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.19;\n2: \n3: contract MONEY_BOX   \n4: {\n5:     struct Holder   \n6:     {\n7:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "35-35",
+    "vulnerableCode": [
+      "            if(msg.sender.call.value(_am)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.19;\n2: \n3: contract ETH_VAULT\n4: {\n5:     mapping (address => uint) public "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "86-89",
+    "vulnerableCode": [
+      "  address winner_address38;",
+      "function play_address38(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_address38 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "101-105",
+    "vulnerableCode": [
+      "  address winner_address7;",
+      "function play_address7(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_address7 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "107-111",
+    "vulnerableCode": [
+      "  address winner_address23;",
+      "function play_address23(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_address23 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "132-132",
+    "vulnerableCode": [
+      "  uint256 timestamp_value2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "134-134",
+    "vulnerableCode": [
+      "  uint256 timestamp_value3 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "136-136",
+    "vulnerableCode": [
+      "  uint256 timestamp_value4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "143-143",
+    "vulnerableCode": [
+      "uint256 timestamp_value5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "148-148",
+    "vulnerableCode": [
+      "uint256 timestamp_value1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "191-195",
+    "vulnerableCode": [
+      "address winner_address35;",
+      "function play_address35(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_address35 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "230-234",
+    "vulnerableCode": [
+      "address winner_address27;",
+      "function play_address27(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_address27 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "238-242",
+    "vulnerableCode": [
+      "address winner_address31;",
+      "function play_address31(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_address31 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: \n4: contract ERC20Interface {\n5:     function transf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1361-1362",
+    "vulnerableCode": [
+      "address(PoEIFContract).call.value(_PoEIF.sub((_PoEIF / 2)))(bytes4(keccak256(\"donateDivs()\")));",
+      "fundEIF = fundEIF.add(_PoEIF / 2);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.25;\n2: \n3: contract FFEIF is FOMOEvents {\n4:     using SafeMath for *;\n5:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1467-1469",
+    "vulnerableCode": [
+      "address(PoEIFContract).call.value(_PoEIF.sub(_EIFamount))(bytes4(keccak256(\"donateDivs()\")));",
+      "fundEIF = fundEIF.add(_EIFamount);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.25;\n2: \n3: contract FFEIF is FOMOEvents {\n4:     using SafeMath for *;\n5:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1040-1041",
+    "vulnerableCode": [
+      "plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.25;\n2: \n3: contract FFEIF is FOMOEvents {\n4:     using SafeMath for *;\n5:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "571-571",
+    "vulnerableCode": [
+      "reLoadCore(_pID, _affCode,  _eth, _eventData_);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.25;\n2: \n3: contract FFEIF is FOMOEvents {\n4:     using SafeMath for *;\n5:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1153-1153",
+    "vulnerableCode": [
+      "_eventData_ = distributeExternal(_rID, _pID, _eth, _affID, 0, _eventData_);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.25;\n2: \n3: contract FFEIF is FOMOEvents {\n4:     using SafeMath for *;\n5:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "78-85",
+    "vulnerableCode": [
+      "  bool callcount_27 = true;",
+      "function userbalances_27() public{",
+      "        require(callcount_27);",
+      "        if( ! (msg.sender.send(1 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        callcount_27 = false;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "127-135",
+    "vulnerableCode": [
+      "  bool callcount_13 = true;",
+      "function userbalances_13() public{",
+      "        require(callcount_13);",
+      "        (bool success,)=msg.sender.call.value(1 ether)(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        callcount_13 = false;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "141-148",
+    "vulnerableCode": [
+      "bool callcount_20 = true;",
+      "function userbalances_20() public{",
+      "        require(callcount_20);",
+      "        if( ! (msg.sender.send(1 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        callcount_20 = false;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "158-163",
+    "vulnerableCode": [
+      "mapping(address => uint) redeemableEther_32;",
+      "function claimReward_32() public {        ",
+      "        require(redeemableEther_32[msg.sender] > 0);",
+      "        uint transferValue_32 = redeemableEther_32[msg.sender];",
+      "        msg.sender.transfer(transferValue_32);   ",
+      "        redeemableEther_32[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "171-175",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_38;",
+      "function withdrawFunds_38 (uint256 _weiToWithdraw) public {",
+      "        require(balances_38[msg.sender] >= _weiToWithdraw);",
+      "        require(msg.sender.send(_weiToWithdraw));  ",
+      "        balances_38[msg.sender] -= _weiToWithdraw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "183-189",
+    "vulnerableCode": [
+      "  mapping(address => uint) redeemableEther_11;",
+      "function claimReward_11() public {        ",
+      "        require(redeemableEther_11[msg.sender] > 0);",
+      "        uint transferValue_11 = redeemableEther_11[msg.sender];",
+      "        msg.sender.transfer(transferValue_11);   ",
+      "        redeemableEther_11[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "191-195",
+    "vulnerableCode": [
+      "  mapping(address => uint) balances_1;",
+      "    function withdraw_balances_1 () public {",
+      "       (bool success,) =msg.sender.call.value(balances_1[msg.sender ])(\"\");",
+      "       if (success)",
+      "          balances_1[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "198-204",
+    "vulnerableCode": [
+      "  bool callcount_41 = true;",
+      "function userbalances_41() public{",
+      "        require(callcount_41);",
+      "        if( ! (msg.sender.send(1 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        callcount_41 = false;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "207-213",
+    "vulnerableCode": [
+      "  uint256 counter_42 =0;",
+      "function callcheck_42() public{",
+      "        require(counter_42<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counter_42 += 1;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "218-224",
+    "vulnerableCode": [
+      "  address payable lastPlayer_2;",
+      "      uint jackpot_2;",
+      "      function buyTicket_2() public{",
+      "        if (!(lastPlayer_2.send(jackpot_2)))",
+      "        revert();",
+      "      lastPlayer_2 = msg.sender;",
+      "      jackpot_2    = address(this).balance;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "249-256",
+    "vulnerableCode": [
+      "uint256 counter_7 =0;",
+      "function callcheck_7() public{",
+      "        require(counter_7<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counter_7 += 1;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "262-269",
+    "vulnerableCode": [
+      "address payable lastPlayer_23;",
+      "      uint jackpot_23;",
+      "      function buyTicket_23() public{",
+      "        if (!(lastPlayer_23.send(jackpot_23)))",
+      "        revert();",
+      "      lastPlayer_23 = msg.sender;",
+      "      jackpot_23    = address(this).balance;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "278-285",
+    "vulnerableCode": [
+      "uint256 counter_14 =0;",
+      "function callcheck_14() public{",
+      "        require(counter_14<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counter_14 += 1;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "293-300",
+    "vulnerableCode": [
+      "address payable lastPlayer_30;",
+      "      uint jackpot_30;",
+      "      function buyTicket_30() public{",
+      "        if (!(lastPlayer_30.send(jackpot_30)))",
+      "        revert();",
+      "      lastPlayer_30 = msg.sender;",
+      "      jackpot_30    = address(this).balance;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "312-317",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_8;",
+      "    function withdraw_balances_8 () public {",
+      "       (bool success,) = msg.sender.call.value(balances_8[msg.sender ])(\"\");",
+      "       if (success)",
+      "          balances_8[msg.sender] = 0;",
+      "      }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "325-331",
+    "vulnerableCode": [
+      "mapping(address => uint) redeemableEther_39;",
+      "function claimReward_39() public {        ",
+      "        require(redeemableEther_39[msg.sender] > 0);",
+      "        uint transferValue_39 = redeemableEther_39[msg.sender];",
+      "        msg.sender.transfer(transferValue_39);   ",
+      "        redeemableEther_39[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "341-344",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_36;",
+      "    function withdraw_balances_36 () public {",
+      "       if (msg.sender.send(balances_36[msg.sender ]))",
+      "          balances_36[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "351-358",
+    "vulnerableCode": [
+      "uint256 counter_35 =0;",
+      "function callcheck_35() public{",
+      "        require(counter_35<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counter_35 += 1;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "367-374",
+    "vulnerableCode": [
+      "mapping(address => uint) userBalance_40;",
+      "function withdrawBalance_40() public{",
+      "        (bool success,)=msg.sender.call.value(userBalance_40[msg.sender])(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        userBalance_40[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "380-387",
+    "vulnerableCode": [
+      "mapping(address => uint) userBalance_33;",
+      "function withdrawBalance_33() public{",
+      "        (bool success,)= msg.sender.call.value(userBalance_33[msg.sender])(\"\");",
+      "        if( ! success ){",
+      "            revert();",
+      "        }",
+      "        userBalance_33[msg.sender] = 0;",
+      "    }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11; \n2: \n3: \n4: \n5: library SafeMath {\t\n6:     function add(uint a, uint b)"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "83-83",
+    "vulnerableCode": [
+      "startDate = (block.timestamp / secondsPerDay) * secondsPerDay - 60 * 6;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract WorkIt is ERC20Interface {\n2: \n3:    \n4:   string public constant name = \"Wo"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "127-138",
+    "vulnerableCode": [
+      "require(SafeMath.safeDiv(ethersTotal, tokensTotal) <= SafeMath.safeDiv(ethersObtained, tokensSold));",
+      "tokensRefunded = SafeMath.safeSub(tokensTotal, tokensSold);",
+      "if(tokensRefunded > 0) require(Token(token).transfer(msg.sender, tokensRefunded));",
+      "transfer(msg.sender, ethersObtained);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity 0.4.19;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: \n"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "327-327",
+    "vulnerableCode": [
+      "require(msg.sender.call.value(ethersRefunded)());"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity 0.4.19;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: \n"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "12-12",
+    "vulnerableCode": [
+      "  uint256 balancevaluev_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "18-22",
+    "vulnerableCode": [
+      "address winner_19;",
+      "function play_19(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_19 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "33-36",
+    "vulnerableCode": [
+      "address winner_26;",
+      "function play_26(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_26 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "43-46",
+    "vulnerableCode": [
+      "  address winner_2;",
+      "function play_2(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_2 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "49-49",
+    "vulnerableCode": [
+      "  uint256 balancevaluev_1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "113-116",
+    "vulnerableCode": [
+      "address winner_38;",
+      "function play_38(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_38 = msg.sender;}} "
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "133-137",
+    "vulnerableCode": [
+      "  address winner_3;",
+      "function play_3(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_3 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "144-144",
+    "vulnerableCode": [
+      "  uint256 balancevaluev_2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "146-146",
+    "vulnerableCode": [
+      "  uint256 balancevaluev_3 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "148-148",
+    "vulnerableCode": [
+      "  uint256 balancevaluev_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   function balancev"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "310-311",
+    "vulnerableCode": [
+      "if (!p.recipient.call.value(p.amount)(transactionBytecode))",
+      "throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.4;\n2: \n3: \n4: \n5: \n6: contract Congress is Object, Recipient {\n7:     \n8: \n"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "346-346",
+    "vulnerableCode": [
+      "require (date_ < block.timestamp);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3:  \n4: \n5:  \n6: contract Ownable {\n7:   address public "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "246-246",
+    "vulnerableCode": [
+      "if (tx.destination.call.value(tx.value)(tx.data))"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.11;\n2: \n3: \n4: \n5: \n6: \n7: \n8: contract MultiSigWallet {\n9: \n10:     \n11:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "228-229",
+    "vulnerableCode": [
+      "tx.executed = true;",
+      "if (tx.destination.call.value(tx.value)(tx.data))"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.4;\n2: \n3: \n4: \n5: \n6: contract MultiSigWallet {\n7: \n8:     uint constant pu"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "263-266",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
+      "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof, playerRandomResult[myid]);",
+      "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "299-302",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(playerTempReward[myid])){",
+      "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 2, proof, playerRandomResult[myid]);",
+      "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "353-353",
+    "vulnerableCode": [
+      "if (msg.sender.call.value(withdrawAmount)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "467-467",
+    "vulnerableCode": [
+      "if(!sendTo.send(originalPlayerBetValue)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "449-449",
+    "vulnerableCode": [
+      "if(!sendTo.send(amount)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "26-26",
+    "vulnerableCode": [
+      "require(started == true && startTime <= block.timestamp);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract BSPMintable is Ownable {\n2:   using SafeMath for uint256;\n3:   using SafeERC"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "9-9",
+    "vulnerableCode": [
+      "uint256 updatesv_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "36-39",
+    "vulnerableCode": [
+      "address winner_38;",
+      "function play_38(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_38 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "44-47",
+    "vulnerableCode": [
+      "  address winner_2;",
+      "function play_2(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_2 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "73-73",
+    "vulnerableCode": [
+      "  uint256 updatesv_1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "76-76",
+    "vulnerableCode": [
+      "  uint256 updatesv_2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "79-79",
+    "vulnerableCode": [
+      "  uint256 updatesv_3 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "112-116",
+    "vulnerableCode": [
+      "address winner_7;",
+      "function play_7(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_7 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "145-148",
+    "vulnerableCode": [
+      "address winner_30;",
+      "function play_30(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winner_30 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "185-189",
+    "vulnerableCode": [
+      "  address winner_19;",
+      "function play_19(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_19 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "208-208",
+    "vulnerableCode": [
+      "  uint256 updatesv_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "235-239",
+    "vulnerableCode": [
+      "address winner_35;",
+      "function play_35(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_35 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "269-273",
+    "vulnerableCode": [
+      "address winner_27;",
+      "function play_27(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_27 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "279-283",
+    "vulnerableCode": [
+      "address winner_31;",
+      "function play_31(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_31 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: contract Ownable {\n4: function updates_1() vi"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "440-442",
+    "vulnerableCode": [
+      "            if (_eth > 0)",
+      "                plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract FoMo3DLightning is modularShort {\n4:     using SafeMath"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "54-56",
+    "vulnerableCode": [
+      "if(msg.sender.call.value(_am)())",
+      "acc.balance-=_am;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract COIN_BOX   \n2: {\n3:     struct Holder   \n4:     {\n5:         uint unlockTime;\n6:       "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "189-190",
+    "vulnerableCode": [
+      "if (latestSeriesForUser[msg.sender].call.value(msg.value)())",
+      "DepositMade(latestSeriesForUser[msg.sender], msg.value);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.9;\n2: \n3: \n4: contract EtherprisesLLC {\n5:     \n6:     address public serie"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "45-51",
+    "vulnerableCode": [
+      "address payable lastPlayerUpdated37;",
+      "      uint jackpotUpdated37;",
+      "      function buyTicketUpdated37() public{",
+      "        if (!(lastPlayerUpdated37.send(jackpotUpdated37)))",
+      "        revert();",
+      "      lastPlayerUpdated37 = msg.sender;",
+      "      jackpotUpdated37    = address(this).balance;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "59-64",
+    "vulnerableCode": [
+      "  mapping(address => uint) userBalanceUpdated12;",
+      "function withdrawBalanceUpdated12() public{",
+      "        if( ! (msg.sender.send(userBalanceUpdated12[msg.sender]) ) ){",
+      "            revert();",
+      "        }",
+      "        userBalanceUpdated12[msg.sender] = 0;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "317-323",
+    "vulnerableCode": [
+      "uint256 counterUpdated7 =0;",
+      "function callmeUpdated7() public{",
+      "        require(counterUpdated7<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counterUpdated7 += 1;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "340-346",
+    "vulnerableCode": [
+      "address payable lastPlayerUpdated23;",
+      "      uint jackpotUpdated23;",
+      "      function buyTicketUpdated23() public{",
+      "        if (!(lastPlayerUpdated23.send(jackpotUpdated23)))",
+      "        revert();",
+      "      lastPlayerUpdated23 = msg.sender;",
+      "      jackpotUpdated23    = address(this).balance;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "352-358",
+    "vulnerableCode": [
+      "uint256 counterUpdated14 =0;",
+      "function callmeUpdated14() public{",
+      "        require(counterUpdated14<=5);",
+      "    if( ! (msg.sender.send(10 ether) ) ){",
+      "            revert();",
+      "        }",
+      "        counterUpdated14 += 1;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "391-396",
+    "vulnerableCode": [
+      "      uint jackpotUpdated2;",
+      "      function buyTicketUpdated2() public{",
+      "        if (!(lastPlayerUpdated2.send(jackpotUpdated2)))",
+      "        revert();",
+      "      lastPlayerUpdated2 = msg.sender;",
+      "      jackpotUpdated2    = address(this).balance;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.10;\n2: \n3: \n4: \n5: contract Ownable {\n6: \n7:   mapping(address => uint) bal"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "341-341",
+    "vulnerableCode": [
+      "require(block.timestamp > initCanOffsetTime);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: interface Token {\n4:     function totalSupply() const"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "360-363",
+    "vulnerableCode": [
+      "block.timestamp > (forceOffsetBooks[user_] + 28800) &&",
+      "forceOffsetBooks[user_] = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: interface Token {\n4:     function totalSupply() const"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "354-354",
+    "vulnerableCode": [
+      "if (!address(coin_base).call.value(_com)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract F3DClick is modularShort {\n4:     using SafeMath for *;"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "415-415",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract F3DClick is modularShort {\n4:     using SafeMath for *;"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "149-149",
+    "vulnerableCode": [
+      "plyr_[_affID].addr.transfer(_aff);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract F3DClick is modularShort {\n4:     using SafeMath for *;"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "353-353",
+    "vulnerableCode": [
+      "if (msg.sender.call.value(withdrawAmount)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "263-263",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "331-331",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(1)){",
+      "                playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], 1);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "447-449",
+    "vulnerableCode": [
+      "if(!sendTo.send(amount)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "467-467",
+    "vulnerableCode": [
+      "if(!sendTo.send(originalPlayerBetValue)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.18;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "106-106",
+    "vulnerableCode": [
+      "require(_startTime >= now && _feeOwner != address(0));"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Saturn is Ownable {\n2:     using SafeMath for uint256;\n3: \n4:     struct Pla"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "117-117",
+    "vulnerableCode": [
+      "require(now >= startTime);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Saturn is Ownable {\n2:     using SafeMath for uint256;\n3: \n4:     struct Pla"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "162-162",
+    "vulnerableCode": [
+      "_now = now;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Saturn is Ownable {\n2:     using SafeMath for uint256;\n3: \n4:     struct Pla"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "164-165",
+    "vulnerableCode": [
+      "if (now < finishTime) {",
+      "_timeLeft = finishTime - now;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Saturn is Ownable {\n2:     using SafeMath for uint256;\n3: \n4:     struct Pla"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "97-97",
+    "vulnerableCode": [
+      "uint public constant ORDER_EXPIRATION_TIME = 86400;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "124-124",
+    "vulnerableCode": [
+      "function isCompetitionActive() view returns (bool) { return now >= startTime && now < endTime; }"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "134-134",
+    "vulnerableCode": [
+      "function getTimeTillEnd() view returns (uint) { if (now > endTime) { return 0; } return sub(endTime, now); }"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "447-447",
+    "vulnerableCode": [
+      "require(now >= add(requests[id].timestamp, modules.pricefeed.getInterval()) && modules.pricefeed.getLastUpdateId() >= add(requests[id].atUpdateId, 2));"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "695-695",
+    "vulnerableCode": [
+      "timestamp: now"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1182-1182",
+    "vulnerableCode": [
+      "emit Redeemed(msg.sender, now, shareQuantity);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1999-1999",
+    "vulnerableCode": [
+      "require(assetsToPrices[ofAssets[i]].timestamp != now);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "2100-2100",
+    "vulnerableCode": [
+      "assetsToPrices[ofAssets[i]].timestamp = now;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "2680-2680",
+    "vulnerableCode": [
+      "return (sub(now, timestamp) <= VALIDITY);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: interface FundInterface {\n4: \n5:      \n6: \n7:     eve"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "167-176",
+    "vulnerableCode": [
+      "        if (isConfirmed(transactionId)) {",
+      "            Transaction storage txn = transactions[transactionId];",
+      "            txn.executed = true;",
+      "            (bool exec, bytes memory _) = txn.destination.call.value(txn.value)(\"\");",
+      "            if (exec)",
+      "                emit Execution(transactionId);",
+      "            else {",
+      "                emit ExecutionFailure(transactionId);",
+      "                txn.executed = false;",
+      "            }",
+      "        }"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: 1: pragma solidity 0.5.0;\n2: 2: \n3: 3: contract SolidifiedVault {\n4: 4: \n5: 5:     \n6: 6: \n7: 7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "30-34",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTimeExtended25;",
+      "",
+      "function increaseLockTimeExtended25(uint _secondsToIncrease) public {",
+      "        lockTimeExtended25[msg.sender] += _secondsToIncrease;  ",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: \n4: contract WhiteBetting {\n5: mapping(address =>"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "41-51",
+    "vulnerableCode": [
+      "",
+      "struct BetFixture {",
+      "    address payable player;",
+      "    uint256 stake;",
+      "    uint32  odd;",
+      "    uint16  selectedTeam;",
+      "}",
+      "function alertFallback19() public{",
+      "    uint8 fallbackValue = 0;",
+      "    fallbackValue = fallbackValue -10;   ",
+      "}"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: \n4: contract WhiteBetting {\n5: mapping(address =>"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "105-110",
+    "vulnerableCode": [
+      "mapping(address => uint) balanceTracking26;",
+      "",
+      "function transferBalanceTracking26(address _to, uint _value) public returns (bool) {",
+      "    require(balanceTracking26[msg.sender] - _value >= 0);  ",
+      "    balanceTracking26[msg.sender] -= _value;  ",
+      "    balanceTracking26[_to] += _value;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: \n4: contract WhiteBetting {\n5: mapping(address =>"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "152-157",
+    "vulnerableCode": [
+      "mapping(address => uint) balanceTracking38;",
+      "",
+      "function transferBalanceTracking38(address _to, uint _value) public returns (bool) {",
+      "    require(balanceTracking38[msg.sender] - _value >= 0);  ",
+      "    balanceTracking38[msg.sender] -= _value;  ",
+      "    balanceTracking38[_to] += _value;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: \n4: contract WhiteBetting {\n5: mapping(address =>"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "245-250",
+    "vulnerableCode": [
+      "mapping(address => uint) balanceTracking14;",
+      "",
+      "function transferBalanceTracking14(address _to, uint _value) public returns (bool) {",
+      "    require(balanceTracking14[msg.sender] - _value >= 0);  ",
+      "    balanceTracking14[msg.sender] -= _value;  ",
+      "    balanceTracking14[_to] += _value;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: \n4: contract WhiteBetting {\n5: mapping(address =>"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "179-182",
+    "vulnerableCode": [
+      "delete balances[investor];",
+      "if(!(investor.call.value(amount)())) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract PreICOProxyBuyer is Ownable, Haltable {\n4:   using Safe"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "18-27",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime1;",
+      "",
+      "function increaseLockTime1(uint _secondsToIncrease) public {",
+      "        lockTime1[msg.sender] += _secondsToIncrease;  ",
+      "    }",
+      "function withdrawOverflow1() public {",
+      "        require(now > lockTime1[msg.sender]);    ",
+      "        uint transferValue1 = 10;           ",
+      "        msg.sender.transfer(transferValue1);",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: \n5: contract SafeMath {\n6:     function safeAd"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "44-53",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime17;",
+      "",
+      "function increaseLockTime17(uint _secondsToIncrease) public {",
+      "        lockTime17[msg.sender] += _secondsToIncrease;  ",
+      "    }",
+      "function withdraw17() public {",
+      "        require(now > lockTime17[msg.sender]);    ",
+      "        uint transferValue17 = 10;           ",
+      "        msg.sender.transfer(transferValue17);",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: \n5: contract SafeMath {\n6:     function safeAd"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "351-360",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime33;",
+      "",
+      "function increaseLockTime33(uint _secondsToIncrease) public {",
+      "        lockTime33[msg.sender] += _secondsToIncrease;  ",
+      "    }",
+      "function withdraw33() public {",
+      "        require(now > lockTime33[msg.sender]);    ",
+      "        uint transferValue33 = 10;           ",
+      "        msg.sender.transfer(transferValue33);",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: \n4: \n5: contract SafeMath {\n6:     function safeAd"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1060-1060",
+    "vulnerableCode": [
+      "flushDivs.call.value(_ZaynixKey)(bytes4(keccak256(\"donate()\")));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2:  \n3:  \n4:  \n5:  \n6:  \n7:  \n8:  \n9:  \n10:  \n11: contract ZaynixKey is"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "391-391",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2:  \n3:  \n4:  \n5:  \n6:  \n7:  \n8:  \n9:  \n10:  \n11: contract ZaynixKey is"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1170-1170",
+    "vulnerableCode": [
+      "flushDivs.call.value(_ZaynixKey)(bytes4(keccak256(\"donate()\")));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2:  \n3:  \n4:  \n5:  \n6:  \n7:  \n8:  \n9:  \n10:  \n11: contract ZaynixKey is"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "62-62",
+    "vulnerableCode": [
+      "releaseTime = block.timestamp + interval;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Tokenlock is Ownable {\n2:     using SafeERC20 for ERC20;\n3: \n4:     event Lo"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "72-72",
+    "vulnerableCode": [
+      "require(block.timestamp >= releaseTime);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Tokenlock is Ownable {\n2:     using SafeERC20 for ERC20;\n3: \n4:     event Lo"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "108-110",
+    "vulnerableCode": [
+      "contract Staking is Owned{",
+      "  mapping(address => uint) public flexibleLockTime37;",
+      ""
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: contract Owned {\n4:   mapping(address => uint) b"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "126-128",
+    "vulnerableCode": [
+      "",
+      "function increaseFlexibleLockTime9(uint _secondsToIncrease) public {",
+      "        flexibleLockTime9[msg.sender] += _secondsToIncrease;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: contract Owned {\n4:   mapping(address => uint) b"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "154-158",
+    "vulnerableCode": [
+      "",
+      "function transfer26(address _to, uint _value) public returns (bool) {",
+      "    require(balances26[msg.sender] - _value >= 0);  ",
+      "    balances26[msg.sender] -= _value;  ",
+      "    balances26[_to] += _value;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: contract Owned {\n4:   mapping(address => uint) b"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "275-279",
+    "vulnerableCode": [
+      "mapping(address => uint) flexibleLockTime33;",
+      "",
+      "function increaseFlexibleLockTime33(uint _secondsToIncrease) public {",
+      "        flexibleLockTime33[msg.sender] += _secondsToIncrease;  ",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11;\n2: \n3: contract Owned {\n4:   mapping(address => uint) b"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "271-272",
+    "vulnerableCode": [
+      "if (!p.recipient.call.value(p.amount)(_transactionData))",
+      "                throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract MICRODAO is DAOInterface, Token, TokenCreation {\n2: \n3:     \n4:     modifier onlyTokenh"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "219-221",
+    "vulnerableCode": [
+      "if(!bondFundAddress.call.value(_bondEthToPay).gas(400000) {",
+      " totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, _bondEthToPay);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "224-226",
+    "vulnerableCode": [
+      "if(altEthToPay > 0){",
+      " if(!altFundAddress.call.value(altEthToPay).gas(400000) {",
+      " totalEthFundRecieved = SafeMath.sub(totalEthFundRecieved, altEthToPay);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "290-290",
+    "vulnerableCode": [
+      "_customerAddress.transfer(_dividends);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "180-181",
+    "vulnerableCode": [
+      "purchaseTokens(msg.value, _referredBy);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "193-194",
+    "vulnerableCode": [
+      "purchaseTokens(msg.value, 0x0);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "38-41",
+    "vulnerableCode": [
+      "            if(msg.sender.call.value(_am)())",
+      "            {",
+      "                balances[msg.sender]-=_am;",
+      "                TransferLog.AddMessage(msg.sender,_am,\"CashOut\");"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.19;\n2: \n3: contract ETH_FUND\n4: {\n5:     mapping (address => uint) public b"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1270-1270",
+    "vulnerableCode": [
+      "if (!address(admin).call.value(_com)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: contract SuperCard is mod"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1305-1305",
+    "vulnerableCode": [
+      "admin.transfer(_p3d.sub(_potAmount));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: contract SuperCard is mod"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "460-460",
+    "vulnerableCode": [
+      "plyr_[_pID].addr.transfer(_eth);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: contract SuperCard is mod"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "13-13",
+    "vulnerableCode": [
+      "  uint256 checkvaluesv_2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "19-23",
+    "vulnerableCode": [
+      "address winner_23;",
+      "function play_23(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_23 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "29-29",
+    "vulnerableCode": [
+      "uint256 checkingv_1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "98-102",
+    "vulnerableCode": [
+      "  address winner_19;",
+      "function play_19(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_19 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "145-147",
+    "vulnerableCode": [
+      "  uint256 balancesv_3 = block.timestamp;",
+      "  event stakingstarted(address staker, uint256 tokens, uint256 time);",
+      "  uint256 balancesv_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "221-225",
+    "vulnerableCode": [
+      "address winner_27;",
+      "function play_27(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_27 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "231-235",
+    "vulnerableCode": [
+      "address winner_31;",
+      "function play_31(uint startTime) public {",
+      "    uint _vtime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == _vtime){",
+      "        winner_31 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "145-147",
+    "vulnerableCode": [
+      "  uint256 balancesv_3 = block.timestamp;",
+      "  event stakingstarted(address staker, uint256 tokens, uint256 time);",
+      "  uint256 balancesv_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "249-249",
+    "vulnerableCode": [
+      "uint256 balancesv_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "249-249",
+    "vulnerableCode": [
+      "uint256 balancesv_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.11;\n2: \n3: contract Owned {\n4:   function checkvalues_9() view p"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "503-503",
+    "vulnerableCode": [
+      "if (!address(comBankAddr_).call.value(_com)())"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: contract X3Dlong is modularLong, Ownable {\n8:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "272-272",
+    "vulnerableCode": [
+      "uint256 _eth = withdrawEarnings(_pID);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: contract X3Dlong is modularLong, Ownable {\n8:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "215-215",
+    "vulnerableCode": [
+      "buyCore(_pID, plyr_[_pID].laff, 2, _eventData_);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: contract X3Dlong is modularLong, Ownable {\n8:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1141-1141",
+    "vulnerableCode": [
+      "genesisTime = _genesisTime;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4:  \n5: library SafeMath {\n6: \n7:      \n8:     funct"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "926-926",
+    "vulnerableCode": [
+      "function restartAuction() private {"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4:  \n5: library SafeMath {\n6: \n7:      \n8:     funct"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "952-952",
+    "vulnerableCode": [
+      "return ((fMul(s, (fSub(fSqrt(fAdd(DECMULT, fDiv(e, r))), DECMULT)))).mul(METDECMULT)).div(DECMULT);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4:  \n5: library SafeMath {\n6: \n7:      \n8:     funct"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1183-1183",
+    "vulnerableCode": [
+      "genesisTime = block.timestamp + 60 - (block.timestamp % 60);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4:  \n5: library SafeMath {\n6: \n7:      \n8:     funct"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1181-1181",
+    "vulnerableCode": [
+      "genesisTime = (_startTime / (1 minutes)) * (1 minutes) + 60;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.21;\n2: \n3: \n4:  \n5: library SafeMath {\n6: \n7:      \n8:     funct"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "451-452",
+    "vulnerableCode": [
+      "ERC223ReceivingContract _contract = ERC223ReceivingContract(_toAddress);",
+      "_contract.tokenFallback(msg.sender, _amountOfTokens, _data);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "407-409",
+    "vulnerableCode": [
+      "require(block.timestamp >= releaseTime);",
+      "require(fundingLowcapReached == true);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.23;\n2: \n3:  \n4: contract ERC20Basic {\n5:   function totalSupply("
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "168-168",
+    "vulnerableCode": [
+      "if (!address(Jekyll_Island_Inc).call.value(_com)(bytes4(keccak256(\"deposit()\"))))"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: \n9: \n10: \n11: \n12: \n13: \n14: \n15: \n16: \n17: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "331-331",
+    "vulnerableCode": [
+      "if (msg.sender.call.value(withdrawAmount)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:  \n4:  \n5: \n6: contract Xdice is usingOraclize, DSSafeAddSub {\n7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "241-244",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
+      "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof);",
+      "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempBetValue[myid]);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:  \n4:  \n5: \n6: contract Xdice is usingOraclize, DSSafeAddSub {\n7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "277-280",
+    "vulnerableCode": [
+      "if(!playerTempAddress[myid].send(playerTempReward[myid])){",
+      "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempReward[myid], 2, proof);",
+      "playerPendingWithdrawals[playerTempAddress[myid]] = safeAdd(playerPendingWithdrawals[playerTempAddress[myid]], playerTempReward[myid]);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:  \n4:  \n5: \n6: contract Xdice is usingOraclize, DSSafeAddSub {\n7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "420-420",
+    "vulnerableCode": [
+      "if(!sendTo.send(amount)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:  \n4:  \n5: \n6: contract Xdice is usingOraclize, DSSafeAddSub {\n7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "438-438",
+    "vulnerableCode": [
+      "if(!sendTo.send(originalPlayerBetValue)) throw;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3:  \n4:  \n5: \n6: contract Xdice is usingOraclize, DSSafeAddSub {\n7:"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "74-74",
+    "vulnerableCode": [
+      "m_txs[_h].to.call.value(m_txs[_h].value)(m_txs[_h].data);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract Wallet is multisig, multiowned, daylimit {\n2: \n3: \t\n4: \n5:     \n6:     struct Transacti"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "205-205",
+    "vulnerableCode": [
+      "actions[id].deadline  = now + window;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract DSAuthority {\n4:     function canCall(\n5:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "915-915",
+    "vulnerableCode": [
+      "timestamp: now"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract DSAuthority {\n4:     function canCall(\n5:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1360-1360",
+    "vulnerableCode": [
+      "emit Redeemed(msg.sender, now, shareQuantity);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract DSAuthority {\n4:     function canCall(\n5:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "2404-2404",
+    "vulnerableCode": [
+      "if (now > add(timestamp, VALIDITY)) {"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract DSAuthority {\n4:     function canCall(\n5:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "2484-2484",
+    "vulnerableCode": [
+      "return (sub(now, timestamp) <= VALIDITY);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract DSAuthority {\n4:     function canCall(\n5:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "245-245",
+    "vulnerableCode": [
+      "if (tx.destination.call.value(tx.value)(tx.data))"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.8;\n2: \n3: \n4: \n5: \n6: \n7: \n8: contract MultiSigWallet {\n9: \n10:     \n11:   "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "28-28",
+    "vulnerableCode": [
+      "require(_exchanges[i].call.value(_values[i])(data), \"buy: exchange arbitrary call failed\");"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract MultiBuyer is CanReclaimToken {\n2:     using SafeMath for uint256;\n3: \n4:     function "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1245-1245",
+    "vulnerableCode": [
+      "admin.transfer(_com.add(_p3d.sub(_p3d / 2)));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: contract PlayCoinKey is modularKey {\n9:     "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1380-1380",
+    "vulnerableCode": [
+      "if (!address(admin).call.value(_com)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: contract PlayCoinKey is modularKey {\n9:     "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "1408-1408",
+    "vulnerableCode": [
+      "admin.transfer(_p3d.sub(_p3d / 2));"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: \n4: \n5: \n6: \n7: \n8: contract PlayCoinKey is modularKey {\n9:     "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "166-169",
+    "vulnerableCode": [
+      "_customerAddress.transfer(_dividends);",
+      "onWithdraw(_customerAddress, _dividends);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.13;\n2: \n3: contract E25_Booster {\n4:   \n5:     modifier onlyBagholders() {\n"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "40-44",
+    "vulnerableCode": [
+      "address winnerAddress2;",
+      "function playWinner2(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress2 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "50-50",
+    "vulnerableCode": [
+      "uint256 lastValidTime = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "60-64",
+    "vulnerableCode": [
+      "  address winnerAddress3;",
+      "function playWinner3(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress3 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "66-69",
+    "vulnerableCode": [
+      "  address winnerAddress4;",
+      "function playWinner4(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winnerAddress4 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "93-96",
+    "vulnerableCode": [
+      "  address winnerAddress5;",
+      "function playWinner5(uint startTime) public {",
+      "    if (startTime + (5 * 1 days) == block.timestamp){",
+      "        winnerAddress5 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "109-109",
+    "vulnerableCode": [
+      "  uint256 contractCreationTime = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "112-112",
+    "vulnerableCode": [
+      "  uint256 anotherContractCreationTime = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "115-115",
+    "vulnerableCode": [
+      "  uint256 anotherCreationTime = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "122-122",
+    "vulnerableCode": [
+      "uint256 yetAnotherCreationTime = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "249-253",
+    "vulnerableCode": [
+      "address winnerAddress11;",
+      "function playWinner11(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress11 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.22 <0.6.0;\n2: \n3: library SafeMath {\n4: \n5:   function mul(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "59-63",
+    "vulnerableCode": [
+      "  address winnerAddress39;",
+      "function playAddress39(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "  if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress39 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "76-80",
+    "vulnerableCode": [
+      "  address winnerAddress35;",
+      "function playAddress35(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress35 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "96-100",
+    "vulnerableCode": [
+      "  address winnerAddress27;",
+      "function playAddress27(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress27 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "107-107",
+    "vulnerableCode": [
+      "uint256 currentTime_4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "146-146",
+    "vulnerableCode": [
+      "uint256 currentTime_5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "171-171",
+    "vulnerableCode": [
+      "uint256 stateVariable1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "182-182",
+    "vulnerableCode": [
+      "uint256 stateVariable2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "189-189",
+    "vulnerableCode": [
+      "uint256 stateVariable3 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >= 0.5.0 < 0.6.0;\n2: \n3: \n4: \n5: \n6: interface IERC20 {\n7:   function"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "5-5",
+    "vulnerableCode": [
+      "refundDeadline = block.timestamp + _duration;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract TimedRefund {\n2:  uint256 public refundDeadline;\n3: \n4:  constructor(uint256"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "146-151",
+    "vulnerableCode": [
+      "if(!msg.sender.send(reward)){",
+      "LogResult(totalBets, msg.sender, underNumber, randReuslt, reward, 2, msg.value,underNumber);",
+      "playerPendingWithdrawals[msg.sender] = safeAdd(playerPendingWithdrawals[msg.sender], reward);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.2;\n2: \n3: \n4: \n5: contract MyDice75 is DSSafeAddSub {\n6: \n7:     \n8: \n9: \n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "178-180",
+    "vulnerableCode": [
+      "if(!msg.sender.send(1)){",
+      "playerPendingWithdrawals[msg.sender] = safeAdd(playerPendingWithdrawals[msg.sender], 1);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.2;\n2: \n3: \n4: \n5: contract MyDice75 is DSSafeAddSub {\n6: \n7:     \n8: \n9: \n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "200-200",
+    "vulnerableCode": [
+      "if (msg.sender.call.value(withdrawAmount)()) {"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.2;\n2: \n3: \n4: \n5: contract MyDice75 is DSSafeAddSub {\n6: \n7:     \n8: \n9: \n1"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "98-103",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_26;",
+      "",
+      "function transfer_26(address _to, uint _value) public returns (bool) {",
+      "    require(balances_26[msg.sender] - _value >= 0);  ",
+      "    balances_26[msg.sender] -= _value;  ",
+      "    balances_26[_to] += _value;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: library SafeMath {\n4:     function add(uint256 a, "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "185-191",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_30;",
+      "",
+      "function transfer_30(address _to, uint _value) public returns (bool) {",
+      "    require(balances_30[msg.sender] - _value >= 0);  ",
+      "    balances_30[msg.sender] -= _value;  ",
+      "    balances_30[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: library SafeMath {\n4:     function add(uint256 a, "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "282-286",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime_33;",
+      "",
+      "function increaseLockTime_33(uint _secondsToIncrease) public {",
+      "        lockTime_33[msg.sender] += _secondsToIncrease;  ",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: library SafeMath {\n4:     function add(uint256 a, "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "314-317",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime_13;",
+      "",
+      "function increaseLockTime_13(uint _secondsToIncrease) public {",
+      "        lockTime_13[msg.sender] += _secondsToIncrease;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.0;\n2: \n3: library SafeMath {\n4:     function add(uint256 a, "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "87-93",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_2;",
+      "",
+      "function transfer_2(address _to, uint _value) public returns (bool) {",
+      "    require(balances_2[msg.sender] - _value >= 0);  ",
+      "    balances_2[msg.sender] -= _value;  ",
+      "    balances_2[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "125-131",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_34;",
+      "",
+      "function transfer_34(address _to, uint _value) public returns (bool) {",
+      "    require(balances_34[msg.sender] - _value >= 0);  ",
+      "    balances_34[msg.sender] -= _value;  ",
+      "    balances_34[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "145-151",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_10;",
+      "",
+      "function transfer_10(address _to, uint _value) public returns (bool) {",
+      "    require(balances_10[msg.sender] - _value >= 0);  ",
+      "    balances_10[msg.sender] -= _value;  ",
+      "    balances_10[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "155-161",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_22;",
+      "",
+      "function transfer_22(address _to, uint _value) public returns (bool) {",
+      "    require(balances_22[msg.sender] - _value >= 0);  ",
+      "    balances_22[msg.sender] -= _value;  ",
+      "    balances_22[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "185-189",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime_33;",
+      "",
+      "function increaseLockTime_33(uint _secondsToIncrease) public {",
+      "        lockTime_33[msg.sender] += _secondsToIncrease;  ",
+      "    }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "257-265",
+    "vulnerableCode": [
+      "mapping(address => uint) public lockTime_9;",
+      "",
+      "function increaseLockTime_9(uint _secondsToIncrease) public {",
+      "        lockTime_9[msg.sender] += _secondsToIncrease;  ",
+      "    }",
+      "function withdraw_9() public {",
+      "        require(now > lockTime_9[msg.sender]);    ",
+      "        uint transferValue_9 = 10;           ",
+      "        msg.sender.transfer(transferValue_9);"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "339-345",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_38;",
+      "",
+      "function transfer_38(address _to, uint _value) public returns (bool) {",
+      "    require(balances_38[msg.sender] - _value >= 0);  ",
+      "    balances_38[msg.sender] -= _value;  ",
+      "    balances_38[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "385-391",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_14;",
+      "",
+      "function transfer_14(address _to, uint _value) public returns (bool) {",
+      "    require(balances_14[msg.sender] - _value >= 0);  ",
+      "    balances_14[msg.sender] -= _value;  ",
+      "    balances_14[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "417-424",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_30;",
+      "",
+      "function transfer_30(address _to, uint _value) public returns (bool) {",
+      "    require(balances_30[msg.sender] - _value >= 0);  ",
+      "    balances_30[msg.sender] -= _value;  ",
+      "    balances_30[_to] += _value;  ",
+      "    return true;",
+      "  }"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.5.11; \n2: \n3: \n4: library SafeMath {\n5:     function add(uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "19-19",
+    "vulnerableCode": [
+      "uint256 currentEpoch2 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "21-21",
+    "vulnerableCode": [
+      "  uint256 currentEpoch3 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "23-23",
+    "vulnerableCode": [
+      "  uint256 currentEpoch4 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "33-37",
+    "vulnerableCode": [
+      "address winnerAddress31;",
+      "function playWinner31(uint startTime) public {",
+      "    uint currentTime = block.timestamp;",
+      "    if (startTime + (5 * 1 days) == currentTime){",
+      "        winnerAddress31 = msg.sender;}}"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "54-54",
+    "vulnerableCode": [
+      "uint256 currentEpoch5 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "59-59",
+    "vulnerableCode": [
+      "uint256 currentEpoch1 = block.timestamp;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity >=0.4.21 < 0.6.0;\n2: \n3: contract DocumentSigner {\n4:   function isAf"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "188-188",
+    "vulnerableCode": [
+      "(success, returnValue) = _contract.call.value(_value)(_data);"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.5.4;\n2: \n3: interface IntVoteInterface {\n4:     \n5:     \n6:     modifier only"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "357-357",
+    "vulnerableCode": [
+      "require (receiverAddress.call.value(amountInWei).gas(msg.gas.sub(5000))());"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.19;\n2: \n3: \n4: \n5: \n6: library SafeMath {\n7:   function mul(uint256 a, uint"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "311-313",
+    "vulnerableCode": [
+      "if (!address(admin).call.value(_com)())",
+      "_p3d = _com;"
+    ],
+    "input_snippet": "find all Reentrancy vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: pragma solidity ^0.4.24;\n2: \n3: contract F3DPLUS is modularShort {\n4:     using SafeMath for *;\n"
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "145-147",
+    "vulnerableCode": [
+      "",
+      "function increaseLockTime_user25(uint _secondsToIncrease) public {",
+      "        lockTime_user25[msg.sender] += _secondsToIncrease;  "
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: ```solidity\n2: pragma solidity ^0.5.10;\n3: \n4: \n5: \n6: contract Ownable {\n7: \n8: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "270-276",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_user38;",
+      "",
+      "function transfer_user38(address _to, uint _value) public returns (bool) {",
+      "    require(balances_user38[msg.sender] - _value >= 0);  ",
+      "    balances_user38[msg.sender] -= _value;  ",
+      "    balances_user38[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: ```solidity\n2: pragma solidity ^0.5.10;\n3: \n4: \n5: \n6: contract Ownable {\n7: \n8: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "335-341",
+    "vulnerableCode": [
+      "mapping(address => uint) balances_user14;",
+      "",
+      "function transfer_user14(address _to, uint _value) public returns (bool) {",
+      "    require(balances_user14[msg.sender] - _value >= 0);  ",
+      "    balances_user14[msg.sender] -= _value;  ",
+      "    balances_user14[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: ```solidity\n2: pragma solidity ^0.5.10;\n3: \n4: \n5: \n6: contract Ownable {\n7: \n8: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "373-379",
+    "vulnerableCode": [
+      "  mapping(address => uint) balances_user2;",
+      "",
+      "function transfer_user2(address _to, uint _value) public returns (bool) {",
+      "    require(balances_user2[msg.sender] - _value >= 0);  ",
+      "    balances_user2[msg.sender] -= _value;  ",
+      "    balances_user2[_to] += _value;  ",
+      "    return true;"
+    ],
+    "input_snippet": "find all integeroverflow/underflow vulnerabilities and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: ```solidity\n2: pragma solidity ^0.5.10;\n3: \n4: \n5: \n6: contract Ownable {\n7: \n8: "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "171-181",
+    "vulnerableCode": [
+      "jobEscrows[jobHash] = JobEscrow(",
+      "  true,",
+      "  uint32(block.timestamp) + _jobStartedWindowInSeconds,",
+      "  STATUS_JOB_CREATED,",
+      "  0,",
+      "  _secondsToComplete,",
+      "  0);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract CoinSparrow  is Ownable, Arbitrator, ApprovedWithdrawer, Pausable {\n2: \n3:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "223-223",
+    "vulnerableCode": [
+      "require(jobValue > 0 && jobValue == _value);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract CoinSparrow  is Ownable, Arbitrator, ApprovedWithdrawer, Pausable {\n2: \n3:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "279-279",
+    "vulnerableCode": [
+      "require(block.timestamp > jobEscrows[jobHash].jobCompleteDate + 4 weeks);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract CoinSparrow  is Ownable, Arbitrator, ApprovedWithdrawer, Pausable {\n2: \n3:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "391-391",
+    "vulnerableCode": [
+      "jobEscrows[jobHash].agreedCompletionDate = uint32(block.timestamp) + jobEscrows[jobHash].secondsToComplete;"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract CoinSparrow  is Ownable, Arbitrator, ApprovedWithdrawer, Pausable {\n2: \n3:  "
+  },
+  {
+    "reason": "No matching function found for vulnerable line",
+    "vulnerableLines": "483-483",
+    "vulnerableCode": [
+      "require(jobEscrows[jobHash].hirerCanCancelAfter < block.timestamp);"
+    ],
+    "input_snippet": "find all tiemstamp dependency vulnerabilities  and detect vulnerable line numbers from the contract as well as vulnerableCode, vulnerabilityReason, potentialSecurityRisk, and fixedCode based on the instruction.\n\n1: contract CoinSparrow  is Ownable, Arbitrator, ApprovedWithdrawer, Pausable {\n2: \n3:  "
+  }
+]

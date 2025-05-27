@@ -26,6 +26,8 @@
             "vulnerableLines": "360-365",
             "vulnerableCode": [
                 "if (msg.sender.call.value(withdrawAmount)()) {",
+                "   return true;",
+                "} else {",
                 "playerPendingWithdrawals[msg.sender] = withdrawAmount;"
             ],
             "vulnerabilityReason": "The `msg.sender.call.value()` function can fail and does not revert transactions properly. Without reverting the state in the event of a failure, an attacker can exploit reentrancy by invoking the withdrawal multiple times before the balance is reset.",

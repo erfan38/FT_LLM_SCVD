@@ -1,7 +1,7 @@
 {
     "vulnerabilities": [
         {
-            "vulnerableLines": "221-224",
+            "vulnerableLines": "270-273",
             "vulnerableCode": [
                 "if(!playerTempAddress[myid].send(playerTempBetValue[myid])){",
                 "LogResult(serialNumberOfResult, playerBetId[myid], playerTempAddress[myid], playerNumber[myid], playerDieResult[myid], playerTempBetValue[myid], 4, proof);",
