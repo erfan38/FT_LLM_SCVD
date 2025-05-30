@@ -1,0 +1,9 @@
+{
+  "vulnerableLines": "30",
+  "vulnerableCode": [
+    "require(block.timestamp >= releaseTime);"
+  ],
+  "vulnerabilityReason": "In the release function, block.timestamp is checked against the releaseTime to determine if funds can be released. Such dependency on block.timestamp creates a vulnerability as miners could manipulate the timestamp to affect the timing of the release.",
+  "potentialSecurityRisk": "Manipulation of block.timestamp could allow a miner to create conditions that either prevent the beneficiary from receiving their funds when they should, or allow them to circumvent expected checks regarding the funds' release timing.",
+  "fixedCode": "require(block.timestamp >= releaseTime + TIME_TOLERANCE); // Use a buffer like TIME_TOLERANCE to mitigate the effects of timestamp manipulation."
+}

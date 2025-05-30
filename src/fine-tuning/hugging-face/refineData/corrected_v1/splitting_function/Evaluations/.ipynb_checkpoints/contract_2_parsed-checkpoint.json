@@ -1,0 +1,14 @@
+[
+  {
+    "vulnerableLines": "25-35",
+    "vulnerabilityReason": "The function 'buyXname' allows a direct transfer of funds (Ethereum) into the function, which may result in an underflow condition if 'msg.value' is less than the deducted amount on code interactions without initial checks.",
+    "potentialSecurityRisk": "An integer underflow could result in users abusing the underflow to gain excess funds or manipulate the contract state.",
+    "fixedCode": "function buyXname(bytes32 _affCode) isActivated() isHuman() isWithinLimits(msg.value) public payable { RSdatasets.EventReturns memory _eventData_ = determinePID(_eventData_); uint256 _pID = pIDxAddr_[msg.sender]; uint256 _affID; if (_affCode == '' || _affCode == plyr_[_pID].name) { _affID = plyr_[_pID].laff;  } else { _affID = pIDxName_[_affCode]; if (_affID != plyr_[_pID].laff) { plyr_[_pID].laff = _affID; } } require(msg.value > 0, 'Insufficient balance'); buyCore(_pID, _affID, _eventData_); }"
+  },
+  {
+    "vulnerableLines": "48-61",
+    "vulnerabilityReason": "In the 'reLoadXid' function, the '_eth' input is used directly in the function for fund transferal and potential calculations. An attacker may cause an underflow/overflow condition if he transfers a too high or too low value.",
+    "potentialSecurityRisk": "Potential risks include causing contract funds to overflow, leading to incorrect fund amount depictions and irregular contract behavior.",
+    "fixedCode": "function reLoadXid(uint256 _affCode, uint256 _eth) isActivated() isHuman() isWithinLimits(_eth) public { RSdatasets.EventReturns memory _eventData_; uint256 _pID = pIDxAddr_[msg.sender]; if (_affCode == 0 || _affCode == _pID) { _affCode = plyr_[_pID].laff; } else if (_affCode != plyr_[_pID].laff) { plyr_[_pID].laff = _affCode; } require(_eth > 0, 'Transfer amount should be more than 0'); reLoadCore(_pID, _affCode, _eth, _eventData_); }"
+  }
+]

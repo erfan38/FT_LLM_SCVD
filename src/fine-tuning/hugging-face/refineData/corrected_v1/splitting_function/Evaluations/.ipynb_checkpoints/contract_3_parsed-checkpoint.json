@@ -1,0 +1,8 @@
+[
+  {
+    "vulnerableLines": "4-10",
+    "vulnerabilityReason": "The addition and then subsequent calculation in round_[_rID].keys.add(1000000000000000000).ethRec(1000000000000000000) does not check for integer overflow or underflow.",
+    "potentialSecurityRisk": "Potential for a Denial of Service (DoS) attack, where an attacker can cause the function to revert, or for manipulation of the function's output.",
+    "fixedCode": "function getBuyPrice() public view returns(uint256) { uint256 _rID = rID_; uint256 _now = now; require(round_[_rID].keys+1000000000000000000 > round_[_rID].keys); if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0))) return ( (round_[_rID].keys.add(1000000000000000000)).ethRec(1000000000000000000) ); else return ( 75000000000000 ); }"
+  }
+]

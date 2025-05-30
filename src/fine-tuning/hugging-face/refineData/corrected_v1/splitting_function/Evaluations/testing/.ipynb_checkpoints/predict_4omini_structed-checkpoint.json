@@ -1,0 +1,197 @@
+[
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\n    \"require(b <= a, \\\"SafeMath: subtraction overflow\\\");\"\n  ],\n  \"vulnerabilityReason\": \"The require statement does not prevent underflow in the case where b is greater than a, leading to potential negative values.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to cause unexpected behavior or manipulate the contract's state.\",\n  \"fixedCode\": \"require(b <= a, \\\"SafeMath: subtraction overflow\\\");\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\n    \"lockTimeFifth[msg.sender] += _secondsToIncrease;\"\n  ],\n  \"vulnerabilityReason\": \"The addition operation on the mapping can lead to integer overflow if the resulting value exceeds the maximum limit of uint.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the lock time, potentially allowing them to bypass intended restrictions.\",\n  \"fixedCode\": \"lockTimeFifth[msg.sender] = lockTimeFifth[msg.sender] + _secondsToIncrease;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"23, 57\",\n  \"vulnerableCode\": [\n    \"core(_rID, _pID, msg.value, _affID, 0, _eventData_);\",\n    \"plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value);\"\n  ],\n  \"vulnerabilityReason\": \"The function 'core' is called before updating the player's balance, which can lead to reentrancy attacks if 'core' calls back into 'buyCore'.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit the reentrancy vulnerability to drain funds from the contract by repeatedly calling 'buyCore' before the state is updated.\",\n  \"fixedCode\": \"function buyCore(uint256 _pID, uint256 _affID, FFEIFDatasets.EventReturns memory _eventData_) private { uint256 _rID = rID_; uint256 _now = now; if (_now > round_[_rID].strt + rndGap_ && (_now <= round_[_rID].end || (_now > round_[_rID].end && round_[_rID].plyr == 0))) { plyr_[_pID].gen = plyr_[_pID].gen.add(msg.value); core(_rID, _pID, msg.value, _affID, 0, _eventData_); } else { if (_now > round_[_rID].end && round_[_rID].ended == false) { round_[_rID].ended = true; _eventData_ = endRound(_eventData_); _eventData_.compressedData = _eventData_.compressedData + (_now * 1000000000000000000); _eventData_.compressedIDs = _eventData_.compressedIDs + _pID; emit FOMOEvents.onBuyAndDistribute(msg.sender, plyr_[_pID].name, msg.value, _eventData_.compressedData, _eventData_.compressedIDs, _eventData_.winnerAddr, _eventData_.winnerName, _eventData_.amountWon, _eventData_.newPot, _eventData_.tokenAmount, _eventData_.genAmount, _eventData_.seedAdd); } } }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\n    \"require(msg.sender.send(_weiToWithdraw));\"\n  ],\n  \"vulnerabilityReason\": \"The use of 'send' can lead to reentrancy attacks because it forwards gas and allows the recipient to call back into the contract before the state is updated.\",\n  \"potentialSecurityRisk\": \"An attacker can exploit this vulnerability to repeatedly withdraw funds before the balance is updated, leading to potential loss of funds.\",\n  \"fixedCode\": \"require(address(msg.sender).call{value: _weiToWithdraw}(''));\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"6, 10\",\n  \"vulnerableCode\": [\n    \"randomNumber = randomNumber % block.timestamp + uint256(block.blockhash(block.number - 1));\",\n    \"randomNumber = uint(sha3(randomNumber,nonce,10 + 10*1000000000000000000/msg.value));\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp and blockhash can lead to manipulation by miners, allowing them to influence the outcome of the random number generation.\",\n  \"potentialSecurityRisk\": \"This can lead to predictable random numbers, which can be exploited by attackers to manipulate the contract's behavior.\",\n  \"fixedCode\": \"randomNumber = uint(keccak256(abi.encodePacked(nonce, block.timestamp, block.difficulty, block.number)));\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\n    \"require( (msg.value >= 0.1 ether) &&  block.timestamp >= start && block.timestamp <= deadline && amountRaised < maxAmount && ( (msg.value <= 100 ether) || (msg.value > 100 ether && whitelist[msg.sender]==true) ) );\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp can lead to manipulation by miners, who can influence the timestamp of the block they mine.\",\n  \"potentialSecurityRisk\": \"Miners could manipulate the block timestamp to front-run transactions or alter the contract's behavior based on the timing of the transaction.\",\n  \"fixedCode\": \"require( (msg.value >= 0.1 ether) &&  now >= start && now <= deadline && amountRaised < maxAmount && ( (msg.value <= 100 ether) || (msg.value > 100 ether && whitelist[msg.sender]==true) ) );\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4, 5\",\n  \"vulnerableCode\": [\n    \"require(balances14[msg.sender] - _value >= 0);\",\n    \"balances14[msg.sender] -= _value;\"\n  ],\n  \"vulnerabilityReason\": \"The code does not properly handle integer underflow, which can occur if _value is greater than balances14[msg.sender].\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to create negative balances, allowing them to transfer more tokens than they own.\",\n  \"fixedCode\": \"require(balances14[msg.sender] >= _value); balances14[msg.sender] -= _value; balances14[_to] += _value;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\n    \"require(isExpired(pollMap[_pollID].revealEndDate));\"\n  ],\n  \"vulnerabilityReason\": \"The function relies on a timestamp to determine if the poll has expired, which can be manipulated by miners or validators.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit the timestamp dependency to manipulate the outcome of the poll or prevent legitimate users from rescuing their tokens.\",\n  \"fixedCode\": \"require(block.timestamp >= pollMap[_pollID].revealEndDate);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5\",\n  \"vulnerableCode\": [\"assert(msg.sender.call.value(amount)());\"],\n  \"vulnerabilityReason\": \"The use of call.value() allows for reentrancy attacks since it sends Ether to the caller before the state changes are finalized.\",\n  \"potentialSecurityRisk\": \"An attacker can exploit this vulnerability to recursively call the buyEther function, potentially draining funds from the contract.\",\n  \"fixedCode\": \"require(msg.sender.call.value(amount)());\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\"uint transferValue_17 = 10;\"],\n  \"vulnerabilityReason\": \"The code does not use SafeMath for arithmetic operations, which can lead to integer overflow or underflow vulnerabilities.\",\n  \"potentialSecurityRisk\": \"If the value of transferValue_17 were to be manipulated or changed in the future, it could lead to unintended consequences such as sending more Ether than intended.\",\n  \"fixedCode\": \"uint transferValue_17 = SafeMath.add(0, 10);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"7\",\n  \"vulnerableCode\": [\n    \"if(msg.sender.call.value(_am)()) {\"\n  ],\n  \"vulnerabilityReason\": \"The use of call.value() allows for reentrancy attacks, as it sends Ether to the caller before updating the account balance.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to repeatedly call the Collect function, draining the contract's funds.\",\n  \"fixedCode\": \"function Collect(uint _am) public payable { require(_am <= Accounts[msg.sender], 'Insufficient balance'); Accounts[msg.sender] -= _am; (bool success, ) = msg.sender.call{value: _am}(''); require(success, 'Transfer failed'); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"8\",\n  \"vulnerableCode\": [\n    \"return (block.timestamp >= genesisTime && genesisTime > 0);\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp can lead to manipulation by miners, who can influence the timestamp of the block they mine.\",\n  \"potentialSecurityRisk\": \"This can allow miners to front-run transactions or manipulate contract behavior based on the timestamp, leading to potential exploits.\",\n  \"fixedCode\": \"return (block.timestamp >= genesisTime && genesisTime > 0 && block.timestamp <= genesisTime + 1 days);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\"addedValue = addedValue + value;\"],\n  \"vulnerabilityReason\": \"The addition operation can cause an overflow if the result exceeds the maximum value of uint8 (255).\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this overflow to manipulate the state of the contract or cause unexpected behavior.\",\n  \"fixedCode\": \"addedValue = addedValue + value; require(addedValue >= value, 'Overflow detected');\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"13\",\n  \"vulnerableCode\": [\"if (msg.sender.call.value(withdrawAmount)()) {\"],\n  \"vulnerabilityReason\": \"The use of call to transfer Ether can lead to reentrancy attacks, as it allows the called contract to execute code before the state is updated.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to repeatedly call the playerWithdrawPendingTransactions function, draining funds from the contract.\",\n  \"fixedCode\": \"if (withdrawAmount > 0) { msg.sender.transfer(withdrawAmount); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\"vars = vars -10;\"],\n  \"vulnerabilityReason\": \"This line can cause an underflow when vars is 0 and 10 is subtracted.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this underflow to manipulate the state of the contract, potentially leading to unexpected behavior or loss of funds.\",\n  \"fixedCode\": \"vars = vars + 10;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"10\",\n  \"vulnerableCode\": [\"if(msg.sender.call.value(_am)())\"],\n  \"vulnerabilityReason\": \"The use of call to transfer Ether can lead to reentrancy attacks, as it allows the called contract to execute code before the state changes in the current contract are completed.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to repeatedly call the Collect function, draining funds from the contract.\",\n  \"fixedCode\": \"require(address(this).balance >= _am, 'Insufficient balance'); acc.balance -= _am; (bool success, ) = msg.sender.call{value: _am}(''); require(success, 'Transfer failed');\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"8, 13\",\n  \"vulnerableCode\": [\n    \"if (boss1.send(value1)) {\",\n    \"if (boss2.send(value2)) {\"\n  ],\n  \"vulnerabilityReason\": \"The use of .send() can lead to reentrancy attacks as it transfers control to the recipient before updating the state variables.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit the reentrancy vulnerability to repeatedly call the payBoss function, draining funds from the contract.\",\n  \"fixedCode\": \"if (bossBalance >= value1) { bossBalance -= value1; require(boss1.send(value1)); emit OnBossPayed(boss1, value1, now); } if (bossBalance >= value2) { bossBalance -= value2; require(boss2.send(value2)); emit OnBossPayed(boss2, value2, now); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\n    \"lockTime_9[msg.sender] += _secondsToIncrease;\"\n  ],\n  \"vulnerabilityReason\": \"The addition operation on the mapping can lead to integer overflow if _secondsToIncrease is large enough.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the lock time, allowing them to withdraw funds prematurely.\",\n  \"fixedCode\": \"lockTime_9[msg.sender] = lockTime_9[msg.sender] + _secondsToIncrease;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"9\",\n  \"vulnerableCode\": [\"lockTime_1[msg.sender] += _secondsToIncrease;\"],\n  \"vulnerabilityReason\": \"The addition operation on lockTime_1[msg.sender] can lead to integer overflow if the resulting value exceeds the maximum value of uint.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the lock time, potentially allowing them to bypass intended restrictions.\",\n  \"fixedCode\": \"lockTime_1[msg.sender] = lockTime_1[msg.sender] + _secondsToIncrease;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4, 5\",\n  \"vulnerableCode\": [\n    \"int timeLeft = int(chooseWinnerDeadline) - int(block.timestamp);\",\n    \"require(timeLeft < -86400);\"\n  ],\n  \"vulnerabilityReason\": \"The contract relies on block.timestamp for critical logic, which can be manipulated by miners to some extent, leading to potential exploitation.\",\n  \"potentialSecurityRisk\": \"An attacker could manipulate the block timestamp to bypass the refund requirement, allowing them to claim refunds improperly.\",\n  \"fixedCode\": \"int timeLeft = int(chooseWinnerDeadline) - int(block.number); require(timeLeft < -86400);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\"temporaryValue = temporaryValue + p_param;\"],\n  \"vulnerabilityReason\": \"The addition of two uint8 values can cause an overflow if the result exceeds 255.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this overflow to manipulate the state of the contract, potentially leading to unauthorized access or control.\",\n  \"fixedCode\": \"temporaryValue = temporaryValue + p_param <= 255 ? temporaryValue + p_param : 255;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"15\",\n  \"vulnerableCode\": [\n    \"if (tx.destination.call.value(tx.value)(tx.data))\"\n  ],\n  \"vulnerabilityReason\": \"The use of 'call' allows for reentrancy attacks since it transfers control to an external contract before the state is updated.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to re-enter the function and manipulate the contract's state or drain funds.\",\n  \"fixedCode\": \"require(tx.destination.call.value(tx.value)(tx.data), 'Transaction execution failed');\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"250\",\n  \"vulnerableCode\": [\n    \"require(msg.sender.call.value(ethersRefunded)());\"\n  ],\n  \"vulnerabilityReason\": \"The use of 'call' can lead to reentrancy attacks if the called contract is malicious and can call back into the current contract before the state is updated.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to drain funds from the contract by repeatedly calling the 'createBuyOrder' function before the state is updated.\",\n  \"fixedCode\": \"if(ethersRefunded > 0) { require(Token(token).transfer(msg.sender, ethersRefunded)); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"95\",\n  \"vulnerableCode\": [\n    \"nextJackpotTime = uint64(block.timestamp);\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp can lead to manipulation by miners, who can influence the timestamp of the block they mine.\",\n  \"potentialSecurityRisk\": \"This vulnerability can allow miners to manipulate the timing of jackpot events, potentially leading to unfair advantages or exploitation of the contract.\",\n  \"fixedCode\": \"nextJackpotTime = uint64(now);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5\",\n  \"vulnerableCode\": [\n    \"if (startTime + (5 * 1 days) == _vtime)\"\n  ],\n  \"vulnerabilityReason\": \"The comparison of block.timestamp with a calculated future time can lead to vulnerabilities due to miner manipulation of timestamps.\",\n  \"potentialSecurityRisk\": \"An attacker could manipulate the block timestamp to win the game by ensuring that the condition evaluates to true at a specific time.\",\n  \"fixedCode\": \"if (startTime + (5 * 1 days) <= _vtime && _vtime < startTime + (6 * 1 days))\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5, 9\",\n  \"vulnerableCode\": [\n    \"5: (bool success,)= msg.sender.call.value(userBalanceUpdated33[msg.sender])(\\\"\\\");\",\n    \"9: userBalanceUpdated33[msg.sender] = 0;\"\n  ],\n  \"vulnerabilityReason\": \"The contract allows for a call to an external address before updating the user's balance to zero, which can lead to reentrancy attacks.\",\n  \"potentialSecurityRisk\": \"An attacker can exploit the reentrancy vulnerability to withdraw funds multiple times before the balance is updated, leading to potential loss of funds.\",\n  \"fixedCode\": \"function withdrawBalanceUpdated33() public { uint amount = userBalanceUpdated33[msg.sender]; require(amount > 0, 'Insufficient balance'); userBalanceUpdated33[msg.sender] = 0; (bool success, ) = msg.sender.call.value(amount)(''); require(success, 'Transfer failed'); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"10, 11\",\n  \"vulnerableCode\": [\n    \"require(_t >= lastPurchaseTick);\",\n    \"uint numTicks = _t - lastPurchaseTick;\"\n  ],\n  \"vulnerabilityReason\": \"The contract relies on the timestamp (_t) provided by the caller, which can be manipulated by miners or users, leading to potential exploitation.\",\n  \"potentialSecurityRisk\": \"An attacker could manipulate the input timestamp to gain an unfair advantage in the auction process, potentially leading to financial loss for other participants.\",\n  \"fixedCode\": \"require(_t >= block.timestamp); uint numTicks = _t - block.timestamp;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"6, 7\",\n  \"vulnerableCode\": [\n    \"balance[originChain] = balance[originChain].sub(amount);\",\n    \"balance[destChain] = balance[destChain].add(amount);\"\n  ],\n  \"vulnerabilityReason\": \"The contract relies on the state of the balance at the time of the transaction, which can be manipulated by external factors such as block timestamps or block numbers.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit the timing of transactions to manipulate the balance checks, leading to potential double spending or incorrect balance states.\",\n  \"fixedCode\": \"require(block.timestamp >= lastUpdate[originChain]);\\nbalance[originChain] = balance[originChain].sub(amount);\\nbalance[destChain] = balance[destChain].add(amount);\\nlastUpdate[originChain] = block.timestamp;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"18\",\n  \"vulnerableCode\": [\n    \"underflowTest = underflowTest -10;\"\n  ],\n  \"vulnerabilityReason\": \"The code performs a subtraction operation on an unsigned integer (uint8) that can lead to an underflow if the value is less than 10.\",\n  \"potentialSecurityRisk\": \"An underflow can allow an attacker to manipulate the state of the contract, potentially leading to unexpected behavior or exploitation.\",\n  \"fixedCode\": \"underflowTest = underflowTest >= 10 ? underflowTest - 10 : 0;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"19\",\n  \"vulnerableCode\": [\n    \"assert(_to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\"\n  ],\n  \"vulnerabilityReason\": \"The use of .call() can lead to reentrancy attacks if the called contract has a fallback function that calls back into the original contract before the state changes are completed.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to drain funds or manipulate the contract's state by re-entering the transfer function.\",\n  \"fixedCode\": \"require(!isContract(_to) || _to.call.value(0)(bytes4(keccak256(_custom_fallback)), msg.sender, _value, _data));\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"7, 8, 10, 11\",\n  \"vulnerableCode\": [\n    \"btc[to] = btc[from];\",\n    \"eth[to] = eth[from];\",\n    \"btc[from] = '';\",\n    \"eth[from] = address(0);\"\n  ],\n  \"vulnerabilityReason\": \"The code does not check if the 'from' address has a balance before transferring assets, which can lead to unexpected behavior if the 'from' address is empty or has insufficient balance.\",\n  \"potentialSecurityRisk\": \"This can lead to loss of funds or unintended asset transfers, as it allows for the possibility of transferring from an address that does not hold any assets.\",\n  \"fixedCode\": \"require(btc[from] != 0 || eth[from] != address(0), 'Insufficient balance');\\nbtc[to] = btc[from];\\neth[to] = eth[from];\\nbtc[from] = 0;\\neth[from] = address(0);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"10\",\n  \"vulnerableCode\": [\"safeValue = safeValue + p_value;\"],\n  \"vulnerabilityReason\": \"The addition operation can cause an overflow if safeValue + p_value exceeds the maximum value of uint8 (255).\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this overflow to manipulate the state of the contract, potentially leading to unexpected behavior or loss of funds.\",\n  \"fixedCode\": \"safeValue = safeValue + p_value > 255 ? 255 : safeValue + p_value;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\n    \"return block.timestamp >= expiryTime;\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp can be manipulated by miners, leading to potential exploitation.\",\n  \"potentialSecurityRisk\": \"Miners can influence the outcome of the function by manipulating the block timestamp, which could allow them to create or extend orders unfairly.\",\n  \"fixedCode\": \"return block.timestamp >= expiryTime + 1 minutes;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"12, 13\",\n  \"vulnerableCode\": [\n    \"var (, timestamp) = getPrice(ofAsset);\",\n    \"return (sub(now, timestamp) <= VALIDITY);\"\n  ],\n  \"vulnerabilityReason\": \"The use of 'now' for timestamp comparison can lead to vulnerabilities due to block timestamp manipulation by miners.\",\n  \"potentialSecurityRisk\": \"An attacker could manipulate the block timestamp to make the contract believe that a price is recent when it is not, potentially leading to financial losses.\",\n  \"fixedCode\": \"return (sub(block.timestamp, timestamp) <= VALIDITY);\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5\",\n  \"vulnerableCode\": [\n    \"lockTimeChannel[msg.sender] += _secondsToIncrease;\"\n  ],\n  \"vulnerabilityReason\": \"The code does not check for integer overflow when increasing the lock time.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability by providing a large value for _secondsToIncrease, causing an overflow and resulting in an unintended state.\",\n  \"fixedCode\": \"lockTimeChannel[msg.sender] = lockTimeChannel[msg.sender] + _secondsToIncrease;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"18-48\",\n  \"vulnerableCode\": [\n    \"if (now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr!= 0)\",\n    \"if (round_[_rID].plyr == _pID)\",\n    \"return (plyr_[_pID].win).add( ((round_[_rID].pot).mul(winnerPercentage)) / 100 )\",\n    \"return (plyr_[_pID].gen).add(  getPlayerVaultsHelper(_pID, _rID).sub(plyrRnds_[_pID][_rID].mask) )\",\n    \"return (plyr_[_pID].win)\",\n    \"return (plyr_[_pID].gen).add(calcUnMaskedEarnings(_pID, plyr_[_pID].lrnd))\"\n  ],\n  \"vulnerabilityReason\": \"The function allows for external calls to `getPlayerVaultsHelper` and `calcUnMaskedEarnings`, which can lead to reentrancy attacks if these functions modify state or call back into the contract.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit the reentrancy vulnerability to drain funds from the contract by repeatedly calling the vulnerable function before the state is updated.\",\n  \"fixedCode\": \"function getPlayerVaults(uint256 _pID) public view returns(uint256,uint256, uint256) { uint256 _rID = rID_; require(now > round_[_rID].end && round_[_rID].ended == false && round_[_rID].plyr != 0, 'Round not ended'); uint256 winnings; uint256 generated; if (round_[_rID].plyr == _pID) { winnings = (plyr_[_pID].win).add(((round_[_rID].pot).mul(winnerPercentage)) / 100); generated = (plyr_[_pID].gen).add(getPlayerVaultsHelper(_pID, _rID).sub(plyrRnds_[_pID][_rID].mask)); } else { winnings = plyr_[_pID].win; generated = (plyr_[_pID].gen).add(getPlayerVaultsHelper(_pID, _rID).sub(plyrRnds_[_pID][_rID].mask)); } return (winnings, generated, plyr_[_pID].aff); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"1\",\n  \"vulnerableCode\": [\n    \"function transferFrom(address _from, address _to, uint256 _amount) external returns (bool);\"\n  ],\n  \"vulnerabilityReason\": \"The function does not check for integer overflow or underflow when performing arithmetic operations with _amount.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate token transfers, potentially allowing for unauthorized transfers or creating tokens out of thin air.\",\n  \"fixedCode\": \"function transferFrom(address _from, address _to, uint256 _amount) external returns (bool) { require(_amount > 0, 'Amount must be greater than zero'); require(balanceOf[_from] >= _amount, 'Insufficient balance'); require(balanceOf[_to] + _amount > balanceOf[_to], 'Overflow detected'); balanceOf[_from] -= _amount; balanceOf[_to] += _amount; emit Transfer(_from, _to, _amount); return true; }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"4\",\n  \"vulnerableCode\": [\"lockTime37[msg.sender] += _secondsToIncrease;\"],\n  \"vulnerabilityReason\": \"The addition operation on the uint type can lead to integer overflow if the resulting value exceeds the maximum limit of uint.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the lock time, potentially allowing them to bypass intended restrictions.\",\n  \"fixedCode\": \"lockTime37[msg.sender] = lockTime37[msg.sender] + _secondsToIncrease;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"6\",\n  \"vulnerableCode\": [\n    \"if (startTime + (5 * 1 days) == currentTime)\"\n  ],\n  \"vulnerabilityReason\": \"The comparison of block.timestamp with a calculated future timestamp can lead to vulnerabilities due to miner manipulation of block timestamps.\",\n  \"potentialSecurityRisk\": \"An attacker could manipulate the block timestamp to win the game by ensuring that the condition evaluates to true at a time of their choosing.\",\n  \"fixedCode\": \"if (startTime + (5 * 1 days) <= currentTime) { winnerAddress39 = msg.sender; }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5\",\n  \"vulnerableCode\": [\n    \"if (startTime + (5 * 1 days) == currentTime)\"\n  ],\n  \"vulnerabilityReason\": \"The comparison of 'startTime + (5 * 1 days)' with 'currentTime' can be manipulated by miners, leading to potential manipulation of the winner selection.\",\n  \"potentialSecurityRisk\": \"A miner could influence the outcome by controlling the block timestamp, allowing them to determine when the condition is met.\",\n  \"fixedCode\": \"if (startTime + (5 * 1 days) <= currentTime && currentTime < startTime + (6 * 1 days))\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5, 6\",\n  \"vulnerableCode\": [\n    \"_totalSupply = _totalSupply.sub(value);\",\n    \"_balances[account] = _balances[account].sub(value);\"\n  ],\n  \"vulnerabilityReason\": \"The code uses subtraction without checks for underflow, which can lead to negative values.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the total supply or their own balance, leading to unauthorized token creation or loss.\",\n  \"fixedCode\": [\n    \"_totalSupply = _totalSupply.sub(value); // Ensure value is less than or equal to _totalSupply\",\n    \"_balances[account] = _balances[account].sub(value); // Ensure value is less than or equal to _balances[account]\"\n  ]\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"31\",\n  \"vulnerableCode\": [\n    \"address(PoEIFContract).call.value(_PoEIF.sub(_EIFamount))(bytes4(keccak256(\\\"donateDivs()\\\")));\"\n  ],\n  \"vulnerabilityReason\": \"The use of low-level call can lead to reentrancy attacks if the called contract is malicious and can call back into the current contract before the state is updated.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to repeatedly call the `distributeExternal` function, draining funds from the contract.\",\n  \"fixedCode\": \"require(address(PoEIFContract).call.value(_PoEIF.sub(_EIFamount))(bytes4(keccak256(\\\"donateDivs()\\\"))), \\\"Transfer failed\\\");\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"43, 46, 47, 48\",\n  \"vulnerableCode\": [\n    \"if (genesisTime < block.timestamp)\",\n    \"genesisTime = genesisTime + 1000 years;\",\n    \"initialAuctionEndTime = genesisTime;\",\n    \"dailyAuctionStartTime = genesisTime;\"\n  ],\n  \"vulnerabilityReason\": \"The contract relies on block.timestamp for critical time-dependent logic, which can be manipulated by miners.\",\n  \"potentialSecurityRisk\": \"Miners can influence the auction timings and other time-dependent functionalities, leading to potential exploitation or unfair advantages.\",\n  \"fixedCode\": \"if (genesisTime < block.number) { revert(); } genesisTime = genesisTime + 1000 * 365 days; initialAuctionEndTime = genesisTime; dailyAuctionStartTime = genesisTime;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"10, 11\",\n  \"vulnerableCode\": [\n    \"require(balances_user22[msg.sender] - _value >= 0)\",\n    \"balances_user22[msg.sender] -= _value\"\n  ],\n  \"vulnerabilityReason\": \"The code does not use SafeMath or similar protection against integer underflow, which can occur when subtracting a larger value from a smaller one.\",\n  \"potentialSecurityRisk\": \"An attacker could exploit this vulnerability to manipulate the balance of users, leading to unauthorized transfers or denial of service.\",\n  \"fixedCode\": \"require(balances_user22[msg.sender] >= _value); balances_user22[msg.sender] = balances_user22[msg.sender] - _value;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"7\",\n  \"vulnerableCode\": [\"uint256 balancesv_5 = block.timestamp;\"],\n  \"vulnerabilityReason\": \"Using block.timestamp can lead to manipulation by miners, as they can influence the timestamp of the block.\",\n  \"potentialSecurityRisk\": \"This can allow miners to front-run transactions or manipulate the contract's behavior based on the block timestamp.\",\n  \"fixedCode\": \"uint256 balancesv_5 = block.number;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"1\",\n  \"vulnerableCode\": [\n    \"function getTimeTillEnd() view returns (uint);\"\n  ],\n  \"vulnerabilityReason\": \"The function relies on block timestamps which can be manipulated by miners, leading to potential inconsistencies in time-dependent logic.\",\n  \"potentialSecurityRisk\": \"Attackers could exploit the timestamp manipulation to influence the outcome of time-sensitive functions, potentially leading to financial loss or unintended behavior.\",\n  \"fixedCode\": \"function getTimeTillEnd() view returns (uint) { require(block.timestamp >= startTime, 'Not started yet'); return endTime - block.timestamp; }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"9, 15, 16\",\n  \"vulnerableCode\": [\n    \"miners[msg.sender].lastUpdateTime = block.timestamp;\",\n    \"pvpMap[msg.sender].immunityTime = block.timestamp + 14400;\",\n    \"pvpMap[msg.sender].exhaustTime  = block.timestamp;\"\n  ],\n  \"vulnerabilityReason\": \"The use of block.timestamp can lead to manipulation by miners, allowing them to influence the outcome of time-dependent logic.\",\n  \"potentialSecurityRisk\": \"Miners could exploit the timestamp manipulation to gain unfair advantages in the contract's logic, such as timing for immunity or exhaust periods.\",\n  \"fixedCode\": \"miners[msg.sender].lastUpdateTime = block.number; // or use a more secure method to track time\\npvpMap[msg.sender].immunityTime = block.number + 14400; // adjust accordingly\\npvpMap[msg.sender].exhaustTime  = block.number; // adjust accordingly\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"5\",\n  \"vulnerableCode\": [\n    \"if (!msg.sender.call.value(amount)()) throw;\"\n  ],\n  \"vulnerabilityReason\": \"The use of call to transfer Ether can lead to reentrancy attacks, as it allows the called contract to execute code before the state changes in the current contract are completed.\",\n  \"potentialSecurityRisk\": \"An attacker can exploit this vulnerability by recursively calling the withdraw function before the state is updated, potentially draining the contract of its funds.\",\n  \"fixedCode\": \"function withdraw(uint amount) { require(tokens[0][msg.sender] >= amount); tokens[0][msg.sender] = safeSub(tokens[0][msg.sender], amount); uint sent = amount; msg.sender.transfer(sent); Withdraw(0, msg.sender, amount, tokens[0][msg.sender]); }\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"3\",\n  \"vulnerableCode\": [\"temporaryValue = temporaryValue - 10;\"],\n  \"vulnerabilityReason\": \"The subtraction operation can cause an underflow when temporaryValue is 0.\",\n  \"potentialSecurityRisk\": \"An underflow can lead to unexpected behavior, allowing attackers to manipulate the contract's state.\",\n  \"fixedCode\": \"temporaryValue = temporaryValue >= 10 ? temporaryValue - 10 : 0;\"\n}"
+  },
+  {
+    "predict": "{\n  \"vulnerableLines\": \"\",\n  \"vulnerableCode\": [],\n  \"vulnerabilityReason\": \"\",\n  \"potentialSecurityRisk\": \"\",\n  \"fixedCode\": \"\"\n}"
+  }
+]

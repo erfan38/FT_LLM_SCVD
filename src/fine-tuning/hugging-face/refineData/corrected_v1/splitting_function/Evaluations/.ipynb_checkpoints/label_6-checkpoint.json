@@ -1,0 +1,12 @@
+{
+  "vulnerableLines": "1-4",
+  "vulnerableCode": [
+    "function alert_problem19() public{",
+    "    uint8 underflowCheck =0;",
+    "    underflowCheck = underflowCheck -10;   ",
+    "}"
+  ],
+  "vulnerabilityReason": "The variable 'underflowCheck' is initialized to 0 and then decremented by 10 without any checks, leading to an underflow.",
+  "potentialSecurityRisk": "This allows 'underflowCheck' to wrap around to a large positive number, which could be exploited to manipulate subsequent logic, potentially leading to unexpected contract behavior.",
+  "fixedCode": "function alert_problem19() public { uint8 underflowCheck = 0; require(underflowCheck >= 10); underflowCheck = underflowCheck - 10; }"
+}
