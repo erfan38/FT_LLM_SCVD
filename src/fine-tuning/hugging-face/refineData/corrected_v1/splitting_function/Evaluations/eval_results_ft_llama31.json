@@ -1,0 +1,217 @@
+{
+  "model_name": "ft_llama31",
+  "max_sample": 50,
+  "classification_metrics": {
+    "accuracy": 0.9,
+    "precision": 0.9354838709677419,
+    "recall": 0.90625,
+    "f1": 0.9206349206349206
+  },
+  "consistency_scores": {
+    "vulnerabilityReason": 0.7748055861842248,
+    "potentialSecurityRisk": 0.6886065400415852,
+    "fixedCode": 0.8725028364889084
+  },
+  "sample_results": [
+    {
+      "id": 0,
+      "result": "TN"
+    },
+    {
+      "id": 1,
+      "result": "TP"
+    },
+    {
+      "id": 2,
+      "result": "TP"
+    },
+    {
+      "id": 3,
+      "result": "TP"
+    },
+    {
+      "id": 4,
+      "result": "TN"
+    },
+    {
+      "id": 5,
+      "result": "TP"
+    },
+    {
+      "id": 6,
+      "result": "TP"
+    },
+    {
+      "id": 7,
+      "result": "TN"
+    },
+    {
+      "id": 8,
+      "result": "TN"
+    },
+    {
+      "id": 9,
+      "result": "TP"
+    },
+    {
+      "id": 10,
+      "result": "TN"
+    },
+    {
+      "id": 11,
+      "result": "TP"
+    },
+    {
+      "id": 12,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 13,
+      "result": "TP"
+    },
+    {
+      "id": 14,
+      "result": "TN"
+    },
+    {
+      "id": 15,
+      "result": "TP"
+    },
+    {
+      "id": 16,
+      "result": "TP"
+    },
+    {
+      "id": 17,
+      "result": "TP"
+    },
+    {
+      "id": 18,
+      "result": "FN"
+    },
+    {
+      "id": 19,
+      "result": "TP"
+    },
+    {
+      "id": 20,
+      "result": "TN"
+    },
+    {
+      "id": 21,
+      "result": "TP"
+    },
+    {
+      "id": 22,
+      "result": "TP"
+    },
+    {
+      "id": 23,
+      "result": "TP"
+    },
+    {
+      "id": 24,
+      "result": "TP"
+    },
+    {
+      "id": 25,
+      "result": "TP"
+    },
+    {
+      "id": 26,
+      "result": "TP"
+    },
+    {
+      "id": 27,
+      "result": "TP"
+    },
+    {
+      "id": 28,
+      "result": "TP"
+    },
+    {
+      "id": 29,
+      "result": "TP"
+    },
+    {
+      "id": 30,
+      "result": "TN"
+    },
+    {
+      "id": 31,
+      "result": "TN"
+    },
+    {
+      "id": 32,
+      "result": "TN"
+    },
+    {
+      "id": 33,
+      "result": "TP"
+    },
+    {
+      "id": 34,
+      "result": "TP"
+    },
+    {
+      "id": 35,
+      "result": "TN"
+    },
+    {
+      "id": 36,
+      "result": "TN"
+    },
+    {
+      "id": 37,
+      "result": "FP"
+    },
+    {
+      "id": 38,
+      "result": "TP"
+    },
+    {
+      "id": 39,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 40,
+      "result": "TP"
+    },
+    {
+      "id": 41,
+      "result": "TN"
+    },
+    {
+      "id": 42,
+      "result": "TN"
+    },
+    {
+      "id": 43,
+      "result": "FP"
+    },
+    {
+      "id": 44,
+      "result": "TP"
+    },
+    {
+      "id": 45,
+      "result": "TP"
+    },
+    {
+      "id": 46,
+      "result": "TN"
+    },
+    {
+      "id": 47,
+      "result": "TN"
+    },
+    {
+      "id": 48,
+      "result": "TP"
+    },
+    {
+      "id": 49,
+      "result": "TP"
+    }
+  ]
+}
