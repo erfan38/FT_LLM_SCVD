@@ -1,0 +1,519 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "tokenPrice",
+            "source_mapping": {
+              "start": 73,
+              "length": 25,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 1,
+              "ending_column": 26
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          },
+          {
+            "type": "function",
+            "name": "buyTokens",
+            "source_mapping": {
+              "start": 180,
+              "length": 166,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "buyTokens()"
+            }
+          }
+        ],
+        "description": "TokenSale.tokenPrice (sol_files/sample_302.sol#4) is never initialized. It is used in:\n\t- TokenSale.buyTokens() (sol_files/sample_302.sol#10-14)\n",
+        "markdown": "[TokenSale.tokenPrice](sol_files/sample_302.sol#L4) is never initialized. It is used in:\n\t- [TokenSale.buyTokens()](sol_files/sample_302.sol#L10-L14)\n",
+        "first_markdown_element": "sol_files/sample_302.sol#L4",
+        "id": "948ffd85b147139b31d488f0a65299f087c1d026078a2244a3fd30e2869ae332",
+        "check": "uninitialized-state",
+        "impact": "High",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "contract",
+            "name": "TokenSale",
+            "source_mapping": {
+              "start": 24,
+              "length": 324,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16
+              ],
+              "starting_column": 1,
+              "ending_column": 0
+            }
+          },
+          {
+            "type": "function",
+            "name": "buyTokens",
+            "source_mapping": {
+              "start": 180,
+              "length": 166,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "buyTokens()"
+            }
+          }
+        ],
+        "description": "Contract locking ether found:\n\tContract TokenSale (sol_files/sample_302.sol#2-16) has payable functions:\n\t - TokenSale.buyTokens() (sol_files/sample_302.sol#10-14)\n\tBut does not have a function to withdraw the ether\n",
+        "markdown": "Contract locking ether found:\n\tContract [TokenSale](sol_files/sample_302.sol#L2-L16) has payable functions:\n\t - [TokenSale.buyTokens()](sol_files/sample_302.sol#L10-L14)\n\tBut does not have a function to withdraw the ether\n",
+        "first_markdown_element": "sol_files/sample_302.sol#L2-L16",
+        "id": "7724df7475fd0ee25498d1dbc1bd7e4f704a41b6ac584761e71ec77df63fc060",
+        "check": "locked-ether",
+        "impact": "Medium",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "buyTokens",
+            "source_mapping": {
+              "start": 180,
+              "length": 166,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "buyTokens()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "require(bool,string)(block.timestamp < saleEndTime,Sale has ended)",
+            "source_mapping": {
+              "start": 218,
+              "length": 56,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                11
+              ],
+              "starting_column": 1,
+              "ending_column": 57
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "buyTokens",
+                "source_mapping": {
+                  "start": 180,
+                  "length": 166,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "TokenSale",
+                    "source_mapping": {
+                      "start": 24,
+                      "length": 324,
+                      "filename_relative": "sol_files/sample_302.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                      "filename_short": "sol_files/sample_302.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "buyTokens()"
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenSale.buyTokens() (sol_files/sample_302.sol#10-14) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < saleEndTime,Sale has ended) (sol_files/sample_302.sol#11)\n",
+        "markdown": "[TokenSale.buyTokens()](sol_files/sample_302.sol#L10-L14) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [require(bool,string)(block.timestamp < saleEndTime,Sale has ended)](sol_files/sample_302.sol#L11)\n",
+        "first_markdown_element": "sol_files/sample_302.sol#L10-L14",
+        "id": "e3234cdabad8f5f1c243420de4e87695fa3b46a29d2d434d5a297d05e7b19bad",
+        "check": "timestamp",
+        "impact": "Low",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (sol_files/sample_302.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](sol_files/sample_302.sol#L1)\n",
+        "first_markdown_element": "sol_files/sample_302.sol#L1",
+        "id": "9f65b2f8ef055b4013aea2ed610f53a7feb225c289f0401d81462d7eb0d1b779",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "tokenPrice",
+            "source_mapping": {
+              "start": 73,
+              "length": 25,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 1,
+              "ending_column": 26
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenSale.tokenPrice (sol_files/sample_302.sol#4) should be constant \n",
+        "markdown": "[TokenSale.tokenPrice](sol_files/sample_302.sol#L4) should be constant \n",
+        "first_markdown_element": "sol_files/sample_302.sol#L4",
+        "id": "829f4c52017e1d5c7d34b773f943f820937239dacfd12decdcad7cc4eb2403bc",
+        "check": "constable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "saleEndTime",
+            "source_mapping": {
+              "start": 45,
+              "length": 26,
+              "filename_relative": "sol_files/sample_302.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+              "filename_short": "sol_files/sample_302.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 27
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenSale",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 324,
+                  "filename_relative": "sol_files/sample_302.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_302.sol",
+                  "filename_short": "sol_files/sample_302.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenSale.saleEndTime (sol_files/sample_302.sol#3) should be immutable \n",
+        "markdown": "[TokenSale.saleEndTime](sol_files/sample_302.sol#L3) should be immutable \n",
+        "first_markdown_element": "sol_files/sample_302.sol#L3",
+        "id": "110eb1c270cb1a7121248341d3b8640e27d23383ab0023c5f5a03ce326d28af8",
+        "check": "immutable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}

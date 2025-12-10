@@ -1,0 +1,5 @@
+{
+  "success": false,
+  "error": "Invalid compilation: \nsample_0.solc.json is not the expected format '.sol'",
+  "results": {}
+}

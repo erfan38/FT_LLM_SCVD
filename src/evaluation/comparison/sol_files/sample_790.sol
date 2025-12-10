@@ -1,0 +1,9 @@
+pragma solidity ^0.8.0;
+modifier onlyOwner {
+require(msg.sender == owner || msg.sender == address(this));
+_;
+}
+
+function transferOwnership(address _newOwner) public onlyOwner {
+newOwner = _newOwner;
+}

@@ -1,0 +1,243 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_97.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+              "filename_short": "temp_sol_files/test_97.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_97.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_97.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_97.sol#L1",
+        "id": "61da1efe1c75eb9d4e29190614f98fe0681c61260450b22922d2f1fe700bdde2",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "increaseLockTime_25",
+            "source_mapping": {
+              "start": 105,
+              "length": 119,
+              "filename_relative": "temp_sol_files/test_97.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+              "filename_short": "temp_sol_files/test_97.sol",
+              "is_dependency": false,
+              "lines": [
+                6,
+                7,
+                8
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 201,
+                  "filename_relative": "temp_sol_files/test_97.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+                  "filename_short": "temp_sol_files/test_97.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "increaseLockTime_25(uint256)"
+            },
+            "additional_fields": {
+              "target": "function",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Function Vulnerable.increaseLockTime_25(uint256) (temp_sol_files/test_97.sol#6-8) is not in mixedCase\n",
+        "markdown": "Function [Vulnerable.increaseLockTime_25(uint256)](temp_sol_files/test_97.sol#L6-L8) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_97.sol#L6-L8",
+        "id": "10febe8172fb14f79569d765225aa93690619701b582d2401b1d90183b861c5a",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "lockTime_25",
+            "source_mapping": {
+              "start": 51,
+              "length": 43,
+              "filename_relative": "temp_sol_files/test_97.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+              "filename_short": "temp_sol_files/test_97.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 5,
+              "ending_column": 48
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 201,
+                  "filename_relative": "temp_sol_files/test_97.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+                  "filename_short": "temp_sol_files/test_97.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "variable",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Variable Vulnerable.lockTime_25 (temp_sol_files/test_97.sol#4) is not in mixedCase\n",
+        "markdown": "Variable [Vulnerable.lockTime_25](temp_sol_files/test_97.sol#L4) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_97.sol#L4",
+        "id": "47d5bef5d30d08eef6fc05b7648c7442755f0f855befc292bd25a3d1aa254c0d",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_secondsToIncrease",
+            "source_mapping": {
+              "start": 134,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_97.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+              "filename_short": "temp_sol_files/test_97.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 34,
+              "ending_column": 57
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "increaseLockTime_25",
+                "source_mapping": {
+                  "start": 105,
+                  "length": 119,
+                  "filename_relative": "temp_sol_files/test_97.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+                  "filename_short": "temp_sol_files/test_97.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 201,
+                      "filename_relative": "temp_sol_files/test_97.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_97.sol",
+                      "filename_short": "temp_sol_files/test_97.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "increaseLockTime_25(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter Vulnerable.increaseLockTime_25(uint256)._secondsToIncrease (temp_sol_files/test_97.sol#6) is not in mixedCase\n",
+        "markdown": "Parameter [Vulnerable.increaseLockTime_25(uint256)._secondsToIncrease](temp_sol_files/test_97.sol#L6) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_97.sol#L6",
+        "id": "90113ae4caec0f35fc84297e3a44b30dbfbc1c48b4d3ebe885cf19aa4676f2af",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      }
+    ]
+  }
+}

@@ -1,0 +1,344 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "sol_files/sample_826.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+              "filename_short": "sol_files/sample_826.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (sol_files/sample_826.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](sol_files/sample_826.sol#L1)\n",
+        "first_markdown_element": "sol_files/sample_826.sol#L1",
+        "id": "0dab2125cad595ae71bb7d07e54b7f7e589a0721a6091646dce5b637c14bf6fd",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_rewardRate",
+            "source_mapping": {
+              "start": 169,
+              "length": 19,
+              "filename_relative": "sol_files/sample_826.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+              "filename_short": "sol_files/sample_826.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 32,
+              "ending_column": 51
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "calculateDailyRewards",
+                "source_mapping": {
+                  "start": 138,
+                  "length": 238,
+                  "filename_relative": "sol_files/sample_826.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                  "filename_short": "sol_files/sample_826.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "StakingRewards",
+                    "source_mapping": {
+                      "start": 24,
+                      "length": 354,
+                      "filename_relative": "sol_files/sample_826.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                      "filename_short": "sol_files/sample_826.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "calculateDailyRewards(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter StakingRewards.calculateDailyRewards(uint256)._rewardRate (sol_files/sample_826.sol#6) is not in mixedCase\n",
+        "markdown": "Parameter [StakingRewards.calculateDailyRewards(uint256)._rewardRate](sol_files/sample_826.sol#L6) is not in mixedCase\n",
+        "first_markdown_element": "sol_files/sample_826.sol#L6",
+        "id": "f2f44a2ca5d7fdd4f8f144071c2d648cf5672bc9f463040fa9c144d029c54a3e",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "slitherConstructorVariables",
+            "source_mapping": {
+              "start": 24,
+              "length": 354,
+              "filename_relative": "sol_files/sample_826.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+              "filename_short": "sol_files/sample_826.sol",
+              "is_dependency": false,
+              "lines": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 0
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "StakingRewards",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 354,
+                  "filename_relative": "sol_files/sample_826.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                  "filename_short": "sol_files/sample_826.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "slitherConstructorVariables()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "totalStaked = 500000",
+            "source_mapping": {
+              "start": 50,
+              "length": 35,
+              "filename_relative": "sol_files/sample_826.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+              "filename_short": "sol_files/sample_826.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 36
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "slitherConstructorVariables",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 354,
+                  "filename_relative": "sol_files/sample_826.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                  "filename_short": "sol_files/sample_826.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "StakingRewards",
+                    "source_mapping": {
+                      "start": 24,
+                      "length": 354,
+                      "filename_relative": "sol_files/sample_826.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                      "filename_short": "sol_files/sample_826.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "slitherConstructorVariables()"
+                }
+              }
+            }
+          }
+        ],
+        "description": "StakingRewards.slitherConstructorVariables() (sol_files/sample_826.sol#2-14) uses literals with too many digits:\n\t- totalStaked = 500000 (sol_files/sample_826.sol#3)\n",
+        "markdown": "[StakingRewards.slitherConstructorVariables()](sol_files/sample_826.sol#L2-L14) uses literals with too many digits:\n\t- [totalStaked = 500000](sol_files/sample_826.sol#L3)\n",
+        "first_markdown_element": "sol_files/sample_826.sol#L2-L14",
+        "id": "9ee4d6d6be5657b168653bfa0363f705230506a84d646ffd8415606ca85b9059",
+        "check": "too-many-digits",
+        "impact": "Informational",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "totalStaked",
+            "source_mapping": {
+              "start": 50,
+              "length": 35,
+              "filename_relative": "sol_files/sample_826.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+              "filename_short": "sol_files/sample_826.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 36
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "StakingRewards",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 354,
+                  "filename_relative": "sol_files/sample_826.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_826.sol",
+                  "filename_short": "sol_files/sample_826.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "StakingRewards.totalStaked (sol_files/sample_826.sol#3) should be constant \n",
+        "markdown": "[StakingRewards.totalStaked](sol_files/sample_826.sol#L3) should be constant \n",
+        "first_markdown_element": "sol_files/sample_826.sol#L3",
+        "id": "19ddd77647b2716ab8af0515950552b1d5945b6ab6ab6c1857f190e0d7daac5f",
+        "check": "constable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}

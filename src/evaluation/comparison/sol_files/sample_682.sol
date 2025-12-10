@@ -1,0 +1,4 @@
+pragma solidity ^0.8.0;
+function _random() private view returns (uint8) {
+return uint8(uint256(keccak256(block.timestamp, block.difficulty))%2);
+}

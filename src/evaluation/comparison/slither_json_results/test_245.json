@@ -1,0 +1,305 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "unlockLimits",
+            "source_mapping": {
+              "start": 49,
+              "length": 47,
+              "filename_relative": "temp_sol_files/test_245.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+              "filename_short": "temp_sol_files/test_245.sol",
+              "is_dependency": false,
+              "lines": [
+                5
+              ],
+              "starting_column": 1,
+              "ending_column": 48
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenUnlock",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 293,
+                  "filename_relative": "temp_sol_files/test_245.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+                  "filename_short": "temp_sol_files/test_245.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          },
+          {
+            "type": "function",
+            "name": "computeUnlock",
+            "source_mapping": {
+              "start": 99,
+              "length": 217,
+              "filename_relative": "temp_sol_files/test_245.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+              "filename_short": "temp_sol_files/test_245.sol",
+              "is_dependency": false,
+              "lines": [
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenUnlock",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 293,
+                  "filename_relative": "temp_sol_files/test_245.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+                  "filename_short": "temp_sol_files/test_245.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "computeUnlock(uint256)"
+            }
+          }
+        ],
+        "description": "TokenUnlock.unlockLimits (temp_sol_files/test_245.sol#5) is never initialized. It is used in:\n\t- TokenUnlock.computeUnlock(uint256) (temp_sol_files/test_245.sol#7-14)\n",
+        "markdown": "[TokenUnlock.unlockLimits](temp_sol_files/test_245.sol#L5) is never initialized. It is used in:\n\t- [TokenUnlock.computeUnlock(uint256)](temp_sol_files/test_245.sol#L7-L14)\n",
+        "first_markdown_element": "temp_sol_files/test_245.sol#L5",
+        "id": "7fa4f991464183b4614b7ff1c4e64b94de0ddd45d8b1535d75e553e30c42b8ca",
+        "check": "uninitialized-state",
+        "impact": "High",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "computeUnlock",
+            "source_mapping": {
+              "start": 99,
+              "length": 217,
+              "filename_relative": "temp_sol_files/test_245.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+              "filename_short": "temp_sol_files/test_245.sol",
+              "is_dependency": false,
+              "lines": [
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenUnlock",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 293,
+                  "filename_relative": "temp_sol_files/test_245.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+                  "filename_short": "temp_sol_files/test_245.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15,
+                    16
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "computeUnlock(uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "unlocked > unlockLimits[msg.sender]",
+            "source_mapping": {
+              "start": 221,
+              "length": 35,
+              "filename_relative": "temp_sol_files/test_245.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+              "filename_short": "temp_sol_files/test_245.sol",
+              "is_dependency": false,
+              "lines": [
+                10
+              ],
+              "starting_column": 4,
+              "ending_column": 39
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "computeUnlock",
+                "source_mapping": {
+                  "start": 99,
+                  "length": 217,
+                  "filename_relative": "temp_sol_files/test_245.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+                  "filename_short": "temp_sol_files/test_245.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "TokenUnlock",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 293,
+                      "filename_relative": "temp_sol_files/test_245.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+                      "filename_short": "temp_sol_files/test_245.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "computeUnlock(uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenUnlock.computeUnlock(uint256) (temp_sol_files/test_245.sol#7-14) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- unlocked > unlockLimits[msg.sender] (temp_sol_files/test_245.sol#10)\n",
+        "markdown": "[TokenUnlock.computeUnlock(uint256)](temp_sol_files/test_245.sol#L7-L14) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [unlocked > unlockLimits[msg.sender]](temp_sol_files/test_245.sol#L10)\n",
+        "first_markdown_element": "temp_sol_files/test_245.sol#L7-L14",
+        "id": "97248bda9781ad7fbb0ad9c6b7702d2453e5b7f21f1de289fa796ca1b5d5bff3",
+        "check": "timestamp",
+        "impact": "Low",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_245.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_245.sol",
+              "filename_short": "temp_sol_files/test_245.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_245.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_245.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_245.sol#L1",
+        "id": "c8b6abac3dd68a393c2679968c02c1976be01403be343b81ce81c30914a370e0",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      }
+    ]
+  }
+}
