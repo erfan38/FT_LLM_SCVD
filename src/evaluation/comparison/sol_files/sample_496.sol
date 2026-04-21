@@ -1,0 +1,5 @@
+pragma solidity ^0.8.0;
+function approve(address _spender, uint256 _value) public returns (bool) {
+_approve(msg.sender, _spender, _value);
+return true;
+}

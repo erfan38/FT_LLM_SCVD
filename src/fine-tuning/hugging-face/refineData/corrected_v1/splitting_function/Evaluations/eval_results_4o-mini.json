@@ -1,0 +1,217 @@
+{
+  "model_name": "4o-mini",
+  "max_sample": 50,
+  "classification_metrics": {
+    "accuracy": 0.56,
+    "precision": 0.6086956521739131,
+    "recall": 0.875,
+    "f1": 0.717948717948718
+  },
+  "consistency_scores": {
+    "vulnerabilityReason": 0.5545535311102867,
+    "potentialSecurityRisk": 0.656063131056726,
+    "fixedCode": 0.651980159804225
+  },
+  "sample_results": [
+    {
+      "id": 0,
+      "result": "FP"
+    },
+    {
+      "id": 1,
+      "result": "TP"
+    },
+    {
+      "id": 2,
+      "result": "TP"
+    },
+    {
+      "id": 3,
+      "result": "TP"
+    },
+    {
+      "id": 4,
+      "result": "FP"
+    },
+    {
+      "id": 5,
+      "result": "TP"
+    },
+    {
+      "id": 6,
+      "result": "TP"
+    },
+    {
+      "id": 7,
+      "result": "FP"
+    },
+    {
+      "id": 8,
+      "result": "FP"
+    },
+    {
+      "id": 9,
+      "result": "TP"
+    },
+    {
+      "id": 10,
+      "result": "FP"
+    },
+    {
+      "id": 11,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 12,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 13,
+      "result": "TP"
+    },
+    {
+      "id": 14,
+      "result": "FP"
+    },
+    {
+      "id": 15,
+      "result": "TP"
+    },
+    {
+      "id": 16,
+      "result": "TP"
+    },
+    {
+      "id": 17,
+      "result": "TP"
+    },
+    {
+      "id": 18,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 19,
+      "result": "TP"
+    },
+    {
+      "id": 20,
+      "result": "FP"
+    },
+    {
+      "id": 21,
+      "result": "TP"
+    },
+    {
+      "id": 22,
+      "result": "TP"
+    },
+    {
+      "id": 23,
+      "result": "TP"
+    },
+    {
+      "id": 24,
+      "result": "TP"
+    },
+    {
+      "id": 25,
+      "result": "TP"
+    },
+    {
+      "id": 26,
+      "result": "TP"
+    },
+    {
+      "id": 27,
+      "result": "TP"
+    },
+    {
+      "id": 28,
+      "result": "TP"
+    },
+    {
+      "id": 29,
+      "result": "TP"
+    },
+    {
+      "id": 30,
+      "result": "FP"
+    },
+    {
+      "id": 31,
+      "result": "FP"
+    },
+    {
+      "id": 32,
+      "result": "FP"
+    },
+    {
+      "id": 33,
+      "result": "TP"
+    },
+    {
+      "id": 34,
+      "result": "TP"
+    },
+    {
+      "id": 35,
+      "result": "FP"
+    },
+    {
+      "id": 36,
+      "result": "FP"
+    },
+    {
+      "id": 37,
+      "result": "FP"
+    },
+    {
+      "id": 38,
+      "result": "TP"
+    },
+    {
+      "id": 39,
+      "result": "FN (no overlap)"
+    },
+    {
+      "id": 40,
+      "result": "TP"
+    },
+    {
+      "id": 41,
+      "result": "FP"
+    },
+    {
+      "id": 42,
+      "result": "FP"
+    },
+    {
+      "id": 43,
+      "result": "FP"
+    },
+    {
+      "id": 44,
+      "result": "TP"
+    },
+    {
+      "id": 45,
+      "result": "TP"
+    },
+    {
+      "id": 46,
+      "result": "FP"
+    },
+    {
+      "id": 47,
+      "result": "FP"
+    },
+    {
+      "id": 48,
+      "result": "TP"
+    },
+    {
+      "id": 49,
+      "result": "TP"
+    }
+  ]
+}

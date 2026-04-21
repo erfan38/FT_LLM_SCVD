@@ -1,0 +1,1448 @@
+Category,File_Name,Raw_Version,Full_Path
+^0.4.11,945.sol,^0.4.15,../../data/preprocessed_data/RE_source3/contracts/945.sol
+^0.4.0,1368.sol,^0.4.10,../../data/preprocessed_data/RE_source3/contracts/1368.sol
+^0.4.11,1008.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1008.sol
+^0.4.0,1321.sol,^0.4.10,../../data/preprocessed_data/RE_source3/contracts/1321.sol
+^0.4.0,1508.sol,^0.4.0,../../data/preprocessed_data/RE_source3/contracts/1508.sol
+^0.4.0,1505.sol,^0.4.0,../../data/preprocessed_data/RE_source3/contracts/1505.sol
+^0.4.11,251.sol,^0.4.18,../../data/preprocessed_data/RE_source3/contracts/251.sol
+^0.4.11,483.sol,^0.4.13,../../data/preprocessed_data/RE_source3/contracts/483.sol
+^0.4.11,484.sol,^0.4.18,../../data/preprocessed_data/RE_source3/contracts/484.sol
+^0.4.11,719.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/719.sol
+^0.4.0,1003.sol,^0.4.4,../../data/preprocessed_data/RE_source3/contracts/1003.sol
+^0.4.0,608.sol,^0.4.8,../../data/preprocessed_data/RE_source3/contracts/608.sol
+^0.4.0,1388.sol,^0.4.10,../../data/preprocessed_data/RE_source3/contracts/1388.sol
+^0.4.11,1001.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1001.sol
+^0.4.11,1004.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1004.sol
+^0.4.11,1005.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1005.sol
+^0.4.11,1007.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1007.sol
+^0.4.11,1006.sol,^0.4.11,../../data/preprocessed_data/RE_source3/contracts/1006.sol
+>=0.4.22 <0.6.0,71.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/71.sol
+^0.4.22,158.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/158.sol
+^0.4.11,164.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/164.sol
+^0.4.19,170.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/170.sol
+^0.4.11,366.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/366.sol
+^0.4.22,372.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/372.sol
+^0.4.22,206.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/206.sol
+^0.4.22,207.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/207.sol
+^0.4.22,373.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/373.sol
+^0.4.22,367.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/367.sol
+^0.4.19,171.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/171.sol
+^0.4.11,165.sol,^0.4.17,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/165.sol
+^0.4.11,159.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/159.sol
+^0.4.22,58.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/58.sol
+>=0.4.22 <0.6.0,70.sol,0.5.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/70.sol
+>=0.4.22 <0.6.0,64.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/64.sol
+^0.4.19,72.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/72.sol
+>=0.4.22 <0.6.0,66.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/66.sol
+^0.4.0,198.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/198.sol
+^0.4.22,8.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/8.sol
+^0.4.11,173.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/173.sol
+^0.4.11,99.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/99.sol
+^0.4.0,167.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/167.sol
+^0.4.19,359.sol,0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/359.sol
+>=0.4.22 <0.6.0,371.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/371.sol
+^0.4.19,365.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/365.sol
+^0.4.19,205.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/205.sol
+^0.4.22,211.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/211.sol
+^0.4.22,210.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/210.sol
+^0.4.22,204.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/204.sol
+^0.4.22,238.sol,^0.4.22,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/238.sol
+^0.4.19,364.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/364.sol
+^0.4.22,370.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/370.sol
+^0.4.11,358.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/358.sol
+^0.4.22,98.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/98.sol
+^0.4.22,166.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/166.sol
+^0.4.22,172.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/172.sol
+^0.4.11,9.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/9.sol
+^0.4.22,67.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/67.sol
+^0.4.22,199.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/199.sol
+^0.4.19,73.sol,0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/73.sol
+^0.4.19,77.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/77.sol
+^0.4.19,189.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/189.sol
+^0.4.22,63.sol,0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/63.sol
+>=0.4.22 <0.6.0,88.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/88.sol
+^0.4.0,176.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/176.sol
+^0.4.19,162.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/162.sol
+>=0.4.22 <0.6.0,374.sol,0.5.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/374.sol
+^0.4.22,360.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/360.sol
+>=0.4.22 <0.6.0,348.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/348.sol
+^0.4.22,200.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/200.sol
+^0.4.22,214.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/214.sol
+^0.4.0,228.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/228.sol
+^0.4.11,229.sol,>=0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/229.sol
+^0.4.0,215.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/215.sol
+^0.4.22,201.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/201.sol
+>=0.4.22 <0.6.0,349.sol,^0.5.1,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/349.sol
+^0.4.19,361.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/361.sol
+^0.4.19,375.sol,0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/375.sol
+^0.4.22,163.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/163.sol
+>=0.4.22 <0.6.0,89.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/89.sol
+^0.4.0,177.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/177.sol
+^0.4.22,62.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/62.sol
+^0.4.22,76.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/76.sol
+^0.4.22,188.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/188.sol
+^0.4.11,48.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/48.sol
+^0.4.22,60.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/60.sol
+^0.4.22,74.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/74.sol
+^0.4.11,161.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/161.sol
+^0.4.22,175.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/175.sol
+^0.4.22,149.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/149.sol
+^0.4.22,363.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/363.sol
+^0.4.19,377.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/377.sol
+>=0.4.22 <0.6.0,217.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/217.sol
+^0.4.22,203.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/203.sol
+^0.4.11,202.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/202.sol
+^0.4.11,216.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/216.sol
+^0.4.19,376.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/376.sol
+^0.4.22,362.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/362.sol
+^0.4.22,148.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/148.sol
+^0.4.19,160.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/160.sol
+^0.4.22,75.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/75.sol
+^0.4.22,61.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/61.sol
+^0.4.11,49.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/49.sol
+^0.4.19,12.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/12.sol
+^0.4.22,107.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/107.sol
+^0.4.11,113.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/113.sol
+^0.4.19,339.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/339.sol
+^0.4.22,305.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/305.sol
+^0.4.19,311.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/311.sol
+^0.4.11,259.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/259.sol
+^0.4.22,271.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/271.sol
+^0.4.19,265.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/265.sol
+^0.4.11,264.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/264.sol
+^0.4.22,270.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/270.sol
+^0.4.19,258.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/258.sol
+^0.4.22,310.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/310.sol
+^0.4.19,304.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/304.sol
+^0.4.22,338.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/338.sol
+^0.4.19,112.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/112.sol
+^0.4.11,106.sol,0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/106.sol
+^0.4.11,13.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/13.sol
+^0.4.11,11.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/11.sol
+^0.4.22,138.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/138.sol
+^0.4.11,110.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/110.sol
+^0.4.22,104.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/104.sol
+^0.4.11,312.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/312.sol
+^0.4.22,306.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/306.sol
+^0.4.22,299.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/299.sol
+^0.4.22,266.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/266.sol
+^0.4.22,272.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/272.sol
+^0.4.19,273.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/273.sol
+>=0.4.22 <0.6.0,267.sol,^0.5.1,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/267.sol
+>=0.4.22 <0.6.0,298.sol,^0.5.2,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/298.sol
+^0.4.22,307.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/307.sol
+^0.4.22,313.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/313.sol
+^0.4.22,105.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/105.sol
+^0.4.0,111.sol,>=0.4.10,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/111.sol
+^0.4.11,139.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/139.sol
+^0.4.11,38.sol,^0.4.17,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/38.sol
+^0.4.19,10.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/10.sol
+^0.4.11,28.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/28.sol
+^0.4.11,115.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/115.sol
+^0.4.11,101.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/101.sol
+^0.4.11,129.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/129.sol
+^0.4.11,317.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/317.sol
+^0.4.22,288.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/288.sol
+^0.4.0,263.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/263.sol
+^0.4.11,277.sol,0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/277.sol
+^0.4.0,262.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/262.sol
+>=0.4.22 <0.6.0,302.sol,^0.5.9,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/302.sol
+^0.4.22,316.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/316.sol
+^0.4.11,128.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/128.sol
+^0.4.22,100.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/100.sol
+^0.4.22,114.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/114.sol
+^0.4.22,29.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/29.sol
+^0.4.19,17.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/17.sol
+^0.4.0,102.sol,>=0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/102.sol
+^0.4.19,116.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/116.sol
+^0.4.22,300.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/300.sol
+^0.4.22,314.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/314.sol
+^0.4.22,328.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/328.sol
+^0.4.22,274.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/274.sol
+^0.4.19,260.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/260.sol
+>=0.4.22 <0.6.0,248.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/248.sol
+^0.4.11,249.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/249.sol
+^0.4.11,261.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/261.sol
+^0.4.19,275.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/275.sol
+^0.4.19,329.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/329.sol
+^0.4.11,315.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/315.sol
+^0.4.22,301.sol,0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/301.sol
+^0.4.22,103.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/103.sol
+^0.4.19,16.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/16.sol
+^0.4.22,27.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/27.sol
+^0.4.22,33.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/33.sol
+^0.4.22,126.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/126.sol
+^0.4.22,132.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/132.sol
+^0.4.11,318.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/318.sol
+^0.4.11,324.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/324.sol
+^0.4.11,330.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/330.sol
+>=0.4.22 <0.6.0,293.sol,^0.5.2,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/293.sol
+^0.4.0,287.sol,^0.4.9,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/287.sol
+^0.4.22,278.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/278.sol
+^0.4.19,244.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/244.sol
+^0.4.11,245.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/245.sol
+^0.4.22,251.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/251.sol
+^0.4.11,279.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/279.sol
+>=0.4.22 <0.6.0,286.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/286.sol
+>=0.4.22 <0.6.0,292.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/292.sol
+^0.4.22,331.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/331.sol
+^0.4.22,325.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/325.sol
+^0.4.19,319.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/319.sol
+^0.4.22,133.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/133.sol
+^0.4.19,127.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/127.sol
+^0.4.22,32.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/32.sol
+^0.4.11,26.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/26.sol
+^0.4.11,30.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/30.sol
+^0.4.11,24.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/24.sol
+^0.4.22,18.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/18.sol
+^0.4.11,119.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/119.sol
+^0.4.19,131.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/131.sol
+^0.4.19,125.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/125.sol
+^0.4.11,333.sol,0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/333.sol
+^0.4.22,327.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/327.sol
+^0.4.19,284.sol,0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/284.sol
+^0.4.22,290.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/290.sol
+^0.4.22,247.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/247.sol
+^0.4.22,253.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/253.sol
+^0.4.22,252.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/252.sol
+^0.4.22,246.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/246.sol
+>=0.4.22 <0.6.0,291.sol,0.5.5,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/291.sol
+^0.4.19,285.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/285.sol
+^0.4.22,326.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/326.sol
+^0.4.22,332.sol,0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/332.sol
+^0.4.11,124.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/124.sol
+>=0.4.22 <0.6.0,130.sol,0.5.6,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/130.sol
+^0.4.22,118.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/118.sol
+^0.4.11,19.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/19.sol
+^0.4.0,25.sol,^0.4.2,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/25.sol
+^0.4.11,31.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/31.sol
+^0.4.0,35.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/35.sol
+^0.4.22,21.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/21.sol
+^0.4.22,134.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/134.sol
+^0.4.19,120.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/120.sol
+^0.4.11,108.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/108.sol
+^0.4.22,336.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/336.sol
+^0.4.22,322.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/322.sol
+^0.4.19,281.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/281.sol
+^0.4.11,295.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/295.sol
+^0.4.11,242.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/242.sol
+^0.4.11,257.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/257.sol
+^0.4.0,243.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/243.sol
+^0.4.22,294.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/294.sol
+>=0.4.22 <0.6.0,280.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/280.sol
+^0.4.11,323.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/323.sol
+^0.4.22,337.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/337.sol
+^0.4.0,109.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/109.sol
+^0.4.11,121.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/121.sol
+>=0.4.22 <0.6.0,20.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/20.sol
+^0.4.19,34.sol,0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/34.sol
+^0.4.22,22.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/22.sol
+^0.4.11,123.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/123.sol
+^0.4.22,137.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/137.sol
+>=0.4.22 <0.6.0,321.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/321.sol
+^0.4.22,335.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/335.sol
+^0.4.22,309.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/309.sol
+>=0.4.22 <0.6.0,296.sol,>=0.5.0 <0.6.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/296.sol
+^0.4.22,282.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/282.sol
+^0.4.19,255.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/255.sol
+>=0.4.22 <0.6.0,241.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/241.sol
+^0.4.19,269.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/269.sol
+^0.4.22,268.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/268.sol
+^0.4.22,240.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/240.sol
+^0.4.11,254.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/254.sol
+^0.4.22,283.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/283.sol
+^0.4.11,297.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/297.sol
+^0.4.22,308.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/308.sol
+^0.4.11,334.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/334.sol
+^0.4.11,320.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/320.sol
+^0.4.0,136.sol,^0.4.2,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/136.sol
+^0.4.22,44.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/44.sol
+^0.4.11,50.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/50.sol
+^0.4.22,2.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/2.sol
+^0.4.22,186.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/186.sol
+^0.4.19,78.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/78.sol
+^0.4.22,192.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/192.sol
+^0.4.19,87.sol,0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/87.sol
+^0.4.11,93.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/93.sol
+^0.4.22,151.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/151.sol
+^0.4.22,384.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/384.sol
+>=0.4.22 <0.6.0,347.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/347.sol
+^0.4.22,353.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/353.sol
+^0.4.22,233.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/233.sol
+^0.4.22,227.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/227.sol
+^0.4.11,232.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/232.sol
+^0.4.22,352.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/352.sol
+^0.4.19,346.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/346.sol
+^0.4.22,385.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/385.sol
+^0.4.11,150.sol,^0.4.14,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/150.sol
+^0.4.11,144.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/144.sol
+^0.4.11,92.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/92.sol
+^0.4.0,178.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/178.sol
+^0.4.22,86.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/86.sol
+^0.4.22,193.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/193.sol
+^0.4.22,187.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/187.sol
+>=0.4.22 <0.6.0,79.sol,^0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/79.sol
+^0.4.11,51.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/51.sol
+^0.4.11,3.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/3.sol
+^0.4.11,45.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/45.sol
+^0.4.11,1.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/1.sol
+^0.4.22,53.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/53.sol
+^0.4.19,47.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/47.sol
+^0.4.22,191.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/191.sol
+^0.4.22,185.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/185.sol
+^0.4.22,90.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/90.sol
+^0.4.19,84.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/84.sol
+^0.4.19,152.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/152.sol
+^0.4.0,146.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/146.sol
+^0.4.22,378.sol,0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/378.sol
+^0.4.19,350.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/350.sol
+^0.4.22,344.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/344.sol
+^0.4.19,218.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/218.sol
+^0.4.22,224.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/224.sol
+^0.4.11,230.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/230.sol
+^0.4.19,231.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/231.sol
+^0.4.0,225.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/225.sol
+^0.4.22,219.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/219.sol
+^0.4.19,345.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/345.sol
+^0.4.22,351.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/351.sol
+>=0.4.22 <0.6.0,379.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/379.sol
+^0.4.22,147.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/147.sol
+^0.4.22,153.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/153.sol
+>=0.4.22 <0.6.0,85.sol,^0.5.9,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/85.sol
+^0.4.22,184.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/184.sol
+^0.4.0,190.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/190.sol
+^0.4.19,46.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/46.sol
+^0.4.22,52.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/52.sol
+^0.4.22,194.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/194.sol
+^0.4.22,56.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/56.sol
+^0.4.11,4.sol,0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/4.sol
+^0.4.22,42.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/42.sol
+^0.4.22,143.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/143.sol
+^0.4.22,95.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/95.sol
+>=0.4.22 <0.6.0,81.sol,^0.5.8,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/81.sol
+^0.4.19,382.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/382.sol
+^0.4.22,355.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/355.sol
+^0.4.22,341.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/341.sol
+^0.4.19,369.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/369.sol
+^0.4.0,221.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/221.sol
+^0.4.22,235.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/235.sol
+^0.4.11,209.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/209.sol
+^0.4.22,208.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/208.sol
+^0.4.22,234.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/234.sol
+^0.4.0,220.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/220.sol
+^0.4.11,368.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/368.sol
+^0.4.22,340.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/340.sol
+^0.4.22,354.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/354.sol
+>=0.4.22 <0.6.0,383.sol,0.5.3,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/383.sol
+^0.4.11,80.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/80.sol
+^0.4.0,94.sol,^0.4.2,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/94.sol
+^0.4.11,142.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/142.sol
+^0.4.22,156.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/156.sol
+^0.4.22,43.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/43.sol
+^0.4.22,5.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/5.sol
+^0.4.11,181.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/181.sol
+^0.4.22,195.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/195.sol
+^0.4.22,183.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/183.sol
+^0.4.11,197.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/197.sol
+^0.4.22,69.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/69.sol
+^0.4.19,41.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/41.sol
+^0.4.0,7.sol,^0.4.6,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/7.sol
+^0.4.22,55.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/55.sol
+^0.4.22,140.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/140.sol
+^0.4.22,154.sol,^0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/154.sol
+^0.4.11,82.sol,0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/82.sol
+^0.4.22,168.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/168.sol
+^0.4.22,381.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/381.sol
+^0.4.11,342.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/342.sol
+^0.4.0,356.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/356.sol
+^0.4.11,223.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/223.sol
+>=0.4.22 <0.6.0,237.sol,^0.5.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/237.sol
+^0.4.22,357.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/357.sol
+^0.4.22,343.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/343.sol
+^0.4.22,380.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/380.sol
+^0.4.11,169.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/169.sol
+^0.4.11,97.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/97.sol
+^0.4.19,83.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/83.sol
+^0.4.11,155.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/155.sol
+^0.4.22,141.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/141.sol
+^0.4.22,6.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/6.sol
+^0.4.22,54.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/54.sol
+^0.4.11,40.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/40.sol
+^0.4.22,196.sol,0.4.25,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/196.sol
+^0.4.22,68.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/68.sol
+^0.4.0,182.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/smartbugs_RE/182.sol
+^0.4.19,488.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/IoU/488.sol
+^0.4.11,521.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/IoU/521.sol
+^0.4.19,486.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/IoU/486.sol
+^0.4.22,602.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/602.sol
+^0.4.22,616.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/616.sol
+^0.4.22,617.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/617.sol
+^0.4.22,603.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/603.sol
+^0.4.22,615.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/615.sol
+^0.4.22,601.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/601.sol
+^0.4.22,614.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/614.sol
+^0.4.22,610.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/610.sol
+^0.4.22,604.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/604.sol
+^0.4.22,605.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/605.sol
+^0.4.22,611.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/611.sol
+^0.4.22,607.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/607.sol
+^0.4.22,613.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/613.sol
+^0.4.22,606.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/606.sol
+^0.4.22,307.sol,0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/307.sol
+^0.4.0,663.sol,^0.4.8,../../data/preprocessed_data/safe_smart_contracts/TD/663.sol
+^0.4.22,255.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/255.sol
+^0.4.22,608.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/608.sol
+^0.4.22,609.sol,^0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD/609.sol
+^0.4.22,182.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD/182.sol
+^0.4.22,65.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/65.sol
+^0.4.19,71.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/71.sol
+^0.4.19,59.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/59.sol
+^0.4.11,58.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/58.sol
+^0.4.11,70.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/70.sol
+^0.4.22,64.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/64.sol
+^0.4.11,72.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/72.sol
+^0.4.19,66.sol,0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/66.sol
+^0.4.22,8.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/8.sol
+^0.4.19,9.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/9.sol
+^0.4.11,77.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/77.sol
+^0.4.19,63.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/63.sol
+^0.4.19,48.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/48.sol
+^0.4.19,60.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/60.sol
+^0.4.11,74.sol,^0.4.17,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/74.sol
+^0.4.11,61.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/61.sol
+^0.4.19,49.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/49.sol
+^0.4.22,12.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/12.sol
+^0.4.19,13.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/13.sol
+^0.4.22,11.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/11.sol
+^0.4.19,39.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/39.sol
+^0.4.19,38.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/38.sol
+^0.4.11,10.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/10.sol
+^0.4.11,28.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/28.sol
+^0.4.19,14.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/14.sol
+^0.4.19,15.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/15.sol
+^0.4.22,29.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/29.sol
+^0.4.19,17.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/17.sol
+^0.4.19,16.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/16.sol
+^0.4.19,27.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/27.sol
+^0.4.19,33.sol,^0.4.19,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/33.sol
+^0.4.19,32.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/32.sol
+^0.4.19,26.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/26.sol
+^0.4.11,30.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/30.sol
+^0.4.11,24.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/24.sol
+^0.4.11,18.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/18.sol
+^0.4.19,19.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/19.sol
+^0.4.19,25.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/25.sol
+^0.4.19,31.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/31.sol
+^0.4.19,35.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/35.sol
+^0.4.19,21.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/21.sol
+^0.4.11,20.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/20.sol
+^0.4.19,34.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/34.sol
+^0.4.11,22.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/22.sol
+^0.4.19,36.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/36.sol
+^0.4.11,37.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/37.sol
+^0.4.19,23.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/23.sol
+^0.4.19,44.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/44.sol
+^0.4.19,50.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/50.sol
+^0.4.11,2.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/2.sol
+^0.4.11,78.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/78.sol
+^0.4.11,51.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/51.sol
+^0.4.22,3.sol,^0.4.24,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/3.sol
+^0.4.19,45.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/45.sol
+^0.4.19,1.sol,0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/1.sol
+^0.4.11,53.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/53.sol
+^0.4.11,47.sol,^0.4.16,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/47.sol
+^0.4.19,46.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/46.sol
+^0.4.11,52.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/52.sol
+^0.4.11,56.sol,^0.4.17,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/56.sol
+^0.4.0,4.sol,^0.4.8,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/4.sol
+^0.4.11,42.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/42.sol
+^0.4.19,43.sol,^0.4.20,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/43.sol
+^0.4.11,57.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/57.sol
+^0.4.11,5.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/5.sol
+^0.4.11,69.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/69.sol
+^0.4.19,41.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/41.sol
+^0.4.19,55.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/55.sol
+^0.4.22,6.sol,0.4.23,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/6.sol
+^0.4.11,54.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/54.sol
+^0.4.19,40.sol,^0.4.21,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/40.sol
+^0.4.11,68.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/TD_ESC/68.sol
+^0.4.0,1381.sol,^0.4.10,../../data/preprocessed_data/safe_smart_contracts/RE/1381.sol
+^0.4.0,601.sol,^0.4.8,../../data/preprocessed_data/safe_smart_contracts/RE/601.sol
+^0.4.11,994.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/994.sol
+^0.4.11,997.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/997.sol
+^0.4.0,996.sol,^0.4.4,../../data/preprocessed_data/safe_smart_contracts/RE/996.sol
+^0.4.11,477.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/RE/477.sol
+^0.4.11,476.sol,^0.4.13,../../data/preprocessed_data/safe_smart_contracts/RE/476.sol
+^0.4.11,712.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/712.sol
+^0.4.11,250.sol,^0.4.18,../../data/preprocessed_data/safe_smart_contracts/RE/250.sol
+^0.4.0,1314.sol,^0.4.10,../../data/preprocessed_data/safe_smart_contracts/RE/1314.sol
+^0.4.11,938.sol,^0.4.15,../../data/preprocessed_data/safe_smart_contracts/RE/938.sol
+^0.4.0,1498.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/RE/1498.sol
+^0.4.0,1501.sol,^0.4.0,../../data/preprocessed_data/safe_smart_contracts/RE/1501.sol
+^0.4.0,1361.sol,^0.4.10,../../data/preprocessed_data/safe_smart_contracts/RE/1361.sol
+^0.4.11,1001.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/1001.sol
+^0.4.11,998.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/998.sol
+^0.4.11,999.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/999.sol
+^0.4.11,1000.sol,^0.4.11,../../data/preprocessed_data/safe_smart_contracts/RE/1000.sol
+^0.4.22,8.sol,^0.4.24,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/8.sol
+^0.4.19,9.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/9.sol
+^0.4.19,12.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/12.sol
+^0.4.0,13.sol,^0.4.10,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/13.sol
+^0.4.11,11.sol,^0.4.15,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/11.sol
+^0.4.22,10.sol,^0.4.24,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/10.sol
+^0.4.19,28.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/28.sol
+^0.4.22,14.sol,^0.4.25,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/14.sol
+^0.4.22,15.sol,^0.4.23,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/15.sol
+^0.4.22,29.sol,^0.4.25,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/29.sol
+^0.4.19,17.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/17.sol
+^0.4.19,16.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/16.sol
+^0.4.0,27.sol,^0.4.2,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/27.sol
+^0.4.0,26.sol,^0.4.0,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/26.sol
+^0.4.22,30.sol,^0.4.25,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/30.sol
+^0.4.19,24.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/24.sol
+^0.4.19,18.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/18.sol
+^0.4.19,19.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/19.sol
+>=0.4.22 <0.6.0,25.sol,^0.5.0,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/25.sol
+^0.4.19,21.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/21.sol
+^0.4.22,20.sol,^0.4.25,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/20.sol
+^0.4.19,22.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/22.sol
+^0.4.19,23.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/23.sol
+^0.4.19,2.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/2.sol
+^0.4.19,3.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/3.sol
+^0.4.19,1.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/1.sol
+^0.4.22,0.sol,^0.4.24,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/0.sol
+^0.4.22,4.sol,^0.4.25,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/4.sol
+^0.4.19,5.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/5.sol
+^0.4.19,7.sol,^0.4.19,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/7.sol
+^0.4.11,6.sol,^0.4.18,../../data/preprocessed_data/RE_FTSmartAudit_datasets/contracts/6.sol
+^0.4.19,503.sol,^0.4.19,../../data/preprocessed_data/IoU_source3/contracts/503.sol
+^0.4.19,505.sol,^0.4.19,../../data/preprocessed_data/IoU_source3/contracts/505.sol
+^0.4.11,538.sol,^0.4.18,../../data/preprocessed_data/IoU_source3/contracts/538.sol
+^0.4.11,8.sol,^0.4.11,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/8.sol
+^0.4.22,9.sol,0.4.25,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/9.sol
+^0.4.22,12.sol,^0.4.23,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/12.sol
+^0.4.11,13.sol,^0.4.16,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/13.sol
+^0.4.19,11.sol,^0.4.21,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/11.sol
+^0.4.19,10.sol,^0.4.19,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/10.sol
+^0.4.22,14.sol,^0.4.23,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/14.sol
+^0.4.19,2.sol,^0.4.19,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/2.sol
+^0.4.19,3.sol,^0.4.19,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/3.sol
+^0.4.22,1.sol,^0.4.23,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/1.sol
+^0.4.11,0.sol,^0.4.18,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/0.sol
+^0.4.0,4.sol,^0.4.10,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/4.sol
+^0.4.19,5.sol,^0.4.19,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/5.sol
+^0.4.11,7.sol,^0.4.15,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/7.sol
+^0.4.0,6.sol,^0.4.10,../../data/preprocessed_data/IoU_FTSmartAudit_datasets/contracts/6.sol
+^0.4.22,749.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/749.sol
+^0.4.22,748.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/748.sol
+^0.4.22,363.sol,0.4.24,../../data/preprocessed_data/TD_source3/contracts/363.sol
+^0.4.22,476.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/476.sol
+^0.4.22,303.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/303.sol
+^0.4.22,276.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/276.sol
+^0.4.22,738.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/738.sol
+^0.4.22,739.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/739.sol
+^0.4.19,895.sol,^0.4.21,../../data/preprocessed_data/TD_source3/contracts/895.sol
+^0.4.22,734.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/734.sol
+^0.4.22,735.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/735.sol
+^0.4.22,737.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/737.sol
+^0.4.22,736.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/736.sol
+^0.4.22,732.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/732.sol
+^0.4.22,733.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/733.sol
+^0.4.22,742.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/742.sol
+^0.4.19,813.sol,^0.4.19,../../data/preprocessed_data/TD_source3/contracts/813.sol
+^0.4.22,218.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/218.sol
+^0.4.22,740.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/740.sol
+^0.4.22,741.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/741.sol
+^0.4.11,812.sol,^0.4.11,../../data/preprocessed_data/TD_source3/contracts/812.sol
+^0.4.22,751.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/751.sol
+^0.4.22,750.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/750.sol
+^0.4.22,744.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/744.sol
+^0.4.22,746.sol,^0.4.23,../../data/preprocessed_data/TD_source3/contracts/746.sol
+^0.4.22,747.sol,^0.4.24,../../data/preprocessed_data/TD_source3/contracts/747.sol
+^0.4.0,814.sol,^0.4.8,../../data/preprocessed_data/TD_source3/contracts/814.sol
+^0.4.19,65.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/65.sol
+^0.4.22,71.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/71.sol
+^0.4.22,59.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/59.sol
+^0.4.0,158.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/158.sol
+^0.4.22,164.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/164.sol
+^0.4.22,602.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/602.sol
+^0.4.22,616.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/616.sol
+^0.4.22,170.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/170.sol
+^0.4.22,399.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/399.sol
+^0.4.22,428.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/428.sol
+^0.4.22,400.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/400.sol
+^0.4.22,366.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/366.sol
+^0.4.22,372.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/372.sol
+^0.4.11,414.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/414.sol
+^0.4.22,548.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/548.sol
+^0.4.22,574.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/574.sol
+^0.4.11,212.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/212.sol
+^0.4.22,206.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/206.sol
+^0.4.0,560.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/560.sol
+^0.4.22,207.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/207.sol
+^0.4.22,561.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/561.sol
+^0.4.19,213.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/213.sol
+^0.4.19,549.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/549.sol
+^0.4.22,415.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/415.sol
+^0.4.11,401.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/401.sol
+^0.4.0,367.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/367.sol
+^0.4.19,429.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/429.sol
+^0.4.22,398.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/398.sol
+^0.4.11,617.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/617.sol
+^0.4.22,171.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/171.sol
+^0.4.22,603.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/603.sol
+^0.4.22,58.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/58.sol
+^0.4.0,70.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/70.sol
+^0.4.11,64.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/64.sol
+^0.4.11,72.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/72.sol
+^0.4.19,66.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/66.sol
+^0.4.22,198.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/198.sol
+^0.4.11,8.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/8.sol
+^0.4.0,629.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/629.sol
+^0.4.22,173.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/173.sol
+^0.4.22,615.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/615.sol
+^0.4.11,99.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/99.sol
+^0.4.22,601.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/601.sol
+^0.4.22,167.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/167.sol
+^0.4.19,359.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/359.sol
+^0.4.19,417.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/417.sol
+^0.4.22,371.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/371.sol
+^0.4.22,365.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/365.sol
+^0.4.11,403.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/403.sol
+^0.4.11,588.sol,^0.4.14,../../data/preprocessed_data/RE_smartbugs/contracts/588.sol
+^0.4.0,239.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/239.sol
+^0.4.19,563.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/563.sol
+^0.4.22,205.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/205.sol
+^0.4.22,211.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/211.sol
+^0.4.0,577.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/577.sol
+^0.4.22,210.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/210.sol
+^0.4.22,576.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/576.sol
+^0.4.22,562.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/562.sol
+^0.4.11,238.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/238.sol
+^0.4.22,589.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/589.sol
+^0.4.22,364.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/364.sol
+^0.4.22,402.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/402.sol
+^0.4.22,416.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/416.sol
+^0.4.0,370.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/370.sol
+^0.4.22,358.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/358.sol
+^0.4.19,600.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/600.sol
+^0.4.22,98.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/98.sol
+^0.4.11,166.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/166.sol
+^0.4.22,172.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/172.sol
+>=0.4.22 <0.6.0,614.sol,0.5.2,../../data/preprocessed_data/RE_smartbugs/contracts/614.sol
+^0.4.11,628.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/628.sol
+^0.4.19,9.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/9.sol
+^0.4.22,67.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/67.sol
+^0.4.19,199.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/199.sol
+^0.4.11,73.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/73.sol
+^0.4.22,189.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/189.sol
+^0.4.22,63.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/63.sol
+^0.4.19,610.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/610.sol
+^0.4.22,88.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/88.sol
+^0.4.11,176.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/176.sol
+^0.4.19,162.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/162.sol
+^0.4.22,604.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/604.sol
+^0.4.22,374.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/374.sol
+^0.4.19,412.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/412.sol
+^0.4.11,406.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/406.sol
+^0.4.22,360.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/360.sol
+^0.4.0,348.sol,^0.4.8,../../data/preprocessed_data/RE_smartbugs/contracts/348.sol
+^0.4.19,599.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/599.sol
+^0.4.22,200.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/200.sol
+^0.4.22,572.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/572.sol
+^0.4.0,214.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/214.sol
+^0.4.11,228.sol,0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/228.sol
+^0.4.22,229.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/229.sol
+^0.4.19,573.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/573.sol
+^0.4.19,215.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/215.sol
+^0.4.11,567.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/567.sol
+^0.4.19,598.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/598.sol
+^0.4.22,349.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/349.sol
+^0.4.22,407.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/407.sol
+^0.4.0,361.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/361.sol
+^0.4.0,413.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/413.sol
+^0.4.11,163.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/163.sol
+^0.4.22,605.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/605.sol
+>=0.4.22 <0.6.0,89.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/89.sol
+^0.4.22,611.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/611.sol
+^0.4.19,177.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/177.sol
+^0.4.19,62.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/62.sol
+^0.4.22,76.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/76.sol
+^0.4.22,188.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/188.sol
+^0.4.22,60.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/60.sol
+^0.4.19,74.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/74.sol
+^0.4.19,607.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/607.sol
+^0.4.19,161.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/161.sol
+^0.4.11,175.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/175.sol
+^0.4.22,613.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/613.sol
+^0.4.22,149.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/149.sol
+^0.4.11,388.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/388.sol
+^0.4.22,363.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/363.sol
+^0.4.22,405.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/405.sol
+^0.4.19,411.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/411.sol
+^0.4.0,217.sol,0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/217.sol
+^0.4.0,571.sol,^0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/571.sol
+^0.4.11,565.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/565.sol
+^0.4.22,203.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/203.sol
+^0.4.11,559.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/559.sol
+^0.4.22,558.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/558.sol
+^0.4.19,564.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/564.sol
+^0.4.22,202.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/202.sol
+^0.4.22,216.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/216.sol
+^0.4.0,570.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/570.sol
+^0.4.22,438.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/438.sol
+^0.4.22,410.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/410.sol
+^0.4.22,376.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/376.sol
+^0.4.22,362.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/362.sol
+^0.4.19,404.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/404.sol
+^0.4.22,389.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/389.sol
+^0.4.0,148.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/148.sol
+^0.4.19,174.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/174.sol
+^0.4.11,606.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/606.sol
+^0.4.19,75.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/75.sol
+^0.4.11,61.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/61.sol
+^0.4.0,49.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/49.sol
+^0.4.22,12.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/12.sol
+^0.4.22,107.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/107.sol
+^0.4.22,113.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/113.sol
+^0.4.22,488.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/488.sol
+^0.4.22,305.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/305.sol
+^0.4.19,463.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/463.sol
+^0.4.22,477.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/477.sol
+^0.4.22,311.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/311.sol
+^0.4.19,259.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/259.sol
+>=0.4.22 <0.6.0,271.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/271.sol
+^0.4.22,517.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/517.sol
+^0.4.22,503.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/503.sol
+^0.4.19,265.sol,0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/265.sol
+^0.4.22,502.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/502.sol
+^0.4.22,264.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/264.sol
+^0.4.11,270.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/270.sol
+^0.4.0,258.sol,0.4.8,../../data/preprocessed_data/RE_smartbugs/contracts/258.sol
+^0.4.0,476.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/476.sol
+^0.4.19,310.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/310.sol
+^0.4.11,304.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/304.sol
+^0.4.22,462.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/462.sol
+^0.4.0,489.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/489.sol
+^0.4.0,112.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/112.sol
+^0.4.19,106.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/106.sol
+^0.4.22,13.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/13.sol
+^0.4.22,11.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/11.sol
+^0.4.11,39.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/39.sol
+^0.4.22,138.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/138.sol
+^0.4.22,110.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/110.sol
+^0.4.11,104.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/104.sol
+^0.4.22,448.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/448.sol
+^0.4.19,312.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/312.sol
+^0.4.22,474.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/474.sol
+^0.4.22,460.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/460.sol
+>=0.4.22 <0.6.0,306.sol,^0.5.3,../../data/preprocessed_data/RE_smartbugs/contracts/306.sol
+^0.4.11,299.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/299.sol
+^0.4.22,528.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/528.sol
+>=0.4.22 <0.6.0,266.sol,0.5.4,../../data/preprocessed_data/RE_smartbugs/contracts/266.sol
+^0.4.22,500.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/500.sol
+^0.4.22,514.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/514.sol
+^0.4.19,272.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/272.sol
+^0.4.22,515.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/515.sol
+^0.4.19,273.sol,0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/273.sol
+^0.4.22,267.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/267.sol
+^0.4.22,501.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/501.sol
+^0.4.19,529.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/529.sol
+^0.4.22,298.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/298.sol
+^0.4.11,461.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/461.sol
+^0.4.11,307.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/307.sol
+^0.4.22,313.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/313.sol
+^0.4.0,475.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/475.sol
+^0.4.19,449.sol,0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/449.sol
+^0.4.11,105.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/105.sol
+^0.4.22,111.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/111.sol
+^0.4.22,139.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/139.sol
+^0.4.0,38.sol,^0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/38.sol
+^0.4.11,10.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/10.sol
+^0.4.22,28.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/28.sol
+^0.4.0,14.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/14.sol
+^0.4.11,115.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/115.sol
+^0.4.0,101.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/101.sol
+^0.4.22,129.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/129.sol
+^0.4.22,471.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/471.sol
+^0.4.0,317.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/317.sol
+^0.4.11,303.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/303.sol
+^0.4.0,465.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/465.sol
+^0.4.11,459.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/459.sol
+^0.4.22,288.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/288.sol
+^0.4.19,505.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/505.sol
+^0.4.11,263.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/263.sol
+^0.4.11,277.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/277.sol
+^0.4.22,511.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/511.sol
+^0.4.22,539.sol,0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/539.sol
+^0.4.11,538.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/538.sol
+^0.4.22,276.sol,0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/276.sol
+^0.4.19,510.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/510.sol
+^0.4.19,504.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/504.sol
+^0.4.22,262.sol,"""0.4.25""",../../data/preprocessed_data/RE_smartbugs/contracts/262.sol
+>=0.4.22 <0.6.0,289.sol,^0.5.3,../../data/preprocessed_data/RE_smartbugs/contracts/289.sol
+^0.4.22,458.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/458.sol
+>=0.4.22 <0.6.0,302.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/302.sol
+^0.4.22,464.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/464.sol
+^0.4.0,470.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/470.sol
+^0.4.22,316.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/316.sol
+^0.4.0,128.sol,^0.4.6,../../data/preprocessed_data/RE_smartbugs/contracts/128.sol
+^0.4.0,100.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/100.sol
+^0.4.19,114.sol,^ 0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/114.sol
+^0.4.0,15.sol,^0.4.6,../../data/preprocessed_data/RE_smartbugs/contracts/15.sol
+^0.4.0,29.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/29.sol
+^0.4.22,17.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/17.sol
+^0.4.11,102.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/102.sol
+^0.4.0,116.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/116.sol
+^0.4.11,499.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/499.sol
+^0.4.22,466.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/466.sol
+^0.4.22,300.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/300.sol
+^0.4.11,314.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/314.sol
+^0.4.22,472.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/472.sol
+>=0.4.22 <0.6.0,328.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/328.sol
+^0.4.22,512.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/512.sol
+^0.4.11,274.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/274.sol
+^0.4.11,260.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/260.sol
+^0.4.11,506.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/506.sol
+^0.4.11,248.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/248.sol
+>=0.4.22 <0.6.0,249.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/249.sol
+^0.4.22,261.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/261.sol
+^0.4.11,507.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/507.sol
+^0.4.22,513.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/513.sol
+>=0.4.22 <0.6.0,275.sol,^0.5.4,../../data/preprocessed_data/RE_smartbugs/contracts/275.sol
+^0.4.22,329.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/329.sol
+>=0.4.22 <0.6.0,315.sol,^0.5.9,../../data/preprocessed_data/RE_smartbugs/contracts/315.sol
+^0.4.19,473.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/473.sol
+^0.4.19,467.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/467.sol
+>=0.4.22 <0.6.0,301.sol,^0.5.8,../../data/preprocessed_data/RE_smartbugs/contracts/301.sol
+^0.4.11,117.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/117.sol
+^0.4.22,103.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/103.sol
+^0.4.22,16.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/16.sol
+^0.4.22,27.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/27.sol
+^0.4.22,33.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/33.sol
+^0.4.11,126.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/126.sol
+^0.4.19,132.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/132.sol
+^0.4.22,481.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/481.sol
+^0.4.22,495.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/495.sol
+^0.4.19,318.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/318.sol
+>=0.4.22 <0.6.0,324.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/324.sol
+^0.4.22,442.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/442.sol
+^0.4.22,330.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/330.sol
+^0.4.11,293.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/293.sol
+^0.4.11,287.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/287.sol
+>=0.4.22 <0.6.0,278.sol,^0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/278.sol
+^0.4.11,250.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/250.sol
+^0.4.22,536.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/536.sol
+^0.4.11,244.sol,0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/244.sol
+^0.4.22,523.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/523.sol
+^0.4.11,245.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/245.sol
+^0.4.11,251.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/251.sol
+^0.4.22,537.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/537.sol
+^0.4.22,279.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/279.sol
+^0.4.19,286.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/286.sol
+^0.4.11,292.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/292.sol
+^0.4.19,457.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/457.sol
+>=0.4.22 <0.6.0,331.sol,0.5.4,../../data/preprocessed_data/RE_smartbugs/contracts/331.sol
+^0.4.11,325.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/325.sol
+^0.4.22,443.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/443.sol
+^0.4.11,319.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/319.sol
+^0.4.19,133.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/133.sol
+^0.4.22,127.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/127.sol
+^0.4.22,32.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/32.sol
+^0.4.0,26.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/26.sol
+^0.4.11,30.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/30.sol
+^0.4.19,24.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/24.sol
+^0.4.22,18.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/18.sol
+^0.4.22,119.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/119.sol
+^0.4.0,131.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/131.sol
+^0.4.11,125.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/125.sol
+^0.4.22,496.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/496.sol
+^0.4.11,482.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/482.sol
+^0.4.19,469.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/469.sol
+^0.4.22,441.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/441.sol
+^0.4.22,327.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/327.sol
+^0.4.19,284.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/284.sol
+^0.4.0,290.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/290.sol
+^0.4.19,509.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/509.sol
+^0.4.11,247.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/247.sol
+^0.4.22,521.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/521.sol
+^0.4.22,535.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/535.sol
+^0.4.0,253.sol,^0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/253.sol
+^0.4.22,534.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/534.sol
+^0.4.11,252.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/252.sol
+^0.4.22,246.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/246.sol
+^0.4.22,520.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/520.sol
+^0.4.19,508.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/508.sol
+^0.4.22,291.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/291.sol
+^0.4.19,285.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/285.sol
+>=0.4.22 <0.6.0,326.sol,>=0.5.7 <0.6.0,../../data/preprocessed_data/RE_smartbugs/contracts/326.sol
+^0.4.0,332.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/332.sol
+^0.4.19,454.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/454.sol
+^0.4.19,468.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/468.sol
+^0.4.11,483.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/483.sol
+^0.4.22,124.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/124.sol
+^0.4.22,130.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/130.sol
+^0.4.11,118.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/118.sol
+^0.4.11,19.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/19.sol
+^0.4.11,25.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/25.sol
+^0.4.0,31.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/31.sol
+^0.4.11,21.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/21.sol
+^0.4.19,134.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/134.sol
+^0.4.0,120.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/120.sol
+>=0.4.22 <0.6.0,493.sol,0.5.6,../../data/preprocessed_data/RE_smartbugs/contracts/493.sol
+^0.4.22,487.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/487.sol
+^0.4.11,450.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/450.sol
+^0.4.22,336.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/336.sol
+^0.4.22,322.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/322.sol
+^0.4.19,444.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/444.sol
+^0.4.22,478.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/478.sol
+^0.4.11,281.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/281.sol
+^0.4.11,295.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/295.sol
+>=0.4.22 <0.6.0,524.sol,0.5.0,../../data/preprocessed_data/RE_smartbugs/contracts/524.sol
+^0.4.22,242.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/242.sol
+^0.4.11,256.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/256.sol
+^0.4.22,530.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/530.sol
+^0.4.11,518.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/518.sol
+^0.4.0,519.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/519.sol
+^0.4.22,257.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/257.sol
+^0.4.22,531.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/531.sol
+^0.4.11,525.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/525.sol
+^0.4.11,243.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/243.sol
+^0.4.11,294.sol,0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/294.sol
+^0.4.22,280.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/280.sol
+^0.4.19,479.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/479.sol
+^0.4.19,323.sol,0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/323.sol
+^0.4.22,445.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/445.sol
+^0.4.19,451.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/451.sol
+^0.4.22,486.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/486.sol
+^0.4.19,492.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/492.sol
+^0.4.0,109.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/109.sol
+^0.4.22,121.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/121.sol
+^0.4.22,135.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/135.sol
+^0.4.22,20.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/20.sol
+^0.4.22,34.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/34.sol
+^0.4.0,22.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/22.sol
+^0.4.11,36.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/36.sol
+^0.4.11,123.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/123.sol
+^0.4.19,137.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/137.sol
+^0.4.22,484.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/484.sol
+>=0.4.22 <0.6.0,490.sol,0.5.2,../../data/preprocessed_data/RE_smartbugs/contracts/490.sol
+^0.4.22,447.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/447.sol
+^0.4.11,321.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/321.sol
+^0.4.0,335.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/335.sol
+^0.4.11,453.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/453.sol
+^0.4.22,309.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/309.sol
+^0.4.11,296.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/296.sol
+^0.4.11,282.sol,0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/282.sol
+^0.4.11,533.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/533.sol
+^0.4.11,255.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/255.sol
+^0.4.0,241.sol,0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/241.sol
+^0.4.22,527.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/527.sol
+^0.4.11,269.sol,0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/269.sol
+^0.4.22,268.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/268.sol
+^0.4.0,240.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/240.sol
+^0.4.22,526.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/526.sol
+^0.4.11,532.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/532.sol
+^0.4.22,254.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/254.sol
+^0.4.22,283.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/283.sol
+^0.4.11,297.sol,0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/297.sol
+^0.4.19,308.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/308.sol
+^0.4.11,334.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/334.sol
+^0.4.11,452.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/452.sol
+^0.4.0,446.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/446.sol
+^0.4.19,320.sol,0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/320.sol
+^0.4.22,491.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/491.sol
+^0.4.11,485.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/485.sol
+^0.4.22,136.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/136.sol
+^0.4.0,122.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/122.sol
+^0.4.22,37.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/37.sol
+^0.4.11,23.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/23.sol
+^0.4.11,44.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/44.sol
+^0.4.19,50.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/50.sol
+^0.4.0,186.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/186.sol
+^0.4.11,78.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/78.sol
+^0.4.22,192.sol,0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/192.sol
+^0.4.19,179.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/179.sol
+^0.4.19,87.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/87.sol
+^0.4.11,93.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/93.sol
+^0.4.0,145.sol,^0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/145.sol
+^0.4.0,623.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/623.sol
+^0.4.22,151.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/151.sol
+^0.4.22,384.sol,^0.4.22,../../data/preprocessed_data/RE_smartbugs/contracts/384.sol
+^0.4.11,390.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/390.sol
+^0.4.22,409.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/409.sol
+^0.4.11,421.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/421.sol
+^0.4.11,347.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/347.sol
+^0.4.19,353.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/353.sol
+^0.4.11,435.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/435.sol
+^0.4.22,596.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/596.sol
+^0.4.22,582.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/582.sol
+^0.4.0,555.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/555.sol
+^0.4.11,233.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/233.sol
+^0.4.22,227.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/227.sol
+^0.4.22,541.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/541.sol
+^0.4.22,226.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/226.sol
+^0.4.19,540.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/540.sol
+^0.4.11,554.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/554.sol
+^0.4.22,568.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/568.sol
+^0.4.11,583.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/583.sol
+^0.4.19,597.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/597.sol
+^0.4.0,352.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/352.sol
+^0.4.19,434.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/434.sol
+^0.4.19,420.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/420.sol
+^0.4.11,346.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/346.sol
+^0.4.11,408.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/408.sol
+^0.4.22,391.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/391.sol
+^0.4.19,150.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/150.sol
+^0.4.22,622.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/622.sol
+^0.4.22,92.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/92.sol
+^0.4.19,178.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/178.sol
+^0.4.22,86.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/86.sol
+^0.4.22,193.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/193.sol
+^0.4.22,79.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/79.sol
+^0.4.22,51.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/51.sol
+^0.4.11,3.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/3.sol
+^0.4.22,45.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/45.sol
+^0.4.11,1.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/1.sol
+^0.4.22,47.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/47.sol
+^0.4.22,191.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/191.sol
+^0.4.11,185.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/185.sol
+^0.4.22,90.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/90.sol
+^0.4.22,608.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/608.sol
+^0.4.22,84.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/84.sol
+^0.4.22,152.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/152.sol
+^0.4.22,620.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/620.sol
+^0.4.19,146.sol,0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/146.sol
+^0.4.22,393.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/393.sol
+^0.4.19,387.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/387.sol
+^0.4.11,378.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/378.sol
+^0.4.0,350.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/350.sol
+^0.4.11,344.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/344.sol
+^0.4.22,422.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/422.sol
+^0.4.11,218.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/218.sol
+^0.4.11,542.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/542.sol
+>=0.4.22 <0.6.0,224.sol,^0.5.3,../../data/preprocessed_data/RE_smartbugs/contracts/224.sol
+^0.4.11,230.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/230.sol
+^0.4.19,556.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/556.sol
+^0.4.11,231.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/231.sol
+^0.4.0,557.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/557.sol
+^0.4.11,543.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/543.sol
+^0.4.0,219.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/219.sol
+^0.4.0,580.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/580.sol
+^0.4.11,345.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/345.sol
+^0.4.19,423.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/423.sol
+^0.4.19,437.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/437.sol
+^0.4.11,351.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/351.sol
+^0.4.19,379.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/379.sol
+^0.4.22,386.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/386.sol
+^0.4.22,392.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/392.sol
+^0.4.11,621.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/621.sol
+^0.4.22,147.sol,^0.4.22,../../data/preprocessed_data/RE_smartbugs/contracts/147.sol
+^0.4.22,153.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/153.sol
+^0.4.0,85.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/85.sol
+^0.4.22,609.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/609.sol
+^0.4.0,91.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/91.sol
+^0.4.0,184.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/184.sol
+^0.4.22,190.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/190.sol
+^0.4.22,46.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/46.sol
+^0.4.11,0.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/0.sol
+^0.4.19,194.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/194.sol
+^0.4.11,180.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/180.sol
+^0.4.11,56.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/56.sol
+^0.4.11,4.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/4.sol
+^0.4.19,42.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/42.sol
+^0.4.11,631.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/631.sol
+^0.4.19,157.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/157.sol
+^0.4.22,143.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/143.sol
+^0.4.19,625.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/625.sol
+^0.4.11,95.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/95.sol
+^0.4.22,619.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/619.sol
+^0.4.11,81.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/81.sol
+^0.4.22,396.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/396.sol
+^0.4.11,382.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/382.sol
+^0.4.11,355.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/355.sol
+^0.4.22,433.sol,^0.4.22,../../data/preprocessed_data/RE_smartbugs/contracts/433.sol
+^0.4.0,427.sol,^0.4.6,../../data/preprocessed_data/RE_smartbugs/contracts/427.sol
+^0.4.22,369.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/369.sol
+^0.4.19,584.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/584.sol
+>=0.4.22 <0.6.0,590.sol,0.5.2,../../data/preprocessed_data/RE_smartbugs/contracts/590.sol
+^0.4.11,221.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/221.sol
+^0.4.11,547.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/547.sol
+^0.4.22,553.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/553.sol
+^0.4.11,235.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/235.sol
+^0.4.11,209.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/209.sol
+^0.4.19,208.sol,0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/208.sol
+^0.4.11,552.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/552.sol
+^0.4.19,234.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/234.sol
+^0.4.0,220.sol,^0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/220.sol
+^0.4.11,546.sol,^ 0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/546.sol
+^0.4.22,591.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/591.sol
+^0.4.19,585.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/585.sol
+^0.4.22,368.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/368.sol
+^0.4.22,426.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/426.sol
+^0.4.0,340.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/340.sol
+^0.4.22,354.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/354.sol
+^0.4.11,432.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/432.sol
+^0.4.11,383.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/383.sol
+^0.4.22,397.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/397.sol
+^0.4.0,80.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/80.sol
+^0.4.22,618.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/618.sol
+^0.4.22,94.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/94.sol
+^0.4.0,142.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/142.sol
+^0.4.22,624.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/624.sol
+^0.4.19,630.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/630.sol
+^0.4.22,156.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/156.sol
+>=0.4.22 <0.6.0,43.sol,^0.5.7,../../data/preprocessed_data/RE_smartbugs/contracts/43.sol
+^0.4.11,57.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/57.sol
+^0.4.22,5.sol,0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/5.sol
+^0.4.11,181.sol,^0.4.15,../../data/preprocessed_data/RE_smartbugs/contracts/181.sol
+^0.4.11,195.sol,^0.4.12,../../data/preprocessed_data/RE_smartbugs/contracts/195.sol
+^0.4.0,183.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/183.sol
+^0.4.22,197.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/197.sol
+^0.4.22,69.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/69.sol
+^0.4.22,41.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/41.sol
+^0.4.22,7.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/7.sol
+^0.4.19,55.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/55.sol
+^0.4.19,626.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/626.sol
+^0.4.0,140.sol,^0.4.2,../../data/preprocessed_data/RE_smartbugs/contracts/140.sol
+^0.4.22,154.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/154.sol
+^0.4.22,82.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/82.sol
+^0.4.22,168.sol,^0.4.25,../../data/preprocessed_data/RE_smartbugs/contracts/168.sol
+^0.4.22,96.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/96.sol
+^0.4.11,381.sol,^0.4.16,../../data/preprocessed_data/RE_smartbugs/contracts/381.sol
+^0.4.22,395.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/395.sol
+^0.4.19,342.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/342.sol
+^0.4.22,424.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/424.sol
+^0.4.19,430.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/430.sol
+^0.4.19,356.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/356.sol
+^0.4.0,418.sol,>=0.4.10,../../data/preprocessed_data/RE_smartbugs/contracts/418.sol
+^0.4.11,593.sol,^0.4.11,../../data/preprocessed_data/RE_smartbugs/contracts/593.sol
+^0.4.11,587.sol,^0.4.14,../../data/preprocessed_data/RE_smartbugs/contracts/587.sol
+>=0.4.22 <0.6.0,236.sol,^0.5.3,../../data/preprocessed_data/RE_smartbugs/contracts/236.sol
+^0.4.22,550.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/550.sol
+^0.4.22,544.sol,0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/544.sol
+^0.4.0,578.sol,^0.4.9,../../data/preprocessed_data/RE_smartbugs/contracts/578.sol
+^0.4.22,579.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/579.sol
+^0.4.11,545.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/545.sol
+^0.4.22,223.sol,0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/223.sol
+^0.4.22,237.sol,0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/237.sol
+^0.4.0,551.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/551.sol
+^0.4.22,586.sol,0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/586.sol
+^0.4.0,592.sol,^0.4.0,../../data/preprocessed_data/RE_smartbugs/contracts/592.sol
+^0.4.22,419.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/419.sol
+^0.4.19,431.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/431.sol
+^0.4.11,357.sol,^0.4.14,../../data/preprocessed_data/RE_smartbugs/contracts/357.sol
+^0.4.22,343.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/343.sol
+^0.4.19,425.sol,^0.4.20,../../data/preprocessed_data/RE_smartbugs/contracts/425.sol
+^0.4.0,394.sol,>=0.4.4,../../data/preprocessed_data/RE_smartbugs/contracts/394.sol
+^0.4.19,380.sol,^0.4.21,../../data/preprocessed_data/RE_smartbugs/contracts/380.sol
+^0.4.19,169.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/169.sol
+^0.4.11,83.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/83.sol
+^0.4.19,155.sol,^0.4.19,../../data/preprocessed_data/RE_smartbugs/contracts/155.sol
+^0.4.11,627.sol,^0.4.13,../../data/preprocessed_data/RE_smartbugs/contracts/627.sol
+^0.4.11,141.sol,^0.4.17,../../data/preprocessed_data/RE_smartbugs/contracts/141.sol
+^0.4.22,6.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/6.sol
+^0.4.22,54.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/54.sol
+^0.4.22,40.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/40.sol
+^0.4.22,196.sol,^0.4.23,../../data/preprocessed_data/RE_smartbugs/contracts/196.sol
+^0.4.22,68.sol,^0.4.24,../../data/preprocessed_data/RE_smartbugs/contracts/68.sol
+^0.4.11,182.sol,^0.4.18,../../data/preprocessed_data/RE_smartbugs/contracts/182.sol
+^0.4.22,8.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/8.sol
+^0.4.22,9.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/9.sol
+>=0.4.22 <0.6.0,48.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/48.sol
+>=0.4.22 <0.6.0,49.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/49.sol
+^0.4.22,12.sol,>=0.4.23 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/12.sol
+^0.4.22,13.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/13.sol
+>=0.4.22 <0.6.0,11.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/11.sol
+>=0.4.22 <0.6.0,39.sol,^0.5.10,../../data/preprocessed_data/IoU_SolidiFi/contracts/39.sol
+>=0.4.22 <0.6.0,38.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/38.sol
+^0.4.19,10.sol,>=0.4.21 < 0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/10.sol
+>=0.4.22 <0.6.0,28.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/28.sol
+>=0.4.22 <0.6.0,14.sol,^0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/14.sol
+>=0.4.22 <0.6.0,15.sol,^0.5.7,../../data/preprocessed_data/IoU_SolidiFi/contracts/15.sol
+>=0.4.22 <0.6.0,29.sol,>=0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/29.sol
+>=0.4.22 <0.6.0,17.sol,^0.5.6,../../data/preprocessed_data/IoU_SolidiFi/contracts/17.sol
+>=0.4.22 <0.6.0,16.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/16.sol
+>=0.4.22 <0.6.0,27.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/27.sol
+>=0.4.22 <0.6.0,33.sol,>=0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/33.sol
+>=0.4.22 <0.6.0,32.sol,^0.5.7,../../data/preprocessed_data/IoU_SolidiFi/contracts/32.sol
+>=0.4.22 <0.6.0,26.sol,^0.5.2,../../data/preprocessed_data/IoU_SolidiFi/contracts/26.sol
+>=0.4.22 <0.6.0,30.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/30.sol
+>=0.4.22 <0.6.0,24.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/24.sol
+>=0.4.22 <0.6.0,18.sol,>=0.5.9,../../data/preprocessed_data/IoU_SolidiFi/contracts/18.sol
+>=0.4.22 <0.6.0,19.sol,^0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/19.sol
+>=0.4.22 <0.6.0,25.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/25.sol
+>=0.4.22 <0.6.0,31.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/31.sol
+>=0.4.22 <0.6.0,35.sol,>=0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/35.sol
+>=0.4.22 <0.6.0,21.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/21.sol
+>=0.4.22 <0.6.0,20.sol,^0.5.10,../../data/preprocessed_data/IoU_SolidiFi/contracts/20.sol
+>=0.4.22 <0.6.0,34.sol,>=0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/34.sol
+>=0.4.22 <0.6.0,22.sol,>=0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/22.sol
+>=0.4.22 <0.6.0,36.sol,>=0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/36.sol
+>=0.4.22 <0.6.0,37.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/37.sol
+>=0.4.22 <0.6.0,23.sol,^0.5.2,../../data/preprocessed_data/IoU_SolidiFi/contracts/23.sol
+>=0.4.22 <0.6.0,44.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/44.sol
+>=0.4.22 <0.6.0,50.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/50.sol
+>=0.4.22 <0.6.0,2.sol,^0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/2.sol
+>=0.4.22 <0.6.0,3.sol,^0.5.1,../../data/preprocessed_data/IoU_SolidiFi/contracts/3.sol
+>=0.4.22 <0.6.0,45.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/45.sol
+^0.4.22,1.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/1.sol
+>=0.4.22 <0.6.0,47.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/47.sol
+^0.4.19,46.sol,>=0.4.21 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/46.sol
+>=0.4.22 <0.6.0,4.sol,>= 0.5.0 < 0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/4.sol
+>=0.4.22 <0.6.0,42.sol,^0.5.11,../../data/preprocessed_data/IoU_SolidiFi/contracts/42.sol
+>=0.4.22 <0.6.0,43.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/43.sol
+^0.4.22,5.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/5.sol
+^0.4.22,41.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/41.sol
+>=0.4.22 <0.6.0,7.sol,^0.5.8,../../data/preprocessed_data/IoU_SolidiFi/contracts/7.sol
+>=0.4.22 <0.6.0,6.sol,^0.5.8,../../data/preprocessed_data/IoU_SolidiFi/contracts/6.sol
+>=0.4.22 <0.6.0,40.sol,^0.5.0,../../data/preprocessed_data/IoU_SolidiFi/contracts/40.sol
+^0.4.11,65.sol,^0.4.15,../../data/preprocessed_data/TD_ESC/contracts/65.sol
+^0.4.11,71.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/71.sol
+^0.4.19,59.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/59.sol
+^0.4.19,58.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/58.sol
+^0.4.19,70.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/70.sol
+^0.4.11,64.sol,^0.4.15,../../data/preprocessed_data/TD_ESC/contracts/64.sol
+^0.4.19,72.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/72.sol
+^0.4.19,66.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/66.sol
+^0.4.22,8.sol,0.4.23,../../data/preprocessed_data/TD_ESC/contracts/8.sol
+^0.4.11,99.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/99.sol
+^0.4.19,98.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/98.sol
+^0.4.19,67.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/67.sol
+^0.4.19,77.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/77.sol
+^0.4.11,63.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/63.sol
+^0.4.22,88.sol,^0.4.23,../../data/preprocessed_data/TD_ESC/contracts/88.sol
+^0.4.19,89.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/89.sol
+^0.4.22,62.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/62.sol
+^0.4.11,76.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/76.sol
+^0.4.19,48.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/48.sol
+^0.4.19,60.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/60.sol
+^0.4.19,74.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/74.sol
+^0.4.19,149.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/149.sol
+^0.4.11,148.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/148.sol
+^0.4.19,75.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/75.sol
+^0.4.11,61.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/61.sol
+^0.4.19,49.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/49.sol
+^0.4.11,12.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/12.sol
+^0.4.11,107.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/107.sol
+^0.4.11,113.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/113.sol
+^0.4.11,112.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/112.sol
+^0.4.19,106.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/106.sol
+^0.4.11,13.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/13.sol
+^0.4.19,11.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/11.sol
+^0.4.11,39.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/39.sol
+^0.4.19,110.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/110.sol
+^0.4.11,104.sol,^0.4.17,../../data/preprocessed_data/TD_ESC/contracts/104.sol
+^0.4.11,105.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/105.sol
+^0.4.11,111.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/111.sol
+^0.4.11,139.sol,^0.4.17,../../data/preprocessed_data/TD_ESC/contracts/139.sol
+^0.4.11,38.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/38.sol
+^0.4.22,10.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/10.sol
+^0.4.19,28.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/28.sol
+^0.4.11,14.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/14.sol
+^0.4.19,115.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/115.sol
+^0.4.19,101.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/101.sol
+^0.4.19,129.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/129.sol
+^0.4.11,128.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/128.sol
+^0.4.11,100.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/100.sol
+^0.4.19,114.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/114.sol
+^0.4.11,15.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/15.sol
+^0.4.11,29.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/29.sol
+^0.4.22,17.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/17.sol
+^0.4.11,102.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/102.sol
+^0.4.11,116.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/116.sol
+^0.4.19,103.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/103.sol
+^0.4.19,16.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/16.sol
+^0.4.19,27.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/27.sol
+^0.4.11,33.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/33.sol
+^0.4.19,126.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/126.sol
+^0.4.19,132.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/132.sol
+^0.4.19,133.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/133.sol
+^0.4.11,127.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/127.sol
+^0.4.19,32.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/32.sol
+^0.4.0,26.sol,^0.4.8,../../data/preprocessed_data/TD_ESC/contracts/26.sol
+^0.4.19,30.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/30.sol
+^0.4.19,24.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/24.sol
+^0.4.22,18.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/18.sol
+^0.4.19,119.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/119.sol
+^0.4.11,131.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/131.sol
+^0.4.11,125.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/125.sol
+^0.4.11,124.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/124.sol
+^0.4.19,130.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/130.sol
+^0.4.19,118.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/118.sol
+^0.4.19,19.sol,0.4.21,../../data/preprocessed_data/TD_ESC/contracts/19.sol
+^0.4.0,25.sol,^0.4.8,../../data/preprocessed_data/TD_ESC/contracts/25.sol
+^0.4.11,31.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/31.sol
+^0.4.19,35.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/35.sol
+^0.4.19,21.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/21.sol
+^0.4.11,134.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/134.sol
+^0.4.22,120.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/120.sol
+^0.4.11,108.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/108.sol
+^0.4.11,109.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/109.sol
+^0.4.22,121.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/121.sol
+^0.4.19,135.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/135.sol
+^0.4.19,20.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/20.sol
+^0.4.11,34.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/34.sol
+^0.4.19,22.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/22.sol
+^0.4.11,36.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/36.sol
+^0.4.11,137.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/137.sol
+^0.4.19,136.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/136.sol
+^0.4.19,122.sol,0.4.21,../../data/preprocessed_data/TD_ESC/contracts/122.sol
+^0.4.19,37.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/37.sol
+^0.4.19,23.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/23.sol
+^0.4.19,44.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/44.sol
+^0.4.19,50.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/50.sol
+^0.4.22,2.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/2.sol
+^0.4.11,78.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/78.sol
+^0.4.19,87.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/87.sol
+^0.4.19,93.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/93.sol
+^0.4.11,145.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/145.sol
+^0.4.11,144.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/144.sol
+^0.4.19,92.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/92.sol
+^0.4.11,86.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/86.sol
+^0.4.19,79.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/79.sol
+^0.4.19,51.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/51.sol
+^0.4.0,3.sol,^0.4.8,../../data/preprocessed_data/TD_ESC/contracts/3.sol
+^0.4.22,45.sol,^0.4.24,../../data/preprocessed_data/TD_ESC/contracts/45.sol
+^0.4.11,1.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/1.sol
+^0.4.19,53.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/53.sol
+^0.4.19,47.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/47.sol
+^0.4.11,90.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/90.sol
+^0.4.19,84.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/84.sol
+^0.4.11,147.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/147.sol
+^0.4.19,85.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/85.sol
+^0.4.19,91.sol,^0.4.20,../../data/preprocessed_data/TD_ESC/contracts/91.sol
+^0.4.11,46.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/46.sol
+^0.4.19,0.sol,0.4.21,../../data/preprocessed_data/TD_ESC/contracts/0.sol
+^0.4.19,52.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/52.sol
+^0.4.19,56.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/56.sol
+^0.4.11,4.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/4.sol
+^0.4.0,42.sol,^0.4.0,../../data/preprocessed_data/TD_ESC/contracts/42.sol
+^0.4.0,143.sol,^0.4.4,../../data/preprocessed_data/TD_ESC/contracts/143.sol
+^0.4.11,95.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/95.sol
+^0.4.19,81.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/81.sol
+^0.4.19,80.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/80.sol
+^0.4.11,94.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/94.sol
+^0.4.19,43.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/43.sol
+^0.4.19,57.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/57.sol
+^0.4.19,5.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/5.sol
+^0.4.19,69.sol,^0.4.19,../../data/preprocessed_data/TD_ESC/contracts/69.sol
+^0.4.11,41.sol,^0.4.16,../../data/preprocessed_data/TD_ESC/contracts/41.sol
+^0.4.11,7.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/7.sol
+^0.4.0,55.sol,^0.4.10,../../data/preprocessed_data/TD_ESC/contracts/55.sol
+^0.4.11,140.sol,^0.4.11,../../data/preprocessed_data/TD_ESC/contracts/140.sol
+^0.4.11,82.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/82.sol
+^0.4.11,96.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/96.sol
+^0.4.11,97.sol,^0.4.13,../../data/preprocessed_data/TD_ESC/contracts/97.sol
+^0.4.19,83.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/83.sol
+^0.4.11,141.sol,^0.4.14,../../data/preprocessed_data/TD_ESC/contracts/141.sol
+^0.4.19,6.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/6.sol
+^0.4.19,54.sol,0.4.21,../../data/preprocessed_data/TD_ESC/contracts/54.sol
+^0.4.19,40.sol,^0.4.21,../../data/preprocessed_data/TD_ESC/contracts/40.sol
+^0.4.11,68.sol,^0.4.18,../../data/preprocessed_data/TD_ESC/contracts/68.sol
+^0.4.0,2.sol,^0.4.0,../../data/preprocessed_data/TD_FTSmartAudit_datasets/contracts/2.sol
+^0.4.0,3.sol,^0.4.0,../../data/preprocessed_data/TD_FTSmartAudit_datasets/contracts/3.sol
+^0.4.22,1.sol,^0.4.25,../../data/preprocessed_data/TD_FTSmartAudit_datasets/contracts/1.sol
+^0.4.11,0.sol,^0.4.15,../../data/preprocessed_data/TD_FTSmartAudit_datasets/contracts/0.sol
+^0.4.22,4.sol,^0.4.25,../../data/preprocessed_data/TD_FTSmartAudit_datasets/contracts/4.sol
+^0.4.22,8.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/8.sol
+^0.4.22,9.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/9.sol
+>=0.4.22 <0.6.0,48.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/48.sol
+>=0.4.22 <0.6.0,49.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/49.sol
+^0.4.22,12.sol,>=0.4.23 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/12.sol
+^0.4.22,13.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/13.sol
+>=0.4.22 <0.6.0,11.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/11.sol
+>=0.4.22 <0.6.0,39.sol,^0.5.10,../../data/preprocessed_data/RE_SolidiFi/contracts/39.sol
+>=0.4.22 <0.6.0,38.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/38.sol
+^0.4.19,10.sol,>=0.4.21 < 0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/10.sol
+>=0.4.22 <0.6.0,28.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/28.sol
+>=0.4.22 <0.6.0,14.sol,^0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/14.sol
+>=0.4.22 <0.6.0,15.sol,^0.5.7,../../data/preprocessed_data/RE_SolidiFi/contracts/15.sol
+>=0.4.22 <0.6.0,29.sol,>=0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/29.sol
+>=0.4.22 <0.6.0,17.sol,^0.5.6,../../data/preprocessed_data/RE_SolidiFi/contracts/17.sol
+>=0.4.22 <0.6.0,16.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/16.sol
+>=0.4.22 <0.6.0,27.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/27.sol
+>=0.4.22 <0.6.0,33.sol,>=0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/33.sol
+>=0.4.22 <0.6.0,32.sol,^0.5.7,../../data/preprocessed_data/RE_SolidiFi/contracts/32.sol
+>=0.4.22 <0.6.0,26.sol,^0.5.2,../../data/preprocessed_data/RE_SolidiFi/contracts/26.sol
+>=0.4.22 <0.6.0,30.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/30.sol
+>=0.4.22 <0.6.0,24.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/24.sol
+>=0.4.22 <0.6.0,18.sol,>=0.5.9,../../data/preprocessed_data/RE_SolidiFi/contracts/18.sol
+>=0.4.22 <0.6.0,19.sol,^0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/19.sol
+>=0.4.22 <0.6.0,25.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/25.sol
+>=0.4.22 <0.6.0,31.sol,>=0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/31.sol
+>=0.4.22 <0.6.0,35.sol,>=0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/35.sol
+>=0.4.22 <0.6.0,21.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/21.sol
+>=0.4.22 <0.6.0,20.sol,^0.5.10,../../data/preprocessed_data/RE_SolidiFi/contracts/20.sol
+>=0.4.22 <0.6.0,34.sol,>=0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/34.sol
+>=0.4.22 <0.6.0,22.sol,>=0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/22.sol
+>=0.4.22 <0.6.0,36.sol,>=0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/36.sol
+>=0.4.22 <0.6.0,37.sol,^0.5.00,../../data/preprocessed_data/RE_SolidiFi/contracts/37.sol
+>=0.4.22 <0.6.0,23.sol,^0.5.2,../../data/preprocessed_data/RE_SolidiFi/contracts/23.sol
+>=0.4.22 <0.6.0,44.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/44.sol
+>=0.4.22 <0.6.0,50.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/50.sol
+>=0.4.22 <0.6.0,2.sol,^0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/2.sol
+>=0.4.22 <0.6.0,3.sol,^0.5.1,../../data/preprocessed_data/RE_SolidiFi/contracts/3.sol
+>=0.4.22 <0.6.0,45.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/45.sol
+^0.4.22,1.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/1.sol
+>=0.4.22 <0.6.0,47.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/47.sol
+^0.4.19,46.sol,>=0.4.21 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/46.sol
+>=0.4.22 <0.6.0,4.sol,>= 0.5.0 < 0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/4.sol
+>=0.4.22 <0.6.0,42.sol,^0.5.11,../../data/preprocessed_data/RE_SolidiFi/contracts/42.sol
+>=0.4.22 <0.6.0,43.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/43.sol
+^0.4.22,5.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/5.sol
+^0.4.22,41.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/RE_SolidiFi/contracts/41.sol
+>=0.4.22 <0.6.0,7.sol,^0.5.8,../../data/preprocessed_data/RE_SolidiFi/contracts/7.sol
+>=0.4.22 <0.6.0,6.sol,^0.5.8,../../data/preprocessed_data/RE_SolidiFi/contracts/6.sol
+>=0.4.22 <0.6.0,40.sol,^0.5.0,../../data/preprocessed_data/RE_SolidiFi/contracts/40.sol
+^0.4.22,8.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/8.sol
+^0.4.22,9.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/9.sol
+>=0.4.22 <0.6.0,48.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/48.sol
+>=0.4.22 <0.6.0,49.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/49.sol
+^0.4.22,12.sol,>=0.4.23 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/12.sol
+^0.4.22,13.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/13.sol
+>=0.4.22 <0.6.0,11.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/11.sol
+>=0.4.22 <0.6.0,39.sol,^0.5.10,../../data/preprocessed_data/TD_SolidiFi/contracts/39.sol
+>=0.4.22 <0.6.0,38.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/38.sol
+^0.4.19,10.sol,>=0.4.21 < 0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/10.sol
+>=0.4.22 <0.6.0,28.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/28.sol
+>=0.4.22 <0.6.0,14.sol,^0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/14.sol
+>=0.4.22 <0.6.0,15.sol,^0.5.7,../../data/preprocessed_data/TD_SolidiFi/contracts/15.sol
+>=0.4.22 <0.6.0,29.sol,>=0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/29.sol
+>=0.4.22 <0.6.0,17.sol,^0.5.6,../../data/preprocessed_data/TD_SolidiFi/contracts/17.sol
+>=0.4.22 <0.6.0,16.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/16.sol
+>=0.4.22 <0.6.0,27.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/27.sol
+>=0.4.22 <0.6.0,33.sol,>=0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/33.sol
+>=0.4.22 <0.6.0,32.sol,^0.5.7,../../data/preprocessed_data/TD_SolidiFi/contracts/32.sol
+>=0.4.22 <0.6.0,26.sol,^0.5.2,../../data/preprocessed_data/TD_SolidiFi/contracts/26.sol
+>=0.4.22 <0.6.0,30.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/30.sol
+>=0.4.22 <0.6.0,24.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/24.sol
+>=0.4.22 <0.6.0,18.sol,>=0.5.9,../../data/preprocessed_data/TD_SolidiFi/contracts/18.sol
+>=0.4.22 <0.6.0,19.sol,^0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/19.sol
+>=0.4.22 <0.6.0,25.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/25.sol
+>=0.4.22 <0.6.0,31.sol,>=0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/31.sol
+>=0.4.22 <0.6.0,35.sol,>=0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/35.sol
+>=0.4.22 <0.6.0,21.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/21.sol
+>=0.4.22 <0.6.0,20.sol,^0.5.10,../../data/preprocessed_data/TD_SolidiFi/contracts/20.sol
+>=0.4.22 <0.6.0,34.sol,>=0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/34.sol
+>=0.4.22 <0.6.0,22.sol,>=0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/22.sol
+>=0.4.22 <0.6.0,36.sol,>=0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/36.sol
+>=0.4.22 <0.6.0,37.sol,^0.5.00,../../data/preprocessed_data/TD_SolidiFi/contracts/37.sol
+>=0.4.22 <0.6.0,23.sol,^0.5.2,../../data/preprocessed_data/TD_SolidiFi/contracts/23.sol
+>=0.4.22 <0.6.0,44.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/44.sol
+>=0.4.22 <0.6.0,50.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/50.sol
+>=0.4.22 <0.6.0,2.sol,^0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/2.sol
+>=0.4.22 <0.6.0,3.sol,^0.5.1,../../data/preprocessed_data/TD_SolidiFi/contracts/3.sol
+>=0.4.22 <0.6.0,45.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/45.sol
+^0.4.22,1.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/1.sol
+>=0.4.22 <0.6.0,47.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/47.sol
+^0.4.19,46.sol,>=0.4.21 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/46.sol
+>=0.4.22 <0.6.0,4.sol,>= 0.5.0 < 0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/4.sol
+>=0.4.22 <0.6.0,42.sol,^0.5.11,../../data/preprocessed_data/TD_SolidiFi/contracts/42.sol
+>=0.4.22 <0.6.0,43.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/43.sol
+^0.4.22,5.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/5.sol
+^0.4.22,41.sol,>=0.4.22 <0.6.0,../../data/preprocessed_data/TD_SolidiFi/contracts/41.sol
+>=0.4.22 <0.6.0,7.sol,^0.5.8,../../data/preprocessed_data/TD_SolidiFi/contracts/7.sol
+>=0.4.22 <0.6.0,6.sol,^0.5.8,../../data/preprocessed_data/TD_SolidiFi/contracts/6.sol
+>=0.4.22 <0.6.0,40.sol,^0.5.0,../../data/preprocessed_data/TD_SolidiFi/contracts/40.sol

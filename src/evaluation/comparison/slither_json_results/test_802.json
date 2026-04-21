@@ -1,0 +1,225 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_802.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+              "filename_short": "temp_sol_files/test_802.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_802.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_802.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_802.sol#L1",
+        "id": "83befbe63b71e1bd42344089cf0786ff3ae547610dfb6c39d84f241e31765a99",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "getBlockReward",
+            "source_mapping": {
+              "start": 91,
+              "length": 148,
+              "filename_relative": "temp_sol_files/test_802.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+              "filename_short": "temp_sol_files/test_802.sol",
+              "is_dependency": false,
+              "lines": [
+                6,
+                7,
+                8,
+                9
+              ],
+              "starting_column": 1,
+              "ending_column": 2
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "BlockRewardCalculator",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 216,
+                  "filename_relative": "temp_sol_files/test_802.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+                  "filename_short": "temp_sol_files/test_802.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "getBlockReward()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "rewardMultiplier = block.number - 1000000",
+            "source_mapping": {
+              "start": 149,
+              "length": 49,
+              "filename_relative": "temp_sol_files/test_802.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+              "filename_short": "temp_sol_files/test_802.sol",
+              "is_dependency": false,
+              "lines": [
+                7
+              ],
+              "starting_column": 1,
+              "ending_column": 50
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "getBlockReward",
+                "source_mapping": {
+                  "start": 91,
+                  "length": 148,
+                  "filename_relative": "temp_sol_files/test_802.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+                  "filename_short": "temp_sol_files/test_802.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "BlockRewardCalculator",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 216,
+                      "filename_relative": "temp_sol_files/test_802.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+                      "filename_short": "temp_sol_files/test_802.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "getBlockReward()"
+                }
+              }
+            }
+          }
+        ],
+        "description": "BlockRewardCalculator.getBlockReward() (temp_sol_files/test_802.sol#6-9) uses literals with too many digits:\n\t- rewardMultiplier = block.number - 1000000 (temp_sol_files/test_802.sol#7)\n",
+        "markdown": "[BlockRewardCalculator.getBlockReward()](temp_sol_files/test_802.sol#L6-L9) uses literals with too many digits:\n\t- [rewardMultiplier = block.number - 1000000](temp_sol_files/test_802.sol#L7)\n",
+        "first_markdown_element": "temp_sol_files/test_802.sol#L6-L9",
+        "id": "c5c7434e7a60cc8cce81ed6ca46cf3dfb52e55fe672dfa72f0713041fc4ed38f",
+        "check": "too-many-digits",
+        "impact": "Informational",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "baseReward",
+            "source_mapping": {
+              "start": 58,
+              "length": 30,
+              "filename_relative": "temp_sol_files/test_802.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+              "filename_short": "temp_sol_files/test_802.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 1,
+              "ending_column": 31
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "BlockRewardCalculator",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 216,
+                  "filename_relative": "temp_sol_files/test_802.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_802.sol",
+                  "filename_short": "temp_sol_files/test_802.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "BlockRewardCalculator.baseReward (temp_sol_files/test_802.sol#4) should be constant \n",
+        "markdown": "[BlockRewardCalculator.baseReward](temp_sol_files/test_802.sol#L4) should be constant \n",
+        "first_markdown_element": "temp_sol_files/test_802.sol#L4",
+        "id": "f38db7633b6ac63e8cc3e1d4da10b41c4e5aecd1a3326cf11fdd31bc18a8d3a9",
+        "check": "constable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_1152.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_1152.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_1152.sol#L1",
+        "id": "9cce329b1970c2e4e35a8ccee5378588f8c8865ce7bd9610473d4db5d411a50e",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "redeemableEther_4",
+            "source_mapping": {
+              "start": 51,
+              "length": 42,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 5,
+              "ending_column": 47
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 311,
+                  "filename_relative": "temp_sol_files/test_1152.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                  "filename_short": "temp_sol_files/test_1152.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "variable",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Variable Vulnerable.redeemableEther_4 (temp_sol_files/test_1152.sol#4) is not in mixedCase\n",
+        "markdown": "Variable [Vulnerable.redeemableEther_4](temp_sol_files/test_1152.sol#L4) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1152.sol#L4",
+        "id": "9c939e83980867d078048ae539dd03593762e5eb6b035282c9cc75d5ec751118",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "claimReward_4",
+            "source_mapping": {
+              "start": 99,
+              "length": 235,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                5,
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 311,
+                  "filename_relative": "temp_sol_files/test_1152.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                  "filename_short": "temp_sol_files/test_1152.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "claimReward_4()"
+            },
+            "additional_fields": {
+              "target": "function",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Function Vulnerable.claimReward_4() (temp_sol_files/test_1152.sol#5-10) is not in mixedCase\n",
+        "markdown": "Function [Vulnerable.claimReward_4()](temp_sol_files/test_1152.sol#L5-L10) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1152.sol#L5-L10",
+        "id": "f1c21fac6aff55c7d93e387af666bdf5d5a31092bd69c4f5da6ee4d300b0607c",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "claimReward_4",
+            "source_mapping": {
+              "start": 99,
+              "length": 235,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                5,
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 311,
+                  "filename_relative": "temp_sol_files/test_1152.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                  "filename_short": "temp_sol_files/test_1152.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "claimReward_4()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "address(msg.sender).transfer(transferValue_4)",
+            "source_mapping": {
+              "start": 243,
+              "length": 45,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                8
+              ],
+              "starting_column": 5,
+              "ending_column": 50
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "claimReward_4",
+                "source_mapping": {
+                  "start": 99,
+                  "length": 235,
+                  "filename_relative": "temp_sol_files/test_1152.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                  "filename_short": "temp_sol_files/test_1152.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 311,
+                      "filename_relative": "temp_sol_files/test_1152.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                      "filename_short": "temp_sol_files/test_1152.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "claimReward_4()"
+                }
+              }
+            },
+            "additional_fields": {
+              "underlying_type": "external_calls"
+            }
+          },
+          {
+            "type": "node",
+            "name": "redeemableEther_4[msg.sender] = 0",
+            "source_mapping": {
+              "start": 294,
+              "length": 33,
+              "filename_relative": "temp_sol_files/test_1152.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+              "filename_short": "temp_sol_files/test_1152.sol",
+              "is_dependency": false,
+              "lines": [
+                9
+              ],
+              "starting_column": 5,
+              "ending_column": 38
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "claimReward_4",
+                "source_mapping": {
+                  "start": 99,
+                  "length": 235,
+                  "filename_relative": "temp_sol_files/test_1152.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                  "filename_short": "temp_sol_files/test_1152.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 311,
+                      "filename_relative": "temp_sol_files/test_1152.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1152.sol",
+                      "filename_short": "temp_sol_files/test_1152.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "claimReward_4()"
+                }
+              }
+            },
+            "additional_fields": {
+              "underlying_type": "variables_written",
+              "variable_name": "redeemableEther_4"
+            }
+          }
+        ],
+        "description": "Reentrancy in Vulnerable.claimReward_4() (temp_sol_files/test_1152.sol#5-10):\n\tExternal calls:\n\t- address(msg.sender).transfer(transferValue_4) (temp_sol_files/test_1152.sol#8)\n\tState variables written after the call(s):\n\t- redeemableEther_4[msg.sender] = 0 (temp_sol_files/test_1152.sol#9)\n",
+        "markdown": "Reentrancy in [Vulnerable.claimReward_4()](temp_sol_files/test_1152.sol#L5-L10):\n\tExternal calls:\n\t- [address(msg.sender).transfer(transferValue_4)](temp_sol_files/test_1152.sol#L8)\n\tState variables written after the call(s):\n\t- [redeemableEther_4[msg.sender] = 0](temp_sol_files/test_1152.sol#L9)\n",
+        "first_markdown_element": "temp_sol_files/test_1152.sol#L5-L10",
+        "id": "e008b8c9530323bd241b2193ca699d4a1ed394f1a5cfcc749a41e8be9a1d015d",
+        "check": "reentrancy-unlimited-gas",
+        "impact": "Informational",
+        "confidence": "Medium"
+      }
+    ]
+  }
+}

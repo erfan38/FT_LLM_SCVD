@@ -1,0 +1,350 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "transferUnderflow2",
+            "source_mapping": {
+              "start": 96,
+              "length": 217,
+              "filename_relative": "temp_sol_files/test_1269.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+              "filename_short": "temp_sol_files/test_1269.sol",
+              "is_dependency": false,
+              "lines": [
+                6,
+                7,
+                8,
+                9,
+                10,
+                11
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 290,
+                  "filename_relative": "temp_sol_files/test_1269.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                  "filename_short": "temp_sol_files/test_1269.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "transferUnderflow2(address,uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "require(bool)(balances2[msg.sender] - _value >= 0)",
+            "source_mapping": {
+              "start": 178,
+              "length": 44,
+              "filename_relative": "temp_sol_files/test_1269.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+              "filename_short": "temp_sol_files/test_1269.sol",
+              "is_dependency": false,
+              "lines": [
+                7
+              ],
+              "starting_column": 5,
+              "ending_column": 49
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transferUnderflow2",
+                "source_mapping": {
+                  "start": 96,
+                  "length": 217,
+                  "filename_relative": "temp_sol_files/test_1269.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                  "filename_short": "temp_sol_files/test_1269.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 290,
+                      "filename_relative": "temp_sol_files/test_1269.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                      "filename_short": "temp_sol_files/test_1269.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "transferUnderflow2(address,uint256)"
+                }
+              }
+            }
+          }
+        ],
+        "description": "Vulnerable.transferUnderflow2(address,uint256) (temp_sol_files/test_1269.sol#6-11) contains a tautology or contradiction:\n\t- require(bool)(balances2[msg.sender] - _value >= 0) (temp_sol_files/test_1269.sol#7)\n",
+        "markdown": "[Vulnerable.transferUnderflow2(address,uint256)](temp_sol_files/test_1269.sol#L6-L11) contains a tautology or contradiction:\n\t- [require(bool)(balances2[msg.sender] - _value >= 0)](temp_sol_files/test_1269.sol#L7)\n",
+        "first_markdown_element": "temp_sol_files/test_1269.sol#L6-L11",
+        "id": "055091f2738d65f834aa57509595d905823730a3d14e778187075f53dd0ffaf4",
+        "check": "tautology",
+        "impact": "Medium",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_1269.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+              "filename_short": "temp_sol_files/test_1269.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_1269.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_1269.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_1269.sol#L1",
+        "id": "6e342d4b9c04b5fc321343c3f5abf8137566b54189743d6e07626da093dee35d",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_value",
+            "source_mapping": {
+              "start": 137,
+              "length": 11,
+              "filename_relative": "temp_sol_files/test_1269.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+              "filename_short": "temp_sol_files/test_1269.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 46,
+              "ending_column": 57
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transferUnderflow2",
+                "source_mapping": {
+                  "start": 96,
+                  "length": 217,
+                  "filename_relative": "temp_sol_files/test_1269.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                  "filename_short": "temp_sol_files/test_1269.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 290,
+                      "filename_relative": "temp_sol_files/test_1269.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                      "filename_short": "temp_sol_files/test_1269.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "transferUnderflow2(address,uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter Vulnerable.transferUnderflow2(address,uint256)._value (temp_sol_files/test_1269.sol#6) is not in mixedCase\n",
+        "markdown": "Parameter [Vulnerable.transferUnderflow2(address,uint256)._value](temp_sol_files/test_1269.sol#L6) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1269.sol#L6",
+        "id": "16b071f986c5001469d35a467af3970f4a2def859f8a84b21b931dcb89b852d4",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_to",
+            "source_mapping": {
+              "start": 124,
+              "length": 11,
+              "filename_relative": "temp_sol_files/test_1269.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+              "filename_short": "temp_sol_files/test_1269.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 33,
+              "ending_column": 44
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "transferUnderflow2",
+                "source_mapping": {
+                  "start": 96,
+                  "length": 217,
+                  "filename_relative": "temp_sol_files/test_1269.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                  "filename_short": "temp_sol_files/test_1269.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 290,
+                      "filename_relative": "temp_sol_files/test_1269.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1269.sol",
+                      "filename_short": "temp_sol_files/test_1269.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "transferUnderflow2(address,uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter Vulnerable.transferUnderflow2(address,uint256)._to (temp_sol_files/test_1269.sol#6) is not in mixedCase\n",
+        "markdown": "Parameter [Vulnerable.transferUnderflow2(address,uint256)._to](temp_sol_files/test_1269.sol#L6) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1269.sol#L6",
+        "id": "736e63b5aa243d0138a47593d9eb253b7e793e69c4e9c0b0bb41a7edb20149a8",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      }
+    ]
+  }
+}

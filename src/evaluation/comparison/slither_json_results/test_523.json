@@ -1,0 +1,344 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_523.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+              "filename_short": "temp_sol_files/test_523.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_523.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_523.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_523.sol#L1",
+        "id": "30aefbe7479883366aa6dbb791bfe8522a933a16609d2f34112eb08a079e31f5",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_actionWeight",
+            "source_mapping": {
+              "start": 177,
+              "length": 21,
+              "filename_relative": "temp_sol_files/test_523.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+              "filename_short": "temp_sol_files/test_523.sol",
+              "is_dependency": false,
+              "lines": [
+                7
+              ],
+              "starting_column": 27,
+              "ending_column": 48
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "assignReputation",
+                "source_mapping": {
+                  "start": 151,
+                  "length": 257,
+                  "filename_relative": "temp_sol_files/test_523.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                  "filename_short": "temp_sol_files/test_523.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 2
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "ReputationSystem",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 385,
+                      "filename_relative": "temp_sol_files/test_523.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                      "filename_short": "temp_sol_files/test_523.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "assignReputation(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter ReputationSystem.assignReputation(uint256)._actionWeight (temp_sol_files/test_523.sol#7) is not in mixedCase\n",
+        "markdown": "Parameter [ReputationSystem.assignReputation(uint256)._actionWeight](temp_sol_files/test_523.sol#L7) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_523.sol#L7",
+        "id": "535cbd8c9d775e75846ecd801d81c65f4ed3e75dad2000b525bd3015ec1307c2",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "slitherConstructorVariables",
+            "source_mapping": {
+              "start": 25,
+              "length": 385,
+              "filename_relative": "temp_sol_files/test_523.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+              "filename_short": "temp_sol_files/test_523.sol",
+              "is_dependency": false,
+              "lines": [
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "starting_column": 1,
+              "ending_column": 0
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "ReputationSystem",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 385,
+                  "filename_relative": "temp_sol_files/test_523.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                  "filename_short": "temp_sol_files/test_523.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "slitherConstructorVariables()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "totalReputation = 100000",
+            "source_mapping": {
+              "start": 53,
+              "length": 39,
+              "filename_relative": "temp_sol_files/test_523.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+              "filename_short": "temp_sol_files/test_523.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 1,
+              "ending_column": 40
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "slitherConstructorVariables",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 385,
+                  "filename_relative": "temp_sol_files/test_523.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                  "filename_short": "temp_sol_files/test_523.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "ReputationSystem",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 385,
+                      "filename_relative": "temp_sol_files/test_523.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                      "filename_short": "temp_sol_files/test_523.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12,
+                        13,
+                        14,
+                        15
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "slitherConstructorVariables()"
+                }
+              }
+            }
+          }
+        ],
+        "description": "ReputationSystem.slitherConstructorVariables() (temp_sol_files/test_523.sol#3-15) uses literals with too many digits:\n\t- totalReputation = 100000 (temp_sol_files/test_523.sol#4)\n",
+        "markdown": "[ReputationSystem.slitherConstructorVariables()](temp_sol_files/test_523.sol#L3-L15) uses literals with too many digits:\n\t- [totalReputation = 100000](temp_sol_files/test_523.sol#L4)\n",
+        "first_markdown_element": "temp_sol_files/test_523.sol#L3-L15",
+        "id": "234694451bb4ab5ba818637f5e2009347c515001667b765d2bce2ff648711551",
+        "check": "too-many-digits",
+        "impact": "Informational",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "totalReputation",
+            "source_mapping": {
+              "start": 53,
+              "length": 39,
+              "filename_relative": "temp_sol_files/test_523.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+              "filename_short": "temp_sol_files/test_523.sol",
+              "is_dependency": false,
+              "lines": [
+                4
+              ],
+              "starting_column": 1,
+              "ending_column": 40
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "ReputationSystem",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 385,
+                  "filename_relative": "temp_sol_files/test_523.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_523.sol",
+                  "filename_short": "temp_sol_files/test_523.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12,
+                    13,
+                    14,
+                    15
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "ReputationSystem.totalReputation (temp_sol_files/test_523.sol#4) should be constant \n",
+        "markdown": "[ReputationSystem.totalReputation](temp_sol_files/test_523.sol#L4) should be constant \n",
+        "first_markdown_element": "temp_sol_files/test_523.sol#L4",
+        "id": "3a5fbdac740236bc1cc47f2aff45bead099c26609b71e35f813fc9b07c477e00",
+        "check": "constable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}

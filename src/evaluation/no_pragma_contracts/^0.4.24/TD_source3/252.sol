@@ -1,0 +1,5 @@
+contract BlankContract {
+    constructor() public {}
+}
+
+ 

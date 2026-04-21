@@ -1,0 +1,8 @@
+[
+  {
+    "vulnerableLines": "3-5",
+    "vulnerabilityReason": "This code contains record updating operations after state-changing operations (like transfer). If the operation fails, the balance might not go to 0, leading to a re-entrancy type vulnerability.",
+    "potentialSecurityRisk": "If attacker can manipulate message sending to fail, they might be able to withdraw the ETH more than once.",
+    "fixedCode": "function WithdrawBalance() public { require(playerBalance[msg.sender] > 0, 'no ETH in player balance'); uint _amount = playerBalance[msg.sender]; playerBalance[msg.sender] = 0; (bool success, ) = msg.sender.call.value(_amount)(''); require(success); emit WithdrewBalance(msg.sender, _amount); }"
+  }
+]

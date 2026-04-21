@@ -1,0 +1,459 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (temp_sol_files/test_1147.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](temp_sol_files/test_1147.sol#L1)\n",
+        "first_markdown_element": "temp_sol_files/test_1147.sol#L1",
+        "id": "f6b0b2f677cf220eb331eef71409d4cbd345955b4e7d7411dc45b8aff3b71fe5",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "balances_31",
+            "source_mapping": {
+              "start": 126,
+              "length": 36,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                5
+              ],
+              "starting_column": 5,
+              "ending_column": 41
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 368,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "variable",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Variable Vulnerable.balances_31 (temp_sol_files/test_1147.sol#5) is not in mixedCase\n",
+        "markdown": "Variable [Vulnerable.balances_31](temp_sol_files/test_1147.sol#L5) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1147.sol#L5",
+        "id": "326d59d10771257844464c99ac6353f6fa8c591ac6f8ec1909cd5d43bc6adba1",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "withdrawFunds_31",
+            "source_mapping": {
+              "start": 168,
+              "length": 223,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 368,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "withdrawFunds_31(uint256)"
+            },
+            "additional_fields": {
+              "target": "function",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Function Vulnerable.withdrawFunds_31(uint256) (temp_sol_files/test_1147.sol#6-10) is not in mixedCase\n",
+        "markdown": "Function [Vulnerable.withdrawFunds_31(uint256)](temp_sol_files/test_1147.sol#L6-L10) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1147.sol#L6-L10",
+        "id": "45c9f10dd47866a581b75558a0eb61b7f86470bb1084910c1f262eacd464719f",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "_weiToWithdraw",
+            "source_mapping": {
+              "start": 195,
+              "length": 22,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                6
+              ],
+              "starting_column": 32,
+              "ending_column": 54
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "withdrawFunds_31",
+                "source_mapping": {
+                  "start": 168,
+                  "length": 223,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 368,
+                      "filename_relative": "temp_sol_files/test_1147.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                      "filename_short": "temp_sol_files/test_1147.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "withdrawFunds_31(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "target": "parameter",
+              "convention": "mixedCase"
+            }
+          }
+        ],
+        "description": "Parameter Vulnerable.withdrawFunds_31(uint256)._weiToWithdraw (temp_sol_files/test_1147.sol#6) is not in mixedCase\n",
+        "markdown": "Parameter [Vulnerable.withdrawFunds_31(uint256)._weiToWithdraw](temp_sol_files/test_1147.sol#L6) is not in mixedCase\n",
+        "first_markdown_element": "temp_sol_files/test_1147.sol#L6",
+        "id": "5997926531e422a051366752144395b93d84a8beae21c44bb1af6ccf672b57d9",
+        "check": "naming-convention",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "withdrawFunds_31",
+            "source_mapping": {
+              "start": 168,
+              "length": 223,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "starting_column": 5,
+              "ending_column": 6
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "Vulnerable",
+                "source_mapping": {
+                  "start": 25,
+                  "length": 368,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10,
+                    11,
+                    12
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "withdrawFunds_31(uint256)"
+            }
+          },
+          {
+            "type": "node",
+            "name": "require(bool)(address(msg.sender).send(_weiToWithdraw))",
+            "source_mapping": {
+              "start": 288,
+              "length": 49,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                8
+              ],
+              "starting_column": 5,
+              "ending_column": 54
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "withdrawFunds_31",
+                "source_mapping": {
+                  "start": 168,
+                  "length": 223,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 368,
+                      "filename_relative": "temp_sol_files/test_1147.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                      "filename_short": "temp_sol_files/test_1147.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "withdrawFunds_31(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "underlying_type": "external_calls"
+            }
+          },
+          {
+            "type": "node",
+            "name": "balances_31[msg.sender] -= _weiToWithdraw",
+            "source_mapping": {
+              "start": 343,
+              "length": 41,
+              "filename_relative": "temp_sol_files/test_1147.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+              "filename_short": "temp_sol_files/test_1147.sol",
+              "is_dependency": false,
+              "lines": [
+                9
+              ],
+              "starting_column": 5,
+              "ending_column": 46
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "withdrawFunds_31",
+                "source_mapping": {
+                  "start": 168,
+                  "length": 223,
+                  "filename_relative": "temp_sol_files/test_1147.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                  "filename_short": "temp_sol_files/test_1147.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 5,
+                  "ending_column": 6
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "Vulnerable",
+                    "source_mapping": {
+                      "start": 25,
+                      "length": 368,
+                      "filename_relative": "temp_sol_files/test_1147.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/temp_sol_files/test_1147.sol",
+                      "filename_short": "temp_sol_files/test_1147.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        12
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "withdrawFunds_31(uint256)"
+                }
+              }
+            },
+            "additional_fields": {
+              "underlying_type": "variables_written",
+              "variable_name": "balances_31"
+            }
+          }
+        ],
+        "description": "Reentrancy in Vulnerable.withdrawFunds_31(uint256) (temp_sol_files/test_1147.sol#6-10):\n\tExternal calls:\n\t- require(bool)(address(msg.sender).send(_weiToWithdraw)) (temp_sol_files/test_1147.sol#8)\n\tState variables written after the call(s):\n\t- balances_31[msg.sender] -= _weiToWithdraw (temp_sol_files/test_1147.sol#9)\n",
+        "markdown": "Reentrancy in [Vulnerable.withdrawFunds_31(uint256)](temp_sol_files/test_1147.sol#L6-L10):\n\tExternal calls:\n\t- [require(bool)(address(msg.sender).send(_weiToWithdraw))](temp_sol_files/test_1147.sol#L8)\n\tState variables written after the call(s):\n\t- [balances_31[msg.sender] -= _weiToWithdraw](temp_sol_files/test_1147.sol#L9)\n",
+        "first_markdown_element": "temp_sol_files/test_1147.sol#L6-L10",
+        "id": "35460caf7aa22d7253766e5913e4c2013f131d2ff0f3cfac2b8a89427ae981a9",
+        "check": "reentrancy-unlimited-gas",
+        "impact": "Informational",
+        "confidence": "Medium"
+      }
+    ]
+  }
+}

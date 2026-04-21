@@ -1,0 +1,235 @@
+{
+  "success": true,
+  "error": null,
+  "results": {
+    "detectors": [
+      {
+        "elements": [
+          {
+            "type": "pragma",
+            "name": "^0.8.0",
+            "source_mapping": {
+              "start": 0,
+              "length": 23,
+              "filename_relative": "sol_files/sample_1067.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+              "filename_short": "sol_files/sample_1067.sol",
+              "is_dependency": false,
+              "lines": [
+                1
+              ],
+              "starting_column": 1,
+              "ending_column": 24
+            },
+            "type_specific_fields": {
+              "directive": [
+                "solidity",
+                "^",
+                "0.8",
+                ".0"
+              ]
+            }
+          }
+        ],
+        "description": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- ^0.8.0 (sol_files/sample_1067.sol#1)\n",
+        "markdown": "Version constraint ^0.8.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- [^0.8.0](sol_files/sample_1067.sol#L1)\n",
+        "first_markdown_element": "sol_files/sample_1067.sol#L1",
+        "id": "7d6ba2bf802efaac1596ee45870e151d92ef94dd65ebc93b2a1f605b05ff22ff",
+        "check": "solc-version",
+        "impact": "Informational",
+        "confidence": "High"
+      },
+      {
+        "elements": [
+          {
+            "type": "function",
+            "name": "slitherConstructorVariables",
+            "source_mapping": {
+              "start": 24,
+              "length": 212,
+              "filename_relative": "sol_files/sample_1067.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+              "filename_short": "sol_files/sample_1067.sol",
+              "is_dependency": false,
+              "lines": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10
+              ],
+              "starting_column": 1,
+              "ending_column": 0
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenVesting",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 212,
+                  "filename_relative": "sol_files/sample_1067.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+                  "filename_short": "sol_files/sample_1067.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              },
+              "signature": "slitherConstructorVariables()"
+            }
+          },
+          {
+            "type": "node",
+            "name": "vestingStart = 1600000000",
+            "source_mapping": {
+              "start": 48,
+              "length": 40,
+              "filename_relative": "sol_files/sample_1067.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+              "filename_short": "sol_files/sample_1067.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 41
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "function",
+                "name": "slitherConstructorVariables",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 212,
+                  "filename_relative": "sol_files/sample_1067.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+                  "filename_short": "sol_files/sample_1067.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                },
+                "type_specific_fields": {
+                  "parent": {
+                    "type": "contract",
+                    "name": "TokenVesting",
+                    "source_mapping": {
+                      "start": 24,
+                      "length": 212,
+                      "filename_relative": "sol_files/sample_1067.sol",
+                      "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+                      "filename_short": "sol_files/sample_1067.sol",
+                      "is_dependency": false,
+                      "lines": [
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                      ],
+                      "starting_column": 1,
+                      "ending_column": 0
+                    }
+                  },
+                  "signature": "slitherConstructorVariables()"
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenVesting.slitherConstructorVariables() (sol_files/sample_1067.sol#2-10) uses literals with too many digits:\n\t- vestingStart = 1600000000 (sol_files/sample_1067.sol#3)\n",
+        "markdown": "[TokenVesting.slitherConstructorVariables()](sol_files/sample_1067.sol#L2-L10) uses literals with too many digits:\n\t- [vestingStart = 1600000000](sol_files/sample_1067.sol#L3)\n",
+        "first_markdown_element": "sol_files/sample_1067.sol#L2-L10",
+        "id": "0450cbc841c08fd4559faa21f0fa1d4eaf9e698fd28f1022a1f85b02a3002765",
+        "check": "too-many-digits",
+        "impact": "Informational",
+        "confidence": "Medium"
+      },
+      {
+        "elements": [
+          {
+            "type": "variable",
+            "name": "vestingStart",
+            "source_mapping": {
+              "start": 48,
+              "length": 40,
+              "filename_relative": "sol_files/sample_1067.sol",
+              "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+              "filename_short": "sol_files/sample_1067.sol",
+              "is_dependency": false,
+              "lines": [
+                3
+              ],
+              "starting_column": 1,
+              "ending_column": 41
+            },
+            "type_specific_fields": {
+              "parent": {
+                "type": "contract",
+                "name": "TokenVesting",
+                "source_mapping": {
+                  "start": 24,
+                  "length": 212,
+                  "filename_relative": "sol_files/sample_1067.sol",
+                  "filename_absolute": "/Users/fatemeh/Library/CloudStorage/OneDrive-polymtl/Drive/Fine_tune_Revision/code/FT_LLM_SCVD/src/evaluation/comparison/sol_files/sample_1067.sol",
+                  "filename_short": "sol_files/sample_1067.sol",
+                  "is_dependency": false,
+                  "lines": [
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                  ],
+                  "starting_column": 1,
+                  "ending_column": 0
+                }
+              }
+            }
+          }
+        ],
+        "description": "TokenVesting.vestingStart (sol_files/sample_1067.sol#3) should be constant \n",
+        "markdown": "[TokenVesting.vestingStart](sol_files/sample_1067.sol#L3) should be constant \n",
+        "first_markdown_element": "sol_files/sample_1067.sol#L3",
+        "id": "93554f33b2ff6e7feff6c6ad6737f9a3ce23648fd4a6262aea5f295add9e5ace",
+        "check": "constable-states",
+        "impact": "Optimization",
+        "confidence": "High"
+      }
+    ]
+  }
+}
