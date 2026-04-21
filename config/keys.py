@@ -1,1 +1,1 @@
-OPENAI_API_KEY = "sk-pr-n8A"
+OPENAI_API_KEY = "sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
