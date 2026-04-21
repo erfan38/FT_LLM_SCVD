@@ -104,6 +104,9 @@ Erfan, F. et al. Fine-Tuned Large Language Model and Comprehensive Dataset
 for Securing Ethereum Smart Contracts with Real-Time VSCode Auditing.
 Blockchain: Research and Applications, Elsevier, 2026.
 DOI: 10.1016/j.bcra.2026.100466
+
+Erfan, F. et al. Advanced smart contract vulnerability detection using large language models.
+Cyber Security in Networking Conference (CSNet) (pp. 289-296). IEEE, 2024.
 ```
 
 ## Contributors
