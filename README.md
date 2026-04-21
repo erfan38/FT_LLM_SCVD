@@ -109,7 +109,7 @@ DOI: 10.1016/j.bcra.2026.100466
 ## Contributors
 
 - Fatemeh Erfan — Polytechnique Montréal
-- Meytaa
+- Mohammad Yahyatabar - Polytechnique Montréal
 
 ## Contact
 
